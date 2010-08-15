@@ -150,4 +150,12 @@ public class VampiDroid extends TabActivity {
         
         mTabHost.setCurrentTab(0);
     }
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		
+		db.close();
+	}
 }
