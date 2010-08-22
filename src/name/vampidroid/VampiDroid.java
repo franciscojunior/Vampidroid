@@ -67,7 +67,7 @@ public class VampiDroid extends TabActivity {
 			       });
         
         
-				AlertDialog alertDialog = builder.create();
+				AlertDialog alertDialog = builder.create(); 
 				alertDialog.show();
 				
 				Intent cryptCardIntent = new Intent(v.getContext(), CardDetails.class );
