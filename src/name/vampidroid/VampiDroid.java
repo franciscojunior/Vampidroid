@@ -16,7 +16,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TabHost;
 
 public class VampiDroid extends TabActivity {
-	
+	//Teste Rafael
 	public static SQLiteDatabase db;
 
 	/** Called when the activity is first created. */
