@@ -17,8 +17,7 @@
             android:layout_height="fill_parent">
             <ListView android:layout_height="wrap_content" android:id="@+id/ListViewCrypt" android:fastScrollEnabled="true" android:textFilterEnabled="true" android:layout_width="fill_parent"></ListView>    
             <ListView android:layout_height="wrap_content" android:id="@+id/ListViewLibrary" android:fastScrollEnabled="true" android:textFilterEnabled="true" android:layout_width="fill_parent"></ListView>
-            
-        
-</FrameLayout>
+             
+        </FrameLayout>
     </LinearLayout>
 </TabHost>

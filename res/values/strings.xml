@@ -2,5 +2,7 @@
 <resources>
     <string name="hello">Hello World, VampiDroid!</string>
     <string name="app_name">VampiDroid</string>
-<string name="card_name">Card Name</string>
+	<string name="card_name">Card Name</string>
+	<string name="searchLabel">Vampidroid</string>
+	<string name="searchHint">Card Name</string>
 </resources>
