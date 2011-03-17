@@ -66,7 +66,7 @@ public class VampiDroid extends TabActivity {
         
         
         if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
-			String query=intent.getStringExtra(SearchManager.QUERY).trim();
+			String query = formatQueryString(intent.getStringExtra(SearchManager.QUERY));
 			queryCryptDatabase = "select _id, Name from crypt where Name like '%" + query + "%'";
 		}
         else
@@ -150,7 +150,7 @@ public class VampiDroid extends TabActivity {
         
         
         if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
-			String query=intent.getStringExtra(SearchManager.QUERY).trim();
+			String query = formatQueryString(intent.getStringExtra(SearchManager.QUERY));
 			queryLibraryDatabase = "select _id, Name from library where Name like '%" + query + "%'";
 		}
         else
@@ -221,8 +221,21 @@ public class VampiDroid extends TabActivity {
         
         mTabHost.addTab(mTabHost.newTabSpec("tab_library").setIndicator("Library").setContent(R.id.ListViewLibrary));
         
+        //Show only the tab which has values or the first tab if there is no data at all.
+        
+        // Default tab is the first one.
         mTabHost.setCurrentTab(0);
+        
+        if (listCrypt.getAdapter().isEmpty() && !listLibrary.getAdapter().isEmpty() )
+        	mTabHost.setCurrentTab(1);
+        	
     }
+
+
+	private String formatQueryString(String stringExtra) {
+		// TODO Auto-generated method stub
+		return stringExtra.trim().replace("'", "''");
+	}
 
 
 	static SQLiteDatabase getDatabase() {
