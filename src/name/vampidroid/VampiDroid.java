@@ -1,13 +1,10 @@
 package name.vampidroid;
 
-import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.app.TabActivity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +14,6 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TabHost;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.TabHost.TabContentFactory;
 
 public class VampiDroid extends TabActivity {
 	
@@ -94,13 +90,13 @@ public class VampiDroid extends TabActivity {
 		            View v, int position, long id) {
 				
 				// TODO Auto-generated method stub
-        		SQLiteDatabase db = getDatabase();
+        		/*SQLiteDatabase db = getDatabase();
 				Cursor c = db.rawQuery("select CardText from crypt where _id = " + String.valueOf(id), null );
 				c.moveToFirst();
 				String cardText = c.getString(0);
 				c.close();
 				db.close();
-				
+				*/
 								
 				/*AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 				
@@ -177,12 +173,13 @@ public class VampiDroid extends TabActivity {
 		            View v, int position, long id) {
 				
 				// TODO Auto-generated method stub
-				SQLiteDatabase db = getDatabase();
+				/*SQLiteDatabase db = getDatabase();
 				Cursor c = db.rawQuery("select CardText from library where _id = " + String.valueOf(id), null );
 				c.moveToFirst();
 				String cardText = c.getString(0);
 				c.close();
 				db.close();
+				*/
 				
 				/*AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 				
