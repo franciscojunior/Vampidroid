@@ -28,7 +28,9 @@ public class VampiDroid extends TabActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(Menu.NONE, Menu.FIRST+1, Menu.NONE, "Search")
 						.setIcon(android.R.drawable.ic_search_category_default);
-		
+		menu.add(Menu.NONE, Menu.FIRST+2, Menu.NONE, "About")
+						.setIcon(android.R.drawable.ic_menu_info_details);
+
 		return(super.onCreateOptionsMenu(menu));
 	}
 	
@@ -40,7 +42,12 @@ public class VampiDroid extends TabActivity {
 				onSearchRequested(); 
 				return(true);
 			
-	
+			case Menu.FIRST+2:
+				
+				Intent aboutIntent = new Intent(this, About.class );
+				
+				startActivity(aboutIntent);
+				
 		}
 
 		return(super.onOptionsItemSelected(item));

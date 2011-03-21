@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="4" android:versionName="1.3"
+<manifest android:versionCode="5" android:versionName="1.4"
     package="name.vampidroid" xmlns:android="http://schemas.android.com/apk/res/android">
     <application android:icon="@drawable/icon" android:label="@string/app_name">
         <activity android:label="@string/app_name" android:name=".VampiDroid">
@@ -17,6 +17,7 @@
 						 android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".CardDetails"/>
+        <activity android:name=".About"/>
     </application>
     <uses-sdk android:minSdkVersion="7"/>
 </manifest>
