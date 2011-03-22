@@ -1,8 +1,15 @@
 package name.vampidroid;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import android.app.SearchManager;
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -59,7 +66,10 @@ public class VampiDroid extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
+        
+        
+        if (!isDatabaseInstalled())
+        	return;
         
         
         Intent intent = getIntent();
@@ -119,6 +129,8 @@ public class VampiDroid extends TabActivity {
 				alertDialog.show();
 				
 				*/
+        		
+        		
 				
 				Intent cryptCardIntent = new Intent(v.getContext(), CardDetails.class );
 				
@@ -209,10 +221,7 @@ public class VampiDroid extends TabActivity {
 				cryptCardIntent.putExtra(CARD_ID, id);
 				
 				startActivity(cryptCardIntent);
-				
-				
-
-				
+								
 			}
         	
         	
@@ -234,6 +243,52 @@ public class VampiDroid extends TabActivity {
         	mTabHost.setCurrentTab(1);
         	
     }
+
+
+	private boolean isDatabaseInstalled() {
+		if (new File("/sdcard/VampiDroid.db").exists())
+			return true;
+		
+		createDatabaseFile();
+		
+		return new File("/sdcard/VampiDroid.db").exists();
+	}
+
+
+	private void createDatabaseFile() {
+		
+		AssetManager am = getAssets();
+		
+		try {
+	
+			// Asset Manager doesn't work with files bigger than 1Mb at a time.
+			// Check here for explanation: http://stackoverflow.com/questions/2860157/load-files-bigger-than-1m-from-assets-folder
+			// Had to change the file suffix to .mp3 so it isn't compressed and can be opened directly.
+						
+			InputStream in = am.open("VampiDroid.mp3");
+			
+			OutputStream out = new FileOutputStream("/sdcard/VampiDroid.db");
+
+			byte[] buffer = new byte[1024];
+			int read;
+			while ((read = in.read(buffer)) != -1) {
+				out.write(buffer, 0, read);
+			}
+
+			in.close();
+			
+			
+			
+			
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 
 
 	private String formatQueryString(String stringExtra) {
