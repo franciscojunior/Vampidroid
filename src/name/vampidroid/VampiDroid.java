@@ -68,8 +68,7 @@ public class VampiDroid extends TabActivity {
         setContentView(R.layout.main);
         
         
-        if (!isDatabaseInstalled())
-        	return;
+        createDatabaseFile();
         
         
         Intent intent = getIntent();
@@ -245,17 +244,18 @@ public class VampiDroid extends TabActivity {
     }
 
 
-	private boolean isDatabaseInstalled() {
-		if (new File("/sdcard/VampiDroid.db").exists())
-			return true;
-		
-		createDatabaseFile();
-		
-		return new File("/sdcard/VampiDroid.db").exists();
-	}
-
-
 	private void createDatabaseFile() {
+		
+		
+		
+		File databasefile = new File("/sdcard/VampiDroid.db");
+		
+		if (databasefile.exists())
+		{
+			databasefile = null;
+			return;
+		}
+			
 		
 		AssetManager am = getAssets();
 		
@@ -267,7 +267,7 @@ public class VampiDroid extends TabActivity {
 						
 			InputStream in = am.open("VampiDroid.mp3");
 			
-			OutputStream out = new FileOutputStream("/sdcard/VampiDroid.db");
+			OutputStream out = new FileOutputStream(databasefile);
 
 			byte[] buffer = new byte[1024];
 			int read;
@@ -285,6 +285,7 @@ public class VampiDroid extends TabActivity {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		
 		}
 		
 		
