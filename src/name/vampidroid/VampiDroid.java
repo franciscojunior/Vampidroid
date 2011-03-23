@@ -140,13 +140,6 @@ public class VampiDroid extends TabActivity {
 				
 				
 				
-				
-				
-				
-/*				Toast.makeText(getBaseContext(), 
-                        cardText, 
-                        Toast.LENGTH_LONG).show();
-*/				
 			}
         	
         	
