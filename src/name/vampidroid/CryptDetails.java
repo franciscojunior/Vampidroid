@@ -7,10 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class CardDetails extends Activity {
+public class CryptDetails extends Activity {
 	
-	static String QUERY_LIBRARY = "select Name, Type, Clan, Discipline, CardText from library where _id = ";
-	static String QUERY_CRYPT = "select Name, Type, Clan, Disciplines, CardText from crypt where _id = ";
+	static String QUERY_CRYPT = "select Name, Type, Clan, Disciplines, CardText, Capacity from crypt where _id = ";
 	
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
@@ -27,10 +26,7 @@ public class CardDetails extends Activity {
 		
 		String query;
 		
-		if (deck.equals("library"))
-			query = QUERY_LIBRARY;
-		else
-			query = QUERY_CRYPT;
+		query = QUERY_CRYPT;
 		
 		
 		setContentView(R.layout.cryptcarddetails);
@@ -44,6 +40,7 @@ public class CardDetails extends Activity {
 		String cardClan = c.getString(2);
 		String cardDisciplines = c.getString(3);
 		String cardText = c.getString(4);
+		String cardCapacity = c.getString(5);
 		
 		c.close();
 		db.close();
@@ -53,6 +50,8 @@ public class CardDetails extends Activity {
 		TextView txt = (TextView) findViewById(R.id.txtCardName);
 		txt.setText(cardName);
 		
+		txt = (TextView) findViewById(R.id.txtCardCapacity);
+		txt.setText(cardCapacity);
 
 		txt = (TextView) findViewById(R.id.txtCardType);
 		txt.setText(cardType);
@@ -68,9 +67,6 @@ public class CardDetails extends Activity {
 
 		txt = (TextView) findViewById(R.id.txtCardText);
 		txt.setText(cardText);
-		
-		
-		
 		
 	}
 }

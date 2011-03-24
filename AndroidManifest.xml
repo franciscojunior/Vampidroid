@@ -17,7 +17,8 @@
 			<meta-data android:name="android.app.searchable" 
 						 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".CardDetails"/>
+        <activity android:name=".CryptDetails"/>
+        <activity android:name=".LibraryDetails"/>
         <activity android:name=".About"/>
     </application>
     <uses-sdk android:minSdkVersion="7"/>

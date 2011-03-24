@@ -131,7 +131,7 @@ public class VampiDroid extends TabActivity {
         		
         		
 				
-				Intent cryptCardIntent = new Intent(v.getContext(), CardDetails.class );
+				Intent cryptCardIntent = new Intent(v.getContext(), CryptDetails.class );
 				
 				cryptCardIntent.putExtra(DECK_NAME, "crypt");
 				cryptCardIntent.putExtra(CARD_ID, id);
@@ -207,12 +207,12 @@ public class VampiDroid extends TabActivity {
 				
 				 */
 				
-				Intent cryptCardIntent = new Intent(v.getContext(), CardDetails.class );
+				Intent libraryCardIntent = new Intent(v.getContext(), LibraryDetails.class );
 				
-				cryptCardIntent.putExtra(DECK_NAME, "library");
-				cryptCardIntent.putExtra(CARD_ID, id);
+				libraryCardIntent.putExtra(DECK_NAME, "library");
+				libraryCardIntent.putExtra(CARD_ID, id);
 				
-				startActivity(cryptCardIntent);
+				startActivity(libraryCardIntent);
 								
 			}
         	
