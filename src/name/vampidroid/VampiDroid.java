@@ -239,8 +239,7 @@ public class VampiDroid extends TabActivity {
 
 	private void createDatabaseFile() {
 		
-		
-		
+				
 		File databasefile = new File("/sdcard/VampiDroid.db");
 		
 		if (databasefile.exists())
@@ -249,38 +248,7 @@ public class VampiDroid extends TabActivity {
 			return;
 		}
 			
-		
-		AssetManager am = getAssets();
-		
-		try {
-	
-			// Asset Manager doesn't work with files bigger than 1Mb at a time.
-			// Check here for explanation: http://stackoverflow.com/questions/2860157/load-files-bigger-than-1m-from-assets-folder
-			// Had to change the file suffix to .mp3 so it isn't compressed and can be opened directly.
-						
-			InputStream in = am.open("VampiDroid.mp3");
-			
-			OutputStream out = new FileOutputStream(databasefile);
-
-			byte[] buffer = new byte[1024];
-			int read;
-			while ((read = in.read(buffer)) != -1) {
-				out.write(buffer, 0, read);
-			}
-
-			in.close();
-			
-			
-			
-			
-			out.flush();
-			out.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		
-		}
-		
+				
 		
 	}
 
