@@ -31,7 +31,7 @@ public class CryptDetails extends Activity {
 		
 		setContentView(R.layout.cryptcarddetails);
 		
-		SQLiteDatabase db = VampiDroid.getDatabase();
+		SQLiteDatabase db = VampiDroid.getDatabase(this);
 		Cursor c = db.rawQuery(query + String.valueOf(card_id), null );
 		c.moveToFirst();
 		

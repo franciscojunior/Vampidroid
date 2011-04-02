@@ -13,8 +13,8 @@ public class About extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		TextView copyright = new TextView(this);
-		copyright.setText("Jyhadª, Vampire: The Eternal Struggleª and all game symbols are trademarks of Wizards of the Coast, Inc. and White Wolf Publishing, Inc. All World of Darkness related terms are trademarks of White Wolf Publishing, Inc." +
-				"This product is not published nor endorsed by White Wolf Publishing, Inc.");
+		copyright.setText("Jyhadª, Vampire: The Eternal Struggleª and all game symbols are trademarks of Wizards of the Coast, Inc. and CCP hf. White Wolf, World of Darkness and all related terms are trademarks of CCP hf. " +
+				"This product is not published nor endorsed by CCP hf.");
 		
 		copyright.setGravity(Gravity.CENTER);
 		setContentView(copyright);

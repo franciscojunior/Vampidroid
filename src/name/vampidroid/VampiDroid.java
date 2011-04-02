@@ -8,6 +8,7 @@ import java.io.OutputStream;
 
 import android.app.SearchManager;
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.database.Cursor;
@@ -25,6 +26,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class VampiDroid extends TabActivity {
 	
 	
+	private static final String VAMPIDROID_DB = "VampiDroid.db";
 	public static String DECK_NAME = "deck_name";
 	public static String CARD_ID = "card_id";
 
@@ -89,7 +91,7 @@ public class VampiDroid extends TabActivity {
         
         ListView listCrypt = (ListView) findViewById(R.id.ListViewCrypt);
         
-        SQLiteDatabase db = getDatabase();
+        SQLiteDatabase db = getDatabase(this);
         Cursor c = db.rawQuery(queryCryptDatabase, null);
         
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.listitem, 
@@ -239,13 +241,43 @@ public class VampiDroid extends TabActivity {
 
 	private void createDatabaseFile() {
 		
-				
-		File databasefile = new File("/sdcard/VampiDroid.db");
+		
+		// The file will be stored in the private data area of the application.
+		// Reference: http://www.reigndesign.com/blog/using-your-own-sqlite-database-in-android-applications/
+		File databasefile = getFileStreamPath(VAMPIDROID_DB);
 		
 		if (databasefile.exists())
 		{
 			databasefile = null;
 			return;
+		}
+		
+		AssetManager am = getAssets();		
+		
+		try {
+			
+			// Asset Manager doesn't work with files bigger than 1Mb at a time.
+			// Check here for explanation: http://stackoverflow.com/questions/2860157/load-files-bigger-than-1m-from-assets-folder
+			// Had to change the file suffix to .mp3 so it isn't compressed and can be opened directly.
+						
+			InputStream in = am.open("VampiDroid.mp3");
+			
+			OutputStream out = openFileOutput(VAMPIDROID_DB, Context.MODE_PRIVATE);
+
+			byte[] buffer = new byte[1024];
+			int read;
+			while ((read = in.read(buffer)) != -1) {
+				out.write(buffer, 0, read);
+			}
+
+			in.close();
+						
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		
 		}
 			
 				
@@ -259,8 +291,9 @@ public class VampiDroid extends TabActivity {
 	}
 
 
-	static SQLiteDatabase getDatabase() {
-		return SQLiteDatabase.openDatabase("/sdcard/VampiDroid.db", null, SQLiteDatabase.OPEN_READONLY);
+	static SQLiteDatabase getDatabase(Context context) {
+		File databaseFile = context.getFileStreamPath(VAMPIDROID_DB);
+		return SQLiteDatabase.openDatabase(databaseFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READWRITE);
 	}
 
 	@Override

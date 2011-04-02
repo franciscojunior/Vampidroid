@@ -30,7 +30,7 @@ public class LibraryDetails extends Activity {
 		
 		setContentView(R.layout.librarycarddetails);
 		
-		SQLiteDatabase db = VampiDroid.getDatabase();
+		SQLiteDatabase db = VampiDroid.getDatabase(this);
 		Cursor c = db.rawQuery(query + String.valueOf(card_id), null );
 		c.moveToFirst();
 		
