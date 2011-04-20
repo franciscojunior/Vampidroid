@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 public class CryptDetails extends Activity {
 	
-	static String QUERY_CRYPT = "select Name, Type, Clan, Disciplines, CardText, Capacity, Artist from crypt where _id = ";
+	static String QUERY_CRYPT = "select Name, Type, Clan, Disciplines, CardText, Capacity, Artist, _Set from crypt where _id = ";
 	
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
@@ -42,6 +42,7 @@ public class CryptDetails extends Activity {
 		String cardText = c.getString(4);
 		String cardCapacity = c.getString(5);
 		String cardArtist = c.getString(6);
+		String cardSetRarity = c.getString(7);
 		
 		c.close();
 		db.close();
@@ -71,6 +72,9 @@ public class CryptDetails extends Activity {
 
 		txt = (TextView) findViewById(R.id.txtCardText);
 		txt.setText(cardText);
+		
+		txt = (TextView) findViewById(R.id.txtSetRarity);
+		txt.setText(cardSetRarity);
 		
 	}
 }

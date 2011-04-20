@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 public class LibraryDetails extends Activity {
 	
-	static String QUERY_LIBRARY = "select Name, Type, Clan, Discipline, CardText, PoolCost, BloodCost, Artist from library where _id = ";
+	static String QUERY_LIBRARY = "select Name, Type, Clan, Discipline, CardText, PoolCost, BloodCost, Artist, _Set from library where _id = ";
 	
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
@@ -42,6 +42,8 @@ public class LibraryDetails extends Activity {
 		String cardPoolCost = c.getString(5);
 		String cardBloodCost = c.getString(6);
 		String cardArtist = c.getString(7);
+		String cardSetRarity = c.getString(8);
+		
 		
 				
 		c.close();
@@ -74,6 +76,9 @@ public class LibraryDetails extends Activity {
 
 		txt = (TextView) findViewById(R.id.txtCardText);
 		txt.setText(cardText);
+
+		txt = (TextView) findViewById(R.id.txtSetRarity);
+		txt.setText(cardSetRarity);
 		
 	}
 }
