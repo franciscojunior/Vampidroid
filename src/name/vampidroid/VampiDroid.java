@@ -10,10 +10,12 @@ import android.app.SearchManager;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +39,11 @@ public class VampiDroid extends TabActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(Menu.NONE, Menu.FIRST+1, Menu.NONE, "Search")
 						.setIcon(android.R.drawable.ic_search_category_default);
-		menu.add(Menu.NONE, Menu.FIRST+2, Menu.NONE, "About")
+		
+		menu.add(Menu.NONE, Menu.FIRST+2, Menu.NONE, "Preferences")
+						.setIcon(android.R.drawable.ic_menu_preferences);
+
+		menu.add(Menu.NONE, Menu.FIRST+99, Menu.NONE, "About")
 						.setIcon(android.R.drawable.ic_menu_info_details);
 
 		return(super.onCreateOptionsMenu(menu));
@@ -50,8 +56,12 @@ public class VampiDroid extends TabActivity {
 			case Menu.FIRST+1:
 				onSearchRequested(); 
 				return(true);
-			
+
 			case Menu.FIRST+2:
+				startActivity(new Intent(this, EditPreferences.class)); 
+				return(true);
+				
+			case Menu.FIRST+99:
 				
 				Intent aboutIntent = new Intent(this, About.class );
 				
@@ -75,13 +85,19 @@ public class VampiDroid extends TabActivity {
         
         Intent intent = getIntent();
         
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		        
         
         String queryCryptDatabase;
         
         
         if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
 			String query = formatQueryString(intent.getStringExtra(SearchManager.QUERY));
-			queryCryptDatabase = "select _id, Name from crypt where Name like '%" + query + "%'";
+			
+			if (prefs.getBoolean("searchCardText", false))
+				queryCryptDatabase = "select _id, Name from crypt where Name like '%" + query + "%' or CardText like '%" + query + "%'";
+			else
+				queryCryptDatabase = "select _id, Name from crypt where Name like '%" + query + "%'";
 		}
         else
         	queryCryptDatabase = "select _id, Name from crypt";
@@ -160,11 +176,15 @@ public class VampiDroid extends TabActivity {
         
         if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
 			String query = formatQueryString(intent.getStringExtra(SearchManager.QUERY));
-			queryLibraryDatabase = "select _id, Name from library where Name like '%" + query + "%'";
+			
+			if (prefs.getBoolean("searchCardText", false))
+				queryLibraryDatabase = "select _id, Name from library where Name like '%" + query + "%' or CardText like '%" + query + "%'";
+			else
+				queryLibraryDatabase = "select _id, Name from library where Name like '%" + query + "%'";
 		}
         else
         	queryLibraryDatabase = "select _id, Name from library";
-        
+
         
         ListView listLibrary = (ListView) findViewById(R.id.ListViewLibrary);
         
