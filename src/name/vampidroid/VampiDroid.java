@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+
 import android.app.SearchManager;
 import android.app.TabActivity;
 import android.content.Context;
@@ -93,6 +94,8 @@ public class VampiDroid extends TabActivity {
         
         if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
 			String query = formatQueryString(intent.getStringExtra(SearchManager.QUERY));
+			
+			VampidroidSuggestionProvider.getBridge(this).saveRecentQuery(query, null);
 			
 			if (prefs.getBoolean("searchCardText", false))
 				queryCryptDatabase = "select _id, Name from crypt where Name like '%" + query + "%' or CardText like '%" + query + "%'";
