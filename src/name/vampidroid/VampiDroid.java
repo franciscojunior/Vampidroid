@@ -1,15 +1,15 @@
 package name.vampidroid;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.app.TabActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -21,10 +21,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TabHost;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class VampiDroid extends TabActivity {
 	
@@ -41,7 +41,9 @@ public class VampiDroid extends TabActivity {
 		menu.add(Menu.NONE, Menu.FIRST+1, Menu.NONE, "Search")
 						.setIcon(android.R.drawable.ic_search_category_default);
 		
-		menu.add(Menu.NONE, Menu.FIRST+2, Menu.NONE, "Preferences")
+		menu.add(Menu.NONE, Menu.FIRST+2, Menu.NONE, "Clear Recent Searches");
+		
+		menu.add(Menu.NONE, Menu.FIRST+3, Menu.NONE, "Preferences")
 						.setIcon(android.R.drawable.ic_menu_preferences);
 
 		menu.add(Menu.NONE, Menu.FIRST+99, Menu.NONE, "About")
@@ -56,11 +58,15 @@ public class VampiDroid extends TabActivity {
 		switch (item.getItemId()) {
 			case Menu.FIRST+1:
 				onSearchRequested(); 
-				return(true);
-
+				return true;
+			
 			case Menu.FIRST+2:
+				clearRecentSearches();
+				return true;
+
+			case Menu.FIRST+3:
 				startActivity(new Intent(this, EditPreferences.class)); 
-				return(true);
+				return true;
 				
 			case Menu.FIRST+99:
 				
@@ -73,6 +79,34 @@ public class VampiDroid extends TabActivity {
 		return(super.onOptionsItemSelected(item));
 	}
 	
+
+	private void clearRecentSearches() {
+		// TODO Auto-generated method stub
+		
+		// Ask user if he really want to clear recent searches. If so, clear them.
+		
+		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int which) {
+		        switch (which){
+		        case DialogInterface.BUTTON_POSITIVE:
+		            //Yes button clicked
+		        	VampidroidSuggestionProvider.getBridge(VampiDroid.this).clearHistory();
+		            break;
+
+		        case DialogInterface.BUTTON_NEGATIVE:
+		            //No button clicked
+		            break;
+		        }
+		    }
+		};
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Are you sure you want to clear your recent searches?").setPositiveButton("Yes", dialogClickListener)
+		    .setNegativeButton("No", dialogClickListener).show();
+		
+		
+	}
+
 
 	/** Called when the activity is first created. */
     @Override
