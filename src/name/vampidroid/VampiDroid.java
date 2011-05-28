@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -280,10 +281,11 @@ public class VampiDroid extends TabActivity {
         
         TabHost mTabHost = getTabHost();
         
+        Resources res = getResources();
         
-        mTabHost.addTab(mTabHost.newTabSpec("tab_crypt").setIndicator("Crypt").setContent(R.id.ListViewCrypt));
+        mTabHost.addTab(mTabHost.newTabSpec("tab_crypt").setIndicator("Crypt", res.getDrawable(R.drawable.ic_tab_crypt)).setContent(R.id.ListViewCrypt));
         
-        mTabHost.addTab(mTabHost.newTabSpec("tab_library").setIndicator("Library").setContent(R.id.ListViewLibrary));
+        mTabHost.addTab(mTabHost.newTabSpec("tab_library").setIndicator("Library", res.getDrawable(R.drawable.ic_tab_library)).setContent(R.id.ListViewLibrary));
         
         //Show only the tab which has values or the first tab if there is no data at all.
         
