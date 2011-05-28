@@ -148,7 +148,7 @@ public class VampiDroid extends TabActivity {
         SQLiteDatabase db = getDatabase(this);
         Cursor c = db.rawQuery(queryCryptDatabase, null);
         
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.listitem, 
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.listitem2, 
         		c, new String[] { "Name" }, new int[] {android.R.id.text1});
         
         
@@ -229,7 +229,7 @@ public class VampiDroid extends TabActivity {
         
         c = db.rawQuery(queryLibraryDatabase, null);
         
-        adapter = new SimpleCursorAdapter(this, R.layout.listitem, 
+        adapter = new SimpleCursorAdapter(this, R.layout.listitem2, 
         		c, new String[] { "Name" }, new int[] {android.R.id.text1});
         
         
