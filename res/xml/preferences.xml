@@ -2,5 +2,8 @@
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <PreferenceCategory android:title="Search Options"><CheckBoxPreference android:key="searchCardText" android:title="Search Card Text?" android:summary="Set this in order to also search in the card text"></CheckBoxPreference></PreferenceCategory>
+    <PreferenceCategory android:title="Search Options">
+    	<CheckBoxPreference android:key="searchCardText" android:title="Search Card Text?" android:summary="Set this in order to also search in the card text">
+    	</CheckBoxPreference>
+    </PreferenceCategory>
 </PreferenceScreen>
