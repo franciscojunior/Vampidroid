@@ -24,7 +24,7 @@ android:layout_height="fill_parent">
                             android:paddingLeft="15px"
                             android:textStyle="bold"
                             android:textColor="#ffffff" />
-                    <TextView android:text="v1.12: \n
+                    <TextView android:text="v1.12 - 2011-05-30: \n
 \t * new icons for application launcher and tabs; \n
 \t * changed cards lists visual a little bit to indicate there is more information when clicking an item. \n
 \t * new changelog view when installing or updating application; \n
