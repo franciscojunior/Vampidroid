@@ -12,12 +12,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +36,7 @@ public class VampiDroid extends TabActivity {
 	
 	
 	private static final String VAMPIDROID_DB = "VampiDroid.db";
+	private static final String KEY_CHANGELOG_VERSION_VIEWED = "changelog_version_viewed";
 	public static String DECK_NAME = "deck_name";
 	public static String CARD_ID = "card_id";
 
@@ -70,16 +76,33 @@ public class VampiDroid extends TabActivity {
 				return true;
 				
 			case Menu.FIRST+99:
-				
-				Intent aboutIntent = new Intent(this, About.class );
-				
-				startActivity(aboutIntent);
+				showAbout();
 				
 		}
 
 		return(super.onOptionsItemSelected(item));
 	}
 	
+
+	private void showAbout() {
+		// TODO Auto-generated method stub
+		
+		// Displays about view...
+        LayoutInflater li = LayoutInflater.from(this);
+        View view = li.inflate(R.layout.about, null);
+
+        new AlertDialog.Builder(this)
+        .setTitle("About")
+        .setIcon(android.R.drawable.ic_menu_info_details)
+        .setView(view)
+        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+              //
+          }
+        }).show();
+		
+	}
+
 
 	private void clearRecentSearches() {
 		// TODO Auto-generated method stub
@@ -102,7 +125,8 @@ public class VampiDroid extends TabActivity {
 		};
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("Are you sure you want to clear your recent searches?").setPositiveButton("Yes", dialogClickListener)
+		builder.setMessage("Are you sure you want to clear your recent searches?")
+			.setPositiveButton("Yes", dialogClickListener)
 		    .setNegativeButton("No", dialogClickListener).show();
 		
 		
@@ -122,7 +146,8 @@ public class VampiDroid extends TabActivity {
         Intent intent = getIntent();
         
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		        
+        
+        showChangeLog();        
         
         String queryCryptDatabase;
         
@@ -296,6 +321,44 @@ public class VampiDroid extends TabActivity {
         	mTabHost.setCurrentTab(1);
         	
     }
+
+
+	private void showChangeLog() {
+		// TODO Auto-generated method stub
+		
+		try {
+	        //current version
+	        PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+	        int versionCode = packageInfo.versionCode; 
+
+	        //version where changelog has been viewed
+	        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+	        int viewedChangelogVersion = settings.getInt(KEY_CHANGELOG_VERSION_VIEWED, 0);
+
+	        if(viewedChangelogVersion<versionCode) {
+	            Editor editor=settings.edit();
+	            editor.putInt(KEY_CHANGELOG_VERSION_VIEWED, versionCode);
+	            editor.commit();
+	            
+	            // Displays changelog view...
+	            LayoutInflater li = LayoutInflater.from(this);
+	            View view = li.inflate(R.layout.changelog, null);
+
+	            new AlertDialog.Builder(this)
+	            .setTitle("Changelog")
+	            .setIcon(android.R.drawable.ic_menu_info_details)
+	            .setView(view)
+	            .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+	              public void onClick(DialogInterface dialog, int whichButton) {
+	                  //
+	              }
+	            }).show();
+	        }
+	    } catch (NameNotFoundException e) {
+	        Log.w("Unable to get version code. Will not show changelog", e);
+	    }
+		
+	}
 
 
 	private void createDatabaseFile() {
