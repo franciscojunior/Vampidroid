@@ -18,7 +18,7 @@
         <activity android:name=".CryptDetails"/>
         <activity android:name=".LibraryDetails"/>
         <activity android:name=".About"/>
-        <activity android:name="EditPreferences"></activity>
+        <activity android:name=".EditPreferences"></activity>
         <provider android:authorities="name.vampidroid.VampidroidSuggestionProvider" android:name="VampidroidSuggestionProvider"></provider>
     </application>
     <uses-sdk android:minSdkVersion="7"/>
