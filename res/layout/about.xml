@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent">
+    <ScrollView android:id="@+id/aboutscrollview" 
+            android:orientation="vertical"
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent">    
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+                    <TextView android:text=" \t VampiDroid is an Android app to search and organize cards of Jyhad™, Vampire: The Eternal Struggle™! \n \t For more information about VTES, checkout these sites: \n "
+                            android:layout_width="fill_parent" 
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="15px"              
+                            android:layout_gravity="center_vertical"
+                            android:textColor="#ffffff"
+                            android:singleLine="false" />  
+                    <TextView android:text="http://www.vekn.net/"
+                            android:layout_width="fill_parent" 
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="15px"              
+                            android:layout_gravity="center_vertical"
+                            android:textColor="#ffffff"
+                            android:singleLine="false"
+                            android:autoLink="web" />  
+                     <TextView android:text="http://www.thelasombra.com/"
+                            android:layout_width="fill_parent" 
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="15px"              
+                            android:layout_gravity="center_vertical"
+                            android:textColor="#ffffff"
+                            android:singleLine="false"
+                            android:autoLink="web" />
+                            
+                     <TextView android:text="Disclaimer: 
+\n \n
+\t Jyhad™, Vampire: The Eternal Struggle™ and all game symbols are trademarks of Wizards of the Coast, Inc. and CCP hf. White Wolf, World of Darkness and all related terms are trademarks of CCP hf. \n
+\t This product is not published nor endorsed by CCP hf."
+                            android:layout_width="fill_parent" 
+                            android:layout_height="wrap_content"            
+                            android:paddingTop="15px"
+                            android:paddingLeft="15px"
+                            android:layout_gravity="center_vertical"
+                            android:textStyle="bold"
+                            android:textColor="#ffffff" />
+                    
+                    </LinearLayout>
+            </ScrollView>                   
+</LinearLayout>

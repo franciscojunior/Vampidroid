@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent">
+    <ScrollView android:id="@+id/aboutscrollview" 
+            android:orientation="vertical"
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent">    
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+                    <TextView android:text="Thanks for installing VampiDroid"
+                            android:layout_width="fill_parent" 
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="15px"              
+                            android:layout_gravity="center_vertical"
+                            android:textColor="#ffffff" />  
+                    <TextView android:text="Changes: "
+                            android:layout_width="fill_parent" 
+                            android:layout_height="wrap_content"            
+                            android:paddingTop="15px"
+                            android:paddingLeft="15px"
+                            android:textStyle="bold"
+                            android:textColor="#ffffff" />
+                    <TextView android:text="v1.12: \n
+\t * new icons for application launcher and tabs; \n
+\t * changed cards lists visual a little bit to indicate there is more information when clicking an item. \n
+\t * new changelog view when installing or updating application; \n
+\t * added new menu option to clear recent search queries; \n
+"
+                            android:layout_width="fill_parent" 
+                            android:layout_height="fill_parent"
+                            android:paddingLeft="15px"      
+                            android:paddingBottom="10px"            
+                            android:textColor="#ffffff" android:singleLine="false"/>
+                    </LinearLayout>
+            </ScrollView>                   
+</LinearLayout>
