@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.app.AlertDialog;
-import android.app.SearchManager;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,9 +35,15 @@ public class VampiDroid extends TabActivity {
 	
 	
 	private static final String VAMPIDROID_DB = "VampiDroid.db";
-	private static final String KEY_CHANGELOG_VERSION_VIEWED = "changelog_version_viewed";
+	private static final String KEY_CHANGELOG_VERSION_VIEWED = "change_log_viewed";
+	private static final String KEY_DATABASE_VERSION = "database_version";
+	private static final int DATABASE_VERSION = 2;
 	public static String DECK_NAME = "deck_name";
 	public static String CARD_ID = "card_id";
+	
+	public static final String ALL_FROM_CRYPT_QUERY = "select _id, Name from crypt";
+	public static final String ALL_FROM_LIBRARY_QUERY = "select _id, Name from library";
+	
 
 	
 	
@@ -48,10 +53,14 @@ public class VampiDroid extends TabActivity {
 		menu.add(Menu.NONE, Menu.FIRST+1, Menu.NONE, "Search")
 						.setIcon(android.R.drawable.ic_search_category_default);
 		
-		menu.add(Menu.NONE, Menu.FIRST+2, Menu.NONE, "Clear Recent Searches");
+		menu.add(Menu.NONE, Menu.FIRST+2, Menu.NONE, "Clear Recent Searches")
+						.setIcon(android.R.drawable.ic_menu_recent_history);
 		
 		menu.add(Menu.NONE, Menu.FIRST+3, Menu.NONE, "Preferences")
 						.setIcon(android.R.drawable.ic_menu_preferences);
+		
+		menu.add(Menu.NONE, Menu.FIRST+98, Menu.NONE, "Show Changelog")
+		.setIcon(android.R.drawable.ic_menu_info_details);
 
 		menu.add(Menu.NONE, Menu.FIRST+99, Menu.NONE, "About")
 						.setIcon(android.R.drawable.ic_menu_info_details);
@@ -74,9 +83,16 @@ public class VampiDroid extends TabActivity {
 			case Menu.FIRST+3:
 				startActivity(new Intent(this, EditPreferences.class)); 
 				return true;
+			
+			case Menu.FIRST+98:
+				
+				showChangeLog();
+				return true;
 				
 			case Menu.FIRST+99:
+				
 				showAbout();
+				return true;
 				
 		}
 
@@ -140,79 +156,25 @@ public class VampiDroid extends TabActivity {
         setContentView(R.layout.main);
         
         
-        createDatabaseFile();
+        checkAndCreateDatabaseFile();
         
         
-        Intent intent = getIntent();
-        
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        
-        showChangeLog();        
-        
-        String queryCryptDatabase;
-        
-        
-        if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
-			String query = formatQueryString(intent.getStringExtra(SearchManager.QUERY));
-			
-			VampidroidSuggestionProvider.getBridge(this).saveRecentQuery(query, null);
-			
-			if (prefs.getBoolean("searchCardText", false))
-				queryCryptDatabase = "select _id, Name from crypt where Name like '%" + query + "%' or CardText like '%" + query + "%'";
-			else
-				queryCryptDatabase = "select _id, Name from crypt where Name like '%" + query + "%'";
-		}
-        else
-        	queryCryptDatabase = "select _id, Name from crypt";
-        
-        
-        // Fill crypt list.
+        checkAndShowChangeLog();        
         
         ListView listCrypt = (ListView) findViewById(R.id.ListViewCrypt);
         
-        SQLiteDatabase db = getDatabase(this);
-        Cursor c = db.rawQuery(queryCryptDatabase, null);
-        
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.listitem2, 
-        		c, new String[] { "Name" }, new int[] {android.R.id.text1});
+        ListView listLibrary = (ListView) findViewById(R.id.ListViewLibrary);
         
         
-        listCrypt.setAdapter(adapter);
-        
+        fillListsFromDatabaseQuery(getCryptQuery(), getLibraryQuery(), listCrypt, listLibrary);
         
         
         listCrypt.setOnItemClickListener(new OnItemClickListener() {
 
         	public void onItemClick(AdapterView<?> parent, 
 		            View v, int position, long id) {
-				
-				// TODO Auto-generated method stub
-        		/*SQLiteDatabase db = getDatabase();
-				Cursor c = db.rawQuery("select CardText from crypt where _id = " + String.valueOf(id), null );
-				c.moveToFirst();
-				String cardText = c.getString(0);
-				c.close();
-				db.close();
-				*/
-								
-				/*AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-				
-				builder.setMessage(cardText);
-				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			           public void onClick(  DialogInterface dialog, int id) {
-			                dialog.dismiss();
-			           }
-			       });
-        
-        
-				AlertDialog alertDialog = builder.create(); 
-				alertDialog.show();
-				
-				*/
-        		
-        		
-				
-				Intent cryptCardIntent = new Intent(v.getContext(), CryptDetails.class );
+		
+        		Intent cryptCardIntent = new Intent(v.getContext(), CryptDetails.class );
 				
 				cryptCardIntent.putExtra(DECK_NAME, "crypt");
 				cryptCardIntent.putExtra(CARD_ID, id);
@@ -225,73 +187,13 @@ public class VampiDroid extends TabActivity {
         	
         	
 		});
-			
-			
-        
-        
-        //listCrypt.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, COUNTRIES));
-        
-        
-        // Fill crypt list.
-        
-        String queryLibraryDatabase;
-        
-        
-        if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
-			String query = formatQueryString(intent.getStringExtra(SearchManager.QUERY));
-			
-			if (prefs.getBoolean("searchCardText", false))
-				queryLibraryDatabase = "select _id, Name from library where Name like '%" + query + "%' or CardText like '%" + query + "%'";
-			else
-				queryLibraryDatabase = "select _id, Name from library where Name like '%" + query + "%'";
-		}
-        else
-        	queryLibraryDatabase = "select _id, Name from library";
-
-        
-        ListView listLibrary = (ListView) findViewById(R.id.ListViewLibrary);
-        
-        
-        c = db.rawQuery(queryLibraryDatabase, null);
-        
-        adapter = new SimpleCursorAdapter(this, R.layout.listitem2, 
-        		c, new String[] { "Name" }, new int[] {android.R.id.text1});
-        
-        
-        listLibrary.setAdapter(adapter);
-        
-        db.close();
-        
+		
         
         listLibrary.setOnItemClickListener(new OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, 
 		            View v, int position, long id) {
-				
-				// TODO Auto-generated method stub
-				/*SQLiteDatabase db = getDatabase();
-				Cursor c = db.rawQuery("select CardText from library where _id = " + String.valueOf(id), null );
-				c.moveToFirst();
-				String cardText = c.getString(0);
-				c.close();
-				db.close();
-				*/
-				
-				/*AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-				
-				builder.setMessage(cardText);
-				builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			           public void onClick(  DialogInterface dialog, int id) {
-			                dialog.dismiss();
-			           }
-			       });
-        
-        
-				AlertDialog alertDialog = builder.create();
-				alertDialog.show();
-				
-				 */
-				
+						
 				Intent libraryCardIntent = new Intent(v.getContext(), LibraryDetails.class );
 				
 				libraryCardIntent.putExtra(DECK_NAME, "library");
@@ -303,6 +205,8 @@ public class VampiDroid extends TabActivity {
         	
         	
 		});
+        
+        
         
         TabHost mTabHost = getTabHost();
         
@@ -323,7 +227,17 @@ public class VampiDroid extends TabActivity {
     }
 
 
-	private void showChangeLog() {
+	protected String getLibraryQuery() {
+		return ALL_FROM_LIBRARY_QUERY;
+	}
+
+
+	protected String getCryptQuery() {
+		return ALL_FROM_CRYPT_QUERY;
+	}
+
+
+	private void checkAndShowChangeLog() {
 		// TODO Auto-generated method stub
 		
 		try {
@@ -340,19 +254,7 @@ public class VampiDroid extends TabActivity {
 	            editor.putInt(KEY_CHANGELOG_VERSION_VIEWED, versionCode);
 	            editor.commit();
 	            
-	            // Displays changelog view...
-	            LayoutInflater li = LayoutInflater.from(this);
-	            View view = li.inflate(R.layout.changelog, null);
-
-	            new AlertDialog.Builder(this)
-	            .setTitle("Changelog")
-	            .setIcon(android.R.drawable.ic_menu_info_details)
-	            .setView(view)
-	            .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-	              public void onClick(DialogInterface dialog, int whichButton) {
-	                  //
-	              }
-	            }).show();
+	            showChangeLog();
 	        }
 	    } catch (NameNotFoundException e) {
 	        Log.w("Unable to get version code. Will not show changelog", e);
@@ -361,18 +263,46 @@ public class VampiDroid extends TabActivity {
 	}
 
 
-	private void createDatabaseFile() {
-		
+	private void showChangeLog() {
+		// Displays changelog view...
+		LayoutInflater li = LayoutInflater.from(this);
+		View view = li.inflate(R.layout.changelog, null);
+
+		new AlertDialog.Builder(this)
+		.setTitle("Changelog")
+		.setIcon(android.R.drawable.ic_menu_info_details)
+		.setView(view)
+		.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+		  public void onClick(DialogInterface dialog, int whichButton) {
+		      //
+		  }
+		}).show();
+	}
+
+	
+	private void checkAndCreateDatabaseFile() {
 		
 		// The file will be stored in the private data area of the application.
 		// Reference: http://www.reigndesign.com/blog/using-your-own-sqlite-database-in-android-applications/
 		File databasefile = getFileStreamPath(VAMPIDROID_DB);
 		
-		if (databasefile.exists())
-		{
-			databasefile = null;
-			return;
-		}
+		//version where changelog has been viewed
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        int databaseVersion = settings.getInt(KEY_DATABASE_VERSION, 1);
+
+        if(databaseVersion<DATABASE_VERSION || !databasefile.exists()) {
+        	createDatabaseFile();
+        	
+        	Editor editor=settings.edit();
+            editor.putInt(KEY_DATABASE_VERSION, DATABASE_VERSION);
+            editor.commit();
+            
+        }
+
+	}
+	private void createDatabaseFile() {
+		
+		
 		
 		AssetManager am = getAssets();		
 		
@@ -407,7 +337,7 @@ public class VampiDroid extends TabActivity {
 	}
 
 
-	private String formatQueryString(String stringExtra) {
+	protected String formatQueryString(String stringExtra) {
 		// TODO Auto-generated method stub
 		return stringExtra.trim().replace("'", "''");
 	}
@@ -424,4 +354,38 @@ public class VampiDroid extends TabActivity {
 		super.onDestroy();
 		
 	}
+	
+	protected void fillListsFromDatabaseQuery(String databaseQueryCrypt, String databaseQueryLibrary, ListView listCrytp, ListView listLibrary ) {
+		
+        
+        SQLiteDatabase db = getDatabase(this);
+        
+        
+        // Fill crypt list
+        Cursor c = db.rawQuery(databaseQueryCrypt, null);
+        
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.listitem2, 
+        		c, new String[] { "Name" }, new int[] {android.R.id.text1});
+        
+        
+        listCrytp.setAdapter(adapter);
+        
+        
+        
+        // Fill library list
+        c = db.rawQuery(databaseQueryLibrary, null);
+        
+        adapter = new SimpleCursorAdapter(this, R.layout.listitem2, 
+        		c, new String[] { "Name" }, new int[] {android.R.id.text1});
+        
+        
+        listLibrary.setAdapter(adapter);
+        
+        c = null;
+        adapter = null;
+        
+        db.close();
+        
+	}
+	
 }
