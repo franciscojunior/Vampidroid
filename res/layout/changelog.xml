@@ -24,7 +24,16 @@ android:layout_height="fill_parent">
                             android:paddingLeft="15px"
                             android:textStyle="bold"
                             android:textColor="#ffffff" />
-                    <TextView android:text="v1.12 - 2011-05-30: \n
+                    <TextView android:text="v1.13 - 2011-06-07: \n
+\t * UPDATED CARDS DATABASE. Thanks floppyzedolfin for heads up. \n
+\t * Added Group information to Crypt details. Thanks Adam for suggestion. \n
+\t * Now when doing a search, only one search result screen will be created. User can just press back button once to go back to main card lists. 
+Before, each search added a new screen and user had to hit back button too many times. Thanks floppyzedolfin for heads up \n
+\t * Added more descriptive titles to the screens. This will give better feedback about which screen the user are. \n
+\t * Changed About screen so you can access Changelog \n
+\n \n \n 
+
+v1.12 - 2011-05-30: \n
 \t * new icons for application launcher and tabs; \n
 \t * changed cards lists visual a little bit to indicate there is more information when clicking an item. \n
 \t * new changelog view when installing or updating application; \n
