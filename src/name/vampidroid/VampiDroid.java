@@ -59,9 +59,6 @@ public class VampiDroid extends TabActivity {
 		menu.add(Menu.NONE, Menu.FIRST+3, Menu.NONE, "Preferences")
 						.setIcon(android.R.drawable.ic_menu_preferences);
 		
-		menu.add(Menu.NONE, Menu.FIRST+98, Menu.NONE, "Show Changelog")
-		.setIcon(android.R.drawable.ic_menu_info_details);
-
 		menu.add(Menu.NONE, Menu.FIRST+99, Menu.NONE, "About")
 						.setIcon(android.R.drawable.ic_menu_info_details);
 
@@ -84,11 +81,6 @@ public class VampiDroid extends TabActivity {
 				startActivity(new Intent(this, EditPreferences.class)); 
 				return true;
 			
-			case Menu.FIRST+98:
-				
-				showChangeLog();
-				return true;
-				
 			case Menu.FIRST+99:
 				
 				showAbout();
@@ -111,6 +103,11 @@ public class VampiDroid extends TabActivity {
         .setTitle("About")
         .setIcon(android.R.drawable.ic_menu_info_details)
         .setView(view)
+        .setPositiveButton("Show Changelog", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+               showChangeLog();
+            }
+          })
         .setNegativeButton("Close", new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
               //
