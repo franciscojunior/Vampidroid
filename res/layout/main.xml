@@ -3,10 +3,21 @@
     android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
+        
+        <!-- Search textbox -->
+    	<EditText android:id="@+id/search_box" 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search cards..."
+        android:inputType="text"
+        android:maxLines="1"
+        android:focusableInTouchMode="false"/>
+        
         <TabWidget
             android:id="@android:id/tabs"
             android:layout_width="fill_parent"

@@ -7,21 +7,17 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 
-public class VampiDroidSearch extends VampiDroid {
+public class VampiDroidSearch extends VampiDroidBase {
 
 
-	String userSearchTerm;
-	
-	ListView listCrypt;
-	ListView listLibrary;
-	
-	
+
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		
-		userSearchTerm = getIntent().getStringExtra(SearchManager.QUERY);
+		
 		
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
@@ -43,7 +39,7 @@ public class VampiDroidSearch extends VampiDroid {
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         
-		String query = formatQueryString(userSearchTerm);
+		String query = formatQueryString(getIntent().getStringExtra(SearchManager.QUERY));
 			
 		VampidroidSuggestionProvider.getBridge(this).saveRecentQuery(query, null);
 		
@@ -67,16 +63,16 @@ public class VampiDroidSearch extends VampiDroid {
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         
-		String query = formatQueryString(userSearchTerm);
+		String query = formatQueryString(getIntent().getStringExtra(SearchManager.QUERY));
 			
 		VampidroidSuggestionProvider.getBridge(this).saveRecentQuery(query, null);
 		
 		String queryCryptDatabase;
 		
 		if (prefs.getBoolean("searchCardText", false))
-			queryCryptDatabase = "select _id, Name from crypt where Name like '%" + query + "%' or CardText like '%" + query + "%'";
+			queryCryptDatabase = "select _id, Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText, Adv from crypt where Name like '%" + query + "%' or CardText like '%" + query + "%'";
 		else
-			queryCryptDatabase = "select _id, Name from crypt where Name like '%" + query + "%'";
+			queryCryptDatabase = "select _id, Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText, Adv from crypt where Name like '%" + query + "%'";
 		
 		
         
@@ -87,24 +83,60 @@ public class VampiDroidSearch extends VampiDroid {
 	@Override
 	protected void onNewIntent(Intent intent) {
 		// TODO Auto-generated method stub
+		
+		Log.i("vampidroid", "VampiDroidSearch.onNewintent");
 		super.onNewIntent(intent);
 		
-		userSearchTerm = intent.getStringExtra(SearchManager.QUERY);
-		
-		listCrypt.clearChoices();
-		listLibrary.clearChoices();
+		//userSearchTerm = intent.getStringExtra(SearchManager.QUERY);
+		setIntent(intent);
 		
 		/*fillListFromDatabaseQuery(getCryptQuery(), listCrypt);
 		fillListFromDatabaseQuery(getLibraryQuery(), listLibrary);*/
+		
+		closeAdapterCursors();
 		
 		fillListsFromDatabaseQuery(getCryptQuery(), getLibraryQuery(), listCrypt, listLibrary);
 		
 	}
 
+
+
+
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		Log.i("vampidroid", "VampiDroidSearch.onStop");
+	}
+
+
+
+
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		Log.i("vampidroid", "VampiDroidSearch.onDestroy");
 		
+		closeAdapterCursors();
 	}
+
+
+
+
+
+	protected void closeAdapterCursors() {
+		
+		SimpleCursorAdapter adapter = (SimpleCursorAdapter) listCrypt.getAdapter();
+		
+		adapter.getCursor().close();
+		
+		adapter = (SimpleCursorAdapter) listLibrary.getAdapter();
+		
+		adapter.getCursor().close();
+	}
+	
+	
 }

@@ -21,8 +21,8 @@ public class LibraryDetails extends Activity {
 		
 		Intent i = getIntent();
 		
-		String deck = i.getStringExtra(VampiDroid.DECK_NAME);
-		long card_id = i.getLongExtra(VampiDroid.CARD_ID, 0);
+		String deck = i.getStringExtra(VampiDroidBase.DECK_NAME);
+		long card_id = i.getLongExtra(VampiDroidBase.CARD_ID, 0);
 		
 		String query;
 		
