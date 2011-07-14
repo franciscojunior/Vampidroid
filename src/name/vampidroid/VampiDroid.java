@@ -194,6 +194,9 @@ public class VampiDroid extends VampiDroidBase {
 		super.onCreate(savedInstanceState);
 
 		Log.i("vampidroid", "vampidroid.oncreate");
+		
+		checkAndShowChangeLog();        
+        
 
 	}
 
