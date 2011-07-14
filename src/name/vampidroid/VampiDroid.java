@@ -208,9 +208,6 @@ public class VampiDroid extends VampiDroidBase {
 		menu.add(Menu.NONE, Menu.FIRST+3, Menu.NONE, "Preferences")
 						.setIcon(android.R.drawable.ic_menu_preferences);
 		
-		menu.add(Menu.NONE, Menu.FIRST+4, Menu.NONE, "Show Clan List")
-						.setIcon(android.R.drawable.ic_search_category_default);
-		
 		menu.add(Menu.NONE, Menu.FIRST+99, Menu.NONE, "About")
 						.setIcon(android.R.drawable.ic_menu_info_details);
 	
