@@ -5,35 +5,16 @@
 	<TextView android:textAppearance="?android:attr/textAppearanceLarge"
 		android:layout_width="wrap_content" android:id="@+id/textView3"
 		android:text=" › " android:layout_height="wrap_content"
-		android:layout_alignParentRight="true" android:layout_alignBottom="@+id/txtCardInitialText"
-		android:gravity="center" android:layout_alignParentTop="true"></TextView>
-	<TextView android:textAppearance="?android:attr/textAppearanceMedium"
-		android:layout_width="wrap_content" android:id="@+id/txtCardCost"
-		android:text="TextView" android:layout_height="wrap_content"
-		android:layout_toLeftOf="@+id/textView3" android:layout_marginRight="21dp"
-		android:layout_alignBottom="@+id/textView3" android:gravity="center"
-		android:layout_alignParentTop="true"></TextView>
-	<TextView android:fadingEdge="horizontal"
-		android:layout_height="wrap_content" android:textStyle="bold"
-		android:singleLine="true" android:text="TextView"
-		android:layout_width="wrap_content" android:id="@+id/txtCardName"
-		android:textAppearance="?android:attr/textAppearanceLarge"
-		android:layout_toLeftOf="@+id/txtCardCost" android:layout_marginRight="16dp"
-		android:layout_alignParentLeft="true" android:ellipsize="none"
-		android:layout_below="@+id/txtAdvanced"></TextView>
+		android:layout_alignParentRight="true" android:gravity="center" android:layout_alignParentTop="true" android:layout_alignBottom="@+id/txtCardCost"></TextView>
 	<TextView android:singleLine="true" android:text="TextView"
 		android:ellipsize="end" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:id="@+id/txtCardInitialText"
 		android:layout_below="@+id/txtCardExtraInformation"
-		android:layout_alignParentLeft="true"></TextView>
-	<TextView android:text="TextView" android:textAppearance="?android:attr/textAppearanceSmall"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:id="@+id/txtCardExtraInformation" android:layout_below="@+id/txtCardName"
-		android:layout_alignParentLeft="true"></TextView>
-	<TextView android:text="TextView" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@+id/txtAdvanced"
-		android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
-		android:textStyle="bold"
-		android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+		android:layout_alignParentLeft="true" android:layout_toLeftOf="@+id/txtCardCost"
+		android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
+	<TextView android:id="@+id/txtCardExtraInformation" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_width="wrap_content" android:text="TextView" android:layout_below="@+id/txtCardName" android:layout_alignParentLeft="true" android:layout_alignRight="@+id/txtCardInitialText"></TextView>
+	<TextView android:id="@+id/txtCardName" android:textStyle="bold" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:singleLine="true" android:layout_width="wrap_content" android:text="TextView" android:layout_alignParentTop="true" android:layout_alignParentLeft="true" android:layout_toLeftOf="@+id/txtCardCost"></TextView>
+	<TextView android:id="@+id/txtCardCost" android:gravity="center" android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_width="wrap_content" android:text="TextView" android:layout_toLeftOf="@+id/textView3" android:layout_marginRight="21dp" android:layout_alignParentTop="true" android:layout_alignBottom="@+id/txtCardInitialText"></TextView>
+	
 
 </RelativeLayout>

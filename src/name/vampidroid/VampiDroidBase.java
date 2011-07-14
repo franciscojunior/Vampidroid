@@ -36,13 +36,14 @@ public abstract class VampiDroidBase extends TabActivity {
 	static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY_INITIALCARDTEXT = new String[] { "Name", "Disciplines", "Capacity", "InitialCardText" };
 	static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY_INITIALCARDTEXT_ADV = new String[] { "Name", "Disciplines", "Capacity", "InitialCardText","Adv" };
 	
-	public static final String ALL_FROM_CRYPT_QUERY = "select _id, Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText, Adv from crypt";
+	public static final String ALL_FROM_CRYPT_QUERY = "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText from crypt";
 	
 	
 	public static final String[] ALL_FROM_CRYPT_QUERY_AS_COLUMNS = new String[] {
 				"_id", "Name", "Disciplines", "Capacity",
 				"substr(CardText, 1, 40) as InitialCardText" };
-	public static final String ALL_FROM_LIBRARY_QUERY = "select _id, Name from library";
+	public static final String ALL_FROM_LIBRARY_QUERY = "select _id, Name, Type, Clan, Discipline from library";
+	
 	private static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY = new String[] {
 				"Name", "Disciplines", "Capacity" };
 	
@@ -198,48 +199,23 @@ public abstract class VampiDroidBase extends TabActivity {
 			    
 			    
 			    SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.cryptlistitem, 
-			    		c, STRING_ARRAY_NAME_DISCIPLINES_CAPACITY_INITIALCARDTEXT_ADV, new int[] {R.id.txtCardName, R.id.txtCardExtraInformation, R.id.txtCardCost, R.id.txtCardInitialText, R.id.txtAdvanced});
+			    		c, STRING_ARRAY_NAME_DISCIPLINES_CAPACITY_INITIALCARDTEXT, new int[] {R.id.txtCardName, R.id.txtCardExtraInformation, R.id.txtCardCost, R.id.txtCardInitialText});
 			    
 			    //adapter.setFilterQueryProvider(filterCrypt);
 			    listCrypt.setAdapter(adapter);
 			    
 			    
 			    
-			    
-			    
-			   /* MySectionedAdapter sectionedAdapter = new MySectionedAdapter(getApplicationContext());
-			    
-			    
-			    c = db.query("crypt", new String[] {"_id", "Name", "Disciplines", "Capacity"}, 
-			    		"Name like 'A%'", null, null, null, "Name");
-			    
-			    
-			    SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.listitem3, 
-			    		c, new String[] { "Name", "Disciplines", "Capacity" }, new int[] {R.id.txtCardName, R.id.txtCardExtraInformation, R.id.txtCardCost});
-			    
-			    sectionedAdapter.addSection("A", adapter);
-			    
-			    
-			    c = db.query("crypt", new String[] {"_id", "Name", "Disciplines", "Capacity"}, 
-			    		"Name like 'B%'", null, null, null, "Name");
-			    
-			    
-			    adapter = new SimpleCursorAdapter(this, R.layout.listitem3, 
-			    		c, new String[] { "Name", "Disciplines", "Capacity" }, new int[] {R.id.txtCardName, R.id.txtCardExtraInformation, R.id.txtCardCost});
-			    
-			    
-			    sectionedAdapter.addSection("B", adapter);
-			    
-			    listCrypt.setAdapter(sectionedAdapter);
-			    
-			    */
-			    
-			    
 			    // Fill library list
 			    c = db.rawQuery(databaseQueryLibrary, null);
 			    
-			    adapter = new SimpleCursorAdapter(this, R.layout.listitem2, 
+			    /*adapter = new SimpleCursorAdapter(this, R.layout.listitem2, 
 			    		c, new String[] { "Name" }, new int[] {android.R.id.text1});
+			    */
+			    
+			    adapter = new SimpleCursorAdapter(this, R.layout.librarylistitem, 
+			    		c, new String[] { "Name", "Type", "Clan", "Discipline" }, new int[] {R.id.txtCardName, R.id.txtCardType, R.id.txtCardClan, R.id.txtCardDiscipline});
+			    
 			    
 			    
 			    listLibrary.setAdapter(adapter);

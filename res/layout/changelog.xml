@@ -25,8 +25,9 @@ android:layout_height="fill_parent">
                             android:textStyle="bold"
                             android:textColor="#ffffff" />
                     <TextView android:text="\n
-v1.14 - 2011-xx-xx: \n
+v1.14 - 2011-07-14: \n
 \t * Added more information in the crypt list: if vampire is advanced, list of disciplines and initial card text so you can check the vampire title. \n
+\t * Added more information in the library list: type, discipline and clan. \n
 \t * Easier search start by taping a textbox in the main screen. \n
 \n \n \n
 

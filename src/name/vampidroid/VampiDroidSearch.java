@@ -47,9 +47,9 @@ public class VampiDroidSearch extends VampiDroidBase {
 		String queryLibraryDatabase;
 		
 		if (prefs.getBoolean("searchCardText", false))
-			queryLibraryDatabase = "select _id, Name from library where Name like '%" + query + "%' or CardText like '%" + query + "%'";
+			queryLibraryDatabase = "select _id, Name, Type, Clan, Discipline from library where Name like '%" + query + "%' or CardText like '%" + query + "%'";
 		else
-			queryLibraryDatabase = "select _id, Name from library where Name like '%" + query + "%'";
+			queryLibraryDatabase = "select _id, Name, Type, Clan, Discipline from library where Name like '%" + query + "%'";
 		
 		
         
@@ -70,9 +70,9 @@ public class VampiDroidSearch extends VampiDroidBase {
 		String queryCryptDatabase;
 		
 		if (prefs.getBoolean("searchCardText", false))
-			queryCryptDatabase = "select _id, Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText, Adv from crypt where Name like '%" + query + "%' or CardText like '%" + query + "%'";
+			queryCryptDatabase = "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText from crypt where Name like '%" + query + "%' or CardText like '%" + query + "%'";
 		else
-			queryCryptDatabase = "select _id, Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText, Adv from crypt where Name like '%" + query + "%'";
+			queryCryptDatabase = "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText from crypt where Name like '%" + query + "%'";
 		
 		
         
