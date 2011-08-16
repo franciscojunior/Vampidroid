@@ -5,4 +5,8 @@
 	<string name="card_name">Card Name</string>
 	<string name="searchLabel">Vampidroid</string>
 	<string name="searchHint">Card Name</string>
+	<string name="search_hint">Search Cards</string>
+	<string name="preferences">Preferences</string>
+	<string name="about">About</string>
+	<string name="clear_recent_searches">Clear recent searches</string>
 </resources>
