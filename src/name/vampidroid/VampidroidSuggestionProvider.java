@@ -9,7 +9,7 @@ public class VampidroidSuggestionProvider extends
 	
 	private static String AUTH="name.vampidroid.VampidroidSuggestionProvider";
 	
-	static SearchRecentSuggestions getBridge(Context ctx)
+	public static SearchRecentSuggestions getBridge(Context ctx)
 	{
 		return new SearchRecentSuggestions(ctx, AUTH, DATABASE_MODE_QUERIES);
 		

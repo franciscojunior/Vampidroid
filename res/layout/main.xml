@@ -1,34 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/tabhost"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        
-        <!-- Search textbox -->
-    	<EditText android:id="@+id/search_box" 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Search cards..."
-        android:inputType="text"
-        android:maxLines="1"
-        android:focusableInTouchMode="false"/>
-        
-        <TabWidget
-            android:id="@android:id/tabs"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-        <FrameLayout
-            android:id="@android:id/tabcontent"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-            <ListView android:layout_height="wrap_content" android:id="@+id/ListViewCrypt" android:fastScrollEnabled="true" android:textFilterEnabled="true" android:layout_width="fill_parent"></ListView>    
-            <ListView android:layout_height="wrap_content" android:id="@+id/ListViewLibrary" android:fastScrollEnabled="true" android:textFilterEnabled="true" android:layout_width="fill_parent"></ListView>
-             
-        </FrameLayout>
-    </LinearLayout>
-</TabHost>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<!-- <fragment class="name.vampidroid.fragments.VampiDroidFragment" android:id="@+id/fragment_vampidroid" 
+		android:layout_width="fill_parent" android:layout_height="fill_parent" /> -->
+
+	<FrameLayout android:id="@+id/fragment_vampidroid_container"
+		android:layout_width="fill_parent" android:layout_height="fill_parent" >
+	</FrameLayout>
+
+    
+   <include layout="@layout/tutorial_layout"  android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+		
+	
+	
+
+
+
+
+
+</FrameLayout>

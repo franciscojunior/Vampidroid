@@ -1,20 +1,20 @@
 package name.vampidroid;
 
-import android.app.Activity;
+import name.vampidroid.fragments.CryptDetailsFragment;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.MenuItem;
+import android.util.DisplayMetrics;
 
-public class CryptDetails extends Activity {
+public class CryptDetails extends FragmentActivity {
 	
-	static String QUERY_CRYPT = "select Name, Type, Clan, Disciplines, CardText, Capacity, Artist, _Set, _Group from crypt where _id = ";
 	
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
 	 */
-	@Override
+	/*@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// TODO Put your code here
@@ -78,5 +78,43 @@ public class CryptDetails extends Activity {
 		
 		txt = (TextView) findViewById(R.id.txtCardGroup);
 		txt.setText(cardGroup);
+	}*/
+	
+	@Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &&
+        	getResources().getDisplayMetrics().densityDpi > DisplayMetrics.DENSITY_HIGH) {
+            // If the screen is now in landscape mode, we can show the
+            // dialog in-line with the list so we don't need this activity.
+            finish();
+            return;
+        }
+
+        if (savedInstanceState == null) {
+            // During initial setup, plug in the details fragment.
+            CryptDetailsFragment details = new CryptDetailsFragment();
+            details.setArguments(getIntent().getExtras());
+            
+            getSupportFragmentManager()
+            	.beginTransaction()
+            	.add(android.R.id.content, details)
+            	.commit();
+        }
+        
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				Intent intent = new Intent(this, VampiDroid.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+		}
+		
+		return super.onOptionsItemSelected(item);
 	}
 }

@@ -7,28 +7,33 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v4.view.Menu;
+import android.support.v4.view.MenuItem;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.FilterQueryProvider;
-import android.widget.SimpleCursorAdapter;
+
 
 public class VampiDroid extends VampiDroidBase {
 
+	public static final String KEY_CHANGELOG_VERSION_VIEWED = "change_log_viewed";
+	public static final String KEY_TUTORIAL_BUTTONS_VIEWED = "tutorial_buttons_viewed";
+	
+	private boolean mIsShowingTutorial = false;
+	
+	
 	protected String getLibraryQuery() {
-		return ALL_FROM_LIBRARY_QUERY;
+		return DatabaseHelper.ALL_FROM_LIBRARY_QUERY;
 	}
 
 	protected String getCryptQuery() {
-		return ALL_FROM_CRYPT_QUERY;
+		return DatabaseHelper.ALL_FROM_CRYPT_QUERY;
 	}
+
+	
+	
 
 	void checkAndShowChangeLog() {
 		// TODO Auto-generated method stub
@@ -65,38 +70,37 @@ public class VampiDroid extends VampiDroidBase {
 
 		Log.i("vampidroid", "vampidroid.ondestroy");
 
-		// remove this hack later.
-		// make VampiDroidSearch a subclass of another base class instead of
-		// VampiDroid activity.
+		
 
-		DATABASE.close();
-		DATABASE = null;
-
-		searchTextEdit.removeTextChangedListener(filterTextWatcher);
-
+		DatabaseHelper.closeDatabase();
+		
 	}
 
-	private TextWatcher filterTextWatcher = new TextWatcher() {
-
-		public void afterTextChanged(Editable s) {
-		}
-
-		public void beforeTextChanged(CharSequence s, int start, int count,
-				int after) {
-		}
-
-		public void onTextChanged(CharSequence s, int start, int before,
-				int count) {
-			VampiDroid.this.filterCryptText(s);
-		}
-
-	};
-
-	public void filterCryptText(CharSequence s) {
-
-		((SimpleCursorAdapter) listCrypt.getAdapter()).getFilter().filter(s);
-
+	public void showTutorialButtons(View v) {
+		
+		
+		changeTutorialButtonsVisibility(View.VISIBLE);
+		mIsShowingTutorial = true;
+	
 	}
+	
+	public void hideTutorialButtons(View v) {
+		
+		if (mIsShowingTutorial) {
+			changeTutorialButtonsVisibility(View.GONE);
+			mIsShowingTutorial = false;
+		}
+	}
+	
+	private void changeTutorialButtonsVisibility(int visibility) {
+		
+		View v = findViewById(R.id.tutorial_layout);
+		
+		if (v != null)
+			v.setVisibility(visibility);
+	}
+	
+	
 
 	protected void showChangeLog() {
 		// Displays changelog view...
@@ -145,49 +149,6 @@ public class VampiDroid extends VampiDroidBase {
 	}
 
 
-	FilterQueryProvider filterCrypt = new FilterQueryProvider() {
-
-		public Cursor runQuery(CharSequence constraint) {
-
-			// Log.d(LOG_TAG, "runQuery constraint:"+constraint);
-			// uri, projection, and sortOrder might be the same as previous
-			// but you might want a new selection, based on your filter content
-			// (constraint)
-			// Cursor cur = managedQuery(uri, projection, selection,
-			// selectionArgs, sortOrder);
-
-			// Cursor c =
-			// getDatabase(getApplicationContext()).rawQuery("select _id, Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText from crypt where Name like '%"
-			// + constraint + "%'", null);
-
-			// Cursor c =
-			// getDatabase(getApplicationContext()).rawQuery(VampiDroid.ALL_FROM_CRYPT_QUERY
-			// + " where Name like '%" + constraint + "%'", null);
-
-			/*
-			 * String query = SQLiteQueryBuilder.buildQueryString(false,
-			 * "crypt", VampiDroid.ALL_FROM_CRYPT_QUERY_AS_COLUMNS ,
-			 * "Name like '%?%'", new String[] {constraint.toString()}, null,
-			 * null, null);
-			 */
-
-			Cursor c = getDatabase(getApplicationContext()).query("crypt",
-					VampiDroid.ALL_FROM_CRYPT_QUERY_AS_COLUMNS, "Name like ?",
-					new String[] { "%" + constraint.toString() + "%" }, null,
-					null, null);
-
-			return c; // now your adapter will have the new filtered content
-
-			/*
-			 * Cursor c = getDatabase(getApplicationContext()).query("crypt",
-			 * VampiDroid.ALL_FROM_CRYPT_QUERY_AS_COLUMNS , "Name like '%?%'",
-			 * new String[] {constraint.toString()}, null, null, null);
-			 */
-
-		}
-
-	};
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -195,26 +156,44 @@ public class VampiDroid extends VampiDroidBase {
 
 		Log.i("vampidroid", "vampidroid.oncreate");
 		
-		checkAndShowChangeLog();        
-        
+		checkAndShowChangeLog();   
+	
+		checkAndShowTutorialButtons();
+		
+		
+	}
+	
+	
+	private void checkAndShowTutorialButtons() {
+		// TODO Auto-generated method stub
+		
+		// version where changelog has been viewed
+		SharedPreferences settings = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		boolean tutorialButtonsViewed = settings.getBoolean(
+				KEY_TUTORIAL_BUTTONS_VIEWED, false);
 
+		if (!tutorialButtonsViewed) {
+			
+			showTutorialButtons(null);
+			Editor editor = settings.edit();
+			editor.putBoolean(KEY_TUTORIAL_BUTTONS_VIEWED, true);
+			editor.commit();
+			
+			
+		}
+		
+		
+			
+		
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(Menu.NONE, Menu.FIRST+1, Menu.NONE, "Search")
-						.setIcon(android.R.drawable.ic_search_category_default);
+		getMenuInflater().inflate(R.menu.main_menu, menu);
 		
-		menu.add(Menu.NONE, Menu.FIRST+2, Menu.NONE, "Clear Recent Searches")
-						.setIcon(android.R.drawable.ic_menu_recent_history);
-		
-		menu.add(Menu.NONE, Menu.FIRST+3, Menu.NONE, "Preferences")
-						.setIcon(android.R.drawable.ic_menu_preferences);
-		
-		menu.add(Menu.NONE, Menu.FIRST+99, Menu.NONE, "About")
-						.setIcon(android.R.drawable.ic_menu_info_details);
-	
-		return(super.onCreateOptionsMenu(menu));
+		return super.onCreateOptionsMenu(menu);
+        
 	}
 
 	void clearRecentSearches() {
@@ -227,7 +206,7 @@ public class VampiDroid extends VampiDroidBase {
 		        switch (which){
 		        case DialogInterface.BUTTON_POSITIVE:
 		            //Yes button clicked
-		        	VampidroidSuggestionProvider.getBridge(VampiDroid.this).clearHistory();
+		        	VampidroidSuggestionProvider.getBridge(VampiDroid.this.getApplicationContext()).clearHistory();
 		            break;
 	
 		        case DialogInterface.BUTTON_NEGATIVE:
@@ -244,24 +223,38 @@ public class VampiDroid extends VampiDroidBase {
 		
 		
 	}
+	
+	
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		
+		hideTutorialButtons(null);
+		
+		return super.onPrepareOptionsMenu(menu);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		hideTutorialButtons(null);
+		
 		switch (item.getItemId()) {
-			case Menu.FIRST+1:
+		
+			case R.id.menu_search:
 				onSearchRequested(); 
 				return true;
 			
-			case Menu.FIRST+2:
+			case R.id.menu_clear_recent_searches:
 				clearRecentSearches();
 				return true;
 	
-			case Menu.FIRST+3:
+			case R.id.menu_preferences:
 				startActivity(new Intent(this, EditPreferences.class)); 
 				return true;
 			
-			case Menu.FIRST+99:
-				
+			case R.id.menu_about:
 				showAbout();
 				return true;
 				
@@ -269,11 +262,7 @@ public class VampiDroid extends VampiDroidBase {
 	
 		return(super.onOptionsItemSelected(item));
 	}
+	
 
 }
 
-/*
- * References:
- * http://stackoverflow.com/questions/1737009/how-to-make-a-nice-looking
- * -listview-filter-on-android
- */

@@ -5,77 +5,69 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.Menu;
+import android.support.v4.view.MenuItem;
 import android.util.Log;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-
 
 public class VampiDroidSearch extends VampiDroidBase {
 
-
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
-		
-		
+
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		// Cache list objects here as we are reusing them inside this activity.
-		
-		listCrypt = (ListView) findViewById(R.id.ListViewCrypt);
-		listLibrary = (ListView) findViewById(R.id.ListViewLibrary);
-		
-		
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 	}
 
-	
-	
-	
-	
 	@Override
 	protected String getLibraryQuery() {
-		
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        
-		String query = formatQueryString(getIntent().getStringExtra(SearchManager.QUERY));
-			
-		VampidroidSuggestionProvider.getBridge(this).saveRecentQuery(query, null);
-		
-		
+
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this.getApplicationContext());
+
+		String query = formatQueryString(getIntent().getStringExtra(
+				SearchManager.QUERY));
+
+		VampidroidSuggestionProvider.getBridge(this.getApplicationContext()).saveRecentQuery(query,
+				null);
+
 		String queryLibraryDatabase;
-		
+
 		if (prefs.getBoolean("searchCardText", false))
-			queryLibraryDatabase = "select _id, Name, Type, Clan, Discipline from library where Name like '%" + query + "%' or CardText like '%" + query + "%'";
+			queryLibraryDatabase = "select _id, Name, Type, Clan, Discipline from library where (Name like '%"
+					+ query + "%' or CardText like '%" + query + "%')";
 		else
-			queryLibraryDatabase = "select _id, Name, Type, Clan, Discipline from library where Name like '%" + query + "%'";
-		
-		
-        
+			queryLibraryDatabase = "select _id, Name, Type, Clan, Discipline from library where Name like '%"
+					+ query + "%'";
+
 		// TODO Auto-generated method stub
 		return queryLibraryDatabase;
-		
+
 	}
 
 	@Override
 	protected String getCryptQuery() {
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        
-		String query = formatQueryString(getIntent().getStringExtra(SearchManager.QUERY));
-			
-		VampidroidSuggestionProvider.getBridge(this).saveRecentQuery(query, null);
-		
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this.getApplicationContext());
+
+		String query = formatQueryString(getIntent().getStringExtra(
+				SearchManager.QUERY));
+
+		VampidroidSuggestionProvider.getBridge(this.getApplicationContext()).saveRecentQuery(query,
+				null);
+
 		String queryCryptDatabase;
-		
+
 		if (prefs.getBoolean("searchCardText", false))
-			queryCryptDatabase = "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText from crypt where Name like '%" + query + "%' or CardText like '%" + query + "%'";
+			queryCryptDatabase = "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText from crypt where (Name like '%"
+					+ query + "%' or CardText like '%" + query + "%')";
 		else
-			queryCryptDatabase = "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText from crypt where Name like '%" + query + "%'";
-		
-		
-        
+			queryCryptDatabase = "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText from crypt where Name like '%"
+					+ query + "%'";
+
 		// TODO Auto-generated method stub
 		return queryCryptDatabase;
 	}
@@ -83,60 +75,47 @@ public class VampiDroidSearch extends VampiDroidBase {
 	@Override
 	protected void onNewIntent(Intent intent) {
 		// TODO Auto-generated method stub
-		
+
 		Log.i("vampidroid", "VampiDroidSearch.onNewintent");
 		super.onNewIntent(intent);
-		
-		//userSearchTerm = intent.getStringExtra(SearchManager.QUERY);
+
+		// userSearchTerm = intent.getStringExtra(SearchManager.QUERY);
 		setIntent(intent);
 		
-		/*fillListFromDatabaseQuery(getCryptQuery(), listCrypt);
-		fillListFromDatabaseQuery(getLibraryQuery(), listLibrary);*/
 		
-		closeAdapterCursors();
+		updateQueries();
 		
-		fillListsFromDatabaseQuery(getCryptQuery(), getLibraryQuery(), listCrypt, listLibrary);
-		
+	
 	}
-
-
-
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.search_menu, menu);
+		
+		return super.onCreateOptionsMenu(menu);
+        
+	}
 
 
 	@Override
-	protected void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
-		Log.i("vampidroid", "VampiDroidSearch.onStop");
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		
+		case R.id.menu_search:
+			onSearchRequested(); 
+			return true;
+		
+
+		case android.R.id.home:
+			// app icon in Action Bar clicked; go home
+			Intent intent = new Intent(this, VampiDroid.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			return true;
+
+		}
+
+		return (super.onOptionsItemSelected(item));
 	}
 
-
-
-
-
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		Log.i("vampidroid", "VampiDroidSearch.onDestroy");
-		
-		closeAdapterCursors();
-	}
-
-
-
-
-
-	protected void closeAdapterCursors() {
-		
-		SimpleCursorAdapter adapter = (SimpleCursorAdapter) listCrypt.getAdapter();
-		
-		adapter.getCursor().close();
-		
-		adapter = (SimpleCursorAdapter) listLibrary.getAdapter();
-		
-		adapter.getCursor().close();
-	}
-	
-	
 }

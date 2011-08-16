@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res/name.vampidroid"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    
+   <!-- <LinearLayout android:layout_width="fill_parent"
+		android:gravity="center_horizontal" 
+		android:orientation="vertical" android:layout_height="wrap_content">
+		<com.jakewharton.android.viewpagerindicator.TitlePageIndicator
+			android:id="@+id/titlepageindicator" android:layout_height="wrap_content"
+			android:layout_width="fill_parent"
+			app:footerLineHeight="1dp"
+			app:footerIndicatorHeight="3dp" 
+			app:textColor="#FFFFFFFF" 
+			app:selectedColor="#FFFFC445" 
+			app:footerColor="#FFFFC445" 
+			app:titlePadding="5dp" 
+			app:textSize="26dp"
+			app:footerIndicatorUnderlinePadding="15dp"
+			android:layout_marginTop="5dip" 
+			app:footerIndicatorStyle="underline">
+		</com.jakewharton.android.viewpagerindicator.TitlePageIndicator>
+
+	</LinearLayout> 
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+        
+        -->
+        
+    <EditText 
+		android:id="@+id/edit_card_filter"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:hint="Filter Cards..."
+		/>
+
+	<com.jakewharton.android.viewpagerindicator.TitlePageIndicator
+			android:id="@+id/titlepageindicator" android:layout_height="wrap_content"
+			android:layout_width="fill_parent"
+			app:footerLineHeight="1dp"
+			app:footerIndicatorHeight="3dp" 
+			app:textColor="#FFFFFFFF" 
+			app:selectedColor="#FFFFC445" 
+			app:footerColor="#FFFFC445" 
+			app:titlePadding="5dp" 
+			app:textSize="26dp"
+			app:footerIndicatorUnderlinePadding="15dp"
+			android:layout_marginTop="5dip" 
+			app:footerIndicatorStyle="underline">
+		</com.jakewharton.android.viewpagerindicator.TitlePageIndicator>
+
+	 
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+        
+                
+
+</LinearLayout>
+
+
