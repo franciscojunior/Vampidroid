@@ -25,6 +25,16 @@ android:layout_height="fill_parent">
                             android:textStyle="bold"
                             android:textColor="#ffffff" />
                     <TextView android:text="\n
+v1.15 - 2011-08-17: \n
+\t * Major user interface update. \n
+\t * Added initial HONEYCOMB support. \n
+\t * New filter text where you can filter results by typing card name \n
+\t * New tutorial buttons when first starting the app \n
+\t * Now you can swipe through crypt and library card lists \n
+\t * New Home button which, when clicked, will bring you back home anywhere in the application \n
+\n \n \n
+
+
 v1.14 - 2011-07-14: \n
 \t * Added more information in the crypt list: if vampire is advanced, list of disciplines and initial card text so you can check the vampire title. \n
 \t * Added more information in the library list: type, discipline and clan. \n
