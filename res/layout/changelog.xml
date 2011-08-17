@@ -28,6 +28,8 @@ android:layout_height="fill_parent">
 v1.15 - 2011-08-17: \n
 \t * Major user interface update. \n
 \t * Added initial HONEYCOMB support. \n
+\t * Added support for Actionbar thanks JakeWharton's ActionBarSherlock project. \n
+\t * Added support for swipe thanks JakeWharton's ViewPagerIndicator project. \n
 \t * New filter text where you can filter results by typing card name \n
 \t * New tutorial buttons when first starting the app \n
 \t * Now you can swipe through crypt and library card lists \n
