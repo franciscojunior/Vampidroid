@@ -44,6 +44,7 @@ public class VampiDroid extends VampiDroidBase {
 					getPackageName(), 0);
 			int versionCode = packageInfo.versionCode;
 
+
 			// version where changelog has been viewed
 			SharedPreferences settings = PreferenceManager
 					.getDefaultSharedPreferences(this);
@@ -62,6 +63,7 @@ public class VampiDroid extends VampiDroidBase {
 		}
 
 	}
+	
 
 	@Override
 	protected void onDestroy() {
@@ -92,6 +94,7 @@ public class VampiDroid extends VampiDroidBase {
 		}
 	}
 	
+
 	private void changeTutorialButtonsVisibility(int visibility) {
 		
 		View v = findViewById(R.id.tutorial_layout);
@@ -106,9 +109,11 @@ public class VampiDroid extends VampiDroidBase {
 		// Displays changelog view...
 		LayoutInflater li = LayoutInflater.from(this);
 		View view = li.inflate(R.layout.changelog, null);
+		
+
 
 		new AlertDialog.Builder(this)
-				.setTitle("Changelog")
+				.setTitle("Changelog - v" + getVersionName())
 				.setIcon(android.R.drawable.ic_menu_info_details)
 				.setView(view)
 				.setNegativeButton("Close",
@@ -120,6 +125,22 @@ public class VampiDroid extends VampiDroidBase {
 						}).show();
 	}
 
+	private String getVersionName() {
+		String versionName = "";
+		
+		
+		try {
+			PackageInfo packageInfo = getPackageManager().getPackageInfo(
+					getPackageName(), 0);
+			versionName = packageInfo.versionName;
+			
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			
+		}
+		return versionName;
+	}
+
 	private void showAbout() {
 		// TODO Auto-generated method stub
 
@@ -128,7 +149,7 @@ public class VampiDroid extends VampiDroidBase {
 		View view = li.inflate(R.layout.about, null);
 
 		new AlertDialog.Builder(this)
-				.setTitle("About")
+				.setTitle("About VampiDroid - v" + getVersionName())
 				.setIcon(android.R.drawable.ic_menu_info_details)
 				.setView(view)
 				.setPositiveButton("Show Changelog",
