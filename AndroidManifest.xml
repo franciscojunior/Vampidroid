@@ -14,6 +14,7 @@
 				android:value=".VampiDroidSearch" />
 
 		</activity>
+		
 
 		<activity android:name=".VampiDroidSearch" android:label="Search Results"
 			android:launchMode="singleTop" android:windowSoftInputMode="stateAlwaysHidden">
