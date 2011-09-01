@@ -17,7 +17,7 @@ public class VampiDroidSearch extends VampiDroidBase {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 	}
 
@@ -28,22 +28,24 @@ public class VampiDroidSearch extends VampiDroidBase {
 				.getDefaultSharedPreferences(this.getApplicationContext());
 
 		String query = formatQueryString(getIntent().getStringExtra(
-				SearchManager.QUERY)).toLowerCase();
+				SearchManager.QUERY)).trim().toLowerCase();
 
 		VampidroidSuggestionProvider.getBridge(this.getApplicationContext()).saveRecentQuery(query,
 				null);
 
 		String queryLibraryDatabase;
+		
+		
 
-		
-		queryLibraryDatabase = "select _id, Name, Type, Clan, Discipline from library where lower(Name) like '%"
-			+ query + "%'";
-		
 		if (prefs.getBoolean("searchCardText", false))
-			queryLibraryDatabase += " or lower(CardText) like '%" + query + "%')";
+			queryLibraryDatabase = DatabaseHelper.ALL_FROM_LIBRARY_QUERY + " and (lower(Name) like '%?%' or lower(CardText) like '%?%') ";
+		
+		else
+			queryLibraryDatabase = DatabaseHelper.ALL_FROM_LIBRARY_QUERY + " and (Name like '%?%') ";
 
+		
 		// TODO Auto-generated method stub
-		return queryLibraryDatabase;
+		return queryLibraryDatabase.replace("?", query);
 
 	}
 
@@ -54,22 +56,23 @@ public class VampiDroidSearch extends VampiDroidBase {
 				.getDefaultSharedPreferences(this.getApplicationContext());
 
 		String query = formatQueryString(getIntent().getStringExtra(
-				SearchManager.QUERY));
+				SearchManager.QUERY)).trim().toLowerCase();
 
 		VampidroidSuggestionProvider.getBridge(this.getApplicationContext()).saveRecentQuery(query,
 				null);
 
 		String queryCryptDatabase;
+		
 
-		queryCryptDatabase = "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText from crypt where lower(Name) like '%"
-			+ query + "%'";
-		
-		
 		if (prefs.getBoolean("searchCardText", false))
-			queryCryptDatabase += " or lower(CardText) like '%" + query + "%')";
+			queryCryptDatabase = DatabaseHelper.ALL_FROM_CRYPT_QUERY + " and (lower(Name) like '%?%' or lower(CardText) like '%?%') ";
 		
+		else
+			queryCryptDatabase = DatabaseHelper.ALL_FROM_CRYPT_QUERY + " and (Name like '%?%') ";
+
 		// TODO Auto-generated method stub
-		return queryCryptDatabase;
+		return queryCryptDatabase.replace("?", query);
+		
 	}
 
 	@Override
