@@ -47,6 +47,8 @@ public class DatabaseHelper {
 			DATABASE = SQLiteDatabase.openDatabase(
 					context.getFileStreamPath(VAMPIDROID_DB).getAbsolutePath(),
 					null, SQLiteDatabase.OPEN_READWRITE);
+			
+			DATABASE.execSQL("PRAGMA case_sensitive_like = true;");
 	
 		}
 	
