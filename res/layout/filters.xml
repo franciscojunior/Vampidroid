@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res/name.vampidroid"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:orientation="vertical" android:padding="5dp">
+
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:scrollbars="none">
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:orientation="vertical">
+
+
+			<EditText android:id="@+id/edit_card_filter"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:hint="Filter Card Name..." android:layout_weight="1" />
+
+			<RelativeLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/filters_layout_header" android:background="@drawable/layout_border2"
+				>
+
+								
+				
+				<ImageView android:layout_marginLeft="10dip" android:layout_marginTop="5dip" android:src="@drawable/expander_ic_minimized" android:id="@+id/expandableImage" android:layout_width="wrap_content" android:layout_height="wrap_content"  android:layout_alignParentLeft="true" ></ImageView>
+				
+				<MultiAutoCompleteTextView
+					android:layout_below="@+id/expandableImage" android:dropDownAnchor="@+id/filters_label"
+					android:layout_width="match_parent" android:id="@+id/crypt_filters"
+					android:hint="Crypt filters" android:layout_height="wrap_content"
+					android:dropDownWidth="300dip" android:visibility="gone"   android:layout_marginLeft="10dip" android:layout_marginRight="10dip">
+
+				</MultiAutoCompleteTextView>
+					
+				<MultiAutoCompleteTextView
+					android:layout_below="@+id/crypt_filters" android:dropDownAnchor="@+id/filters_label"
+					android:layout_width="match_parent" android:id="@+id/library_filters"
+					android:hint="Library filters" android:layout_height="wrap_content"
+					android:dropDownWidth="300dip" android:visibility="gone" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></MultiAutoCompleteTextView>
+				<TextView android:layout_width="wrap_content" android:layout_marginTop="3dip" android:id="@+id/filters_label" android:textAppearance="?android:attr/textAppearanceMedium" android:text="Advanced Filters:" android:layout_height="wrap_content" android:layout_alignTop="@+id/expandableImage" android:layout_centerHorizontal="true"></TextView>
+				
+
+			</RelativeLayout>
+
+		</LinearLayout>
+	</ScrollView>
+
+</LinearLayout>
+
