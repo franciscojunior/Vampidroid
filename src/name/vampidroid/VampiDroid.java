@@ -14,6 +14,7 @@ import android.support.v4.view.MenuItem;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 
 public class VampiDroid extends VampiDroidBase {
@@ -171,6 +172,33 @@ public class VampiDroid extends VampiDroidBase {
 						}).show();
 
 	}
+	
+	private void showAdvancedSearchHelp() {
+		// TODO Auto-generated method stub
+
+		
+		TextView view = new TextView(this);
+		
+		view.setText("     Advanced filtering will be done using all filters specified in the corresponding text boxes. So, if you put 'for, Brujah' only " +
+				"Brujah vampires with Fortitude inferior will appear. The same applies to Library filtering. \n\n " +
+				"     About discipline+: This means the filter will satisfy whoever has *at least* the inferior discipline. So, for a filter like 'for+', whoever " +
+				"has fortitude inferior or fortitude superior will be shown. This will help to filter elements which have the discipline regardless if it is superior or not ");
+		
+		
+		new AlertDialog.Builder(this)
+				.setTitle("Help filters")
+				.setIcon(android.R.drawable.ic_menu_info_details)
+				.setView(view)
+				.setNegativeButton("Close",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								//
+							}
+						}).show();
+
+	}
+
 
 
 	@Override
@@ -275,6 +303,10 @@ public class VampiDroid extends VampiDroidBase {
 				startActivity(new Intent(this, EditPreferences.class)); 
 				return true;
 			
+			case R.id.menu_help:
+				showAdvancedSearchHelp();
+				break;
+				
 			case R.id.menu_about:
 				showAbout();
 				return true;
