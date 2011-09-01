@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string-array name="clans">
+		<item>Abomination</item>
+		<item>Ahrimane</item>
+		<item>Ahrimanes</item>
+		<item>Akunanse</item>
+		<item>Assamite</item>
+		<item>Avenger</item>
+		<item>Baali</item>
+		<item>Blood Brother</item>
+		<item>Brujah</item>
+		<item>Brujah antitribu</item>
+		<item>Caitiff</item>
+		<item>Daughter of Cacophony</item>
+		<item>Defender</item>
+		<item>Follower of Set</item>
+		<item>Gangrel</item>
+		<item>Gangrel antitribu</item>
+		<item>Gargoyle</item>
+		<item>Giovanni</item>
+		<item>Guruhi</item>
+		<item>Harbinger of Skulls</item>
+		<item>Innocent</item>
+		<item>Ishtarri</item>
+		<item>Judge</item>
+		<item>Kiasyd</item>
+		<item>Lasombra</item>
+		<item>Malkavian</item>
+		<item>Malkavian antitribu</item>
+		<item>Martyr</item>
+		<item>Nagaraja</item>
+		<item>Nosferatu</item>
+		<item>Nosferatu antitribu</item>
+		<item>Osebo</item>
+		<item>Pander</item>
+		<item>Ravnos</item>
+		<item>Redeemer</item>
+		<item>Salubri</item>
+		<item>Salubri antitribu</item>
+		<item>Samedi</item>
+		<item>Toreador</item>
+		<item>Toreador antitribu</item>
+		<item>Tremere</item>
+		<item>Tremere antitribu</item>
+		<item>True Brujah</item>
+		<item>Tzimisce</item>
+		<item>Ventrue</item>
+		<item>Ventrue antitribu</item>
+		<item>Visionary</item>
+		
+		<!-- 
+		<item>Abomination&amp;</item>
+		<item>Ahrimane&amp;</item>
+		<item>Ahrimanes&amp;</item>
+		<item>Akunanse&amp;</item>
+		<item>Assamite&amp;</item>
+		<item>Avenger&amp;</item>
+		<item>Baali&amp;</item>
+		<item>Blood Brother&amp;</item>
+		<item>Brujah&amp;</item>
+		<item>Brujah antitribu&amp;</item>
+		<item>Caitiff&amp;</item>
+		<item>Daughter of Cacophony&amp;</item>
+		<item>Defender&amp;</item>
+		<item>Follower of Set&amp;</item>
+		<item>Gangrel&amp;</item>
+		<item>Gangrel antitribu&amp;</item>
+		<item>Gargoyle&amp;</item>
+		<item>Giovanni&amp;</item>
+		<item>Guruhi&amp;</item>
+		<item>Harbinger of Skulls&amp;</item>
+		<item>Innocent&amp;</item>
+		<item>Ishtarri&amp;</item>
+		<item>Judge&amp;</item>
+		<item>Kiasyd&amp;</item>
+		<item>Lasombra&amp;</item>
+		<item>Malkavian&amp;</item>
+		<item>Malkavian antitribu&amp;</item>
+		<item>Martyr&amp;</item>
+		<item>Nagaraja&amp;</item>
+		<item>Nosferatu&amp;</item>
+		<item>Nosferatu antitribu&amp;</item>
+		<item>Osebo&amp;</item>
+		<item>Pander&amp;</item>
+		<item>Ravnos&amp;</item>
+		<item>Redeemer&amp;</item>
+		<item>Salubri&amp;</item>
+		<item>Salubri antitribu&amp;</item>
+		<item>Samedi&amp;</item>
+		<item>Toreador&amp;</item>
+		<item>Toreador antitribu&amp;</item>
+		<item>Tremere&amp;</item>
+		<item>Tremere antitribu&amp;</item>
+		<item>True Brujah&amp;</item>
+		<item>Tzimisce&amp;</item>
+		<item>Ventrue&amp;</item>
+		<item>Ventrue antitribu&amp;</item>
+		<item>Visionary&amp;</item>
+
+		-->
+		
+	</string-array>
+
+	<string-array name="types">
+		<item>Action</item>
+		<item>Action Modifier</item>
+		<item>Ally</item>
+		<item>Combat</item>
+		<item>Conviction</item>
+		<item>Equipment</item>
+		<item>Event</item>
+		<item>Master</item>
+		<item>Political Action</item>
+		<item>Power</item>
+		<item>Reaction</item>
+		<item>Retainer</item>
+		
+		<!--
+		<item>Action&amp;</item>
+		<item>Action Modifier&amp;</item>
+		<item>Ally&amp;</item>
+		<item>Combat&amp;</item>
+		<item>Conviction&amp;</item>
+		<item>Equipment&amp;</item>
+		<item>Event&amp;</item>
+		<item>Master&amp;</item>
+		<item>Political Action&amp;</item>
+		<item>Power&amp;</item>
+		<item>Reaction&amp;</item>
+		<item>Retainer&amp;</item>
+		-->
+	</string-array>
+
+
+	<string-array name="disciplinescrypt">
+
+
+		<item>ABO</item>
+		<item>ANI</item>
+		<item>AUS</item>
+		<item>CEL</item>
+		<item>CHI</item>
+		<item>DAI</item>
+		<item>DEM</item>
+		<item>DOM</item>
+		<item>FOR</item>
+		<item>MEL</item>
+		<item>MYT</item>
+		<item>NEC</item>
+		<item>OBE</item>
+		<item>OBF</item>
+		<item>OBT</item>
+		<item>POT</item>
+		<item>PRE</item>
+		<item>PRO</item>
+		<item>QUI</item>
+		<item>SAN</item>
+		<item>SER</item>
+		<item>SPI</item>
+		<item>TEM</item>
+		<item>THA</item>
+		<item>THN</item>
+		<item>VAL</item>
+		<item>VIC</item>
+		<item>VIS</item>
+
+		<!--
+		<item>ABO&amp;</item>
+		<item>ANI&amp;</item>
+		<item>AUS&amp;</item>
+		<item>CEL&amp;</item>
+		<item>CHI&amp;</item>
+		<item>DAI&amp;</item>
+		<item>DEM&amp;</item>
+		<item>DOM&amp;</item>
+		<item>FOR&amp;</item>
+		<item>MEL&amp;</item>
+		<item>MYT&amp;</item>
+		<item>NEC&amp;</item>
+		<item>OBE&amp;</item>
+		<item>OBF&amp;</item>
+		<item>OBT&amp;</item>
+		<item>POT&amp;</item>
+		<item>PRE&amp;</item>
+		<item>PRO&amp;</item>
+		<item>QUI&amp;</item>
+		<item>SAN&amp;</item>
+		<item>SER&amp;</item>
+		<item>SPI&amp;</item>
+		<item>TEM&amp;</item>
+		<item>THA&amp;</item>
+		<item>THN&amp;</item>
+		<item>VAL&amp;</item>
+		<item>VIC&amp;</item>
+		<item>VIS&amp;</item>
+		-->
+
+
+		<item>abo</item>
+		<item>ani</item>
+		<item>aus</item>
+		<item>cel</item>
+		<item>chi</item>
+		<item>dai</item>
+		<item>dem</item>
+		<item>dom</item>
+		<item>for</item>
+		<item>mel</item>
+		<item>myt</item>
+		<item>nec</item>
+		<item>obe</item>
+		<item>obf</item>
+		<item>obt</item>
+		<item>pot</item>
+		<item>pre</item>
+		<item>pro</item>
+		<item>qui</item>
+		<item>san</item>
+		<item>ser</item>
+		<item>spi</item>
+		<item>tem</item>
+		<item>tha</item>
+		<item>thn</item>
+		<item>val</item>
+		<item>vic</item>
+		<item>vis</item>
+		
+		<!--
+		<item>abo&amp;</item>
+		<item>ani&amp;</item>
+		<item>aus&amp;</item>
+		<item>cel&amp;</item>
+		<item>chi&amp;</item>
+		<item>dai&amp;</item>
+		<item>dem&amp;</item>
+		<item>dom&amp;</item>
+		<item>for&amp;</item>
+		<item>mel&amp;</item>
+		<item>myt&amp;</item>
+		<item>nec&amp;</item>
+		<item>obe&amp;</item>
+		<item>obf&amp;</item>
+		<item>obt&amp;</item>
+		<item>pot&amp;</item>
+		<item>pre&amp;</item>
+		<item>pro&amp;</item>
+		<item>qui&amp;</item>
+		<item>san&amp;</item>
+		<item>ser&amp;</item>
+		<item>spi&amp;</item>
+		<item>tem&amp;</item>
+		<item>tha&amp;</item>
+		<item>thn&amp;</item>
+		<item>val&amp;</item>
+		<item>vic&amp;</item>
+		<item>vis&amp;</item>
+		-->
+		
+		<item>abo+</item>
+		<item>ani+</item>
+		<item>aus+</item>
+		<item>cel+</item>
+		<item>chi+</item>
+		<item>dai+</item>
+		<item>dem+</item>
+		<item>dom+</item>
+		<item>for+</item>
+		<item>mel+</item>
+		<item>myt+</item>
+		<item>nec+</item>
+		<item>obe+</item>
+		<item>obf+</item>
+		<item>obt+</item>
+		<item>pot+</item>
+		<item>pre+</item>
+		<item>pro+</item>
+		<item>qui+</item>
+		<item>san+</item>
+		<item>ser+</item>
+		<item>spi+</item>
+		<item>tem+</item>
+		<item>tha+</item>
+		<item>thn+</item>
+		<item>val+</item>
+		<item>vic+</item>
+		<item>vis+</item>
+		
+		<!--
+		<item>abo+&amp;</item>
+		<item>ani+&amp;</item>
+		<item>aus+&amp;</item>
+		<item>cel+&amp;</item>
+		<item>chi+&amp;</item>
+		<item>dai+&amp;</item>
+		<item>dem+&amp;</item>
+		<item>dom+&amp;</item>
+		<item>for+&amp;</item>
+		<item>mel+&amp;</item>
+		<item>myt+&amp;</item>
+		<item>nec+&amp;</item>
+		<item>obe+&amp;</item>
+		<item>obf+&amp;</item>
+		<item>obt+&amp;</item>
+		<item>pot+&amp;</item>
+		<item>pre+&amp;</item>
+		<item>pro+&amp;</item>
+		<item>qui+&amp;</item>
+		<item>san+&amp;</item>
+		<item>ser+&amp;</item>
+		<item>spi+&amp;</item>
+		<item>tem+&amp;</item>
+		<item>tha+&amp;</item>
+		<item>thn+&amp;</item>
+		<item>val+&amp;</item>
+		<item>vic+&amp;</item>
+		<item>vis+&amp;</item>
+		-->
+		
+
+	</string-array>
+
+
+	<string-array name="disciplineslibrary">
+
+
+		<item>Abombwe</item>
+		<item>Animalism</item>
+		<item>Auspex</item>
+		<item>Celerity</item>
+		<item>Chimerstry</item>
+		<item>Daimoinon</item>
+		<item>Defense</item>
+		<item>Dementation</item>
+		<item>Dominate</item>
+		<item>Flight</item>
+		<item>Fortitude</item>
+		<item>Innocence</item>
+		<item>Judgment</item>
+		<item>Maleficia</item>
+		<item>Martyrdom</item>
+		<item>Melpominee</item>
+		<item>Mytherceria</item>
+		<item>Necromancy</item>
+		<item>Obeah</item>
+		<item>Obfuscate</item>
+		<item>Obtenebration</item>
+		<item>Potence</item>
+		<item>Presence</item>
+		<item>Protean</item>
+		<item>Quietus</item>
+		<item>Redemption</item>
+		<item>Sanguinus</item>
+		<item>Serpentis</item>
+		<item>Spiritus</item>
+		<item>Striga</item>
+		<item>Temporis</item>
+		<item>Thanatosis</item>
+		<item>Thaumaturgy</item>
+		<item>Valeren</item>
+		<item>Vengeance</item>
+		<item>Vicissitude</item>
+		<item>Visceratika</item>
+		<item>Vision</item>
+		
+		<!--
+		<item>Abombwe&amp;</item>
+		<item>Animalism&amp;</item>
+		<item>Auspex&amp;</item>
+		<item>Celerity&amp;</item>
+		<item>Chimerstry&amp;</item>
+		<item>Daimoinon&amp;</item>
+		<item>Defense&amp;</item>
+		<item>Dementation&amp;</item>
+		<item>Dominate&amp;</item>
+		<item>Flight&amp;</item>
+		<item>Fortitude&amp;</item>
+		<item>Innocence&amp;</item>
+		<item>Judgment&amp;</item>
+		<item>Maleficia&amp;</item>
+		<item>Martyrdom&amp;</item>
+		<item>Melpominee&amp;</item>
+		<item>Mytherceria&amp;</item>
+		<item>Necromancy&amp;</item>
+		<item>Obeah&amp;</item>
+		<item>Obfuscate&amp;</item>
+		<item>Obtenebration&amp;</item>
+		<item>Potence&amp;</item>
+		<item>Presence&amp;</item>
+		<item>Protean&amp;</item>
+		<item>Quietus&amp;</item>
+		<item>Redemption&amp;</item>
+		<item>Sanguinus&amp;</item>
+		<item>Serpentis&amp;</item>
+		<item>Spiritus&amp;</item>
+		<item>Striga&amp;</item>
+		<item>Temporis&amp;</item>
+		<item>Thanatosis&amp;</item>
+		<item>Thaumaturgy&amp;</item>
+		<item>Valeren&amp;</item>
+		<item>Vengeance&amp;</item>
+		<item>Vicissitude&amp;</item>
+		<item>Visceratika&amp;</item>
+		<item>Vision&amp;</item>
+		-->
+
+	</string-array>
+
+
+
+</resources>
