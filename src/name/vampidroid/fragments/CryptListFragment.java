@@ -41,6 +41,8 @@ public class CryptListFragment extends ListFragment {
 		super.onViewCreated(view, savedInstanceState);
 		
 		getListView().setFastScrollEnabled(true);
+		
+		setEmptyText("No card match specified filter");
 
 		if (mHighlight)
 			getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);

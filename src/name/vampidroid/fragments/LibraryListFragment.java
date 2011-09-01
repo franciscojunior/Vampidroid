@@ -34,6 +34,7 @@ public class LibraryListFragment extends ListFragment {
 
 		getListView().setFastScrollEnabled(true);
 		
+		setEmptyText("No card match specified filter");
 		
 		if (mHighlight)
 			getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
