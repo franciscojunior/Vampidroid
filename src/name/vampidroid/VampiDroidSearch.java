@@ -28,19 +28,19 @@ public class VampiDroidSearch extends VampiDroidBase {
 				.getDefaultSharedPreferences(this.getApplicationContext());
 
 		String query = formatQueryString(getIntent().getStringExtra(
-				SearchManager.QUERY));
+				SearchManager.QUERY)).toLowerCase();
 
 		VampidroidSuggestionProvider.getBridge(this.getApplicationContext()).saveRecentQuery(query,
 				null);
 
 		String queryLibraryDatabase;
 
+		
+		queryLibraryDatabase = "select _id, Name, Type, Clan, Discipline from library where lower(Name) like '%"
+			+ query + "%'";
+		
 		if (prefs.getBoolean("searchCardText", false))
-			queryLibraryDatabase = "select _id, Name, Type, Clan, Discipline from library where (Name like '%"
-					+ query + "%' or CardText like '%" + query + "%')";
-		else
-			queryLibraryDatabase = "select _id, Name, Type, Clan, Discipline from library where Name like '%"
-					+ query + "%'";
+			queryLibraryDatabase += " or lower(CardText) like '%" + query + "%')";
 
 		// TODO Auto-generated method stub
 		return queryLibraryDatabase;
@@ -61,13 +61,13 @@ public class VampiDroidSearch extends VampiDroidBase {
 
 		String queryCryptDatabase;
 
+		queryCryptDatabase = "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText from crypt where lower(Name) like '%"
+			+ query + "%'";
+		
+		
 		if (prefs.getBoolean("searchCardText", false))
-			queryCryptDatabase = "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText from crypt where (Name like '%"
-					+ query + "%' or CardText like '%" + query + "%')";
-		else
-			queryCryptDatabase = "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText from crypt where Name like '%"
-					+ query + "%'";
-
+			queryCryptDatabase += " or lower(CardText) like '%" + query + "%')";
+		
 		// TODO Auto-generated method stub
 		return queryCryptDatabase;
 	}
