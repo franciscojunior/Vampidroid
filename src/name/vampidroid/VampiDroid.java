@@ -120,7 +120,10 @@ public class VampiDroid extends VampiDroidBase {
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								//
+								
+								
+								checkAndShowTutorialButtons();
+								
 							}
 						}).show();
 	}
@@ -179,9 +182,6 @@ public class VampiDroid extends VampiDroidBase {
 		
 		checkAndShowChangeLog();   
 	
-		checkAndShowTutorialButtons();
-		
-		
 	}
 	
 	
@@ -196,7 +196,8 @@ public class VampiDroid extends VampiDroidBase {
 
 		if (!tutorialButtonsViewed) {
 			
-			showTutorialButtons(null);
+			startActivity(new Intent(this, Tutorial.class));
+			
 			Editor editor = settings.edit();
 			editor.putBoolean(KEY_TUTORIAL_BUTTONS_VIEWED, true);
 			editor.commit();
@@ -251,7 +252,6 @@ public class VampiDroid extends VampiDroidBase {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		
-		hideTutorialButtons(null);
 		
 		return super.onPrepareOptionsMenu(menu);
 	}
