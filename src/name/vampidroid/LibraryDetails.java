@@ -34,7 +34,7 @@ public class LibraryDetails extends FragmentActivity {
             	.commit();
         }
         
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 	@Override

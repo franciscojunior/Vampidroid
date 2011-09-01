@@ -103,7 +103,7 @@ public class CryptDetails extends FragmentActivity {
             	.commit();
         }
         
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 	@Override
