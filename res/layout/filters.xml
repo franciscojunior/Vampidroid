@@ -16,7 +16,7 @@
 
 			<RelativeLayout android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:id="@+id/filters_layout_header" android:background="@drawable/layout_border2"
+				android:id="@+id/filters_layout_header" android:background="@drawable/layout_border"
 				>
 
 								
