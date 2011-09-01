@@ -32,7 +32,9 @@
 		<activity android:name=".LibraryDetails" android:label="Library Details" />
 
 		<activity android:name=".EditPreferences" android:label="Preferences" />
-
+		
+		<activity android:name=".Tutorial" android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+		
 		<provider android:authorities="name.vampidroid.VampidroidSuggestionProvider"
 			android:name="VampidroidSuggestionProvider"></provider>
 	</application>
