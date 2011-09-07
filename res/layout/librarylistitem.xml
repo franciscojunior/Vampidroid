@@ -2,7 +2,7 @@
 <name.vampidroid.CheckableRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	<TextView android:id="@+id/txtCardName" android:textStyle="bold"
+	<TextView android:id="@+id/txtCardName" android:textColor="#ffddaa" android:textStyle="bold"
 		android:fadingEdge="horizontal" android:ellipsize="none"
 		android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge"
 		android:singleLine="true" android:layout_width="wrap_content"
@@ -16,12 +16,12 @@
 		android:layout_alignBottom="@+id/txtCardDiscipline"></TextView>
 		
 	<TextView android:id="@+id/txtCardType" android:layout_height="wrap_content"
-		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:textAppearance="?android:attr/textAppearanceSmall"
 		android:layout_width="wrap_content" android:text="TextView"
 		android:layout_below="@+id/txtCardName"
 		android:layout_alignParentLeft="true" android:layout_toLeftOf="@+id/textView3"></TextView>
 		
-	<TextView android:ellipsize="end" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/txtCardClan" android:textAppearance="?android:attr/textAppearanceMedium" android:text="TextView" android:singleLine="true" android:layout_below="@+id/txtCardType" android:layout_alignParentLeft="true"></TextView>
-	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/txtCardDiscipline" android:textAppearance="?android:attr/textAppearanceMedium" android:text="TextView" android:layout_below="@+id/txtCardClan" android:layout_alignParentLeft="true"></TextView>
+	<TextView android:ellipsize="end" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/txtCardClan" android:textAppearance="?android:attr/textAppearanceSmall" android:text="TextView" android:singleLine="true" android:layout_below="@+id/txtCardType" android:layout_alignParentLeft="true"></TextView>
+	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/txtCardDiscipline" android:textAppearance="?android:attr/textAppearanceSmall" android:text="TextView" android:layout_below="@+id/txtCardClan" android:layout_alignParentLeft="true"></TextView>
 
 </name.vampidroid.CheckableRelativeLayout>
