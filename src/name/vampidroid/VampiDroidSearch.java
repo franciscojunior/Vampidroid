@@ -82,6 +82,7 @@ public class VampiDroidSearch extends VampiDroidBase {
 
 	@Override
 	protected String getCryptQuery() {
+		
 
 //		SharedPreferences prefs = PreferenceManager
 //				.getDefaultSharedPreferences(this.getApplicationContext());
