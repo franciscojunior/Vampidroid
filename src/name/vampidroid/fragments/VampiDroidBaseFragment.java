@@ -563,47 +563,6 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 		return ((LibraryListFragment) mTitleFlowIndicatorAdapter.getItem(1));
 	}
 	
-
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		getActivity().getMenuInflater().inflate(R.menu.search_menu, menu);
-//		
-//		return super.onCreateOptionsMenu(menu);
-//        
-//	}
-
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		// TODO Auto-generated method stub
-		
-		super.onCreateOptionsMenu(menu, inflater);
-		
-		inflater.inflate(R.menu.filters_menu, menu);
-	}
-
-
-	@Override
-	public boolean onOptionsItemSelected(android.view.MenuItem item) {
-		switch (item.getItemId()) {
-		
-		case R.id.menu_show_hide_filters:
-
-			View v = getView().findViewById(R.id.filters_layout_header);
-			if (v.getVisibility() == View.VISIBLE)
-				v.setVisibility(View.GONE);
-			else
-				v.setVisibility(View.VISIBLE);
-			return true;
-
-		}
-
-		return (super.onOptionsItemSelected(item));
-	}
-
-	
-	
-	
 	
 
 	public static class TextIndicatorAdapter extends FragmentPagerAdapter
