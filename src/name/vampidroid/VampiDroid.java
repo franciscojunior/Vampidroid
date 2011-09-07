@@ -277,14 +277,6 @@ public class VampiDroid extends VampiDroidBase {
 	
 
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		
-		
-		return super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
 		hideTutorialButtons(null);
@@ -299,10 +291,10 @@ public class VampiDroid extends VampiDroidBase {
 				clearRecentSearches();
 				return true;
 	
-			case R.id.menu_preferences:
-				startActivity(new Intent(this, EditPreferences.class)); 
-				return true;
-			
+//			case R.id.menu_preferences:
+//				startActivity(new Intent(this, EditPreferences.class)); 
+//				return true;
+//			
 			case R.id.menu_help:
 				showAdvancedSearchHelp();
 				break;
