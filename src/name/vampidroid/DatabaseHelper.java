@@ -19,10 +19,15 @@ public class DatabaseHelper {
 	public static final int DATABASE_VERSION = 2;
 	public static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY_INITIALCARDTEXT = new String[] {
 			"Name", "Disciplines", "Capacity", "InitialCardText" };
+	
+	public static final String[] STRING_ARRAY_CRYPT_LIST_COLUMNS = new String[] {
+		"Name", "Disciplines", "Capacity", "InitialCardText", "_Group" };
+
+	
 	static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY_INITIALCARDTEXT_ADV = new String[] {
 			"Name", "Disciplines", "Capacity", "InitialCardText", "Adv" };
 
-	public static final String ALL_FROM_CRYPT_QUERY = "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText from crypt where 1=1";
+	public static final String ALL_FROM_CRYPT_QUERY = "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText, _Group from crypt where 1=1";
 
 	public static final String[] ALL_FROM_CRYPT_QUERY_AS_COLUMNS = new String[] {
 			"_id", "Name", "Disciplines", "Capacity",
