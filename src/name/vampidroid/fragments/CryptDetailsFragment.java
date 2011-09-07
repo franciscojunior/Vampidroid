@@ -3,11 +3,14 @@ package name.vampidroid.fragments;
 import name.vampidroid.DatabaseHelper;
 import name.vampidroid.R;
 import name.vampidroid.VampiDroidBase;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.Menu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,6 +19,10 @@ public class CryptDetailsFragment extends Fragment {
 	
 	public static String QUERY_CRYPT = "select Name, Type, Clan, Disciplines, CardText, Capacity, Artist, _Set, _Group from crypt where _id = ";
 
+	
+	private String mShareSubject;
+	private String mShareBody;
+	
 	/**
      * Create a new instance of CryptDetailsFragment, initialized to
      * show the cart with id 'id'.
@@ -30,6 +37,55 @@ public class CryptDetailsFragment extends Fragment {
 
         return f;
     }
+    
+    
+    @Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+
+		setHasOptionsMenu(true);
+	}
+
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// TODO Auto-generated method stub
+
+		super.onCreateOptionsMenu(menu, inflater);
+
+		inflater.inflate(R.menu.crypt_details_menu, menu);
+	}
+
+	
+	@Override
+	public boolean onOptionsItemSelected(android.view.MenuItem item) {
+		switch (item.getItemId()) {
+
+		case R.id.menu_share:
+			shareCardsText();
+			break;
+
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void shareCardsText() {
+
+		// TODO Auto-generated method stub
+
+		Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+		shareIntent.setType("text/plain");
+		shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, mShareSubject);
+		shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, mShareBody);
+
+		startActivity(Intent.createChooser(shareIntent, getResources()
+				.getString(R.string.share_crypt_card_text)));
+
+	}
+
+	
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -100,6 +156,17 @@ public class CryptDetailsFragment extends Fragment {
 		
 		txt = (TextView) v.findViewById(R.id.txtCardGroup);
 		txt.setText(cardGroup);
+		
+		
+		mShareSubject = cardName;
+
+		mShareBody =  "Name: " + cardName + "\n" + 
+		"Clan: " + cardClan + "\n" +
+		"Group: " + cardGroup + "\n" +
+		"Capacity: " + cardCapacity + "\n" +
+		"Disciplines: " + cardDisciplines + "\n" +
+		"CardText: " + cardText + "\n";
+				
 		
 		return v;
     }
