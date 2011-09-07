@@ -68,30 +68,7 @@ public class LibraryListFragment extends ListFragment {
 
 		Log.d(TAG, "onAttach");
 		
-		mQuery = getArguments().getString("LibraryQuery");
-
-		SQLiteDatabase db = DatabaseHelper.getDatabase(getActivity()
-				.getApplicationContext());
-
-		Cursor c = db.rawQuery(mQuery, null);
-
-		mAdapter = new SimpleCursorAdapter(getActivity()
-				.getApplicationContext(), R.layout.librarylistitem, c,
-				new String[] { "Name", "Type", "Clan", "Discipline" },
-				new int[] { R.id.txtCardName, R.id.txtCardType,
-						R.id.txtCardClan, R.id.txtCardDiscipline });
-
-		setListAdapter(mAdapter);
 		
-		
-		
-		
-		try {
-			mListener = (OnLibraryCardSelectedListener) getActivity();
-		} catch (ClassCastException e) {
-			throw new ClassCastException(getActivity().toString()
-					+ " must implement OnLibraryCardSelectedListener");
-		}
 
 	}
 
@@ -149,6 +126,52 @@ public class LibraryListFragment extends ListFragment {
 		mHighlight = highlight;
 		
 	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+		
+		outState.putString("query", mQuery);
+	}
+
+	@Override
+		public void onCreate(Bundle savedInstanceState) {
+			// TODO Auto-generated method stub
+			super.onCreate(savedInstanceState);
+			
+			if (savedInstanceState != null)
+				mQuery = savedInstanceState.getString("query");
+			else
+				mQuery = getArguments().getString("LibraryQuery");
+			
+
+			SQLiteDatabase db = DatabaseHelper.getDatabase(getActivity()
+					.getApplicationContext());
+
+			Cursor c = db.rawQuery(mQuery, null);
+
+			mAdapter = new SimpleCursorAdapter(getActivity()
+					.getApplicationContext(), R.layout.librarylistitem, c,
+					new String[] { "Name", "Type", "Clan", "Discipline" },
+					new int[] { R.id.txtCardName, R.id.txtCardType,
+							R.id.txtCardClan, R.id.txtCardDiscipline });
+
+			setListAdapter(mAdapter);
+			
+			
+			
+			
+			try {
+				mListener = (OnLibraryCardSelectedListener) getActivity();
+			} catch (ClassCastException e) {
+				throw new ClassCastException(getActivity().toString()
+						+ " must implement OnLibraryCardSelectedListener");
+			}
+	
+			
+			
+		}
 	
 
 }
