@@ -12,13 +12,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.ListFragment;
+import android.support.v4.view.Menu;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -126,10 +130,40 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 		library.setHighlightChoice(isDualPane());
 
 		setupFilters(v);
+		
+		
+		//setupMotionEventActionDown(v);
 
 		return v;
 
 	}
+
+	private void setupMotionEventActionDown(final View v) {
+		// TODO Auto-generated method stub
+		
+		v.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View view, MotionEvent event) {
+				// TODO Auto-generated method stub
+				
+				System.out.println("touch");
+
+				if (event.getAction() == MotionEvent.ACTION_DOWN ) {
+					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(
+							v.getWindowToken(), 0);
+
+					System.out.println("touch");
+				}
+				
+				return false;
+			}
+		});
+		
+
+	}
+	
 
 	protected void setupFilterTextBox(View v) {
 
@@ -383,44 +417,89 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 //
 //	}
 	
+//	private void setupFilterLayout(View v) {
+//
+//		// Get filters layout and expandable image references.
+//		final View cryptFilter = v.findViewById(R.id.crypt_filters);
+//		final View libraryFilter = v.findViewById(R.id.library_filters);
+//
+//		
+//		final ImageView expandableImageView = (ImageView) v.findViewById(R.id.expandFiltersImageView);
+//				
+//		
+//		View filtersLayoutHeader = v.findViewById(R.id.filters_layout_header);
+//		
+//		filtersLayoutHeader.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//
+//				if (cryptFilter.getVisibility() == View.VISIBLE) {
+//					cryptFilter.setVisibility(View.GONE);
+//					libraryFilter.setVisibility(View.GONE);
+//					expandableImageView
+//							.setImageResource(R.drawable.expander_ic_minimized);
+//
+//					// Hide keyboard
+//					// As per
+//					// http://stackoverflow.com/questions/1109022/how-to-close-hide-the-android-soft-keyboard
+//					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//					imm.hideSoftInputFromWindow(
+//							cryptFilter.getWindowToken(), 0);
+//
+//				} else {
+//					
+//					cryptFilter.setVisibility(View.VISIBLE);
+//					libraryFilter.setVisibility(View.VISIBLE);
+//					expandableImageView
+//							.setImageResource(R.drawable.expander_ic_maximized);
+//				}
+//			}
+//		});
+//		
+//		
+//		
+//		
+//		
+//
+//	}
+	
 	private void setupFilterLayout(View v) {
 
 		// Get filters layout and expandable image references.
-		final View cryptFilter = v.findViewById(R.id.crypt_filters);
-		final View libraryFilter = v.findViewById(R.id.library_filters);
 
 		
-		final ImageView expandableImageView = (ImageView) v.findViewById(R.id.expandableImage);
+		final ImageView expandableImageView = (ImageView) v.findViewById(R.id.expandFiltersImageView);
+				
 		
+		final View filtersLayoutHeader = v.findViewById(R.id.filters_layout_header);
 		
-		
-		View filtersLayoutHeader = v.findViewById(R.id.filters_layout_header);
-		
-		filtersLayoutHeader.setOnClickListener(new OnClickListener() {
+		expandableImageView.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				if (cryptFilter.getVisibility() == View.VISIBLE) {
-					cryptFilter.setVisibility(View.GONE);
-					libraryFilter.setVisibility(View.GONE);
-					expandableImageView
-							.setImageResource(R.drawable.expander_ic_minimized);
-
+				
+				if (filtersLayoutHeader.getVisibility() == View.VISIBLE) {
+					filtersLayoutHeader.setVisibility(View.GONE);
+					expandableImageView.setImageResource(R.drawable.expander_ic_minimized);
+					
 					// Hide keyboard
 					// As per
 					// http://stackoverflow.com/questions/1109022/how-to-close-hide-the-android-soft-keyboard
 					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(
-							cryptFilter.getWindowToken(), 0);
+							filtersLayoutHeader.getWindowToken(), 0);
 
-				} else {
-					
-					cryptFilter.setVisibility(View.VISIBLE);
-					libraryFilter.setVisibility(View.VISIBLE);
-					expandableImageView
-							.setImageResource(R.drawable.expander_ic_maximized);
+				}
+				else {
+					filtersLayoutHeader.setVisibility(View.VISIBLE);
+					expandableImageView.setImageResource(R.drawable.expander_ic_maximized);
+
+
+				
 				}
 			}
 		});
@@ -431,6 +510,7 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 		
 
 	}
+
 
 
 	@Override
@@ -482,6 +562,49 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 	protected LibraryListFragment getLibraryListFragment() {
 		return ((LibraryListFragment) mTitleFlowIndicatorAdapter.getItem(1));
 	}
+	
+
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		getActivity().getMenuInflater().inflate(R.menu.search_menu, menu);
+//		
+//		return super.onCreateOptionsMenu(menu);
+//        
+//	}
+
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// TODO Auto-generated method stub
+		
+		super.onCreateOptionsMenu(menu, inflater);
+		
+		inflater.inflate(R.menu.filters_menu, menu);
+	}
+
+
+	@Override
+	public boolean onOptionsItemSelected(android.view.MenuItem item) {
+		switch (item.getItemId()) {
+		
+		case R.id.menu_show_hide_filters:
+
+			View v = getView().findViewById(R.id.filters_layout_header);
+			if (v.getVisibility() == View.VISIBLE)
+				v.setVisibility(View.GONE);
+			else
+				v.setVisibility(View.VISIBLE);
+			return true;
+
+		}
+
+		return (super.onOptionsItemSelected(item));
+	}
+
+	
+	
+	
+	
 
 	public static class TextIndicatorAdapter extends FragmentPagerAdapter
 			implements TitleProvider {
