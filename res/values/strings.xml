@@ -4,10 +4,16 @@
     <string name="app_name">VampiDroid</string>
 	<string name="card_name">Card Name</string>
 	<string name="searchLabel">Vampidroid</string>
-	<string name="searchHint">Card Name</string>
-	<string name="search_hint">Search Cards</string>
+	<string name="searchHint">Search Cards Text</string>
+	<!-- <string name="search_hint">Search Cards</string> -->
+	<string name="search_cards_text">Search Cards Text</string>
+	<string name="share_cards_text">Share Cards Text</string>
+	<string name="share_library_card_text">Share Library Card Text</string>
+	<string name="share_crypt_card_text">Share Crypt Card Text</string>
+	
 	<string name="preferences">Preferences</string>
 	<string name="about">About</string>
 	<string name="clear_recent_searches">Clear recent searches</string>
 	<string name="help">Filters Help</string>
+	<string name="show_hide_filters">Show/Hide Advanced Filters</string>
 </resources>
