@@ -10,68 +10,101 @@ import android.support.v4.view.MenuItem;
 import android.util.Log;
 
 public class VampiDroidSearch extends VampiDroidBase {
+	
+	private String mSearchQuery;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
+		
+		if (savedInstanceState != null)
+			mSearchQuery = savedInstanceState.getString("searchquery");
+		else
+			mSearchQuery = getSearchQuery();
+		
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
 		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+		
+		setTitle("Search Results for: " + mSearchQuery);
+		
 	}
 
-	@Override
-	protected String getLibraryQuery() {
-
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(this.getApplicationContext());
-
+	private String getSearchQuery() {
 		String query = formatQueryString(getIntent().getStringExtra(
 				SearchManager.QUERY)).trim().toLowerCase();
 
 		VampidroidSuggestionProvider.getBridge(this.getApplicationContext()).saveRecentQuery(query,
 				null);
-
-		String queryLibraryDatabase;
 		
-		
+		return query;
+	}
+	
+	
+	
 
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+		
+		outState.putString("searchquery", mSearchQuery);
+	}
+
+	@Override
+	protected String getLibraryQuery() {
+
+//		SharedPreferences prefs = PreferenceManager
+//				.getDefaultSharedPreferences(this.getApplicationContext());
+
+
+//		VampidroidSuggestionProvider.getBridge(this.getApplicationContext()).saveRecentQuery(query,
+//				null);
+
+
+		/*
 		if (prefs.getBoolean("searchCardText", false))
 			queryLibraryDatabase = DatabaseHelper.ALL_FROM_LIBRARY_QUERY + " and (lower(Name) like '%?%' or lower(CardText) like '%?%') ";
 		
 		else
 			queryLibraryDatabase = DatabaseHelper.ALL_FROM_LIBRARY_QUERY + " and (Name like '%?%') ";
 
+		*/
+		
 		
 		// TODO Auto-generated method stub
-		return queryLibraryDatabase.replace("?", query);
+		return DatabaseHelper.ALL_FROM_LIBRARY_QUERY + " and (lower(CardText) like '%?%') ".replace("?", mSearchQuery);
 
 	}
 
 	@Override
 	protected String getCryptQuery() {
 
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(this.getApplicationContext());
+//		SharedPreferences prefs = PreferenceManager
+//				.getDefaultSharedPreferences(this.getApplicationContext());
+//
+//		String query = getSearchQuery();
+//
+//		VampidroidSuggestionProvider.getBridge(this.getApplicationContext()).saveRecentQuery(query,
+//				null);
+//
+//		String queryCryptDatabase;
+//		
 
-		String query = formatQueryString(getIntent().getStringExtra(
-				SearchManager.QUERY)).trim().toLowerCase();
-
-		VampidroidSuggestionProvider.getBridge(this.getApplicationContext()).saveRecentQuery(query,
-				null);
-
-		String queryCryptDatabase;
 		
-
-		if (prefs.getBoolean("searchCardText", false))
-			queryCryptDatabase = DatabaseHelper.ALL_FROM_CRYPT_QUERY + " and (lower(Name) like '%?%' or lower(CardText) like '%?%') ";
+//		if (prefs.getBoolean("searchCardText", false))
+//			queryCryptDatabase = DatabaseHelper.ALL_FROM_CRYPT_QUERY + " and (lower(Name) like '%?%' or lower(CardText) like '%?%') ";
+//		
+//		else
+//			queryCryptDatabase = DatabaseHelper.ALL_FROM_CRYPT_QUERY + " and (Name like '%?%') ";
 		
-		else
-			queryCryptDatabase = DatabaseHelper.ALL_FROM_CRYPT_QUERY + " and (Name like '%?%') ";
+		
 
 		// TODO Auto-generated method stub
-		return queryCryptDatabase.replace("?", query);
+		return DatabaseHelper.ALL_FROM_CRYPT_QUERY + " and (lower(CardText) like '%?%') ".replace("?", mSearchQuery);
 		
 	}
 
@@ -84,6 +117,11 @@ public class VampiDroidSearch extends VampiDroidBase {
 
 		// userSearchTerm = intent.getStringExtra(SearchManager.QUERY);
 		setIntent(intent);
+		
+
+		mSearchQuery = getSearchQuery();
+		
+		setTitle("Search Results for: " + mSearchQuery);
 		
 		
 		updateQueries();
