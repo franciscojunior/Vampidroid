@@ -3,7 +3,7 @@
 	<!-- http://stackoverflow.com/questions/5254562/is-there-a-simpler-better-way-to-put-a-border-outline-around-my-textview --> 
 	    
     <corners android:radius="3dp" />
-    <!-- <padding android:left="10dp" android:top="10dp"
-        android:right="10dp" android:bottom="10dp" />-->
+    <padding android:left="10dp" android:top="10dp"
+        android:right="10dp" android:bottom="10dp" />
     <stroke android:color="#FFC445" android:width="2dp" />
 </shape>
