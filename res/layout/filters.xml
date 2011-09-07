@@ -2,41 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res/name.vampidroid"
 	android:layout_width="fill_parent" android:layout_height="wrap_content"
-	android:orientation="vertical" android:padding="5dp">
+	android:orientation="vertical" android:padding="5dp" >
 
 	<ScrollView android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:scrollbars="none">
 		<LinearLayout android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:orientation="vertical">
+			android:layout_height="wrap_content" android:orientation="vertical" >
 
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
 
-			<EditText android:id="@+id/edit_card_filter"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:hint="Filter Card Name..." android:layout_weight="1" />
+		<EditText android:id="@+id/edit_card_filter"
+			android:layout_width="0dp" android:layout_height="wrap_content"
+			android:hint="Filter Card Name..." android:layout_weight="9"/>
+		<ImageView android:id="@+id/expandFiltersImageView" android:paddingLeft="5dip" android:paddingRight="5dip" android:clickable="true" android:layout_height="wrap_content" android:src="@drawable/expander_ic_minimized" android:layout_gravity="center_vertical" android:layout_width="wrap_content"></ImageView>
+	</LinearLayout>
 
+			<!-- 
 			<RelativeLayout android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:id="@+id/filters_layout_header" android:background="@drawable/layout_border"
-				>
-
+				android:visibility="gone">
+			-->
 								
+			<RelativeLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/filters_layout_header" 
+				android:visibility="gone">
 				
-				<ImageView android:layout_marginLeft="10dip" android:layout_marginTop="5dip" android:src="@drawable/expander_ic_minimized" android:id="@+id/expandableImage" android:layout_width="wrap_content" android:layout_height="wrap_content"  android:layout_alignParentLeft="true" ></ImageView>
+				<!--  <ImageView android:layout_marginLeft="10dip" android:layout_marginTop="5dip" android:src="@drawable/expander_ic_minimized" android:id="@+id/expandableImage" android:layout_width="wrap_content" android:layout_height="wrap_content"  android:layout_alignParentLeft="true" ></ImageView> -->
 				
 				<MultiAutoCompleteTextView
-					android:layout_below="@+id/expandableImage" android:dropDownAnchor="@+id/filters_label"
+					android:dropDownAnchor="@+id/edit_card_filter"
 					android:layout_width="match_parent" android:id="@+id/crypt_filters"
 					android:hint="Crypt filters" android:layout_height="wrap_content"
-					android:dropDownWidth="300dip" android:visibility="gone"   android:layout_marginLeft="10dip" android:layout_marginRight="10dip">
+					android:dropDownWidth="300dip"    android:layout_marginLeft="0dip" android:layout_marginRight="0dip">
 
 				</MultiAutoCompleteTextView>
 					
 				<MultiAutoCompleteTextView
-					android:layout_below="@+id/crypt_filters" android:dropDownAnchor="@+id/filters_label"
+					android:layout_below="@+id/crypt_filters" android:dropDownAnchor="@+id/edit_card_filter"
 					android:layout_width="match_parent" android:id="@+id/library_filters"
 					android:hint="Library filters" android:layout_height="wrap_content"
-					android:dropDownWidth="300dip" android:visibility="gone" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"></MultiAutoCompleteTextView>
-				<TextView android:layout_width="wrap_content" android:layout_marginTop="3dip" android:id="@+id/filters_label" android:textAppearance="?android:attr/textAppearanceMedium" android:text="Advanced Filters:" android:layout_height="wrap_content" android:layout_alignTop="@+id/expandableImage" android:layout_centerHorizontal="true"></TextView>
+					android:dropDownWidth="300dip" android:layout_marginLeft="0dip" android:layout_marginRight="0dip"></MultiAutoCompleteTextView>
+				<!-- <TextView android:layout_width="wrap_content" android:layout_marginTop="3dip" android:id="@+id/filters_label" android:textAppearance="?android:attr/textAppearanceMedium" android:text="Advanced Filters:" android:layout_height="wrap_content" android:layout_alignTop="@+id/expandableImage" android:layout_centerHorizontal="true"></TextView> -->
 				
 
 			</RelativeLayout>
