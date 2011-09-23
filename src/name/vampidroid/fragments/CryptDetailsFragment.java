@@ -161,10 +161,13 @@ public class CryptDetailsFragment extends Fragment {
 		mShareSubject = cardName;
 
 		mShareBody =  "Name: " + cardName + "\n" + 
-		"Clan: " + cardClan + "\n" +
-		"Group: " + cardGroup + "\n" +
 		"Capacity: " + cardCapacity + "\n" +
+		"Type: " + cardType + "\n" +
+		"Group: " + cardGroup + "\n" +
+		"Clan: " + cardClan + "\n" +
 		"Disciplines: " + cardDisciplines + "\n" +
+		"Set/Rarity: " + cardSetRarity + "\n" +
+		"Artist: " + cardArtist + "\n" +
 		"CardText: " + cardText + "\n";
 				
 		
