@@ -9,16 +9,17 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.widget.MultiAutoCompleteTextView.Tokenizer;
+import android.widget.TextView;
 
 public class FilterModel {
 
-	private ArrayList<String> mClans;
+	private static ArrayList<String> mClans;
 
-	private ArrayList<String> mTypes;
+	private static ArrayList<String> mTypes;
 
-	private ArrayList<String> mDisciplinesLibrary;
+	private static ArrayList<String> mDisciplinesLibrary;
 
-	private ArrayList<String> mDisciplinesCrypt;
+	private static ArrayList<String> mDisciplinesCrypt;
 
 	private ArrayList<FilterModel.FilterToken> mFiltersCrypt = new ArrayList<FilterModel.FilterToken>();
 
@@ -27,27 +28,48 @@ public class FilterModel {
 	private String mNameFilter = "";
 	
 
-	private enum TokenTypeEnum {
-		CLAN("Clan = '?'"), TYPE("Type = '?'"), DISCIPLINE_LIBRARY(
-				"Discipline like '%?%'"), DISCIPLINE_CRYPT(
-				"Disciplines like '%?%'");
-
-		private String mFilterQuery;
-
-		private TokenTypeEnum(String filterQuery) {
-
-			mFilterQuery = filterQuery;
+	enum TokenType {
+//		CLAN("Clan = '?'"), TYPE("Type = '?'"), DISCIPLINE_LIBRARY(
+//				"Discipline like '%?%'"), DISCIPLINE_CRYPT(
+//				"Disciplines like '%?%'");
+//
+//		private String mFilterQuery;
+//
+//		private TokenType(String filterQuery) {
+//
+//			mFilterQuery = filterQuery;
+//		}
+//
+//		public String getFilterQuery() {
+//			return mFilterQuery;
+//		}
+		
+		UNDEFINED(false, false),
+		CLAN(true, true), 
+		TYPE(false, true),
+		DISCIPLINE_CRYPT(true, false),
+		DISCIPLINE_LIBRARY(false, true); 
+		
+		boolean mIsCryptToken;
+		boolean mIsLibraryToken;
+		
+		
+		private TokenType(boolean crypt, boolean library)
+		{
+			mIsCryptToken = crypt;
+			mIsLibraryToken = library;
+			
 		}
-
-		public String getFilterQuery() {
-			return mFilterQuery;
-		}
+		
+		
+		
 
 	}
+	
 
-	private class FilterToken {
+	private static class FilterToken {
 
-		TokenTypeEnum mTokenType;
+		private TokenType mTokenType = TokenType.UNDEFINED;
 		
 		private final String CLAN_FILTER = "Clan = '?'";
 		private final String TYPE_FILTER = "Type = '?'";
@@ -57,12 +79,14 @@ public class FilterModel {
 		
 		
 
+		
 		String mFilterQuery;
 
 		List<FilterToken> mAndTokens;
 
 		public FilterToken(String token) {
-
+			
+			
 			// Create "and" tokens...
 			// for&pro
 			if (token.contains("&")) {
@@ -81,6 +105,7 @@ public class FilterModel {
 			}
 			
 			
+			
 			else if (token.contains("+")) {
 				
 				// Create tokens which have the + which indicates discipline inferior and superior
@@ -93,28 +118,28 @@ public class FilterModel {
 
 			else if (mClans.contains(token)) {
 
-				mTokenType = TokenTypeEnum.CLAN;
+				mTokenType = TokenType.CLAN;
 				mFilterQuery = CLAN_FILTER.replace("?", token);
 
 			}
 
 			else if (mTypes.contains(token)) {
 
-				mTokenType = TokenTypeEnum.TYPE;
+				mTokenType = TokenType.TYPE;
 				mFilterQuery = TYPE_FILTER.replace("?", token);
 
 			}
 
 			else if (mDisciplinesLibrary.contains(token)) {
 
-				mTokenType = TokenTypeEnum.DISCIPLINE_LIBRARY;
+				mTokenType = TokenType.DISCIPLINE_LIBRARY;
 				mFilterQuery = DISCIPLINE_LIBRARY_FILTER.replace("?", token);
 
 			}
 
 			else if (mDisciplinesCrypt.contains(token)) {
 
-				mTokenType = TokenTypeEnum.DISCIPLINE_CRYPT;
+				mTokenType = TokenType.DISCIPLINE_CRYPT;
 				mFilterQuery = DISCIPLINE_CRYPT_FILTER.replace("?", token);
 
 			}
@@ -148,7 +173,11 @@ public class FilterModel {
 
 				return mFilterQuery;
 		}
+		
+		
 	}
+	
+	
 
 	public FilterModel(List<String> clans, List<String> types,
 			List<String> disciplinesLibrary, List<String> disciplinesCrypt) {
@@ -213,7 +242,12 @@ public class FilterModel {
 
 			FilterToken filter = new FilterToken(token);
 
-			mFiltersCrypt.add(filter);
+			// There is a problem here. There is no filtering in the type of token.
+			// TODO: Add some type to the token. 
+			// The same applies to buildLibraryFiltersFromString
+			
+			if (filter.mTokenType.mIsCryptToken)
+				mFiltersCrypt.add(filter);
 
 		}
 
@@ -232,7 +266,8 @@ public class FilterModel {
 
 			FilterToken filter = new FilterToken(token);
 
-			mFiltersLibrary.add(filter);
+			if (filter.mTokenType.mIsLibraryToken)
+				mFiltersLibrary.add(filter);
 
 		}
 
