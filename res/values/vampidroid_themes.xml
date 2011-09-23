@@ -7,6 +7,9 @@
         <item name="divider">@drawable/ic_title_home_default</item>
         -->
         <item name="abDivider">@null</item>
+        <!-- 
+        <item name="abBackground">@color/ActionBarBackground</item>
+        -->
 	</style>
 	    
 </resources>
