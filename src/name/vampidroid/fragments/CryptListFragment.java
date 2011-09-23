@@ -61,7 +61,7 @@ public class CryptListFragment extends ListFragment {
 			getListView().setChoiceMode(ListView.CHOICE_MODE_NONE);
 		
 		
-		getListView().setBackgroundResource(R.color.Black);
+		//getListView().setBackgroundResource(R.color.Black);
 		
 		
 		registerForContextMenu(getListView());

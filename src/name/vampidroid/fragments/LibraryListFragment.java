@@ -49,7 +49,7 @@ public class LibraryListFragment extends ListFragment {
 		else
 			getListView().setChoiceMode(ListView.CHOICE_MODE_NONE);
 		
-		getListView().setBackgroundResource(R.color.Black);
+		//getListView().setBackgroundResource(R.color.Black);
 		
 		registerForContextMenu(getListView());
 		
