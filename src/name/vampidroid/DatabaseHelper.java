@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 
@@ -16,7 +18,8 @@ public class DatabaseHelper {
 	
 	public static final String VAMPIDROID_DB = "VampiDroid.db";
 	public static final String KEY_DATABASE_VERSION = "database_version";
-	public static final int DATABASE_VERSION = 2;
+	public static final int DATABASE_VERSION = 3;
+
 	public static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY_INITIALCARDTEXT = new String[] {
 			"Name", "Disciplines", "Capacity", "InitialCardText" };
 	
@@ -32,13 +35,31 @@ public class DatabaseHelper {
 	public static final String[] ALL_FROM_CRYPT_QUERY_AS_COLUMNS = new String[] {
 			"_id", "Name", "Disciplines", "Capacity",
 			"substr(CardText, 1, 40) as InitialCardText" };
+	
+	
 	public static final String ALL_FROM_LIBRARY_QUERY = "select _id, Name, Type, Clan, Discipline from library where 1=1";
 
 	public static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY = new String[] {
 			"Name", "Disciplines", "Capacity" };
 
 	public static SQLiteDatabase DATABASE = null;
+	
+	public enum FavoriteCardType {
+		
+		CRYPT, LIBRARY
+		
+	}
 
+
+	public static String ALL_FROM_CRYPT_FAVORITES_QUERY = "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText, _Group from crypt " +
+			"	inner join favorite_cards on _id = CardId and CardType = " + String.valueOf(FavoriteCardType.CRYPT.ordinal()) + "  where 1=1 ";
+	
+	
+	
+	public static String ALL_FROM_LIBRARY_FAVORITES_QUERY = "select _id, Name, Type, Clan, Discipline from library inner join favorite_cards on _id = CardId and CardType = " + String.valueOf(FavoriteCardType.LIBRARY.ordinal()) + "  where 1=1 ";
+
+	
+	
 
 	public static SQLiteDatabase getDatabase(Context context) {
 		/*
@@ -129,4 +150,75 @@ public class DatabaseHelper {
 	
 	}
 
+
+	public static void addCryptFavoriteCard(Context context, long id) {
+		// TODO Auto-generated method stub
+		
+		ContentValues row = new ContentValues();
+		
+		row.put("CardType", FavoriteCardType.CRYPT.ordinal());
+		row.put("CardId", id);
+		
+		getDatabase(context).insert("favorite_cards", null, row);
+		
+		
+	}
+
+	public static void addLibraryFavoriteCard(Context context, long id) {
+		// TODO Auto-generated method stub
+		
+		ContentValues row = new ContentValues();
+		
+		row.put("CardType", FavoriteCardType.LIBRARY.ordinal());
+		row.put("CardId", id);
+		
+		getDatabase(context).insert("favorite_cards", null, row);
+		
+		
+	}
+	
+	public static boolean containsLibraryFavorite(Context context, long id) {
+		
+		
+		Cursor c = getDatabase(context).rawQuery("select count(*) from favorite_cards where CardId = ? and CardType = ?", 
+				new String[] {String.valueOf(id), String.valueOf(FavoriteCardType.LIBRARY.ordinal())})  ;
+		
+		c.moveToFirst();
+		
+		return c.getInt(0) > 0;
+		
+	}
+
+
+	public static void removeLibraryFavoriteCard(Context context,
+			long id) {
+		
+		getDatabase(context).delete("favorite_cards", "CardId = ? and CardType = ?", new String[] {String.valueOf(id), String.valueOf(FavoriteCardType.LIBRARY.ordinal())});
+		
+	}
+
+
+
+	public static boolean containsCryptFavorite(Context context, long id) {
+		
+		
+		Cursor c = getDatabase(context).rawQuery("select count(*) from favorite_cards where CardId = ? and CardType = ?", 
+				new String[] {String.valueOf(id), String.valueOf(FavoriteCardType.CRYPT.ordinal())})  ;
+		
+		c.moveToFirst();
+		
+		return c.getInt(0) > 0;
+		
+	}
+
+
+	public static void removeCryptFavoriteCard(Context context,
+			long id) {
+		
+		getDatabase(context).delete("favorite_cards", "CardId = ? and CardType = ?", new String[] {String.valueOf(id), String.valueOf(FavoriteCardType.CRYPT.ordinal())});
+		
+	}
+		
+		
 }
+

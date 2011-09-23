@@ -16,4 +16,9 @@
 	<string name="clear_recent_searches">Clear recent searches</string>
 	<string name="help">Filters Help</string>
 	<string name="show_hide_filters">Show/Hide Advanced Filters</string>
+	<string name="add_favorite_card">Add card to favorites</string>
+	<string name="remove_favorite_card">Remove card from favorites</string>
+	<string name="show_favorite_cards">Show favorite cards</string>
+	
+	
 </resources>

@@ -297,10 +297,14 @@ public class VampiDroid extends VampiDroidBase {
 //			
 			case R.id.menu_help:
 				showAdvancedSearchHelp();
-				break;
+				return true;
 				
 			case R.id.menu_about:
 				showAbout();
+				return true;
+				
+			case R.id.menu_show_favorite_cards:
+				startActivity(new Intent(this, FavoriteCards.class));
 				return true;
 				
 		}

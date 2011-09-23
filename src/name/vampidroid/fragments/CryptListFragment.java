@@ -8,8 +8,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.Menu;
+import android.view.ContextMenu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
@@ -27,6 +30,10 @@ public class CryptListFragment extends ListFragment {
 	int mCurrentPosition = 0;
 	
 	//final int mAlternateListDrawables[] = {R.drawable.list_background_colorselector1, R.drawable.list_background_colorselector2};
+	
+	
+	private static final int MENU_ADD_FAVORITES_ID = Menu.FIRST+1;
+	private static final int MENU_REMOVE_FAVORITES_ID = Menu.FIRST+2;
 	
 	
 	
@@ -54,6 +61,10 @@ public class CryptListFragment extends ListFragment {
 			getListView().setChoiceMode(ListView.CHOICE_MODE_NONE);
 		
 		
+		getListView().setBackgroundResource(R.color.Black);
+		
+		
+		registerForContextMenu(getListView());
 		
 //		getListView().setOnTouchListener(new OnTouchListener() {
 //			
@@ -225,6 +236,62 @@ public class CryptListFragment extends ListFragment {
 		// SearchView sv = new SearchView(getActivity());
 		// sv.setOnQueryTextListener(this);
 		// item.setActionView(sv);
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenu.ContextMenuInfo menuInfo) {
+		
+		//MenuInflater inflater = getActivity().getMenuInflater();
+		//inflater.inflate(R.menu.crypt_list_context_menu, menu);
+		
+		
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+			
+		long id = getListAdapter().getItemId(info.position);
+		
+		if (DatabaseHelper.containsCryptFavorite(getActivity().getApplicationContext(), id))
+			menu.add(Menu.NONE, MENU_REMOVE_FAVORITES_ID, Menu.NONE, R.string.remove_favorite_card);
+		else
+			menu.add(Menu.NONE, MENU_ADD_FAVORITES_ID, Menu.NONE, R.string.add_favorite_card);
+		
+		
+		
+		
+		menu.setHeaderTitle("Crypt card options");
+		
+	}
+
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterView.AdapterContextMenuInfo info;
+		
+		info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		
+		long id;
+		switch (item.getItemId()) {
+		
+			case MENU_ADD_FAVORITES_ID:
+				
+				id = getListAdapter().getItemId(info.position);
+				
+				DatabaseHelper.addCryptFavoriteCard(getActivity()
+						.getApplicationContext(), id);
+
+				return true;
+				
+			case MENU_REMOVE_FAVORITES_ID:
+				id = getListAdapter().getItemId(info.position);
+				
+				DatabaseHelper.removeCryptFavoriteCard(getActivity()
+						.getApplicationContext(), id);
+
+				return true;
+
+		}
+
+		return super.onContextItemSelected(item);
 	}
 
 	@Override
