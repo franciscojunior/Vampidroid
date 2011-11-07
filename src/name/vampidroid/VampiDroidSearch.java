@@ -1,5 +1,6 @@
 package name.vampidroid;
 
+import name.vampidroid.DatabaseHelper.CardType;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -113,7 +114,7 @@ public class VampiDroidSearch extends VampiDroidBase {
 	protected void onNewIntent(Intent intent) {
 		// TODO Auto-generated method stub
 
-		Log.i("vampidroid", "VampiDroidSearch.onNewintent");
+		Log.d("vampidroid", "VampiDroidSearch.onNewintent");
 		super.onNewIntent(intent);
 
 		// userSearchTerm = intent.getStringExtra(SearchManager.QUERY);
@@ -129,6 +130,41 @@ public class VampiDroidSearch extends VampiDroidBase {
 		
 	
 	}
+	
+	
+	
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		Log.d("vampidroid", "vampidroidsearch.onstart");
+		
+		CardListCursorAdapter adapter = new CardListCursorAdapter(CardType.CRYPT,
+				this, R.layout.cryptlistitem, null,
+				DatabaseHelper.STRING_ARRAY_CRYPT_LIST_COLUMNS,
+				new int[] { R.id.txtCardName, R.id.txtCardExtraInformation,
+						R.id.txtCardCost, R.id.txtCardInitialText, R.id.txtCardGroup }) ;
+
+		
+		mVampidroidFragment.getCryptListFragment().setListAdapter(adapter);
+		mVampidroidFragment.getCryptListFragment().setQuery(getCryptQuery());
+
+		
+		
+		adapter = new CardListCursorAdapter(CardType.LIBRARY, this,
+				R.layout.librarylistitem, null, new String[] { "Name", "Type",
+						"Clan", "Discipline" }, new int[] { R.id.txtCardName,
+						R.id.txtCardType, R.id.txtCardClan,
+						R.id.txtCardDiscipline });
+
+		mVampidroidFragment.getLibraryListFragment().setListAdapter(adapter);
+		mVampidroidFragment.getLibraryListFragment().setQuery(getLibraryQuery());
+
+		
+		
+	}
+
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
