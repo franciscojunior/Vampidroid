@@ -57,7 +57,7 @@ public abstract class VampiDroidBase extends FragmentActivity implements OnCrypt
 	    	
 	    	Log.d("vampidroid", "fragment null");
 	    	
-	    	mVampidroidFragment = VampiDroidFragment.newInstance(getCryptQuery(), getLibraryQuery(), hasDetailsFrame());
+	    	mVampidroidFragment = VampiDroidFragment.newInstance(hasDetailsFrame());
 	    	
 	    	getSupportFragmentManager().beginTransaction()
 		    .replace(R.id.fragment_vampidroid_container, mVampidroidFragment, "vampidroid_container")
