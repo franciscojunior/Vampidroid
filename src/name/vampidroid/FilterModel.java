@@ -13,80 +13,73 @@ import android.widget.TextView;
 
 public class FilterModel {
 
-	private static ArrayList<String> mClans;
+	private static List<String> mClans;
 
-	private static ArrayList<String> mTypes;
+	private static List<String> mTypes;
 
-	private static ArrayList<String> mDisciplinesLibrary;
+	private static List<String> mDisciplinesLibrary;
 
-	private static ArrayList<String> mDisciplinesCrypt;
+	private static List<String> mDisciplinesCrypt;
 
 	private ArrayList<FilterModel.FilterToken> mFiltersCrypt = new ArrayList<FilterModel.FilterToken>();
 
 	private ArrayList<FilterModel.FilterToken> mFiltersLibrary = new ArrayList<FilterModel.FilterToken>();
-	
+
 	private String mNameFilter = "";
-	
+	private boolean mNameFilterChanged = false;
+
+	private String mCryptFilter = "";
+	private boolean mCryptFilterChanged = false;
+
+	private String mLibraryFilter = "";
+	private boolean mLibraryFilterChanged = false;
 
 	enum TokenType {
-//		CLAN("Clan = '?'"), TYPE("Type = '?'"), DISCIPLINE_LIBRARY(
-//				"Discipline like '%?%'"), DISCIPLINE_CRYPT(
-//				"Disciplines like '%?%'");
-//
-//		private String mFilterQuery;
-//
-//		private TokenType(String filterQuery) {
-//
-//			mFilterQuery = filterQuery;
-//		}
-//
-//		public String getFilterQuery() {
-//			return mFilterQuery;
-//		}
-		
-		UNDEFINED(false, false),
-		CLAN(true, true), 
-		TYPE(false, true),
-		DISCIPLINE_CRYPT(true, false),
-		DISCIPLINE_LIBRARY(false, true); 
-		
+		// CLAN("Clan = '?'"), TYPE("Type = '?'"), DISCIPLINE_LIBRARY(
+		// "Discipline like '%?%'"), DISCIPLINE_CRYPT(
+		// "Disciplines like '%?%'");
+		//
+		// private String mFilterQuery;
+		//
+		// private TokenType(String filterQuery) {
+		//
+		// mFilterQuery = filterQuery;
+		// }
+		//
+		// public String getFilterQuery() {
+		// return mFilterQuery;
+		// }
+
+		UNDEFINED(false, false), CLAN(true, true), TYPE(false, true), DISCIPLINE_CRYPT(true, false), DISCIPLINE_LIBRARY(
+				false, true);
+
 		boolean mIsCryptToken;
 		boolean mIsLibraryToken;
-		
-		
-		private TokenType(boolean crypt, boolean library)
-		{
+
+		private TokenType(boolean crypt, boolean library) {
 			mIsCryptToken = crypt;
 			mIsLibraryToken = library;
-			
+
 		}
-		
-		
-		
 
 	}
-	
 
 	private static class FilterToken {
 
 		private TokenType mTokenType = TokenType.UNDEFINED;
-		
+
 		private final String CLAN_FILTER = "Clan = '?'";
 		private final String TYPE_FILTER = "Type = '?'";
 		private final String DISCIPLINE_CRYPT_FILTER = "Disciplines like '%?%'";
 		private final String DISCIPLINE_CRYPT_PLUS_FILTER = "lower(Disciplines) like '%?%'";
 		private final String DISCIPLINE_LIBRARY_FILTER = "Discipline like '%?%'";
-		
-		
 
-		
 		String mFilterQuery;
 
 		List<FilterToken> mAndTokens;
 
 		public FilterToken(String token) {
-			
-			
+
 			// Create "and" tokens...
 			// for&pro
 			if (token.contains("&")) {
@@ -103,18 +96,15 @@ public class FilterModel {
 				}
 
 			}
-			
-			
-			
+
 			else if (token.contains("+")) {
-				
-				// Create tokens which have the + which indicates discipline inferior and superior
+
+				// Create tokens which have the + which indicates discipline
+				// inferior and superior
 				// for+ == (for or FOR)
 				mFilterQuery = DISCIPLINE_CRYPT_PLUS_FILTER.replace("?", token.replace("+", ""));
-				
-				
+
 			}
-			
 
 			else if (mClans.contains(token)) {
 
@@ -144,11 +134,10 @@ public class FilterModel {
 
 			}
 
-//			if (mTokenType != null)
-//				mFilterQuery = mTokenType.getFilterQuery().replace("?", token);
+			// if (mTokenType != null)
+			// mFilterQuery = mTokenType.getFilterQuery().replace("?", token);
 
 		}
-
 
 		public String getFilterQuery() {
 
@@ -157,8 +146,7 @@ public class FilterModel {
 
 				sb.append("(");
 
-				for (Iterator iterator = mAndTokens.iterator(); iterator
-						.hasNext();) {
+				for (Iterator iterator = mAndTokens.iterator(); iterator.hasNext();) {
 					FilterToken token = (FilterToken) iterator.next();
 
 					sb.append(token.getFilterQuery()).append(" and ");
@@ -173,22 +161,29 @@ public class FilterModel {
 
 				return mFilterQuery;
 		}
-		
-		
+
 	}
-	
-	
 
-	public FilterModel(List<String> clans, List<String> types,
-			List<String> disciplinesLibrary, List<String> disciplinesCrypt) {
+	// public static void initFilterModel(List<String> clans, List<String>
+	// types,
+	// List<String> disciplinesLibrary, List<String> disciplinesCrypt) {
+	//
+	// mSingleton = new FilterModel(clans, types, disciplinesLibrary,
+	// disciplinesCrypt);
+	//
+	// }
+	//
 
-		mClans = new ArrayList<String>(clans);
+	public static void initFilterModel(List<String> clans, List<String> types, List<String> disciplinesLibrary,
+			List<String> disciplinesCrypt) {
 
-		mTypes = new ArrayList<String>(types);
+		mClans = clans;
 
-		mDisciplinesLibrary = new ArrayList<String>(disciplinesLibrary);
+		mTypes = types;
 
-		mDisciplinesCrypt = new ArrayList<String>(disciplinesCrypt);
+		mDisciplinesLibrary = disciplinesLibrary;
+
+		mDisciplinesCrypt = disciplinesCrypt;
 
 	}
 
@@ -228,113 +223,142 @@ public class FilterModel {
 
 	}
 
-	
-	public void buildCryptFiltersFromString(String s) {
+	public void setCryptFilter(String s) {
 
-		StringTokenizer st = new StringTokenizer(s, ",");
+		// Only rebuild filters if the new filter string is different from
+		// actual filtering string.
+		
+		
+		if (!mCryptFilter.contentEquals(s)) {
 
-		while (st.hasMoreTokens()) {
+			mCryptFilter = s;
+			mCryptFilterChanged = true;
+			clearCryptFilters();
 
-			String token = st.nextToken().trim();
+			StringTokenizer st = new StringTokenizer(s, ",");
 
-			if (token.length() == 0)
-				continue;
+			while (st.hasMoreTokens()) {
 
-			FilterToken filter = new FilterToken(token);
+				String token = st.nextToken().trim();
 
-			// There is a problem here. There is no filtering in the type of token.
-			// TODO: Add some type to the token. 
-			// The same applies to buildLibraryFiltersFromString
-			
-			if (filter.mTokenType.mIsCryptToken)
-				mFiltersCrypt.add(filter);
+				if (token.length() == 0)
+					continue;
 
+				FilterToken filter = new FilterToken(token);
+
+				// There is a problem here. There is no filtering in the type of
+				// token.
+				// TODO: Add some type to the token.
+				// The same applies to buildLibraryFiltersFromString
+
+				if (filter.mTokenType.mIsCryptToken)
+					mFiltersCrypt.add(filter);
+
+			}
 		}
 
 	}
 
-	public void buildLibraryFiltersFromString(String s) {
+	public void setLibraryFilter(String s) {
 
-		StringTokenizer st = new StringTokenizer(s, ",");
+		// Only rebuild filters if the new filter string is different from
+		// actual filtering string.
+		if (!mLibraryFilter.contentEquals(s)) {
 
-		while (st.hasMoreTokens()) {
+			mLibraryFilter = s;
+			mLibraryFilterChanged = true;
+			clearLibraryFilters();
 
-			String token = st.nextToken().trim();
+			StringTokenizer st = new StringTokenizer(s, ",");
 
-			if (token.length() == 0)
-				continue;
+			while (st.hasMoreTokens()) {
 
-			FilterToken filter = new FilterToken(token);
+				String token = st.nextToken().trim();
 
-			if (filter.mTokenType.mIsLibraryToken)
-				mFiltersLibrary.add(filter);
+				if (token.length() == 0)
+					continue;
 
+				FilterToken filter = new FilterToken(token);
+
+				if (filter.mTokenType.mIsLibraryToken)
+					mFiltersLibrary.add(filter);
+
+			}
 		}
 
 	}
-	
+
 	public void setNameFilter(String filter) {
-		// TODO Auto-generated method stub
-		
-		mNameFilter = formatQueryString(filter.toLowerCase().trim());
-		
+
+		String filterCompare = formatQueryString(filter.toLowerCase().trim());
+
+		if (!filterCompare.contentEquals(mNameFilter)) {
+			mNameFilter = filterCompare;
+			mNameFilterChanged = true;
+		}
+
 	}
-	
+
 	public String getNameFilterQuery() {
 		// TODO Auto-generated method stub
+
+		mNameFilterChanged = false;
 		
 		if (mNameFilter.length() > 0)
 			return " and lower(Name) like '%" + mNameFilter + "%'";
 		else
 			return "";
-		
+
 	}
 
-//	public String getCryptFilterQuery() {
-//
-//		if (mFiltersCrypt.size() == 0)
-//			return "";
-//
-//		StringBuilder result = new StringBuilder();
-//
-//		result.append(" and ( ");
-//
-//		for (Iterator<FilterToken> iterator = mFiltersCrypt.iterator(); iterator
-//				.hasNext();) {
-//
-//			result.append(iterator.next().getFilterQuery()).append(" or ");
-//
-//		}
-//
-//		result.append(" 1=2 )"); // Needed to avoid removing of last or added.
-//
-//		
-//		return result.toString();
-//	}
-//
-//	public String getLibraryFilterQuery() {
-//
-//		if (mFiltersLibrary.size() == 0)
-//			return "";
-//
-//		StringBuilder result = new StringBuilder();
-//
-//		result.append(" and ( ");
-//
-//		for (Iterator<FilterToken> iterator = mFiltersLibrary.iterator(); iterator
-//				.hasNext();) {
-//
-//			result.append(iterator.next().getFilterQuery()).append(" or ");
-//
-//		}
-//
-//		result.append(" 1=2 )"); // Needed to avoid removing of last or added.
-//
-//		return result.toString();
-//	}
-	
+	// public String getCryptFilterQuery() {
+	//
+	// if (mFiltersCrypt.size() == 0)
+	// return "";
+	//
+	// StringBuilder result = new StringBuilder();
+	//
+	// result.append(" and ( ");
+	//
+	// for (Iterator<FilterToken> iterator = mFiltersCrypt.iterator(); iterator
+	// .hasNext();) {
+	//
+	// result.append(iterator.next().getFilterQuery()).append(" or ");
+	//
+	// }
+	//
+	// result.append(" 1=2 )"); // Needed to avoid removing of last or added.
+	//
+	//
+	// return result.toString();
+	// }
+	//
+	// public String getLibraryFilterQuery() {
+	//
+	// if (mFiltersLibrary.size() == 0)
+	// return "";
+	//
+	// StringBuilder result = new StringBuilder();
+	//
+	// result.append(" and ( ");
+	//
+	// for (Iterator<FilterToken> iterator = mFiltersLibrary.iterator();
+	// iterator
+	// .hasNext();) {
+	//
+	// result.append(iterator.next().getFilterQuery()).append(" or ");
+	//
+	// }
+	//
+	// result.append(" 1=2 )"); // Needed to avoid removing of last or added.
+	//
+	// return result.toString();
+	// }
+
 	public String getCryptFilterQuery() {
 
+		mCryptFilterChanged = false;
+		
 		if (mFiltersCrypt.size() == 0)
 			return "";
 
@@ -342,8 +366,7 @@ public class FilterModel {
 
 		result.append(" and ( ");
 
-		for (Iterator<FilterToken> iterator = mFiltersCrypt.iterator(); iterator
-				.hasNext();) {
+		for (Iterator<FilterToken> iterator = mFiltersCrypt.iterator(); iterator.hasNext();) {
 
 			result.append(iterator.next().getFilterQuery()).append(" and ");
 
@@ -351,12 +374,14 @@ public class FilterModel {
 
 		result.append(" 1=1 )"); // Needed to avoid removing of last and added.
 
-		
+		System.out.println(result.toString());
 		return result.toString();
 	}
 
 	public String getLibraryFilterQuery() {
 
+		mLibraryFilterChanged = false;
+		
 		if (mFiltersLibrary.size() == 0)
 			return "";
 
@@ -364,8 +389,7 @@ public class FilterModel {
 
 		result.append(" and ( ");
 
-		for (Iterator<FilterToken> iterator = mFiltersLibrary.iterator(); iterator
-				.hasNext();) {
+		for (Iterator<FilterToken> iterator = mFiltersLibrary.iterator(); iterator.hasNext();) {
 
 			result.append(iterator.next().getFilterQuery()).append(" and ");
 
@@ -375,8 +399,6 @@ public class FilterModel {
 
 		return result.toString();
 	}
-
-	
 
 	public void clearAllFilters() {
 
@@ -395,7 +417,7 @@ public class FilterModel {
 	}
 
 	protected String formatQueryString(String stringExtra) {
-	
+
 		return stringExtra.trim().replace("'", "''");
 	}
 
@@ -403,8 +425,7 @@ public class FilterModel {
 		public int findTokenStart(CharSequence text, int cursor) {
 			int i = cursor;
 
-			while (i > 0 && (text.charAt(i - 1) != ',')
-					&& (text.charAt(i - 1) != '&')) {
+			while (i > 0 && (text.charAt(i - 1) != ',') && (text.charAt(i - 1) != '&')) {
 				i--;
 			}
 			while (i < cursor && text.charAt(i) == ' ') {
@@ -436,14 +457,12 @@ public class FilterModel {
 				i--;
 			}
 
-			if (i > 0
-					&& (text.charAt(i - 1) == ',' || text.charAt(i - 1) == '&')) {
+			if (i > 0 && (text.charAt(i - 1) == ',' || text.charAt(i - 1) == '&')) {
 				return text;
 			} else {
 				if (text instanceof Spanned) {
 					SpannableString sp = new SpannableString(text + ", ");
-					TextUtils.copySpansFrom((Spanned) text, 0, text.length(),
-							Object.class, sp, 0);
+					TextUtils.copySpansFrom((Spanned) text, 0, text.length(), Object.class, sp, 0);
 					return sp;
 				} else {
 					return text + ", ";
@@ -452,6 +471,17 @@ public class FilterModel {
 		}
 	}
 
-	
+	public String getOrderByFilterQuery() {
+		// TODO Auto-generated method stub
+		return " order by Name ";
+	}
+
+	public boolean isCryptFilterChanged() {
+		return mNameFilterChanged || mCryptFilterChanged;
+	}
+
+	public boolean isLibraryFilterChanged() {
+		return mNameFilterChanged || mLibraryFilterChanged;
+	}
 
 }
