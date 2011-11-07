@@ -374,7 +374,7 @@ public class FilterModel {
 
 		result.append(" 1=1 )"); // Needed to avoid removing of last and added.
 
-		System.out.println(result.toString());
+		
 		return result.toString();
 	}
 
