@@ -8,11 +8,11 @@ public class VampiDroidFragment extends VampiDroidBaseFragment {
 
 	@Override
 	public void onDestroy() {
-		
+
 		Log.d("vampidroidfragment", "ondestroy");
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		
+
 	}
 
 	protected String getLibraryQuery() {
@@ -23,32 +23,39 @@ public class VampiDroidFragment extends VampiDroidBaseFragment {
 		return DatabaseHelper.ALL_FROM_CRYPT_QUERY;
 	}
 
-		
-	
-	 @Override
-	    public void onActivityCreated(Bundle savedInstanceState) {
-	        super.onActivityCreated(savedInstanceState);
-	        
-	 }
-	 
-	 
-	 public static VampiDroidFragment newInstance(String cryptQuery, String libraryQuery, boolean hasDetailsFrame) {
-			
-			VampiDroidFragment fragment = new VampiDroidFragment();
-			
-			Bundle b = new Bundle();
-			b.putString("CryptQuery", cryptQuery);
-			b.putString("LibraryQuery", libraryQuery);
-			
-			
-			fragment.setArguments(b);
-			fragment.setDualPane(hasDetailsFrame);
-			
-			return fragment;
-			
-		}
-		
-	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+	}
+
+	// public static VampiDroidFragment newInstance(String cryptQuery, String
+	// libraryQuery, boolean hasDetailsFrame) {
+	//
+	// VampiDroidFragment fragment = new VampiDroidFragment();
+	//
+	//
+	// Bundle b = new Bundle();
+	// b.putString("CryptQuery", cryptQuery);
+	// b.putString("LibraryQuery", libraryQuery);
+	//
+	//
+	// fragment.setArguments(b);
+	// fragment.setDualPane(hasDetailsFrame);
+	//
+	// return fragment;
+	//
+	// }
+
+	public static VampiDroidFragment newInstance(boolean hasDetailsFrame) {
+
+		VampiDroidFragment fragment = new VampiDroidFragment();
+
+		fragment.setDualPane(hasDetailsFrame);
+
+		return fragment;
+
+	}
 
 }
 
