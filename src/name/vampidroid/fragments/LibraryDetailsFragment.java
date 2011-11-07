@@ -106,8 +106,7 @@ public class LibraryDetailsFragment extends Fragment {
 
 		View v = inflater.inflate(R.layout.librarycarddetails, null);
 
-		SQLiteDatabase db = DatabaseHelper.getDatabase(getActivity()
-				.getApplicationContext());
+		SQLiteDatabase db = DatabaseHelper.getDatabase();
 		Cursor c = db.rawQuery(query + String.valueOf(card_id), null);
 		c.moveToFirst();
 
