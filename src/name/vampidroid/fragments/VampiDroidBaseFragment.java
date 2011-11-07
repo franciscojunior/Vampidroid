@@ -1,3 +1,7 @@
+// References:
+//http://stackoverflow.com/questions/1109022/how-to-close-hide-the-android-soft-keyboard
+// http://stackoverflow.com/questions/6035711/android-fragment-with-compatibility-package-on-2-3-3-creates-specified-child-a
+
 package name.vampidroid.fragments;
 
 import java.util.ArrayList;
@@ -33,8 +37,7 @@ import com.jakewharton.android.viewpagerindicator.TitlePageIndicator;
 import com.jakewharton.android.viewpagerindicator.TitleProvider;
 
 public abstract class VampiDroidBaseFragment extends Fragment {
-	
-	
+
 	private Handler mHandler = new Handler();
 
 	public static String CARD_ID = "card_id";
@@ -45,10 +48,7 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 	protected TextIndicatorAdapter mTitleFlowIndicatorAdapter;
 
 	private boolean mDualPane = false;
-	
-	
-	public static FilterModel mFilterModel;
-	
+
 	protected EditText mCardNameFilterText;
 
 	protected MultiAutoCompleteTextView mCryptFilterText;
@@ -56,13 +56,14 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 	protected MultiAutoCompleteTextView mLibraryFilterText;
 
 	protected boolean mCryptFilterTextChanged;
-	
+
 	protected boolean mLibraryFilterTextChanged;
 
-	
-	
+	private boolean mCanApplyFilter = false; // This flag prevents the
+												// background thread from being
+												// run.
 
-	
+	protected FilterModel mFilterModel = new FilterModel();
 
 	/** Called when the activity is first created. */
 	@Override
@@ -70,15 +71,87 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 		Log.d("vampidroidbasefragment", "onCreate");
 
 		super.onCreate(savedInstanceState);
-		
-		mFilterModel = new FilterModel( Arrays.asList(getResources().getStringArray(R.array.clans)), Arrays.asList(getResources().getStringArray(R.array.types)), Arrays.asList(getResources().getStringArray(R.array.disciplineslibrary)), Arrays.asList(getResources().getStringArray(R.array.disciplinescrypt)));
-		
-		
+
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	// public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	// Bundle savedInstanceState) {
+	//
+	// Log.d("vampidroidbasefragment", "onCreateView");
+	//
+	// View v = null;
+	//
+	// v = inflater.inflate(R.layout.main_viewpager, container, false);
+	//
+	// // Reference for the false value:
+	// //
+	// http://stackoverflow.com/questions/6035711/android-fragment-with-compatibility-package-on-2-3-3-creates-specified-child-a
+	//
+	// mViewPager = (ViewPager) v.findViewById(R.id.pager);
+	//
+	// TitlePageIndicator tpi = (TitlePageIndicator) v
+	// .findViewById(R.id.titlepageindicator);
+	//
+	// mTitleFlowIndicatorAdapter = new TextIndicatorAdapter(getActivity());
+	//
+	// mViewPager.setAdapter(mTitleFlowIndicatorAdapter);
+	//
+	// tpi.setViewPager(mViewPager);
+	//
+	// // If this is the first time, create new fragments for the lists.
+	// if (savedInstanceState == null) {
+	// Bundle cryptBundle = new Bundle();
+	// cryptBundle.putString("CryptQuery",
+	// getArguments().getString("CryptQuery"));
+	//
+	// mTitleFlowIndicatorAdapter.addTab("Crypt", CryptListFragment.class,
+	// cryptBundle);
+	//
+	// Bundle libraryBundle = new Bundle();
+	// libraryBundle.putString("LibraryQuery",
+	// getArguments().getString("LibraryQuery"));
+	//
+	// mTitleFlowIndicatorAdapter.addTab("Library",
+	// LibraryListFragment.class, libraryBundle);
+	//
+	// } else {
+	//
+	// // // Not the first time, we are returning from a previous state.
+	// // Maybe a screen orientation change.
+	//
+	// mTitleFlowIndicatorAdapter.addTab(
+	// "Crypt",
+	// getActivity().getSupportFragmentManager().getFragment(
+	// savedInstanceState, "tab0"));
+	// mTitleFlowIndicatorAdapter.addTab(
+	// "Library",
+	// getActivity().getSupportFragmentManager().getFragment(
+	// savedInstanceState, "tab1"));
+	//
+	// }
+	//
+	// // Set choice behaviour.
+	//
+	// CryptListFragment crypt = (CryptListFragment) mTitleFlowIndicatorAdapter
+	// .getItem(0);
+	//
+	// crypt.setHighlightChoice(isDualPane());
+	//
+	// LibraryListFragment library = (LibraryListFragment)
+	// mTitleFlowIndicatorAdapter
+	// .getItem(1);
+	//
+	// library.setHighlightChoice(isDualPane());
+	//
+	// setupFilters(v);
+	//
+	// // setupMotionEventActionDown(v);
+	//
+	// return v;
+	//
+	// }
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		Log.d("vampidroidbasefragment", "onCreateView");
 
@@ -91,8 +164,7 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 
 		mViewPager = (ViewPager) v.findViewById(R.id.pager);
 
-		TitlePageIndicator tpi = (TitlePageIndicator) v
-				.findViewById(R.id.titlepageindicator);
+		TitlePageIndicator tpi = (TitlePageIndicator) v.findViewById(R.id.titlepageindicator);
 
 		mTitleFlowIndicatorAdapter = new TextIndicatorAdapter(getActivity());
 
@@ -102,52 +174,35 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 
 		// If this is the first time, create new fragments for the lists.
 		if (savedInstanceState == null) {
-			Bundle cryptBundle = new Bundle();
-			cryptBundle.putString("CryptQuery",
-					getArguments().getString("CryptQuery"));
+			mTitleFlowIndicatorAdapter.addTab("Crypt", CryptListFragment.class, null);
 
-			mTitleFlowIndicatorAdapter.addTab("Crypt", CryptListFragment.class,
-					cryptBundle);
-
-			Bundle libraryBundle = new Bundle();
-			libraryBundle.putString("LibraryQuery",
-					getArguments().getString("LibraryQuery"));
-
-			mTitleFlowIndicatorAdapter.addTab("Library",
-					LibraryListFragment.class, libraryBundle);
+			mTitleFlowIndicatorAdapter.addTab("Library", LibraryListFragment.class, null);
 
 		} else {
 
 			// // Not the first time, we are returning from a previous state.
 			// Maybe a screen orientation change.
 
-			mTitleFlowIndicatorAdapter.addTab(
-					"Crypt",
-					getActivity().getSupportFragmentManager().getFragment(
-							savedInstanceState, "tab0"));
-			mTitleFlowIndicatorAdapter.addTab(
-					"Library",
-					getActivity().getSupportFragmentManager().getFragment(
-							savedInstanceState, "tab1"));
+			mTitleFlowIndicatorAdapter.addTab("Crypt",
+					getActivity().getSupportFragmentManager().getFragment(savedInstanceState, "tab0"));
+			mTitleFlowIndicatorAdapter.addTab("Library",
+					getActivity().getSupportFragmentManager().getFragment(savedInstanceState, "tab1"));
 
 		}
 
 		// Set choice behaviour.
 
-		CryptListFragment crypt = (CryptListFragment) mTitleFlowIndicatorAdapter
-				.getItem(0);
+		CryptListFragment crypt = (CryptListFragment) mTitleFlowIndicatorAdapter.getItem(0);
 
 		crypt.setHighlightChoice(isDualPane());
 
-		LibraryListFragment library = (LibraryListFragment) mTitleFlowIndicatorAdapter
-				.getItem(1);
+		LibraryListFragment library = (LibraryListFragment) mTitleFlowIndicatorAdapter.getItem(1);
 
 		library.setHighlightChoice(isDualPane());
 
 		setupFilters(v);
-		
-		
-		//setupMotionEventActionDown(v);
+
+		// setupMotionEventActionDown(v);
 
 		return v;
 
@@ -155,30 +210,26 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 
 	private void setupMotionEventActionDown(final View v) {
 		// TODO Auto-generated method stub
-		
+
 		v.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
 				// TODO Auto-generated method stub
-				
-				System.out.println("touch");
 
-				if (event.getAction() == MotionEvent.ACTION_DOWN ) {
-					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(
-							v.getWindowToken(), 0);
 
-					System.out.println("touch");
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+							Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
 				}
-				
+
 				return false;
 			}
 		});
-		
 
 	}
-	
 
 	protected void setupFilterTextBox(View v) {
 
@@ -187,36 +238,14 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 		mCardNameFilterText.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-//				String filter = s.toString().toLowerCase();
-//
-//				mFilterModel.setNameFilter(filter);
-//
-//				// ((CryptListFragment) mTitleFlowIndicatorAdapter.getItem(0))
-//				// .filterData(VampiDroid.mFilterModel.getCryptFilter()
-//				// + " and lower(Name) like '%" + filter + "%'");
-//				// ((LibraryListFragment) mTitleFlowIndicatorAdapter.getItem(1))
-//				// .filterData(VampiDroid.mFilterModel.getLibraryFilter()
-//				// + " and lower(Name) like '%" + filter + "%'");
-//
-//				getCryptListFragment().filterData(
-//						mFilterModel.getCryptFilterQuery()
-//								+ mFilterModel.getNameFilterQuery());
-//				getLibraryListFragment().filterData(
-//						mFilterModel.getLibraryFilterQuery()
-//								+ mFilterModel.getNameFilterQuery());
-				
-				
 				deferFiltersUpdate();
-				
 
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
 			}
 
@@ -235,126 +264,33 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 
 		CommaEAmpTokenizer tokenizer = new CommaEAmpTokenizer();
 
-		ArrayAdapter<String> adapterCrypt = new ArrayAdapter<String>(
-				this.getActivity(),
-				android.R.layout.simple_dropdown_item_1line,
-				mFilterModel.getCryptFilterStrings());
+		ArrayAdapter<String> adapterCrypt = new ArrayAdapter<String>(this.getActivity(),
+				android.R.layout.simple_dropdown_item_1line, mFilterModel.getCryptFilterStrings());
 
-		mCryptFilterText = (MultiAutoCompleteTextView) v
-				.findViewById(R.id.crypt_filters);
+		mCryptFilterText = (MultiAutoCompleteTextView) v.findViewById(R.id.crypt_filters);
 		mCryptFilterText.setAdapter(adapterCrypt);
 		mCryptFilterText.setTokenizer(tokenizer);
 
-		ArrayAdapter<String> adapterLibrary = new ArrayAdapter<String>(
-				this.getActivity(),
-				android.R.layout.simple_dropdown_item_1line,
-				mFilterModel.getLibraryFilterStrings());
+		ArrayAdapter<String> adapterLibrary = new ArrayAdapter<String>(this.getActivity(),
+				android.R.layout.simple_dropdown_item_1line, mFilterModel.getLibraryFilterStrings());
 
-		mLibraryFilterText = (MultiAutoCompleteTextView) v
-				.findViewById(R.id.library_filters);
+		mLibraryFilterText = (MultiAutoCompleteTextView) v.findViewById(R.id.library_filters);
 		mLibraryFilterText.setAdapter(adapterLibrary);
 		mLibraryFilterText.setTokenizer(tokenizer);
-
-		// cryptFilterText.setOnItemClickListener(new OnItemClickListener() {
-		//
-		// @Override
-		// public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-		// long arg3) {
-		// // TODO Auto-generated method stub
-		//
-		//
-		// String s = cryptFilterText.getText().toString().trim();
-		//
-		// if (s.endsWith(",")) {
-		//
-		// VampiDroid.mFilterModel.clearCryptFilters();
-		//
-		//
-		// VampiDroid.mFilterModel.buildCryptFiltersFromString(s);
-		//
-		//
-		// System.out.println(VampiDroid.mFilterModel.getCryptFilter());
-		//
-		// //((CryptListFragment)
-		// mTitleFlowIndicatorAdapter.getItem(0)).filterData(VampiDroid.mFilterModel.getCryptFilter());
-		//
-		// //((LibraryListFragment)
-		// mTitleFlowIndicatorAdapter.getItem(1)).filterData(VampiDroid.mFilterModel.getLibraryFilter());
-		//
-		//
-		// ((CryptListFragment)
-		// mTitleFlowIndicatorAdapter.getItem(0)).filterData(VampiDroid.mFilterModel.getCryptFilter());
-		//
-		// }
-		// }
-		// });
-
-		//
-		// libraryFilterText.setOnItemClickListener(new OnItemClickListener() {
-		//
-		// @Override
-		// public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-		// long arg3) {
-		// // TODO Auto-generated method stub
-		//
-		//
-		// String s = libraryFilterText.getText().toString().trim();
-		//
-		// if (s.endsWith(",")) {
-		//
-		// VampiDroid.mFilterModel.clearLibraryFilters();
-		//
-		//
-		// VampiDroid.mFilterModel.buildLibraryFiltersFromString(s);
-		//
-		//
-		// System.out.println(VampiDroid.mFilterModel.getLibraryFilter());
-		//
-		// //((CryptListFragment)
-		// mTitleFlowIndicatorAdapter.getItem(0)).filterData(VampiDroid.mFilterModel.getCryptFilter());
-		//
-		// //((LibraryListFragment)
-		// mTitleFlowIndicatorAdapter.getItem(1)).filterData(VampiDroid.mFilterModel.getLibraryFilter());
-		//
-		//
-		// ((LibraryListFragment)
-		// mTitleFlowIndicatorAdapter.getItem(1)).filterData(VampiDroid.mFilterModel.getLibraryFilter());
-		//
-		// }
-		// }
-		// });
 
 		mCryptFilterText.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-//				String filter = s.toString().trim();
-//
-//				if (filter.endsWith(",") || filter.length() == 0) {
-//
-//					mFilterModel.clearCryptFilters();
-//
-//					mFilterModel.buildCryptFiltersFromString(filter);
-//
-//					getCryptListFragment().filterData(
-//							mFilterModel.getCryptFilterQuery()
-//									+ mFilterModel
-//											.getNameFilterQuery());
-//
-//				}
-				
 				mCryptFilterTextChanged = true;
-				
+
 				deferFiltersUpdate();
-				
 
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 			}
 
 			@Override
@@ -366,36 +302,16 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 		mLibraryFilterText.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-//				String filter = s.toString().trim();
-//
-//				if (filter.endsWith(",") || filter.length() == 0) {
-//
-//					mFilterModel.clearLibraryFilters();
-//
-//					mFilterModel
-//							.buildLibraryFiltersFromString(filter);
-//
-//					getLibraryListFragment().filterData(
-//							mFilterModel.getLibraryFilterQuery()
-//									+ mFilterModel
-//											.getNameFilterQuery());
-//				}
-				
-				
 				mLibraryFilterTextChanged = true;
-				
+
 				deferFiltersUpdate();
-				
-				
-				
+
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 			}
 
 			@Override
@@ -405,109 +321,154 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 		});
 
 	}
-	
+
 	protected void deferFiltersUpdate() {
-		mHandler.removeCallbacks(mUpdateFilters);
-		mHandler.postDelayed(mUpdateFilters, 500);
+
+		// This may have been called by TextChangedListeners before the fragment
+		// is ready. On a rotation for example or when restarting fragment.
+		// Android calls setText on the EditText when restarting which triggers
+		// those listeners ahead of time.
+		if (mCanApplyFilter) {
+
+			mHandler.removeCallbacks(mUpdateFilters);
+			mHandler.postDelayed(mUpdateFilters, 500);
+		}
+
 	}
-	
-	
+
 	private Runnable mUpdateFilters = new Runnable() {
-		   public void run() {
-			   
-			   
-				mFilterModel.setNameFilter(mCardNameFilterText.getText().toString().trim());
 
-				// ((CryptListFragment) mTitleFlowIndicatorAdapter.getItem(0))
-				// .filterData(VampiDroid.mFilterModel.getCryptFilter()
-				// + " and lower(Name) like '%" + filter + "%'");
-				// ((LibraryListFragment) mTitleFlowIndicatorAdapter.getItem(1))
-				// .filterData(VampiDroid.mFilterModel.getLibraryFilter()
-				// + " and lower(Name) like '%" + filter + "%'");
+		public void run() {
 
-				
-				// Just update model if there was any change....
-				
-				if (mCryptFilterTextChanged) {
-					
-					mFilterModel.clearCryptFilters();
-					mFilterModel.buildCryptFiltersFromString(mCryptFilterText.getText().toString().trim());
-					mCryptFilterTextChanged = false;
-				}
-				
-	
-				if (mLibraryFilterTextChanged) {
-					mFilterModel.clearLibraryFilters();
+			mFilterModel.setNameFilter(mCardNameFilterText.getText().toString().trim());
 
-					mFilterModel.buildLibraryFiltersFromString(mLibraryFilterText.getText().toString().trim());
-					
-					mLibraryFilterTextChanged = false;
-				}
-				
-				
+			// ((CryptListFragment) mTitleFlowIndicatorAdapter.getItem(0))
+			// .filterData(VampiDroid.mFilterModel.getCryptFilter()
+			// + " and lower(Name) like '%" + filter + "%'");
+			// ((LibraryListFragment) mTitleFlowIndicatorAdapter.getItem(1))
+			// .filterData(VampiDroid.mFilterModel.getLibraryFilter()
+			// + " and lower(Name) like '%" + filter + "%'");
+
+			// Just update model if there was any change....
+
+			// if (mCryptFilterTextChanged) {
+			//
+			// mFilterModel.clearCryptFilters();
+			// mFilterModel.buildCryptFiltersFromString(mCryptFilterText.getText().toString().trim());
+			// mCryptFilterTextChanged = false;
+			// }
+			//
+			// if (mLibraryFilterTextChanged) {
+			// mFilterModel.clearLibraryFilters();
+			//
+			// mFilterModel.buildLibraryFiltersFromString(mLibraryFilterText.getText().toString().trim());
+			//
+			// mLibraryFilterTextChanged = false;
+			// }
+			//
+			// getCryptListFragment().filterData(
+			// mFilterModel.getCryptFilterQuery() +
+			// mFilterModel.getNameFilterQuery()
+			// + mFilterModel.getOrderByFilterQuery());
+			// getLibraryListFragment().filterData(
+			// mFilterModel.getLibraryFilterQuery() +
+			// mFilterModel.getNameFilterQuery()
+			// + mFilterModel.getOrderByFilterQuery());
+
+			mFilterModel.setCryptFilter(mCryptFilterText.getText().toString().trim());
+
+			mFilterModel.setLibraryFilter(mLibraryFilterText.getText().toString().trim());
+
+			if (mFilterModel.isCryptFilterChanged())
 				getCryptListFragment().filterData(
-						mFilterModel.getCryptFilterQuery()
-								+ mFilterModel.getNameFilterQuery());
+						mFilterModel.getCryptFilterQuery() + mFilterModel.getNameFilterQuery()
+								+ mFilterModel.getOrderByFilterQuery());
+
+			if (mFilterModel.isLibraryFilterChanged())
 				getLibraryListFragment().filterData(
-						mFilterModel.getLibraryFilterQuery()
-								+ mFilterModel.getNameFilterQuery());
-		       
-		   }
-		};
+						mFilterModel.getLibraryFilterQuery() + mFilterModel.getNameFilterQuery()
+								+ mFilterModel.getOrderByFilterQuery());
 
-	
-	
+		}
+	};
 
-//	private void setupFilterLayout(View v) {
-//
-//		// Get filters layout and expandable image references.
-//		final View filtersLayout = v.findViewById(R.id.filters_layout);
-//		final ImageView expandableImageView = (ImageView) v.findViewById(R.id.expandableImage);
-//		
-//		
-//		
-//		View filtersLayoutHeader = v.findViewById(R.id.filters_layout_header);
-//		
-//		filtersLayoutHeader.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//
-//				if (filtersLayout.getVisibility() == View.VISIBLE) {
-//					filtersLayout.setVisibility(View.GONE);
-//					expandableImageView
-//							.setImageResource(R.drawable.expander_ic_minimized);
-//
-//					// Hide keyboard
-//					// As per
-//					// http://stackoverflow.com/questions/1109022/how-to-close-hide-the-android-soft-keyboard
-//					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//					imm.hideSoftInputFromWindow(
-//							filtersLayout.getWindowToken(), 0);
-//
-//				} else {
-//					filtersLayout.setVisibility(View.VISIBLE);
-//					expandableImageView
-//							.setImageResource(R.drawable.expander_ic_maximized);
-//				}
-//			}
-//		});
-//	
-//	}
-	
+	// private void setupFilterLayout(View v) {
+	//
+	// // Get filters layout and expandable image references.
+	// final View filtersLayout = v.findViewById(R.id.filters_layout);
+	// final ImageView expandableImageView = (ImageView)
+	// v.findViewById(R.id.expandableImage);
+	//
+	//
+	//
+	// View filtersLayoutHeader = v.findViewById(R.id.filters_layout_header);
+	//
+	// filtersLayoutHeader.setOnClickListener(new OnClickListener() {
+	//
+	// @Override
+	// public void onClick(View v) {
+	// // TODO Auto-generated method stub
+	//
+	// if (filtersLayout.getVisibility() == View.VISIBLE) {
+	// filtersLayout.setVisibility(View.GONE);
+	// expandableImageView
+	// .setImageResource(R.drawable.expander_ic_minimized);
+	//
+	// // Hide keyboard
+	// // As per
+	// //
+	// http://stackoverflow.com/questions/1109022/how-to-close-hide-the-android-soft-keyboard
+	// InputMethodManager imm = (InputMethodManager)
+	// getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+	// imm.hideSoftInputFromWindow(
+	// filtersLayout.getWindowToken(), 0);
+	//
+	// } else {
+	// filtersLayout.setVisibility(View.VISIBLE);
+	// expandableImageView
+	// .setImageResource(R.drawable.expander_ic_maximized);
+	// }
+	// }
+	// });
+	//
+	// }
+
+	@Override
+	public void onResume() {
+
+		Log.d("vampidroid", "vampidroidbasefragment.onresume");
+
+		super.onResume();
+
+		mCanApplyFilter = true;
+
+		// Apply filters on resume, if any...
+		mUpdateFilters.run();
+
+	}
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+
+		// Remove any callback handlers so they aren't triggered on the wrong
+		// fragment (the old one) in cases of orientation change or
+		// activity restart.
+		mHandler.removeCallbacks(mUpdateFilters);
+
+	}
+
 	private void setupFilterLayout(View v) {
 
 		// Get filters layout and expandable image references.
 		final View cryptFilter = v.findViewById(R.id.crypt_filters);
 		final View libraryFilter = v.findViewById(R.id.library_filters);
 
-		
 		final ImageView expandableImageView = (ImageView) v.findViewById(R.id.expandFiltersImageView);
-				
-		
+
 		View filtersLayoutHeader = v.findViewById(R.id.filters_layout_header);
-		
+
 		filtersLayoutHeader.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -517,71 +478,70 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 				if (cryptFilter.getVisibility() == View.VISIBLE) {
 					cryptFilter.setVisibility(View.GONE);
 					libraryFilter.setVisibility(View.GONE);
-					expandableImageView
-							.setImageResource(R.drawable.expander_ic_minimized);
+					expandableImageView.setImageResource(R.drawable.expander_ic_minimized);
 
 					// Hide keyboard
 					// As per
 					// http://stackoverflow.com/questions/1109022/how-to-close-hide-the-android-soft-keyboard
-					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(
-							cryptFilter.getWindowToken(), 0);
+					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+							Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(cryptFilter.getWindowToken(), 0);
 
 				} else {
-					
+
 					cryptFilter.setVisibility(View.VISIBLE);
 					libraryFilter.setVisibility(View.VISIBLE);
-					expandableImageView
-							.setImageResource(R.drawable.expander_ic_maximized);
+					expandableImageView.setImageResource(R.drawable.expander_ic_maximized);
 				}
 			}
 		});
-		
+
 	}
-	
-	
-//	private void setupFilterLayout(View v) {
-//
-//		// Get filters layout and expandable image references.
-//
-//		
-//		final ImageView expandableImageView = (ImageView) v.findViewById(R.id.expandFiltersImageView);
-//				
-//		
-//		final View filtersLayoutHeader = v.findViewById(R.id.filters_layout_header);
-//		
-//		expandableImageView.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//
-//				
-//				if (filtersLayoutHeader.getVisibility() == View.VISIBLE) {
-//					filtersLayoutHeader.setVisibility(View.GONE);
-//					expandableImageView.setImageResource(R.drawable.expander_ic_minimized);
-//					
-//					// Hide keyboard
-//					// As per
-//					// http://stackoverflow.com/questions/1109022/how-to-close-hide-the-android-soft-keyboard
-//					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//					imm.hideSoftInputFromWindow(
-//							filtersLayoutHeader.getWindowToken(), 0);
-//
-//				}
-//				else {
-//					filtersLayoutHeader.setVisibility(View.VISIBLE);
-//					expandableImageView.setImageResource(R.drawable.expander_ic_maximized);
-//
-//
-//				
-//				}
-//			}
-//		});
-//
-//	}
 
-
+	// private void setupFilterLayout(View v) {
+	//
+	// // Get filters layout and expandable image references.
+	//
+	//
+	// final ImageView expandableImageView = (ImageView)
+	// v.findViewById(R.id.expandFiltersImageView);
+	//
+	//
+	// final View filtersLayoutHeader =
+	// v.findViewById(R.id.filters_layout_header);
+	//
+	// expandableImageView.setOnClickListener(new OnClickListener() {
+	//
+	// @Override
+	// public void onClick(View v) {
+	// // TODO Auto-generated method stub
+	//
+	//
+	// if (filtersLayoutHeader.getVisibility() == View.VISIBLE) {
+	// filtersLayoutHeader.setVisibility(View.GONE);
+	// expandableImageView.setImageResource(R.drawable.expander_ic_minimized);
+	//
+	// // Hide keyboard
+	// // As per
+	// //
+	// http://stackoverflow.com/questions/1109022/how-to-close-hide-the-android-soft-keyboard
+	// InputMethodManager imm = (InputMethodManager)
+	// getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+	// imm.hideSoftInputFromWindow(
+	// filtersLayoutHeader.getWindowToken(), 0);
+	//
+	// }
+	// else {
+	// filtersLayoutHeader.setVisibility(View.VISIBLE);
+	// expandableImageView.setImageResource(R.drawable.expander_ic_maximized);
+	//
+	//
+	//
+	// }
+	// }
+	// });
+	//
+	// }
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
@@ -589,15 +549,12 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 		super.onSaveInstanceState(outState);
 
 		for (int i = 0; i < mTitleFlowIndicatorAdapter.getCount(); i++) {
-	
+
 			Fragment fragment = mTitleFlowIndicatorAdapter.getItem(i);
-			
-			getActivity().getSupportFragmentManager().putFragment(outState,
-					"tab" + String.valueOf(i), fragment);
-	
+
+			getActivity().getSupportFragmentManager().putFragment(outState, "tab" + String.valueOf(i), fragment);
+
 		}
-	
-		
 
 	}
 
@@ -607,10 +564,8 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 
 	public void updateQueries(String cryptQuery, String libraryQuery) {
 
-		((CryptListFragment) mTitleFlowIndicatorAdapter.getItem(0))
-				.setQuery(cryptQuery);
-		((LibraryListFragment) mTitleFlowIndicatorAdapter.getItem(1))
-				.setQuery(libraryQuery);
+		((CryptListFragment) mTitleFlowIndicatorAdapter.getItem(0)).setQuery(cryptQuery);
+		((LibraryListFragment) mTitleFlowIndicatorAdapter.getItem(1)).setQuery(libraryQuery);
 	}
 
 	protected abstract String getCryptQuery();
@@ -625,22 +580,15 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 		return mDualPane;
 	}
 
-	protected CryptListFragment getCryptListFragment() {
+	public CryptListFragment getCryptListFragment() {
 		return ((CryptListFragment) mTitleFlowIndicatorAdapter.getItem(0));
 	}
 
-	protected LibraryListFragment getLibraryListFragment() {
+	public LibraryListFragment getLibraryListFragment() {
 		return ((LibraryListFragment) mTitleFlowIndicatorAdapter.getItem(1));
 	}
-	
-	
 
-	
-
-
-
-	public static class TextIndicatorAdapter extends FragmentPagerAdapter
-			implements TitleProvider {
+	public static class TextIndicatorAdapter extends FragmentPagerAdapter implements TitleProvider {
 
 		private FragmentActivity mContext;
 
@@ -657,8 +605,7 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 			private final Bundle args;
 			private final Fragment fragment;
 
-			TabInfo(String _tag, Class<?> _class, Bundle _args,
-					Fragment _fragment) {
+			TabInfo(String _tag, Class<?> _class, Bundle _args, Fragment _fragment) {
 				tag = _tag;
 				clss = _class;
 				args = _args;
@@ -690,8 +637,7 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 
 		public void addTab(String tag, Class<?> clss, Bundle args) {
 
-			TabInfo info = new TabInfo(tag, clss, args, Fragment.instantiate(
-					mContext, clss.getName(), args));
+			TabInfo info = new TabInfo(tag, clss, args, Fragment.instantiate(mContext, clss.getName(), args));
 			mTabs.add(info);
 			notifyDataSetChanged();
 		}
