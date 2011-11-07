@@ -1,5 +1,6 @@
 package name.vampidroid;
 
+import name.vampidroid.DatabaseHelper.CardType;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +24,9 @@ public class VampiDroid extends VampiDroidBase {
 	public static final String KEY_TUTORIAL_BUTTONS_VIEWED = "tutorial_buttons_viewed";
 	
 	private boolean mIsShowingTutorial = false;
+	
+	private CardListCursorAdapter mCryptAdapter;
+	private CardListCursorAdapter mLibraryAdapter;
 	
 	
 	protected String getLibraryQuery() {
@@ -71,7 +75,7 @@ public class VampiDroid extends VampiDroidBase {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 
-		Log.i("vampidroid", "vampidroid.ondestroy");
+		Log.d("vampidroid", "vampidroid.ondestroy");
 
 		
 
@@ -204,15 +208,49 @@ public class VampiDroid extends VampiDroidBase {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-
-		Log.i("vampidroid", "vampidroid.oncreate");
+		Log.d("vampidroid", "vampidroid.oncreate");
 		
-		checkAndShowChangeLog();   
+		super.onCreate(savedInstanceState);
+		
+		
+		mCryptAdapter = new CardListCursorAdapter(CardType.CRYPT,
+				this, R.layout.cryptlistitem, null,
+				DatabaseHelper.STRING_ARRAY_CRYPT_LIST_COLUMNS,
+				new int[] { R.id.txtCardName, R.id.txtCardExtraInformation,
+						R.id.txtCardCost, R.id.txtCardInitialText, R.id.txtCardGroup });
+
+		
+		mLibraryAdapter = new CardListCursorAdapter(CardType.LIBRARY, this,
+				R.layout.librarylistitem, null, new String[] { "Name", "Type",
+						"Clan", "Discipline" }, new int[] { R.id.txtCardName,
+						R.id.txtCardType, R.id.txtCardClan,
+						R.id.txtCardDiscipline });
+
+		
+		
+		checkAndShowChangeLog();
+		
+		
 	
 	}
 	
-	
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		Log.d("vampidroid", "vampidroid.onPostCreate");
+		
+		super.onPostCreate(savedInstanceState);
+		
+		mVampidroidFragment.getCryptListFragment().setListAdapter(mCryptAdapter);
+		mVampidroidFragment.getCryptListFragment().setQuery(getCryptQuery());
+		
+		
+		mVampidroidFragment.getLibraryListFragment().setListAdapter(mLibraryAdapter);
+		mVampidroidFragment.getLibraryListFragment().setQuery(getLibraryQuery());
+
+		
+	}
+
 	private void checkAndShowTutorialButtons() {
 		// TODO Auto-generated method stub
 		
@@ -305,6 +343,10 @@ public class VampiDroid extends VampiDroidBase {
 				
 			case R.id.menu_show_favorite_cards:
 				startActivity(new Intent(this, FavoriteCards.class));
+				return true;
+				
+			case R.id.menu_show_decks:
+				startActivity(new Intent(this, DecksList.class));
 				return true;
 				
 		}
