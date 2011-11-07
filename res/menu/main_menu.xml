@@ -30,6 +30,9 @@
 		android:icon="@drawable/ic_menu_star" 
 		android:id="@+id/menu_show_favorite_cards" 
 		android:title="@string/show_favorite_cards"></item>
+	<item 
+		android:title="@string/show_decks" 
+		android:id="@+id/menu_show_decks"></item>
 		
 	<item 
 		android:title="@string/help" 
