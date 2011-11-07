@@ -109,7 +109,7 @@ public class CryptDetailsFragment extends Fragment {
 		
 		View v = inflater.inflate(R.layout.cryptcarddetails, null);
 		
-		SQLiteDatabase db = DatabaseHelper.getDatabase(getActivity().getApplicationContext());
+		SQLiteDatabase db = DatabaseHelper.getDatabase();
 		Cursor c = db.rawQuery(query + String.valueOf(card_id), null );
 		c.moveToFirst();
 		
