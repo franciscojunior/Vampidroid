@@ -11,5 +11,12 @@
 	    
 	</item>
 	
+	<item 
+		android:id="@+id/menu_add_new_deck" 
+		android:title="@string/add_new_deck"
+		android:icon="@drawable/ic_menu_add"
+		android:showAsAction="never">
+	</item>
+	
 
 </menu>
