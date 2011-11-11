@@ -378,16 +378,21 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 			mFilterModel.setCryptFilter(mCryptFilterText.getText().toString().trim());
 
 			mFilterModel.setLibraryFilter(mLibraryFilterText.getText().toString().trim());
+			
+			
+			if (mFilterModel.isCryptFilterChanged()) {
+				getCryptListFragment().setFilter(
+						mFilterModel.getCryptFilterQuery() + mFilterModel.getNameFilterQuery());
+				getCryptListFragment().refreshList();
+				
+			}
 
-			if (mFilterModel.isCryptFilterChanged())
-				getCryptListFragment().filterData(
-						mFilterModel.getCryptFilterQuery() + mFilterModel.getNameFilterQuery()
-								+ mFilterModel.getOrderByFilterQuery());
-
-			if (mFilterModel.isLibraryFilterChanged())
-				getLibraryListFragment().filterData(
-						mFilterModel.getLibraryFilterQuery() + mFilterModel.getNameFilterQuery()
-								+ mFilterModel.getOrderByFilterQuery());
+			if (mFilterModel.isLibraryFilterChanged()) {
+				getLibraryListFragment().setFilter(
+						mFilterModel.getLibraryFilterQuery() + mFilterModel.getNameFilterQuery());
+				getLibraryListFragment().refreshList();
+				
+			}
 
 		}
 	};
@@ -560,12 +565,6 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 
 	public ListFragment getChildFragment(int position) {
 		return (ListFragment) mTitleFlowIndicatorAdapter.getItem(position);
-	}
-
-	public void updateQueries(String cryptQuery, String libraryQuery) {
-
-		((CryptListFragment) mTitleFlowIndicatorAdapter.getItem(0)).setQuery(cryptQuery);
-		((LibraryListFragment) mTitleFlowIndicatorAdapter.getItem(1)).setQuery(libraryQuery);
 	}
 
 	protected abstract String getCryptQuery();
