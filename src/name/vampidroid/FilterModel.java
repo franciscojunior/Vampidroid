@@ -256,6 +256,8 @@ public class FilterModel {
 
 			}
 		}
+		else
+			mCryptFilterChanged = false;
 
 	}
 
@@ -285,6 +287,8 @@ public class FilterModel {
 
 			}
 		}
+		else
+			mLibraryFilterChanged = false;
 
 	}
 
@@ -296,14 +300,14 @@ public class FilterModel {
 			mNameFilter = filterCompare;
 			mNameFilterChanged = true;
 		}
+		else
+			mNameFilterChanged = false;
 
 	}
 
 	public String getNameFilterQuery() {
 		// TODO Auto-generated method stub
 
-		mNameFilterChanged = false;
-		
 		if (mNameFilter.length() > 0)
 			return " and lower(Name) like '%" + mNameFilter + "%'";
 		else
@@ -357,8 +361,6 @@ public class FilterModel {
 
 	public String getCryptFilterQuery() {
 
-		mCryptFilterChanged = false;
-		
 		if (mFiltersCrypt.size() == 0)
 			return "";
 
@@ -380,8 +382,6 @@ public class FilterModel {
 
 	public String getLibraryFilterQuery() {
 
-		mLibraryFilterChanged = false;
-		
 		if (mFiltersLibrary.size() == 0)
 			return "";
 
@@ -469,11 +469,6 @@ public class FilterModel {
 				}
 			}
 		}
-	}
-
-	public String getOrderByFilterQuery() {
-		// TODO Auto-generated method stub
-		return " order by Name ";
 	}
 
 	public boolean isCryptFilterChanged() {
