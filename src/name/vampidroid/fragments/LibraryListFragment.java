@@ -19,7 +19,11 @@ public class LibraryListFragment extends ListFragment {
 	// This is the Adapter being used to display the list's data.
 	SimpleCursorAdapter mAdapter;
 
-	String mQuery;
+	String mQuery = "";
+	
+	String mFilter = "";
+
+	String mOrderBy = "";
 
 	OnLibraryCardSelectedListener mListener;
 
@@ -56,16 +60,17 @@ public class LibraryListFragment extends ListFragment {
 
 	}
 
-	public void filterData(String filter) {
+	public void setFilter(String filter) {
+		
+		
 
-		if (filter.trim().length() > 0) {
-
-			SQLiteDatabase db = DatabaseHelper.getDatabase();
-
-			Cursor c = db.rawQuery(mQuery + filter, null);
-
-			mAdapter.changeCursor(c);
-		}
+//		SQLiteDatabase db = DatabaseHelper.getDatabase();
+//
+//		Cursor c = db.rawQuery(mQuery + filter + mOrderBy, null);
+//
+//		mAdapter.changeCursor(c);
+		
+		mFilter = " " + filter + " ";
 
 	}
 
@@ -103,15 +108,20 @@ public class LibraryListFragment extends ListFragment {
 	public void setQuery(String libraryQuery) {
 
 		mQuery = libraryQuery;
-		refreshList();
+		// refreshList();
 
 	}
 
-	private void refreshList() {
+	public void setOrderBy(String orderBy) {
+
+		mOrderBy = " " + orderBy;
+	}
+
+	public void refreshList() {
 
 		SQLiteDatabase db = DatabaseHelper.getDatabase();
 
-		Cursor c = db.rawQuery(mQuery, null);
+		Cursor c = db.rawQuery(mQuery + mFilter + mOrderBy, null);
 
 		mAdapter.changeCursor(c);
 
@@ -261,7 +271,8 @@ public class LibraryListFragment extends ListFragment {
 
 		// Favorite cards may have been changed. Update views to reflect changed
 		// favorite status.
-		getListView().invalidateViews();
+		// getListView().invalidateViews();
+		refreshList();
 	}
 
 }
