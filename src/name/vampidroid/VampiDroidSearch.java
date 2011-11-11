@@ -126,7 +126,8 @@ public class VampiDroidSearch extends VampiDroidBase {
 		setTitle("Search Results for: " + mSearchQuery);
 		
 		
-		updateQueries();
+		mVampidroidFragment.getCryptListFragment().setQuery(getCryptQuery());
+		mVampidroidFragment.getLibraryListFragment().setQuery(getLibraryQuery());
 		
 	
 	}
@@ -149,6 +150,7 @@ public class VampiDroidSearch extends VampiDroidBase {
 		
 		mVampidroidFragment.getCryptListFragment().setListAdapter(adapter);
 		mVampidroidFragment.getCryptListFragment().setQuery(getCryptQuery());
+		mVampidroidFragment.getCryptListFragment().setOrderBy(DatabaseHelper.ORDER_BY_NAME);
 
 		
 		
@@ -160,7 +162,7 @@ public class VampiDroidSearch extends VampiDroidBase {
 
 		mVampidroidFragment.getLibraryListFragment().setListAdapter(adapter);
 		mVampidroidFragment.getLibraryListFragment().setQuery(getLibraryQuery());
-
+		mVampidroidFragment.getLibraryListFragment().setOrderBy(DatabaseHelper.ORDER_BY_NAME);
 		
 		
 	}

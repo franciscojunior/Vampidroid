@@ -57,7 +57,7 @@ public class FavoriteCards extends VampiDroidBase {
 		
 		mVampidroidFragment.getCryptListFragment().setListAdapter(adapter);
 		mVampidroidFragment.getCryptListFragment().setQuery(getCryptQuery());
-
+		mVampidroidFragment.getCryptListFragment().setOrderBy(DatabaseHelper.ORDER_BY_NAME);
 		
 		
 		adapter = new CardListCursorAdapter(CardType.LIBRARY, this,
@@ -68,7 +68,7 @@ public class FavoriteCards extends VampiDroidBase {
 
 		mVampidroidFragment.getLibraryListFragment().setListAdapter(adapter);
 		mVampidroidFragment.getLibraryListFragment().setQuery(getLibraryQuery());
-
+		mVampidroidFragment.getLibraryListFragment().setOrderBy(DatabaseHelper.ORDER_BY_NAME);
 		
 		
 	}

@@ -40,7 +40,7 @@ public class DeckCards extends VampiDroidBase {
 		
 		setTitle("Deck: " + mDeckName);
 		
-		
+		DatabaseHelper.LAST_SELECTED_DECK = mDeckId;
 		
 		mCryptAdapter = new CardListCursorAdapter(CardType.CRYPT, this, R.layout.deckcryptlistitem,
 				null, DatabaseHelper.FROM_STRING_ARRAY_DECK_CRYPT_LIST_COLUMNS, new int[] { R.id.txtCardName,
@@ -148,10 +148,13 @@ public class DeckCards extends VampiDroidBase {
 		
 		mVampidroidFragment.getCryptListFragment().setListAdapter(mCryptAdapter);
 		mVampidroidFragment.getCryptListFragment().setQuery(getCryptQuery());
+		mVampidroidFragment.getCryptListFragment().setOrderBy(DatabaseHelper.ORDER_BY_NAME);
+		
 		
 		
 		mVampidroidFragment.getLibraryListFragment().setListAdapter(mLibraryAdapter);
 		mVampidroidFragment.getLibraryListFragment().setQuery(getLibraryQuery());
+		mVampidroidFragment.getLibraryListFragment().setOrderBy(DatabaseHelper.ORDER_BY_NAME);
 
 		
 	}

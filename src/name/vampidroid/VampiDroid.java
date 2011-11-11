@@ -243,10 +243,12 @@ public class VampiDroid extends VampiDroidBase {
 		
 		mVampidroidFragment.getCryptListFragment().setListAdapter(mCryptAdapter);
 		mVampidroidFragment.getCryptListFragment().setQuery(getCryptQuery());
+		mVampidroidFragment.getCryptListFragment().setOrderBy(DatabaseHelper.ORDER_BY_NAME);
 		
 		
 		mVampidroidFragment.getLibraryListFragment().setListAdapter(mLibraryAdapter);
 		mVampidroidFragment.getLibraryListFragment().setQuery(getLibraryQuery());
+		mVampidroidFragment.getLibraryListFragment().setOrderBy(DatabaseHelper.ORDER_BY_NAME);
 
 		
 	}
