@@ -7,5 +7,11 @@
 		android:icon="@drawable/ic_action_share" 
 		android:showAsAction="ifRoom|withText"></item>
 	
+	    <item 
+		android:id="@+id/menu_share" 
+		android:title="@string/share_deck_cards_text"
+		android:icon="@drawable/ic_menu_share" 
+		android:showAsAction="never"></item>
+	
 
 </menu>
