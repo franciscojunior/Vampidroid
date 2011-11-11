@@ -237,18 +237,6 @@ public abstract class VampiDroidBase extends FragmentActivity implements OnCrypt
 			return mHasDetailsFrame;
 			
 		}
-
-		
-
-	/** Updates queries used by the lists contained in the Crypt and Library lists */
-	public void updateQueries() {
-
-		//VampiDroidFragment fragment = (VampiDroidFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_vampidroid_container);
-		
-		mVampidroidFragment.updateQueries(getCryptQuery(), getLibraryQuery());
-		
-		
-	}
 		
 
 }
