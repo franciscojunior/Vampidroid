@@ -48,6 +48,11 @@ public class DatabaseHelper {
 
 	public static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY = new String[] { "Name", "Disciplines",
 			"Capacity" };
+	
+	
+	// TODO: Make ordering configurable.
+	public static String ORDER_BY_NAME = " order by Name ";
+	
 
 	public static SQLiteDatabase DATABASE = null;
 
@@ -62,7 +67,7 @@ public class DatabaseHelper {
 	/**
 	 * Keeps reference of last deck selected when adding a card to deck.
 	 */
-	public static long LAST_DECK_SELECTED;
+	public static long LAST_SELECTED_DECK;
 
 	public static HashSet<Long> FAVORITE_CRYPT_CARDS;
 
@@ -256,8 +261,13 @@ public class DatabaseHelper {
 				new String[] { String.valueOf(id), String.valueOf(CardType.CRYPT.ordinal()) });
 
 		c.moveToFirst();
+		
+		boolean result = c.getInt(0) > 0; 
 
-		return c.getInt(0) > 0;
+		c.close();
+		
+		return result;
+		
 
 	}
 
@@ -274,6 +284,8 @@ public class DatabaseHelper {
 
 				FAVORITE_CRYPT_CARDS.add(c.getLong(0));
 			}
+			
+			c.close();
 
 		}
 
@@ -288,7 +300,12 @@ public class DatabaseHelper {
 
 		c.moveToFirst();
 
-		return c.getInt(0) > 0;
+		boolean result = c.getInt(0) > 0; 
+
+		c.close();
+		
+		return result;
+
 
 	}
 
@@ -297,9 +314,12 @@ public class DatabaseHelper {
 		Cursor c = getDatabase().rawQuery("select count(*) from favorite_cards where CardId = ? and CardType = ?",
 				new String[] { String.valueOf(id), String.valueOf(CardType.LIBRARY.ordinal()) });
 
-		c.moveToFirst();
+		boolean result = c.getInt(0) > 0; 
 
-		return c.getInt(0) > 0;
+		c.close();
+		
+		return result;
+
 
 	}
 
@@ -316,6 +336,8 @@ public class DatabaseHelper {
 
 				FAVORITE_LIBRARY_CARDS.add(c.getLong(0));
 			}
+			
+			c.close();
 
 		}
 
@@ -339,6 +361,8 @@ public class DatabaseHelper {
 		if (c.moveToFirst()) {
 			result = c.getString(0);
 		}
+		
+		c.close();
 
 		return result;
 	}
@@ -393,6 +417,8 @@ public class DatabaseHelper {
 			c.moveToFirst();
 			result = c.getInt(0);
 		}
+		
+		c.close();
 
 		return result;
 
@@ -416,7 +442,11 @@ public class DatabaseHelper {
 
 		c.moveToFirst();
 
-		return c.getString(0);
+		String result = c.getString(0); 
+
+		c.close();
+		
+		return result;
 
 	}
 
