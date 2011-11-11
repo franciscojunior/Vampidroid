@@ -105,7 +105,7 @@ public class AddRemoveDeckCard extends FragmentActivity {
 
 		for (int i = 0; i < mDecks.getCount(); i++) {
 			long itemIdAtPosition2 = mDecks.getItemIdAtPosition(i);
-			if (itemIdAtPosition2 == DatabaseHelper.LAST_DECK_SELECTED) {
+			if (itemIdAtPosition2 == DatabaseHelper.LAST_SELECTED_DECK) {
 				mDecks.setSelection(i);
 				break;
 			}
@@ -123,7 +123,7 @@ public class AddRemoveDeckCard extends FragmentActivity {
 			DatabaseHelper.addDeckCard(deckId, mCardId, mCardType,
 					Integer.parseInt(cardCount));
 			
-			DatabaseHelper.LAST_DECK_SELECTED = deckId;
+			DatabaseHelper.LAST_SELECTED_DECK = deckId;
 		}
 
 		finish();
