@@ -21,7 +21,9 @@ import android.widget.TextView;
 public class VampiDroid extends VampiDroidBase {
 
 	public static final String KEY_CHANGELOG_VERSION_VIEWED = "change_log_viewed";
-	public static final String KEY_TUTORIAL_BUTTONS_VIEWED = "tutorial_buttons_viewed";
+	public static final String KEY_TUTORIAL_BUTTONS_VIEWED = "tutorial_buttons_viewed_int";
+	
+	public static final int TUTORIAL_VERSION = 2;
 	
 	private boolean mIsShowingTutorial = false;
 	
@@ -256,18 +258,19 @@ public class VampiDroid extends VampiDroidBase {
 	private void checkAndShowTutorialButtons() {
 		// TODO Auto-generated method stub
 		
-		// version where changelog has been viewed
+
+		// Check if the tutorial has been viewed.
+		
 		SharedPreferences settings = PreferenceManager
 				.getDefaultSharedPreferences(this);
-		boolean tutorialButtonsViewed = settings.getBoolean(
-				KEY_TUTORIAL_BUTTONS_VIEWED, false);
+		int tutorialButtonsViewed = settings.getInt(KEY_TUTORIAL_BUTTONS_VIEWED, 0);
 
-		if (!tutorialButtonsViewed) {
+		if (tutorialButtonsViewed < TUTORIAL_VERSION) {
 			
 			startActivity(new Intent(this, Tutorial.class));
 			
 			Editor editor = settings.edit();
-			editor.putBoolean(KEY_TUTORIAL_BUTTONS_VIEWED, true);
+			editor.putInt(KEY_TUTORIAL_BUTTONS_VIEWED, TUTORIAL_VERSION);
 			editor.commit();
 			
 			
