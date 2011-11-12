@@ -130,8 +130,6 @@ public class CryptListFragment extends ListFragment {
 
 		SQLiteDatabase db = DatabaseHelper.getDatabase();
 		
-		System.out.println(mQuery + mFilter + mOrderBy);
-
 		Cursor c = db.rawQuery(mQuery + mFilter + mOrderBy, null);
 
 		mAdapter.changeCursor(c);
