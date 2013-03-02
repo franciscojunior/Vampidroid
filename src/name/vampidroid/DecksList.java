@@ -5,11 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.MenuItem;
 import android.view.LayoutInflater;
 import android.view.View;
 
-public class DecksList extends FragmentActivity {
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
+
+public class DecksList extends SherlockFragmentActivity {
 
 	
 	

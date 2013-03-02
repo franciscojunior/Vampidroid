@@ -8,9 +8,7 @@ import name.vampidroid.fragments.VampiDroidFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItem;
 import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -19,8 +17,11 @@ import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 
-public abstract class VampiDroidBase extends FragmentActivity implements OnCryptCardSelectedListener, OnLibraryCardSelectedListener {
+
+public abstract class VampiDroidBase extends SherlockFragmentActivity implements OnCryptCardSelectedListener, OnLibraryCardSelectedListener {
 
 	
 	public static String CARD_ID = "card_id";

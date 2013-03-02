@@ -1,22 +1,24 @@
 package name.vampidroid.fragments;
 
 import name.vampidroid.DatabaseHelper;
-import name.vampidroid.FilterModel;
 import name.vampidroid.R;
+import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
-import android.support.v4.view.Menu;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-public class CryptListFragment extends ListFragment {
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+
+public class CryptListFragment extends SherlockListFragment {
 
 	// This is the Adapter being used to display the list's data.
 	SimpleCursorAdapter mAdapter;
@@ -62,7 +64,7 @@ public class CryptListFragment extends ListFragment {
 		else
 			getListView().setChoiceMode(ListView.CHOICE_MODE_NONE);
 
-		getListView().setBackgroundResource(R.color.Black);
+		getListView().setBackgroundResource(android.R.color.black);
 	}
 
 	@Override
@@ -111,12 +113,6 @@ public class CryptListFragment extends ListFragment {
 
 	}
 
-	@Override
-	public void onAttach(FragmentActivity activity) {
-		// TODO Auto-generated method stub
-		super.onAttach(activity);
-
-	}
 
 	public void refreshList() {
 

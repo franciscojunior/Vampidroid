@@ -10,12 +10,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 
 public class VampiDroid extends VampiDroidBase {
@@ -283,7 +284,7 @@ public class VampiDroid extends VampiDroidBase {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main_menu, menu);
+		getSupportMenuInflater().inflate(R.menu.main_menu, menu);
 		
 		return super.onCreateOptionsMenu(menu);
         

@@ -11,16 +11,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.ContextMenu;
-import android.view.MenuInflater;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class DecksListFragment extends ListFragment {
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
+public class DecksListFragment extends SherlockListFragment {
 
 	// This is the Adapter being used to display the list's data.
 	SimpleCursorAdapter mAdapter;
@@ -54,12 +57,14 @@ public class DecksListFragment extends ListFragment {
 
 		setEmptyText("No decks found. Add one from menu");
 
-		getListView().setBackgroundResource(R.color.Black);
+		getListView().setBackgroundResource(android.R.color.black);
 		
 		registerForContextMenu(getListView());
 
 
 	}
+	
+	
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -68,7 +73,7 @@ public class DecksListFragment extends ListFragment {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(android.view.MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 
@@ -124,12 +129,13 @@ public class DecksListFragment extends ListFragment {
 		startActivity(i);
 
 	}
-
+	
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
-		MenuInflater inflater = getActivity().getMenuInflater();
-		inflater.inflate(R.menu.decks_list_context_menu, menu);
+		MenuInflater inflater = getSherlockActivity().getSupportMenuInflater();
+		inflater.inflate(R.menu.decks_list_context_menu, (Menu) menu);
 
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 

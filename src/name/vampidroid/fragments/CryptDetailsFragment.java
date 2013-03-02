@@ -7,15 +7,17 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.Menu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class CryptDetailsFragment extends Fragment {
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
+public class CryptDetailsFragment extends SherlockFragment {
 	
 	public static String QUERY_CRYPT = "select Name, Type, Clan, Disciplines, CardText, Capacity, Artist, _Set, _Group from crypt where _id = ";
 
@@ -38,8 +40,9 @@ public class CryptDetailsFragment extends Fragment {
         return f;
     }
     
-    
-    @Override
+
+
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
@@ -47,6 +50,7 @@ public class CryptDetailsFragment extends Fragment {
 		setHasOptionsMenu(true);
 	}
 
+    
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -59,7 +63,7 @@ public class CryptDetailsFragment extends Fragment {
 
 	
 	@Override
-	public boolean onOptionsItemSelected(android.view.MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 
 		case R.id.menu_share:

@@ -113,7 +113,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/imgFavorite"
-        android:background="@color/actionbarwatson_item_bg"
         android:src="@drawable/btn_deck_cards" />
 
 </RelativeLayout>

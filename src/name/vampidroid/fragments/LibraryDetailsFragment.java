@@ -7,15 +7,17 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.Menu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class LibraryDetailsFragment extends Fragment {
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
+public class LibraryDetailsFragment extends SherlockFragment {
 
 	static String QUERY_LIBRARY = "select Name, Type, Clan, Discipline, CardText, PoolCost, BloodCost, Artist, _Set from library where _id = ";
 	
@@ -58,7 +60,7 @@ public class LibraryDetailsFragment extends Fragment {
 
 	
 	@Override
-	public boolean onOptionsItemSelected(android.view.MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 
 		case R.id.menu_share:

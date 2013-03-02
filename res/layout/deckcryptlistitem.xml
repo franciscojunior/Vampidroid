@@ -102,7 +102,6 @@
         android:layout_alignBottom="@+id/txtCardCount"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/imgFavorite"
-        android:background="@color/actionbarwatson_item_bg"
         android:src="@drawable/btn_deck_cards" />
 
     <TextView

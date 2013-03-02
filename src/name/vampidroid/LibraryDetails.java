@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.MenuItem;
 import android.util.DisplayMetrics;
 
-public class LibraryDetails extends FragmentActivity {
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
+
+public class LibraryDetails extends SherlockFragmentActivity {
 
 		
 	@Override

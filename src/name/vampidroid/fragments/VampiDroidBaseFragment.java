@@ -5,7 +5,6 @@
 package name.vampidroid.fragments;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import name.vampidroid.FilterModel;
 import name.vampidroid.FilterModel.CommaEAmpTokenizer;
@@ -33,8 +32,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 
-import com.jakewharton.android.viewpagerindicator.TitlePageIndicator;
-import com.jakewharton.android.viewpagerindicator.TitleProvider;
+import com.viewpagerindicator.TitlePageIndicator;
 
 public abstract class VampiDroidBaseFragment extends Fragment {
 
@@ -587,7 +585,7 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 		return ((LibraryListFragment) mTitleFlowIndicatorAdapter.getItem(1));
 	}
 
-	public static class TextIndicatorAdapter extends FragmentPagerAdapter implements TitleProvider {
+	public static class TextIndicatorAdapter extends FragmentPagerAdapter{
 
 		private FragmentActivity mContext;
 
@@ -627,13 +625,14 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 			return mTabs.size();
 		}
 
+		
 		@Override
-		public String getTitle(int position) {
-
+		public CharSequence getPageTitle(int position) {
+			// TODO Auto-generated method stub
 			TabInfo info = mTabs.get(position);
 			return info.tag;
 		}
-
+		
 		public void addTab(String tag, Class<?> clss, Bundle args) {
 
 			TabInfo info = new TabInfo(tag, clss, args, Fragment.instantiate(mContext, clss.getName(), args));

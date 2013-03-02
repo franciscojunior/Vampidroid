@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="Theme.VampiDroid" parent="Theme.Sherlock">
         <!-- <item name="selectableItemBackground">@color/vampidroid_item_bg</item> -->
         <!-- <item name="logo">@drawable/ic_tab_home</item>
         <item name="divider">@drawable/ic_title_home_default</item>
         -->
-        <item name="abDivider">@null</item>
+        <!-- 
+        <item name="android:divider">@null</item>
+        -->
         <!-- 
         <item name="abBackground">@color/ActionBarBackground</item>
         -->

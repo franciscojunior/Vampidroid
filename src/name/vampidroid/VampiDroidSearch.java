@@ -3,12 +3,11 @@ package name.vampidroid;
 import name.vampidroid.DatabaseHelper.CardType;
 import android.app.SearchManager;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
 import android.util.Log;
+
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 public class VampiDroidSearch extends VampiDroidBase {
 	
@@ -170,7 +169,7 @@ public class VampiDroidSearch extends VampiDroidBase {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.search_menu, menu);
+		getSupportMenuInflater().inflate(R.menu.search_menu, menu);
 		
 		return super.onCreateOptionsMenu(menu);
         
