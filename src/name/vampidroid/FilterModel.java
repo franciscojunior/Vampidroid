@@ -73,13 +73,18 @@ public class FilterModel {
 		private final String DISCIPLINE_CRYPT_FILTER = "Disciplines like '%?%'";
 		private final String DISCIPLINE_CRYPT_PLUS_FILTER = "lower(Disciplines) like '%?%'";
 		private final String DISCIPLINE_LIBRARY_FILTER = "Discipline like '%?%'";
-
+		private final String CAPACITY_CRYPT_FILTER = "Cast(capacity as integer) ";
+		
 		String mFilterQuery;
 
 		List<FilterToken> mAndTokens;
 
 		public FilterToken(String token) {
 
+			boolean isLower = token.contains("<");
+			boolean isGreater = token.contains(">");
+			boolean isEqual = token.contains("=");
+			
 			// Create "and" tokens...
 			// for&pro
 			if (token.contains("&")) {
@@ -104,6 +109,37 @@ public class FilterModel {
 				// for+ == (for or FOR)
 				mFilterQuery = DISCIPLINE_CRYPT_PLUS_FILTER.replace("?", token.replace("+", ""));
 				mTokenType = TokenType.DISCIPLINE_CRYPT;
+			}
+			
+			else if (isLower || isGreater || isEqual) {
+				// assume that there isn't the lower and greater operators in the same token. If not, lower takes precedence
+				token = token.replace("<", "").replace(">", "").replace("=", "");
+				int capacity;
+				
+				try { 
+					capacity = Integer.parseInt(token);
+				}
+				catch(Exception e) {
+					return;
+				}
+				
+				mTokenType = TokenType.DISCIPLINE_CRYPT;
+				if(isLower) {
+					if(isEqual)
+						mFilterQuery = CAPACITY_CRYPT_FILTER + "<=" + capacity;
+					else
+						mFilterQuery = CAPACITY_CRYPT_FILTER + "<" + capacity;
+				}
+				else if (isGreater){
+					if(isEqual)
+						mFilterQuery = CAPACITY_CRYPT_FILTER + ">=" + capacity;
+					else
+						mFilterQuery = CAPACITY_CRYPT_FILTER + ">" + capacity;
+				}
+				else {
+					mFilterQuery = CAPACITY_CRYPT_FILTER + "=" + capacity;
+				}
+					
 			}
 
 			else if (mClans.contains(token)) {
