@@ -103,7 +103,7 @@ public class FilterModel {
 				// inferior and superior
 				// for+ == (for or FOR)
 				mFilterQuery = DISCIPLINE_CRYPT_PLUS_FILTER.replace("?", token.replace("+", ""));
-
+				mTokenType = TokenType.DISCIPLINE_CRYPT;
 			}
 
 			else if (mClans.contains(token)) {
