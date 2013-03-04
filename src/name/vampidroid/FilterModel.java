@@ -74,6 +74,7 @@ public class FilterModel {
 		private final String DISCIPLINE_CRYPT_PLUS_FILTER = "lower(Disciplines) like '%?%'";
 		private final String DISCIPLINE_LIBRARY_FILTER = "Discipline like '%?%'";
 		private final String CAPACITY_CRYPT_FILTER = "Cast(capacity as integer) ";
+		private final String GROUP_CRYPT_FILTER = "_group = '*' or _group in (?)";
 		
 		String mFilterQuery;
 
@@ -81,9 +82,9 @@ public class FilterModel {
 
 		public FilterToken(String token) {
 
-			boolean isLower = token.contains("<");
-			boolean isGreater = token.contains(">");
-			boolean isEqual = token.contains("=");
+			boolean hasLower = token.contains("<");
+			boolean hasGreater = token.contains(">");
+			boolean hasEqual = token.contains("=");
 			
 			// Create "and" tokens...
 			// for&pro
@@ -111,7 +112,7 @@ public class FilterModel {
 				mTokenType = TokenType.DISCIPLINE_CRYPT;
 			}
 			
-			else if (isLower || isGreater || isEqual) {
+			else if (hasLower || hasGreater || hasEqual) {
 				// assume that there isn't the lower and greater operators in the same token. If not, lower takes precedence
 				token = token.replace("<", "").replace(">", "").replace("=", "");
 				int capacity;
@@ -124,14 +125,14 @@ public class FilterModel {
 				}
 				
 				mTokenType = TokenType.DISCIPLINE_CRYPT;
-				if(isLower) {
-					if(isEqual)
+				if(hasLower) {
+					if(hasEqual)
 						mFilterQuery = CAPACITY_CRYPT_FILTER + "<=" + capacity;
 					else
 						mFilterQuery = CAPACITY_CRYPT_FILTER + "<" + capacity;
 				}
-				else if (isGreater){
-					if(isEqual)
+				else if (hasGreater){
+					if(hasEqual)
 						mFilterQuery = CAPACITY_CRYPT_FILTER + ">=" + capacity;
 					else
 						mFilterQuery = CAPACITY_CRYPT_FILTER + ">" + capacity;
@@ -168,6 +169,21 @@ public class FilterModel {
 				mTokenType = TokenType.DISCIPLINE_CRYPT;
 				mFilterQuery = DISCIPLINE_CRYPT_FILTER.replace("?", token);
 
+			}
+			
+			else if (token.length() >= 2 && token.charAt(0) == 'g' && token.charAt(1) >= '0' && token.charAt(1) <= '9') {
+				// group: g?????? with ? any digit between 1 and 6, 
+				// Eg. g12 returns vampires in group 1 and 2 (and the 'any' group)
+				StringBuilder groups = new StringBuilder();
+				for(int i = 1; i < token.length(); ++i) {
+					if(token.charAt(i) >= '0' && token.charAt(i) <= '9') {
+						if(i > 1)
+							groups.append(", ");
+						groups.append("'").append(token.charAt(i)).append("'");
+					}
+				}
+				mTokenType = TokenType.DISCIPLINE_CRYPT;
+				mFilterQuery = GROUP_CRYPT_FILTER.replace("?", groups.toString());
 			}
 
 			// if (mTokenType != null)
