@@ -1,13 +1,13 @@
 apply plugin: 'android-library'
 
 android {
-    compileSdkVersion 16
+    compileSdkVersion 19
     buildToolsVersion "20.0.0"
 
     defaultConfig {
         applicationId "com.viewpagerindicator"
         minSdkVersion 13
-        targetSdkVersion 13
+        targetSdkVersion 19
     }
 
     buildTypes {
@@ -19,5 +19,5 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:13.0.+'
+    compile 'com.android.support:support-v4:19.0.+'
 }
