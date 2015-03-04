@@ -14,12 +14,18 @@ import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class DatabaseHelper {
 
+    private final static String TAG = "DatabaseHelper";
 	public static final String VAMPIDROID_DB = "VampiDroid.db";
 	public static final String KEY_DATABASE_VERSION = "database_version";
 	public static final int DATABASE_VERSION = 3;
+	
+	// Mark which database version occured the migration of favorites out of main database.
+    static final int DATABASE_VERSION_FAVORITES_MIGRATION = 3;
+
 
 	public static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY_INITIALCARDTEXT = new String[] { "Name",
 			"Disciplines", "Capacity", "InitialCardText" };
@@ -159,18 +165,64 @@ public class DatabaseHelper {
 		 */
 
 		if (DATABASE == null) {
-			checkAndCreateDatabaseFile();
+			//checkAndCreateDatabaseFile();
+
+            // The file will be stored in the private data area of the application.
+            // Reference:
+            // http://www.reigndesign.com/blog/using-your-own-sqlite-database-in-android-applications/
+            File databaseFile = APPLICATION_CONTEXT.getFileStreamPath(VAMPIDROID_DB);
+
+            // version where changelog has been viewed
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(APPLICATION_CONTEXT);
+            int databaseVersion = settings.getInt(KEY_DATABASE_VERSION, 1);
+
+
+            if (databaseVersion != DATABASE_VERSION) {
+                // Update database version.
+                Editor editor = settings.edit();
+                editor.putInt(KEY_DATABASE_VERSION, DATABASE_VERSION);
+                editor.commit();
+            }
+
+            if (!databaseFile.exists()) {
+                createCardsDatabaseFile();
+            }
+
+
 			DATABASE = SQLiteDatabase.openDatabase(APPLICATION_CONTEXT.getFileStreamPath(VAMPIDROID_DB)
 					.getAbsolutePath(), null, SQLiteDatabase.OPEN_READWRITE);
 
 			DATABASE.execSQL("PRAGMA case_sensitive_like = true;");
+
+            if (databaseVersion <= DATABASE_VERSION_FAVORITES_MIGRATION) {
+
+                Log.d(TAG, "Starting favorites and decks migration");
+                // check if there are any favorites. If so, do the migration.
+                migrateFavorites();
+                migrateDecks();
+
+                checkMigratedFavoriteCards();
+
+                FAVORITE_CRYPT_CARDS = null;
+                FAVORITE_LIBRARY_CARDS = null;
+
+                getFavoriteCryptCards();
+                getFavoriteLibraryCards();
+
+            }
+
+
 
 		}
 
 		return DATABASE;
 	}
 
-	static public void setApplicationContext(Context context) {
+    private static void migrateFavorites() {
+
+    }
+
+    static public void setApplicationContext(Context context) {
 		APPLICATION_CONTEXT = context.getApplicationContext();
 	}
 
@@ -194,7 +246,7 @@ public class DatabaseHelper {
 		int databaseVersion = settings.getInt(KEY_DATABASE_VERSION, 1);
 
 		if (databaseVersion < DATABASE_VERSION || !databaseFile.exists()) {
-			createDatabaseFile();
+			createCardsDatabaseFile();
 
 			Editor editor = settings.edit();
 			editor.putInt(KEY_DATABASE_VERSION, DATABASE_VERSION);
@@ -204,39 +256,54 @@ public class DatabaseHelper {
 
 	}
 
-	private static void createDatabaseFile() {
 
-		AssetManager am = APPLICATION_CONTEXT.getAssets();
+	private static void createCardsDatabaseFile() {
 
-		try {
-
-			// Asset Manager doesn't work with files bigger than 1Mb at a time.
-			// Check here for explanation:
-			// http://stackoverflow.com/questions/2860157/load-files-bigger-than-1m-from-assets-folder
-			// Had to change the file suffix to .mp3 so it isn't compressed and
-			// can be opened directly.
-
-			InputStream in = am.open("VampiDroid.mp3");
-
-			OutputStream out = APPLICATION_CONTEXT.openFileOutput(VAMPIDROID_DB, Context.MODE_PRIVATE);
-
-			byte[] buffer = new byte[1024];
-			int read;
-			while ((read = in.read(buffer)) != -1) {
-				out.write(buffer, 0, read);
-			}
-
-			in.close();
-
-			out.flush();
-			out.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-		}
+		createDatabaseFile("VampiDroid.mp3", VAMPIDROID_DB);
 
 	}
+
+    private static void createUserDataDatabaseFile() {
+
+        createDatabaseFile("UserData.db", "UserData.db");
+
+    }
+
+
+    private static void createDatabaseFile(String databaseFileName, String databaseName) {
+
+        AssetManager am = APPLICATION_CONTEXT.getAssets();
+
+        try {
+
+            // Asset Manager doesn't work with files bigger than 1Mb at a time.
+            // Check here for explanation:
+            // http://stackoverflow.com/questions/2860157/load-files-bigger-than-1m-from-assets-folder
+            // Had to change the file suffix to .mp3 so it isn't compressed and
+            // can be opened directly.
+
+            //InputStream in = am.open("VampiDroid.mp3");
+            InputStream in = am.open(databaseFileName);
+
+            OutputStream out = APPLICATION_CONTEXT.openFileOutput(databaseName, Context.MODE_PRIVATE);
+
+            byte[] buffer = new byte[1024];
+            int read;
+            while ((read = in.read(buffer)) != -1) {
+                out.write(buffer, 0, read);
+            }
+
+            in.close();
+
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+        }
+
+    }
 
 	public static void removeFavoriteCard(Long cardId, CardType cardType) {
 		getDatabase().delete("favorite_cards", "CardId = ? and CardType = ?",
