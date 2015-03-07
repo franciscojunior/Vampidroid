@@ -200,17 +200,17 @@ public class DatabaseHelper {
             if (databaseVersion <= DATABASE_VERSION_FAVORITES_MIGRATION) {
 
                 Log.d(TAG, "Starting favorites and decks migration");
+
+                FAVORITE_CRYPT_CARDS = null;
+                FAVORITE_LIBRARY_CARDS = null;
+                USER_DATABASE = null;
+
                 // check if there are any favorites. If so, do the migration.
                 migrateFavorites();
                 //migrateDecks();
 
                 checkMigratedFavoriteCards();
 
-                FAVORITE_CRYPT_CARDS = null;
-                FAVORITE_LIBRARY_CARDS = null;
-
-                getFavoriteCryptCards();
-                getFavoriteLibraryCards();
 
             }
 
@@ -351,6 +351,12 @@ public class DatabaseHelper {
 			CARDS_DATABASE.close();
 			CARDS_DATABASE = null;
 		}
+
+        if (USER_DATABASE != null) {
+            USER_DATABASE.close();
+            USER_DATABASE = null;
+        }
+
 
 	}
 
