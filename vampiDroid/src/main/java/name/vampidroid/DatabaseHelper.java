@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,7 +20,8 @@ import android.util.Log;
 public class DatabaseHelper {
 
     private final static String TAG = "DatabaseHelper";
-	public static final String VAMPIDROID_DB = "VampiDroid.db";
+    public static final String CARDS_DB_NAME = "VampiDroid.db";
+    public static final String USER_DB_NAME = "UserData.db";
 	public static final String KEY_DATABASE_VERSION = "database_version";
 	public static final int DATABASE_VERSION = 3;
 	
@@ -54,13 +56,14 @@ public class DatabaseHelper {
 
 	public static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY = new String[] { "Name", "Disciplines",
 			"Capacity" };
-	
-	
-	// TODO: Make ordering configurable.
+    private static SQLiteDatabase USER_DATABASE = null;
+
+
+    // TODO: Make ordering configurable.
 	public static String ORDER_BY_NAME = " order by Name ";
 	
 
-	public static SQLiteDatabase DATABASE = null;
+	public static SQLiteDatabase CARDS_DATABASE = null;
 
 	public enum CardType {
 
@@ -159,18 +162,18 @@ public class DatabaseHelper {
 
 	public static SQLiteDatabase getDatabase() {
 		/*
-		 * File databaseFile = context.getFileStreamPath(VAMPIDROID_DB); return
+		 * File databaseFile = context.getFileStreamPath(CARDS_DB_NAME); return
 		 * SQLiteDatabase.openDatabase(databaseFile.getAbsolutePath(), null,
 		 * SQLiteDatabase.OPEN_READWRITE);
 		 */
 
-		if (DATABASE == null) {
+		if (CARDS_DATABASE == null) {
 			//checkAndCreateDatabaseFile();
 
             // The file will be stored in the private data area of the application.
             // Reference:
             // http://www.reigndesign.com/blog/using-your-own-sqlite-database-in-android-applications/
-            File databaseFile = APPLICATION_CONTEXT.getFileStreamPath(VAMPIDROID_DB);
+            File databaseFile = APPLICATION_CONTEXT.getFileStreamPath(CARDS_DB_NAME);
 
             // version where changelog has been viewed
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(APPLICATION_CONTEXT);
@@ -189,17 +192,17 @@ public class DatabaseHelper {
             }
 
 
-			DATABASE = SQLiteDatabase.openDatabase(APPLICATION_CONTEXT.getFileStreamPath(VAMPIDROID_DB)
+			CARDS_DATABASE = SQLiteDatabase.openDatabase(APPLICATION_CONTEXT.getFileStreamPath(CARDS_DB_NAME)
 					.getAbsolutePath(), null, SQLiteDatabase.OPEN_READWRITE);
 
-			DATABASE.execSQL("PRAGMA case_sensitive_like = true;");
+			CARDS_DATABASE.execSQL("PRAGMA case_sensitive_like = true;");
 
             if (databaseVersion <= DATABASE_VERSION_FAVORITES_MIGRATION) {
 
                 Log.d(TAG, "Starting favorites and decks migration");
                 // check if there are any favorites. If so, do the migration.
                 migrateFavorites();
-                migrateDecks();
+                //migrateDecks();
 
                 checkMigratedFavoriteCards();
 
@@ -211,14 +214,131 @@ public class DatabaseHelper {
 
             }
 
-
-
 		}
 
-		return DATABASE;
+		return CARDS_DATABASE;
 	}
 
+    public static SQLiteDatabase getUserDatabase() {
+		/*
+		 * File databaseFile = context.getFileStreamPath(CARDS_DB_NAME); return
+		 * SQLiteDatabase.openDatabase(databaseFile.getAbsolutePath(), null,
+		 * SQLiteDatabase.OPEN_READWRITE);
+		 */
+
+        if (USER_DATABASE == null) {
+            //checkAndCreateDatabaseFile();
+
+            // The file will be stored in the private data area of the application.
+            // Reference:
+            // http://www.reigndesign.com/blog/using-your-own-sqlite-database-in-android-applications/
+            File databaseFile = APPLICATION_CONTEXT.getFileStreamPath(USER_DB_NAME);
+
+//            if (!databaseFile.exists()) {
+//                createUserDatabaseFile();
+//            }
+            createUserDatabaseFile(); // Test only. Remove before release.
+
+
+            USER_DATABASE = SQLiteDatabase.openDatabase(APPLICATION_CONTEXT.getFileStreamPath(USER_DB_NAME)
+                    .getAbsolutePath(), null, SQLiteDatabase.OPEN_READWRITE);
+
+            USER_DATABASE.execSQL("PRAGMA case_sensitive_like = true;");
+
+
+        }
+
+        return USER_DATABASE;
+    }
+
+
     private static void migrateFavorites() {
+
+
+        Log.d(TAG, "Migrating crypt favorites...");
+
+        FAVORITE_CRYPT_CARDS = getFavoriteCryptCardsFromDatabaseToMigrate();
+
+        for (Iterator<Long> iterator = FAVORITE_CRYPT_CARDS.iterator(); iterator.hasNext(); ) {
+            Long cardId = iterator.next();
+            addFavoriteCard(cardId, CardType.CRYPT);
+        }
+
+        Log.d(TAG, "Migrating library favorites...");
+
+        FAVORITE_LIBRARY_CARDS = getFavoriteLibraryCardsFromDatabaseToMigrate();
+
+        for (Iterator<Long> iterator = FAVORITE_LIBRARY_CARDS.iterator(); iterator.hasNext(); ) {
+            Long cardId = iterator.next();
+            addFavoriteCard(cardId, CardType.LIBRARY);
+        }
+
+
+    }
+
+    public static HashSet<Long> getFavoriteLibraryCardsFromDatabaseToMigrate() {
+
+        if (FAVORITE_LIBRARY_CARDS == null) {
+
+            FAVORITE_LIBRARY_CARDS = new HashSet<Long>();
+
+            Cursor c = getDatabase().rawQuery("select CardId from favorite_cards where CardType = ?",
+                    new String[] { String.valueOf(CardType.LIBRARY.ordinal()) });
+
+            while (c.moveToNext()) {
+
+                FAVORITE_LIBRARY_CARDS.add(c.getLong(0));
+            }
+
+            c.close();
+
+        }
+
+        return FAVORITE_LIBRARY_CARDS;
+
+    }
+
+    public static HashSet<Long> getFavoriteCryptCardsFromDatabaseToMigrate() {
+
+        if (FAVORITE_CRYPT_CARDS == null) {
+
+            FAVORITE_CRYPT_CARDS = new HashSet<Long>();
+
+            Cursor c = getDatabase().rawQuery("select CardId from favorite_cards where CardType = ?",
+                    new String[] { String.valueOf(CardType.CRYPT.ordinal()) });
+
+            while (c.moveToNext()) {
+
+                FAVORITE_CRYPT_CARDS.add(c.getLong(0));
+            }
+
+            c.close();
+
+        }
+
+        return FAVORITE_CRYPT_CARDS;
+
+    }
+
+    private static void checkMigratedFavoriteCards() {
+
+        Log.d(TAG, "Checking favorites migration...");
+        HashSet<Long> previousFavoriteCryptCardsFromFile = (HashSet<Long>) FAVORITE_CRYPT_CARDS.clone();
+        HashSet<Long> previousFavoriteLibraryCardsFromFile = (HashSet<Long>) FAVORITE_LIBRARY_CARDS.clone();
+
+        FAVORITE_CRYPT_CARDS = null;
+        FAVORITE_LIBRARY_CARDS = null;
+
+        getFavoriteCryptCards();
+        getFavoriteLibraryCards();
+
+        if (previousFavoriteCryptCardsFromFile.equals(FAVORITE_CRYPT_CARDS)) {
+            Log.d(TAG, "Crypt favorites migration successful...");
+        }
+
+        if (previousFavoriteLibraryCardsFromFile.equals(FAVORITE_LIBRARY_CARDS)) {
+            Log.d(TAG, "Library favorites migration successful...");
+        }
 
     }
 
@@ -227,9 +347,9 @@ public class DatabaseHelper {
 	}
 
 	public static void closeDatabase() {
-		if (DATABASE != null) {
-			DATABASE.close();
-			DATABASE = null;
+		if (CARDS_DATABASE != null) {
+			CARDS_DATABASE.close();
+			CARDS_DATABASE = null;
 		}
 
 	}
@@ -239,7 +359,7 @@ public class DatabaseHelper {
 		// The file will be stored in the private data area of the application.
 		// Reference:
 		// http://www.reigndesign.com/blog/using-your-own-sqlite-database-in-android-applications/
-		File databaseFile = APPLICATION_CONTEXT.getFileStreamPath(VAMPIDROID_DB);
+		File databaseFile = APPLICATION_CONTEXT.getFileStreamPath(CARDS_DB_NAME);
 
 		// version where changelog has been viewed
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(APPLICATION_CONTEXT);
@@ -259,18 +379,18 @@ public class DatabaseHelper {
 
 	private static void createCardsDatabaseFile() {
 
-		createDatabaseFile("VampiDroid.mp3", VAMPIDROID_DB);
+		createDatabaseFile("VampiDroid.mp3", CARDS_DB_NAME);
 
 	}
 
-    private static void createUserDataDatabaseFile() {
+    private static void createUserDatabaseFile() {
 
-        createDatabaseFile("UserData.db", "UserData.db");
+        createDatabaseFile(USER_DB_NAME, USER_DB_NAME);
 
     }
 
 
-    private static void createDatabaseFile(String databaseFileName, String databaseName) {
+    private static void createDatabaseFile(String databaseFileNameSource, String databaseFileNameDestination) {
 
         AssetManager am = APPLICATION_CONTEXT.getAssets();
 
@@ -283,9 +403,9 @@ public class DatabaseHelper {
             // can be opened directly.
 
             //InputStream in = am.open("VampiDroid.mp3");
-            InputStream in = am.open(databaseFileName);
+            InputStream in = am.open(databaseFileNameSource);
 
-            OutputStream out = APPLICATION_CONTEXT.openFileOutput(databaseName, Context.MODE_PRIVATE);
+            OutputStream out = APPLICATION_CONTEXT.openFileOutput(databaseFileNameDestination, Context.MODE_PRIVATE);
 
             byte[] buffer = new byte[1024];
             int read;
@@ -306,7 +426,7 @@ public class DatabaseHelper {
     }
 
 	public static void removeFavoriteCard(Long cardId, CardType cardType) {
-		getDatabase().delete("favorite_cards", "CardId = ? and CardType = ?",
+		getUserDatabase().delete("favorite_cards", "CardId = ? and CardType = ?",
 				new String[] { String.valueOf(cardId), String.valueOf(cardType.ordinal()) });
 
 	}
@@ -318,7 +438,7 @@ public class DatabaseHelper {
 		row.put("CardType", cardType.ordinal());
 		row.put("CardId", cardId);
 
-		getDatabase().insert("favorite_cards", null, row);
+		getUserDatabase().insert("favorite_cards", null, row);
 
 	}
 
@@ -344,7 +464,7 @@ public class DatabaseHelper {
 
 			FAVORITE_CRYPT_CARDS = new HashSet<Long>();
 
-			Cursor c = getDatabase().rawQuery("select CardId from favorite_cards where CardType = ?",
+			Cursor c = getUserDatabase().rawQuery("select CardId from favorite_cards where CardType = ?",
 					new String[] { String.valueOf(CardType.CRYPT.ordinal()) });
 
 			while (c.moveToNext()) {
@@ -362,7 +482,7 @@ public class DatabaseHelper {
 
 	public static boolean containsFavoriteCard(long cardId, CardType cardType) {
 
-		Cursor c = getDatabase().rawQuery("select count(*) from favorite_cards where CardId = ? and CardType = ?",
+		Cursor c = getUserDatabase().rawQuery("select count(*) from favorite_cards where CardId = ? and CardType = ?",
 				new String[] { String.valueOf(cardId), String.valueOf(cardType.ordinal()) });
 
 		c.moveToFirst();
@@ -378,7 +498,7 @@ public class DatabaseHelper {
 
 	public static boolean containsLibraryFavorite(long id) {
 
-		Cursor c = getDatabase().rawQuery("select count(*) from favorite_cards where CardId = ? and CardType = ?",
+		Cursor c = getUserDatabase().rawQuery("select count(*) from favorite_cards where CardId = ? and CardType = ?",
 				new String[] { String.valueOf(id), String.valueOf(CardType.LIBRARY.ordinal()) });
 
 		boolean result = c.getInt(0) > 0; 
@@ -396,7 +516,7 @@ public class DatabaseHelper {
 
 			FAVORITE_LIBRARY_CARDS = new HashSet<Long>();
 
-			Cursor c = getDatabase().rawQuery("select CardId from favorite_cards where CardType = ?",
+			Cursor c = getUserDatabase().rawQuery("select CardId from favorite_cards where CardType = ?",
 					new String[] { String.valueOf(CardType.LIBRARY.ordinal()) });
 
 			while (c.moveToNext()) {
