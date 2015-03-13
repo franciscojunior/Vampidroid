@@ -207,7 +207,7 @@ public class DatabaseHelper {
 
                 // check if there are any favorites. If so, do the migration.
                 migrateFavorites();
-                //migrateDecks();
+                migrateDecks();
 
                 checkMigratedFavoriteCards();
 
@@ -218,6 +218,39 @@ public class DatabaseHelper {
 
 		return CARDS_DATABASE;
 	}
+
+    private static void migrateDecks() {
+
+
+        Cursor c = getDatabase().rawQuery("select _id, Name from decks", null);
+
+        String deckName;
+        long deckId;
+        while (c.moveToNext()) {
+            deckId = c.getLong(0);
+            deckName = c.getString(1);
+            createDeck(deckName);
+
+            Cursor c2 = getDatabase().rawQuery("select CardType, CardId, CardNum from deck_cards where DeckId = ?", new String[] { Long.toString(deckId) });
+            while (c2.moveToNext()) {
+                ContentValues row = new ContentValues();
+
+                row.put("DeckId", deckId);
+                row.put("CardType", c2.getInt(0));
+                row.put("CardId", c2.getLong(1));
+                row.put("CardNum", c2.getInt(2));
+
+                getUserDatabase().insert("deck_cards", null, row);
+
+            }
+            c2.close();
+
+        }
+
+        c.close();
+
+
+    }
 
     public static SQLiteDatabase getUserDatabase() {
 		/*
@@ -540,7 +573,7 @@ public class DatabaseHelper {
 
 	public static Cursor getDecks() {
 		// TODO Auto-generated method stub
-		return getDatabase().rawQuery("select _id, Name from decks order by Name", null);
+		return getUserDatabase().rawQuery("select _id, Name from decks order by Name", null);
 
 	}
 
@@ -548,7 +581,7 @@ public class DatabaseHelper {
 
 		String result = "";
 
-		Cursor c = getDatabase().rawQuery("select Name from decks where _id = ?",
+		Cursor c = getUserDatabase().rawQuery("select Name from decks where _id = ?",
 				new String[] { String.valueOf(deckId) });
 
 		if (c.moveToFirst()) {
@@ -562,7 +595,7 @@ public class DatabaseHelper {
 
 	public static Cursor getDecksWithCardsCount() {
 		// TODO Auto-generated method stub
-		return getDatabase().rawQuery(ALL_DECKS_WITH_CARDS_COUNT, null);
+		return getUserDatabase().rawQuery(ALL_DECKS_WITH_CARDS_COUNT, null);
 
 	}
 
@@ -573,13 +606,13 @@ public class DatabaseHelper {
 
 		row.put("Name", deckName);
 
-		getDatabase().insert("decks", null, row);
+        getUserDatabase().insert("decks", null, row);
 
 	}
 
 	public static void addDeckCard(long deckId, long cardId, CardType cardType, int cardNum) {
 
-		getDatabase().delete("deck_cards", "DeckId = ? and CardType = ? and CardId = ?",
+		getUserDatabase().delete("deck_cards", "DeckId = ? and CardType = ? and CardId = ?",
 				new String[] { String.valueOf(deckId), String.valueOf(cardType.ordinal()), String.valueOf(cardId) });
 
 		if (cardNum > 0) {
@@ -591,7 +624,7 @@ public class DatabaseHelper {
 			row.put("CardId", cardId);
 			row.put("CardNum", cardNum);
 
-			getDatabase().insert("deck_cards", null, row);
+            getUserDatabase().insert("deck_cards", null, row);
 
 		}
 
@@ -599,7 +632,7 @@ public class DatabaseHelper {
 
 	public static int getCountCardsInDeck(long deckId, long cardId, CardType cardType) {
 
-		Cursor c = getDatabase().rawQuery(
+		Cursor c = getUserDatabase().rawQuery(
 				"select CardNum from deck_cards where DeckId = ? and CardType = ? and CardId = ?",
 				new String[] { String.valueOf(deckId), String.valueOf(cardType.ordinal()), String.valueOf(cardId) });
 
@@ -645,9 +678,9 @@ public class DatabaseHelper {
 
 	public static void removeDeck(long deckId) {
 
-		getDatabase().delete("deck_cards", "DeckId = ?", new String[] { String.valueOf(deckId) });
+        getUserDatabase().delete("deck_cards", "DeckId = ?", new String[] { String.valueOf(deckId) });
 
-		getDatabase().delete("decks", "_id = ?", new String[] { String.valueOf(deckId) });
+        getUserDatabase().delete("decks", "_id = ?", new String[] { String.valueOf(deckId) });
 
 	}
 
