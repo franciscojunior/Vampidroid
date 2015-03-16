@@ -7,21 +7,7 @@ With it you will be able to search card text, manage your deck and many other th
 
 ## How to compile
 
-In order to compile Vampidroid, you will need to download: 
-
-* ActionBarSherlock https://github.com/JakeWharton/ActionBarSherlock 
-and 
-* ViewPagerIndicator https://github.com/JakeWharton/Android-ViewPagerIndicator
-
-
-Just open these projects in your Eclipse. To do that, just follow step 1 of the instructions in the 
-ActionBarSherlock download page: http://actionbarsherlock.com/download.html.
-
-After that, in the Vampidroid project, go to Project Properties -> Android and in the Library section, 
-remove the current references which may be not working and add new ones pointing to the projects you just opened.
-
-Please, let me know if you have any problems setting this up.
-
+In order to compile Vampidroid, just open the project in AndroidStudio and select `Build -> Make Project`. All dependencies are already setup.
 
 ## Copyright notice
 
@@ -31,6 +17,6 @@ World of Darkness and all related terms are trademarks of CCP hf. This product i
 
 ## License
 
-Vampidroid is under GPL2 
+Vampidroid is licensed under GPL2 
 
 See the LICENSE file for the full license text.
