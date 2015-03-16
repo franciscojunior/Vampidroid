@@ -1,11 +1,5 @@
 package name.vampidroid;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.HashSet;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,6 +9,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.HashSet;
 
 public class DatabaseHelper {
 
@@ -212,11 +212,27 @@ public class DatabaseHelper {
 
         createUpdateDatabaseFile();
 
-        SQLiteDatabase updateDatabase = SQLiteDatabase.openDatabase(APPLICATION_CONTEXT.getFileStreamPath(VAMPIDROID_UPDATE_DB)
-                .getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
 
 
+        DATABASE.execSQL(" attach '" + APPLICATION_CONTEXT.getFileStreamPath(VAMPIDROID_UPDATE_DB)
+                .getAbsolutePath() + "' as updatedb");
 
+
+        DATABASE.beginTransaction();
+
+        try {
+
+            DATABASE.delete("crypt", null, null);
+            DATABASE.delete("library", null, null);
+
+            DATABASE.execSQL("insert into crypt select * from updatedb.crypt");
+            DATABASE.execSQL("insert into library select * from updatedb.library");
+
+            DATABASE.setTransactionSuccessful();
+        }
+        finally {
+            DATABASE.endTransaction();
+        }
 
 
     }
