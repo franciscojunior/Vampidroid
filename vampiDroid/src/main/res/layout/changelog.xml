@@ -25,9 +25,10 @@ android:layout_height="fill_parent">
                             android:textStyle="bold"
                             android:textColor="#ffffff" />
                     <TextView android:text="\n
-v1.18 - 2014-08-11: \n
+v1.18 - 2015-03-31: \n
 \t * Fixed bug using the dis+ search filter. \n
 \t * Added filter by group (eg. g234). \n
+\t * Updated Vampidroid database to Unaligned Expansion. \n
 \n \n \n
 
 v1.17 - 2011-11-11: \n
