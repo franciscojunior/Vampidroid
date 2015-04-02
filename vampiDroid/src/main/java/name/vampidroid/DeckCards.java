@@ -70,6 +70,7 @@ public class DeckCards extends VampiDroidBase {
 		switch (item.getItemId()) {
 
 		case R.id.menu_share:
+        case R.id.menu_share_action:
 			shareDeckCards();
 			break;
 
