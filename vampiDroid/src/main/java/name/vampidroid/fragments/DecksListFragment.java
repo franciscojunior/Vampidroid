@@ -78,6 +78,7 @@ public class DecksListFragment extends SherlockListFragment {
 		switch (item.getItemId()) {
 
 		case R.id.menu_add_new_deck:
+        case R.id.menu_add_new_deck_action:
 			// showAddNewDeck();
 			startActivityForResult(new Intent(this.getActivity(), NewDeck.class), CREATE_DECK_REQUEST_CODE);
 			return true;
