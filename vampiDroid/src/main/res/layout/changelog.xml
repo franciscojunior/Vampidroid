@@ -28,7 +28,7 @@ android:layout_height="fill_parent">
 v1.18 - 2015-04-03: \n
 \t * Fixed bug using the dis+ search filter. \n
 \t * Added filter by group (eg. g234). \n
-\t * Added filter by capacity (eg. =X / <=X / X / >=X). \n
+\t * Added filter by capacity (eg. =X / &lt;=X / X / &gt;=X). \n
 \t * Updated Vampidroid database to Storyline Awards 2015 Expansion (http://www.vekn.net/card-lists/310-storyline-rewards-2015). \n
 \t * Updated project code to use Android Studio 1.1 \n
 
