@@ -48,7 +48,7 @@ public class LibraryListFragment extends SherlockListFragment {
 		else
 			getListView().setChoiceMode(ListView.CHOICE_MODE_NONE);
 
-		// getListView().setBackgroundResource(R.color.Black);
+		getListView().setBackgroundResource(android.R.color.black);
 
 		registerForContextMenu(getListView());
 
