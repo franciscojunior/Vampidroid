@@ -5,31 +5,19 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imgFavorite"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:text=" › "
-        android:textAppearance="?android:attr/textAppearanceLarge" >
-
-    </TextView>
-
-    <TextView
         android:id="@+id/txtCardName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/textView5"
         android:includeFontPadding="true"
         android:singleLine="true"
         android:text="A long card name to test layout"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffddaa"
-        android:textStyle="bold" >
+        android:textStyle="bold"
+        android:layout_toLeftOf="@+id/textView5"
+        android:layout_toStartOf="@+id/textView5">
     </TextView>
 
     <TextView
@@ -66,11 +54,12 @@
         android:id="@+id/imgFavorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imgEditDeckCard"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/textView3"
         android:clickable="true"
-        android:src="@drawable/btn_star_big_off" />
+        android:src="@drawable/btn_star_big_off"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/imgEditDeckCard" />
 
     <ImageView
         android:id="@+id/imgEditDeckCard"

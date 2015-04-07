@@ -5,29 +5,17 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/txtCardCost"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:text=" › "
-        android:textAppearance="?android:attr/textAppearanceLarge" >
-
-    </TextView>
-
-    <TextView
         android:id="@+id/txtCardInitialText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/txtCardExtraInformation"
         android:layout_below="@+id/txtCardExtraInformation"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="A long initialcard text blah blah blah blah blah"
-        android:textAppearance="?android:attr/textAppearanceSmall" >
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_toLeftOf="@+id/textView2"
+        android:layout_toStartOf="@+id/textView2">
 
     </TextView>
 
@@ -37,11 +25,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/textView2"
         android:text="A long card name to test layout"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffddaa"
-        android:textStyle="bold" android:includeFontPadding="true" android:singleLine="true">
+        android:textStyle="bold" android:includeFontPadding="true" android:singleLine="true"
+        android:layout_toLeftOf="@+id/imgEditDeckCard"
+        android:layout_toStartOf="@+id/imgEditDeckCard">
 
     </TextView>
 
@@ -61,51 +50,58 @@
         android:id="@+id/imgFavorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/textView3"
         android:clickable="true"
-        android:src="@drawable/btn_star_big_off" >
+        android:src="@drawable/btn_star_big_off"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
     </ImageView>
 
     <TextView
         android:id="@+id/txtCardCost"
         android:layout_width="20dip"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtCardExtraInformation"
-        android:layout_toLeftOf="@+id/textView3"
-        android:gravity="center|right"
+        android:gravity="center"
         android:text="10"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/txtCardGroup"
+        android:layout_alignStart="@+id/txtCardGroup" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/txtCardCost"
-        android:layout_alignBottom="@+id/txtCardCost"
-        android:layout_toLeftOf="@+id/txtCardCost"
         android:text="Capacity:"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_alignTop="@+id/txtCardInitialText"
+        android:layout_toLeftOf="@+id/imgFavorite"
+        android:layout_toStartOf="@+id/imgFavorite" />
 
     <TextView
         android:id="@+id/txtCardGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/txtCardCost"
-        android:layout_alignLeft="@+id/txtCardCost"
-        android:layout_toLeftOf="@+id/textView3"
-        android:gravity="center|right"
+        android:gravity="center"
         android:text="11"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_alignTop="@+id/textView1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/imgEditDeckCard"
+        android:layout_toEndOf="@+id/imgEditDeckCard" />
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView2"
-        android:layout_alignRight="@+id/textView2"
         android:text="Group:"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_below="@+id/txtCardName"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignEnd="@+id/textView2" />
 
     <ImageView
         android:id="@+id/imgEditDeckCard"

@@ -5,18 +5,6 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/txtCardGroup"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:text=" › "
-        android:textAppearance="?android:attr/textAppearanceLarge" >
-    </TextView>
-
-    <TextView
         android:id="@+id/txtCardName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,32 +77,33 @@
         android:id="@+id/imgFavorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView3"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/textView3"
         android:clickable="true"
-        android:src="@drawable/btn_star_big_off" />
+        android:src="@drawable/btn_star_big_off"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/imgEditDeckCard" />
 
     <ImageView
         android:id="@+id/imgEditDeckCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/txtCardCount"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/imgFavorite"
-        android:src="@drawable/btn_deck_cards" />
+        android:src="@drawable/btn_deck_cards"
+        android:layout_alignBottom="@+id/txtCardGroup" />
 
     <TextView
         android:id="@+id/txtCardCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView3"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/imgEditDeckCard"
         android:gravity="center"
         android:text="10"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="30dip" />
+        android:textSize="30dip"
+        android:layout_alignBottom="@+id/imgEditDeckCard" />
 
     <TextView
         android:id="@+id/textView5"
