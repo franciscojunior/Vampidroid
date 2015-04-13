@@ -149,7 +149,6 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
 		}
 
         if (cardType.equals(CardType.CRYPT)) {
-            viewHolder.clearDisciplineImageViews();
 
             String[] disciplines = cursor.getString(2).split(" ");
 
@@ -158,6 +157,8 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
                 viewHolder.disciplineImageViews[disIndex].setImageDrawable(imageViewsDrawablesMap.get(discipline));
                 disIndex++;
             }
+
+            viewHolder.clearDisciplineImageViews(disIndex);
         }
 
 
@@ -178,6 +179,13 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
             }
         }
 
+        public void clearDisciplineImageViews(int fromIndex) {
+            // Optimization to clear imageviews only from fromIndex and above.
+            for (int i = fromIndex; i < 8; i++) {
+                disciplineImageViews[i].setImageDrawable(null);
+            }
+        }
+
 	}
 
 
@@ -187,6 +195,7 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
     public static void fillImageViewsDrawablesMap(Context context) {
 
         if (imageViewsDrawablesMap.isEmpty()) {
+
             imageViewsDrawablesMap.put("abo", context.getResources().getDrawable(R.drawable.ic_dis_abombwe));
             imageViewsDrawablesMap.put("ABO", context.getResources().getDrawable(R.drawable.ic_dis_abombwe_sup));
             imageViewsDrawablesMap.put("ani", context.getResources().getDrawable(R.drawable.ic_dis_animalism));
