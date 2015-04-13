@@ -155,8 +155,10 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
 
             int disIndex = 0;
             for (String discipline : disciplines) {
-                if (imageViewsDrawablesMap.get(discipline) != null) {
-                    viewHolder.disciplineImageViews[disIndex].setImageResource(imageViewsDrawablesMap.get(discipline));
+                Integer imageViewDrawableId = imageViewsDrawablesMap.get(discipline);
+                if ( imageViewDrawableId != null) {
+                    viewHolder.disciplineImageViews[disIndex].setImageResource(imageViewDrawableId);
+                }
                 disIndex++;
             }
         }
@@ -182,14 +184,11 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
 	}
 
 
-    public static final HashMap<String, Integer> imageViewsDrawablesMap;
+    public static final HashMap<String, Integer> imageViewsDrawablesMap = new HashMap<>();
 
 
 
     static {
-
-        imageViewsDrawablesMap = new HashMap<>();
-
 
         imageViewsDrawablesMap.put("abo", R.drawable.ic_dis_abombwe);
         imageViewsDrawablesMap.put("ABO", R.drawable.ic_dis_abombwe_sup);
@@ -247,11 +246,6 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
         imageViewsDrawablesMap.put("VIC", R.drawable.ic_dis_vicissitude_sup);
         imageViewsDrawablesMap.put("vis", R.drawable.ic_dis_visceratika);
         imageViewsDrawablesMap.put("VIS", R.drawable.ic_dis_visceratika_sup);
-
-
-
-
-
 
 
 
