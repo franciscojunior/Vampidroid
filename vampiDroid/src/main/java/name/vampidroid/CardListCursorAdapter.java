@@ -3,7 +3,8 @@ package name.vampidroid;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -154,7 +155,9 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
 
             int disIndex = 0;
             for (String discipline : disciplines) {
-                viewHolder.disciplineImageViews[disIndex].setImageDrawable(imageViewsDrawablesMap.get(discipline));
+                //viewHolder.disciplineImageViews[disIndex].setImageDrawable(imageViewsDrawablesMap.get(discipline));
+                viewHolder.disciplineImageViews[disIndex].setImageBitmap(imageViewsDrawablesMap.get(discipline));
+                viewHolder.disciplineImageViews[disIndex].setVisibility(View.VISIBLE);
                 disIndex++;
             }
 
@@ -182,76 +185,81 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
         public void clearDisciplineImageViews(int fromIndex) {
             // Optimization to clear imageviews only from fromIndex and above.
             for (int i = fromIndex; i < 8; i++) {
-                disciplineImageViews[i].setImageDrawable(null);
+                //disciplineImageViews[i].setImageDrawable(null);
+                disciplineImageViews[i].setVisibility(View.INVISIBLE);
+
             }
         }
 
 	}
 
 
-    public static final HashMap<String, Drawable> imageViewsDrawablesMap = new HashMap<>();
+    public static final HashMap<String, Bitmap> imageViewsDrawablesMap = new HashMap<>();
 
 
     public static void fillImageViewsDrawablesMap(Context context) {
 
         if (imageViewsDrawablesMap.isEmpty()) {
 
-            imageViewsDrawablesMap.put("abo", context.getResources().getDrawable(R.drawable.ic_dis_abombwe));
-            imageViewsDrawablesMap.put("ABO", context.getResources().getDrawable(R.drawable.ic_dis_abombwe_sup));
-            imageViewsDrawablesMap.put("ani", context.getResources().getDrawable(R.drawable.ic_dis_animalism));
-            imageViewsDrawablesMap.put("ANI", context.getResources().getDrawable(R.drawable.ic_dis_animalism_sup));
-            imageViewsDrawablesMap.put("aus", context.getResources().getDrawable(R.drawable.ic_dis_auspex));
-            imageViewsDrawablesMap.put("AUS", context.getResources().getDrawable(R.drawable.ic_dis_auspex_sup));
-            imageViewsDrawablesMap.put("cel", context.getResources().getDrawable(R.drawable.ic_dis_celerity));
-            imageViewsDrawablesMap.put("CEL", context.getResources().getDrawable(R.drawable.ic_dis_celerity_sup));
-            imageViewsDrawablesMap.put("chi", context.getResources().getDrawable(R.drawable.ic_dis_chimerstry));
-            imageViewsDrawablesMap.put("CHI", context.getResources().getDrawable(R.drawable.ic_dis_chimerstry_sup));
-            imageViewsDrawablesMap.put("dai", context.getResources().getDrawable(R.drawable.ic_dis_daimoinon));
-            imageViewsDrawablesMap.put("DAI", context.getResources().getDrawable(R.drawable.ic_dis_daimoinon_sup));
-            imageViewsDrawablesMap.put("dem", context.getResources().getDrawable(R.drawable.ic_dis_dementation));
-            imageViewsDrawablesMap.put("DEM", context.getResources().getDrawable(R.drawable.ic_dis_dementation_sup));
-            imageViewsDrawablesMap.put("dom", context.getResources().getDrawable(R.drawable.ic_dis_dominate));
-            imageViewsDrawablesMap.put("DOM", context.getResources().getDrawable(R.drawable.ic_dis_dominate_sup));
-            imageViewsDrawablesMap.put("for", context.getResources().getDrawable(R.drawable.ic_dis_fortitude));
-            imageViewsDrawablesMap.put("FOR", context.getResources().getDrawable(R.drawable.ic_dis_fortitude_sup));
-            imageViewsDrawablesMap.put("mel", context.getResources().getDrawable(R.drawable.ic_dis_melpominee));
-            imageViewsDrawablesMap.put("MEL", context.getResources().getDrawable(R.drawable.ic_dis_melpominee_sup));
-            imageViewsDrawablesMap.put("myt", context.getResources().getDrawable(R.drawable.ic_dis_mytherceria));
-            imageViewsDrawablesMap.put("MYT", context.getResources().getDrawable(R.drawable.ic_dis_mytherceria_sup));
-            imageViewsDrawablesMap.put("nec", context.getResources().getDrawable(R.drawable.ic_dis_necromancy));
-            imageViewsDrawablesMap.put("NEC", context.getResources().getDrawable(R.drawable.ic_dis_necromancy_sup));
-            imageViewsDrawablesMap.put("obe", context.getResources().getDrawable(R.drawable.ic_dis_obeah));
-            imageViewsDrawablesMap.put("OBE", context.getResources().getDrawable(R.drawable.ic_dis_obeah_sup));
-            imageViewsDrawablesMap.put("obf", context.getResources().getDrawable(R.drawable.ic_dis_obfuscate));
-            imageViewsDrawablesMap.put("OBF", context.getResources().getDrawable(R.drawable.ic_dis_obfuscate_sup));
-            imageViewsDrawablesMap.put("obt", context.getResources().getDrawable(R.drawable.ic_dis_obtenebration));
-            imageViewsDrawablesMap.put("OBT", context.getResources().getDrawable(R.drawable.ic_dis_obtenebration_sup));
-            imageViewsDrawablesMap.put("pot", context.getResources().getDrawable(R.drawable.ic_dis_potence));
-            imageViewsDrawablesMap.put("POT", context.getResources().getDrawable(R.drawable.ic_dis_potence_sup));
-            imageViewsDrawablesMap.put("pre", context.getResources().getDrawable(R.drawable.ic_dis_presence));
-            imageViewsDrawablesMap.put("PRE", context.getResources().getDrawable(R.drawable.ic_dis_presence_sup));
-            imageViewsDrawablesMap.put("pro", context.getResources().getDrawable(R.drawable.ic_dis_protean));
-            imageViewsDrawablesMap.put("PRO", context.getResources().getDrawable(R.drawable.ic_dis_protean_sup));
-            imageViewsDrawablesMap.put("qui", context.getResources().getDrawable(R.drawable.ic_dis_quietus));
-            imageViewsDrawablesMap.put("QUI", context.getResources().getDrawable(R.drawable.ic_dis_quietus_sup));
-            imageViewsDrawablesMap.put("san", context.getResources().getDrawable(R.drawable.ic_dis_sanguinus));
-            imageViewsDrawablesMap.put("SAN", context.getResources().getDrawable(R.drawable.ic_dis_sanguinus_sup));
-            imageViewsDrawablesMap.put("ser", context.getResources().getDrawable(R.drawable.ic_dis_serpentis));
-            imageViewsDrawablesMap.put("SER", context.getResources().getDrawable(R.drawable.ic_dis_serpentis_sup));
-            imageViewsDrawablesMap.put("spi", context.getResources().getDrawable(R.drawable.ic_dis_spiritus));
-            imageViewsDrawablesMap.put("SPI", context.getResources().getDrawable(R.drawable.ic_dis_spiritus_sup));
-            imageViewsDrawablesMap.put("tem", context.getResources().getDrawable(R.drawable.ic_dis_temporis));
-            imageViewsDrawablesMap.put("TEM", context.getResources().getDrawable(R.drawable.ic_dis_temporis_sup));
-            imageViewsDrawablesMap.put("thn", context.getResources().getDrawable(R.drawable.ic_dis_thanatosis));
-            imageViewsDrawablesMap.put("THN", context.getResources().getDrawable(R.drawable.ic_dis_thanatosis_sup));
-            imageViewsDrawablesMap.put("tha", context.getResources().getDrawable(R.drawable.ic_dis_thaumaturgy));
-            imageViewsDrawablesMap.put("THA", context.getResources().getDrawable(R.drawable.ic_dis_thaumaturgy_sup));
-            imageViewsDrawablesMap.put("val", context.getResources().getDrawable(R.drawable.ic_dis_valeren));
-            imageViewsDrawablesMap.put("VAL", context.getResources().getDrawable(R.drawable.ic_dis_valeren_sup));
-            imageViewsDrawablesMap.put("vic", context.getResources().getDrawable(R.drawable.ic_dis_vicissitude));
-            imageViewsDrawablesMap.put("VIC", context.getResources().getDrawable(R.drawable.ic_dis_vicissitude_sup));
-            imageViewsDrawablesMap.put("vis", context.getResources().getDrawable(R.drawable.ic_dis_visceratika));
-            imageViewsDrawablesMap.put("VIS", context.getResources().getDrawable(R.drawable.ic_dis_visceratika_sup));
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 4;
+
+            imageViewsDrawablesMap.put("abo", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_abombwe, options));
+            imageViewsDrawablesMap.put("ABO", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_abombwe_sup, options));
+            imageViewsDrawablesMap.put("ani", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_animalism, options));
+            imageViewsDrawablesMap.put("ANI", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_animalism_sup, options));
+            imageViewsDrawablesMap.put("aus", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_auspex, options));
+            imageViewsDrawablesMap.put("AUS", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_auspex_sup, options));
+            imageViewsDrawablesMap.put("cel", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_celerity, options));
+            imageViewsDrawablesMap.put("CEL", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_celerity_sup, options));
+            imageViewsDrawablesMap.put("chi", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_chimerstry, options));
+            imageViewsDrawablesMap.put("CHI", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_chimerstry_sup, options));
+            imageViewsDrawablesMap.put("dai", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_daimoinon, options));
+            imageViewsDrawablesMap.put("DAI", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_daimoinon_sup, options));
+            imageViewsDrawablesMap.put("dem", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_dementation, options));
+            imageViewsDrawablesMap.put("DEM", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_dementation_sup, options));
+            imageViewsDrawablesMap.put("dom", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_dominate, options));
+            imageViewsDrawablesMap.put("DOM", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_dominate_sup, options));
+            imageViewsDrawablesMap.put("for", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_fortitude, options));
+            imageViewsDrawablesMap.put("FOR", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_fortitude_sup, options));
+            imageViewsDrawablesMap.put("mel", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_melpominee, options));
+            imageViewsDrawablesMap.put("MEL", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_melpominee_sup, options));
+            imageViewsDrawablesMap.put("myt", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_mytherceria, options));
+            imageViewsDrawablesMap.put("MYT", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_mytherceria_sup, options));
+            imageViewsDrawablesMap.put("nec", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_necromancy, options));
+            imageViewsDrawablesMap.put("NEC", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_necromancy_sup, options));
+            imageViewsDrawablesMap.put("obe", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_obeah, options));
+            imageViewsDrawablesMap.put("OBE", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_obeah_sup, options));
+            imageViewsDrawablesMap.put("obf", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_obfuscate, options));
+            imageViewsDrawablesMap.put("OBF", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_obfuscate_sup, options));
+            imageViewsDrawablesMap.put("obt", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_obtenebration, options));
+            imageViewsDrawablesMap.put("OBT", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_obtenebration_sup, options));
+            imageViewsDrawablesMap.put("pot", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_potence, options));
+            imageViewsDrawablesMap.put("POT", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_potence_sup, options));
+            imageViewsDrawablesMap.put("pre", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_presence, options));
+            imageViewsDrawablesMap.put("PRE", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_presence_sup, options));
+            imageViewsDrawablesMap.put("pro", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_protean, options));
+            imageViewsDrawablesMap.put("PRO", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_protean_sup, options));
+            imageViewsDrawablesMap.put("qui", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_quietus, options));
+            imageViewsDrawablesMap.put("QUI", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_quietus_sup, options));
+            imageViewsDrawablesMap.put("san", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_sanguinus, options));
+            imageViewsDrawablesMap.put("SAN", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_sanguinus_sup, options));
+            imageViewsDrawablesMap.put("ser", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_serpentis, options));
+            imageViewsDrawablesMap.put("SER", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_serpentis_sup, options));
+            imageViewsDrawablesMap.put("spi", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_spiritus, options));
+            imageViewsDrawablesMap.put("SPI", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_spiritus_sup, options));
+            imageViewsDrawablesMap.put("tem", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_temporis, options));
+            imageViewsDrawablesMap.put("TEM", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_temporis_sup, options));
+            imageViewsDrawablesMap.put("thn", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_thanatosis, options));
+            imageViewsDrawablesMap.put("THN", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_thanatosis_sup, options));
+            imageViewsDrawablesMap.put("tha", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_thaumaturgy, options));
+            imageViewsDrawablesMap.put("THA", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_thaumaturgy_sup, options));
+            imageViewsDrawablesMap.put("val", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_valeren, options));
+            imageViewsDrawablesMap.put("VAL", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_valeren_sup, options));
+            imageViewsDrawablesMap.put("vic", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_vicissitude, options));
+            imageViewsDrawablesMap.put("VIC", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_vicissitude_sup, options));
+            imageViewsDrawablesMap.put("vis", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_visceratika, options));
+            imageViewsDrawablesMap.put("VIS", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_dis_visceratika_sup, options));
         }
     }
 
