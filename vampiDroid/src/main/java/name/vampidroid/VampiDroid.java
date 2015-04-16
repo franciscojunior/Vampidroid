@@ -186,14 +186,15 @@ public class VampiDroid extends VampiDroidBase {
 		
 		TextView view = new TextView(this);
 		
-		view.setText("     Advanced filtering will be done using all filters specified in the corresponding text boxes. So, if you put 'for, Brujah' only " +
-				"Brujah vampires with Fortitude inferior will appear. The same applies to Library filtering. \n\n " +
-				"     About discipline+: This means the filter will satisfy whoever has *at least* the inferior discipline. So, for a filter like 'for+', whoever " +
-				"has fortitude inferior or fortitude superior will be shown. This will help to filter elements which have the discipline regardless if it is superior or not ");
-		
-		
+		view.setText("     Advanced filtering uses the filters specified in the adequate text box, separated with commas \",\". For instance, writing \"for, Brujah\" in the \"Crypt filters\" will return " +
+				"only Brujah vampires with inferior Fortitude. The same applies to Library filtering.\n\n" +
+				"     Disciplines: use the first three letters of the discipline (and \"thn\" for Thanatosis). Lower case means inferior level only (eg. \"aus\"), " +
+                "Upper case means superior level only (eg. \"AUS\"). To filter vampires by a discipline regardless of its level, append \"+\" to the discipline (eg. \"aus+\" will return vampires with inferior or superior Auspex).\n\n" +
+                "     Grouping: use the \"g\" filter. For instance, \"g23\" will return only vampires from groups 2 and 3.\n\n" +
+                "     Capacity: use a condition such as \">5\" to return vampires with capacity 6 or more, \"<=10\" for capacity 10 or less, or \"=1\" for 1-capacity vampires.");
+
 		new AlertDialog.Builder(this)
-				.setTitle("Help filters")
+				.setTitle("Filters Help")
 				.setIcon(android.R.drawable.ic_menu_info_details)
 				.setView(view)
 				.setNegativeButton("Close",
