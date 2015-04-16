@@ -116,4 +116,78 @@
         android:text="x"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <name.vampidroid.BlockingRequestLayoutImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/imgDis1"
+        android:layout_below="@+id/textView1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" />
+
+    <name.vampidroid.BlockingRequestLayoutImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/imgDis2"
+        android:layout_alignTop="@+id/imgDis1"
+        android:layout_toRightOf="@+id/imgDis1"
+        android:layout_toEndOf="@+id/imgDis1"
+        android:layout_marginLeft="5dp" />
+
+    <name.vampidroid.BlockingRequestLayoutImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/imgDis3"
+        android:layout_alignTop="@+id/imgDis2"
+        android:layout_toRightOf="@+id/imgDis2"
+        android:layout_toEndOf="@+id/imgDis2"
+        android:layout_marginLeft="5dp" />
+
+    <name.vampidroid.BlockingRequestLayoutImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/imgDis4"
+        android:layout_alignTop="@+id/imgDis3"
+        android:layout_toRightOf="@+id/imgDis3"
+        android:layout_toEndOf="@+id/imgDis3"
+        android:layout_marginLeft="5dp" />
+
+    <name.vampidroid.BlockingRequestLayoutImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/imgDis5"
+        android:layout_alignTop="@+id/imgDis4"
+        android:layout_toRightOf="@+id/imgDis4"
+        android:layout_toEndOf="@+id/imgDis4"
+        android:layout_marginLeft="5dp" />
+
+    <name.vampidroid.BlockingRequestLayoutImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/imgDis6"
+        android:layout_alignTop="@+id/imgDis5"
+        android:layout_toRightOf="@+id/imgDis5"
+        android:layout_toEndOf="@+id/imgDis5"
+        android:layout_marginLeft="5dp" />
+
+    <name.vampidroid.BlockingRequestLayoutImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/imgDis7"
+        android:layout_alignTop="@+id/imgDis6"
+        android:layout_toRightOf="@+id/imgDis6"
+        android:layout_toEndOf="@+id/imgDis6"
+        android:layout_marginLeft="5dp" />
+
+    <name.vampidroid.BlockingRequestLayoutImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/imgDis8"
+        android:layout_alignTop="@+id/imgDis7"
+        android:layout_toRightOf="@+id/imgDis7"
+        android:layout_toEndOf="@+id/imgDis7"
+        android:layout_marginLeft="5dp" />
+
 </name.vampidroid.FixIssue59368RelativeLayout>
