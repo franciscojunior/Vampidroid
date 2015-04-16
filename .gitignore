@@ -4,3 +4,9 @@
 /.idea/libraries
 .DS_Store
 /build
+
+library/build/
+vampiDroid/build
+.idea/gradle.xml
+library/library.iml
+Vampidroid.iml
