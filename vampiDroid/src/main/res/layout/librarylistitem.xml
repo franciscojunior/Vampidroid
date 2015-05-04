@@ -74,4 +74,50 @@
         android:src="@drawable/btn_deck_cards"
         android:layout_alignBottom="@+id/txtCardDiscipline" />
 
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/imgCardType1"
+        android:layout_below="@+id/txtCardDiscipline"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/imgCardType2"
+        android:layout_below="@+id/txtCardDiscipline"
+        android:layout_toRightOf="@+id/imgCardType1"
+        android:layout_toEndOf="@+id/imgCardType1"
+        android:layout_marginLeft="5dp" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/imgCardClan"
+        android:layout_below="@+id/txtCardDiscipline"
+        android:layout_toRightOf="@+id/imgCardType2"
+        android:layout_toEndOf="@+id/imgCardType2"
+        android:layout_marginLeft="5dp" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/imgLibraryDis1"
+        android:layout_below="@+id/txtCardDiscipline"
+        android:layout_toRightOf="@+id/imgCardClan"
+        android:layout_toEndOf="@+id/imgCardClan"
+        android:layout_marginLeft="5dp" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/imgLibraryDis2"
+        android:layout_below="@+id/txtCardDiscipline"
+        android:layout_toRightOf="@+id/imgLibraryDis1"
+        android:layout_toEndOf="@+id/imgLibraryDis1"
+        android:layout_marginLeft="5dp" />
+
 </RelativeLayout>

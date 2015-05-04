@@ -40,6 +40,8 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
 		this.cardType = cardType;
 
         fillImageViewsDrawablesMap(context);
+
+        fillImageViewsCardTypesMap(context);
 	}
 
 	@Override
@@ -99,14 +101,30 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
 		vh.txtCardName = (TextView) v.findViewById(R.id.txtCardName);
 
 
-        vh.disciplineImageViews[0] = (ImageView) v.findViewById(R.id.imgDis1);
-        vh.disciplineImageViews[1] = (ImageView) v.findViewById(R.id.imgDis2);
-        vh.disciplineImageViews[2] = (ImageView) v.findViewById(R.id.imgDis3);
-        vh.disciplineImageViews[3] = (ImageView) v.findViewById(R.id.imgDis4);
-        vh.disciplineImageViews[4] = (ImageView) v.findViewById(R.id.imgDis5);
-        vh.disciplineImageViews[5] = (ImageView) v.findViewById(R.id.imgDis6);
-        vh.disciplineImageViews[6] = (ImageView) v.findViewById(R.id.imgDis7);
-        vh.disciplineImageViews[7] = (ImageView) v.findViewById(R.id.imgDis8);
+        if (cardType.equals(CardType.CRYPT)) {
+
+            vh.disciplineImageViews[0] = (ImageView) v.findViewById(R.id.imgDis1);
+            vh.disciplineImageViews[1] = (ImageView) v.findViewById(R.id.imgDis2);
+            vh.disciplineImageViews[2] = (ImageView) v.findViewById(R.id.imgDis3);
+            vh.disciplineImageViews[3] = (ImageView) v.findViewById(R.id.imgDis4);
+            vh.disciplineImageViews[4] = (ImageView) v.findViewById(R.id.imgDis5);
+            vh.disciplineImageViews[5] = (ImageView) v.findViewById(R.id.imgDis6);
+            vh.disciplineImageViews[6] = (ImageView) v.findViewById(R.id.imgDis7);
+            vh.disciplineImageViews[7] = (ImageView) v.findViewById(R.id.imgDis8);
+        }
+
+        if (cardType.equals(CardType.LIBRARY)) {
+
+            vh.libraryDisciplineImageViews[0] = (ImageView) v.findViewById(R.id.imgLibraryDis1);
+            vh.libraryDisciplineImageViews[1] = (ImageView) v.findViewById(R.id.imgLibraryDis2);
+
+            vh.cardTypesImageViews[0] = (ImageView) v.findViewById(R.id.imgCardType1);
+            vh.cardTypesImageViews[1] = (ImageView) v.findViewById(R.id.imgCardType2);
+
+            vh.cardClanImageView = (ImageView) v.findViewById(R.id.imgCardClan);
+
+        }
+
 
 		v.setTag(vh);
 
@@ -165,6 +183,29 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
         }
 
 
+        // "select _id, Name, Type, Clan, Discipline from library where 1=1";
+        if (cardType.equals(CardType.LIBRARY)) {
+
+            String[] disciplines = cursor.getString(4).split("&|/");
+
+            int disIndex = 0;
+            for (String discipline : disciplines) {
+                //viewHolder.libraryDisciplineImageViews[0].setImageBitmap();
+            }
+
+            String[] cardTypes = cursor.getString(2).split("&|/");
+
+            int cardTypeIndex = 0;
+            for (String cardType : cardTypes) {
+                viewHolder.cardTypesImageViews[cardTypeIndex].setImageBitmap(imageViewsCardTypesMap.get(cardType));
+                cardTypeIndex++;
+            }
+
+
+
+        }
+
+
     }
 
 	private final static class ViewHolder {
@@ -175,6 +216,18 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
         // Discipline images
 
         public ImageView[] disciplineImageViews = new ImageView[8];
+
+
+        // Card Type images
+
+        public ImageView[] cardTypesImageViews = new ImageView[2];
+
+        //
+        public ImageView cardClanImageView;
+
+        public ImageView[] libraryDisciplineImageViews = new ImageView[2];
+
+
 
         public void clearDisciplineImageViews() {
             for (int i = 0; i < 8; i++) {
@@ -196,6 +249,33 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
 
     public static final HashMap<String, Bitmap> imageViewsDrawablesMap = new HashMap<>();
 
+    public static final HashMap<String, Bitmap> imageViewsCardTypesMap = new HashMap<>();
+
+
+    public static void fillImageViewsCardTypesMap(Context context) {
+
+        if (imageViewsCardTypesMap.isEmpty()) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 4;
+
+            imageViewsCardTypesMap.put("Action", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_type_action, options));
+            imageViewsCardTypesMap.put("Ally", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_type_ally, options));
+            imageViewsCardTypesMap.put("Combat", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_type_combat, options));
+            imageViewsCardTypesMap.put("Conviction", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_type_conviction, options));
+            imageViewsCardTypesMap.put("Equipment", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_type_equipment, options));
+            imageViewsCardTypesMap.put("Event", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_type_event, options));
+            imageViewsCardTypesMap.put("Action Modifier", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_type_modifier, options));
+            imageViewsCardTypesMap.put("Political", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_type_political, options));
+            imageViewsCardTypesMap.put("Power", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_type_power, options));
+            imageViewsCardTypesMap.put("Reaction", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_type_reaction, options));
+            imageViewsCardTypesMap.put("Reflex", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_type_reflex, options));
+            imageViewsCardTypesMap.put("Retainer", BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_type_retainer, options));
+
+
+
+
+        }
+    }
 
     public static void fillImageViewsDrawablesMap(Context context) {
 
