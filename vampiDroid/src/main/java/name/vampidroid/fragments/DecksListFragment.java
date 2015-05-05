@@ -37,7 +37,7 @@ public class DecksListFragment extends SherlockListFragment {
 
 		Cursor c = DatabaseHelper.getDecksWithCardsCount();
 
-		mAdapter = new SimpleCursorAdapter(getActivity().getApplicationContext(), R.layout.deckslistitem, c,
+		mAdapter = new SimpleCursorAdapter(getActivity(), R.layout.deckslistitem, c,
 				new String[] { "Name", "CryptCardsCount", "LibraryCardsCount", "CryptCapacityAvg", "CryptCapacityMin", "CryptCapacityMax"  }, new int[] { R.id.txtCardName,
 						R.id.txtCryptCardsCount, R.id.txtLibraryCardsCount, R.id.txtCryptCapacityAvg, R.id.txtCryptCapacityMin, R.id.txtCryptCapacityMax  });
 
@@ -130,13 +130,13 @@ public class DecksListFragment extends SherlockListFragment {
 		startActivity(i);
 
 	}
-	
+
 	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
-		MenuInflater inflater = getSherlockActivity().getSupportMenuInflater();
-		inflater.inflate(R.menu.decks_list_context_menu, (Menu) menu);
+		android.view.MenuInflater inflater = getSherlockActivity().getMenuInflater();
+		inflater.inflate(R.menu.decks_list_context_menu, menu);
 
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
