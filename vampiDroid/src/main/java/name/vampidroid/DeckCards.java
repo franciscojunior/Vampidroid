@@ -6,9 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 
 public class DeckCards extends VampiDroidBase {
 
@@ -59,7 +59,7 @@ public class DeckCards extends VampiDroidBase {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		
-		getSupportMenuInflater().inflate(R.menu.deck_cards_menu, menu);
+		getMenuInflater().inflate(R.menu.deck_cards_menu, menu);
 
 		return super.onCreateOptionsMenu(menu);
 

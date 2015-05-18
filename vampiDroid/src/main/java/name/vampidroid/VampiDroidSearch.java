@@ -5,9 +5,9 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 
 public class VampiDroidSearch extends VampiDroidBase {
 	
@@ -169,7 +169,7 @@ public class VampiDroidSearch extends VampiDroidBase {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.search_menu, menu);
+		getMenuInflater().inflate(R.menu.search_menu, menu);
 		
 		return super.onCreateOptionsMenu(menu);
         

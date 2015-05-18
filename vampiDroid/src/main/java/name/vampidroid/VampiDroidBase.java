@@ -1,27 +1,29 @@
 package name.vampidroid;
 
-import name.vampidroid.fragments.CryptDetailsFragment;
-import name.vampidroid.fragments.CryptListFragment.OnCryptCardSelectedListener;
-import name.vampidroid.fragments.LibraryDetailsFragment;
-import name.vampidroid.fragments.LibraryListFragment.OnLibraryCardSelectedListener;
-import name.vampidroid.fragments.VampiDroidFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
+import name.vampidroid.fragments.CryptDetailsFragment;
+import name.vampidroid.fragments.CryptListFragment.OnCryptCardSelectedListener;
+import name.vampidroid.fragments.LibraryDetailsFragment;
+import name.vampidroid.fragments.LibraryListFragment.OnLibraryCardSelectedListener;
+import name.vampidroid.fragments.VampiDroidFragment;
 
 
-public abstract class VampiDroidBase extends SherlockFragmentActivity implements OnCryptCardSelectedListener, OnLibraryCardSelectedListener {
+
+public abstract class VampiDroidBase extends ActionBarActivity implements OnCryptCardSelectedListener, OnLibraryCardSelectedListener {
 
 	
 	public static String CARD_ID = "card_id";

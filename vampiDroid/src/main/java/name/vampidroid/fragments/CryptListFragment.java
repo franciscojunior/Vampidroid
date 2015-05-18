@@ -1,24 +1,20 @@
 package name.vampidroid.fragments;
 
-import name.vampidroid.DatabaseHelper;
-import name.vampidroid.R;
-import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.Menu;
 
-public class CryptListFragment extends SherlockListFragment {
+import name.vampidroid.DatabaseHelper;
+
+public class CryptListFragment extends ListFragment {
 
 	// This is the Adapter being used to display the list's data.
 	SimpleCursorAdapter mAdapter;
