@@ -198,8 +198,11 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
             int cardTypeIndex = 0;
             for (String cardType : cardTypes) {
                 viewHolder.cardTypesImageViews[cardTypeIndex].setImageBitmap(imageViewsCardTypesMap.get(cardType));
+                viewHolder.cardTypesImageViews[cardTypeIndex].setVisibility(View.VISIBLE);
                 cardTypeIndex++;
             }
+
+            viewHolder.clearCardTypesImageViews(cardTypeIndex);
 
 
 
@@ -240,6 +243,15 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
             for (int i = fromIndex; i < 8; i++) {
                 //disciplineImageViews[i].setImageDrawable(null);
                 disciplineImageViews[i].setVisibility(View.INVISIBLE);
+
+            }
+        }
+
+        public void clearCardTypesImageViews(int fromIndex) {
+            // Optimization to clear imageviews only from fromIndex and above.
+            for (int i = fromIndex; i < 2; i++) {
+                //disciplineImageViews[i].setImageDrawable(null);
+                cardTypesImageViews[i].setVisibility(View.INVISIBLE);
 
             }
         }
