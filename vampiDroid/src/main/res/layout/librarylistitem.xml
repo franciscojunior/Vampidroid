@@ -88,7 +88,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:id="@+id/imgCardType2"
-        android:layout_below="@+id/txtCardDiscipline"
+        android:layout_alignTop="@+id/imgCardType1"
         android:layout_toRightOf="@+id/imgCardType1"
         android:layout_toEndOf="@+id/imgCardType1"
         android:layout_marginLeft="5dp" />
@@ -97,27 +97,35 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:id="@+id/imgCardClan"
-        android:layout_below="@+id/txtCardDiscipline"
-        android:layout_toRightOf="@+id/imgCardType2"
-        android:layout_toEndOf="@+id/imgCardType2"
-        android:layout_marginLeft="5dp" />
+        android:layout_below="@+id/imgCardType1"
+        android:layout_alignLeft="@+id/imgCardType1"
+        android:layout_alignStart="@+id/imgCardType1"
+        android:layout_marginBottom="5dp" />
 
     <ImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:id="@+id/imgLibraryDis1"
-        android:layout_below="@+id/txtCardDiscipline"
-        android:layout_toRightOf="@+id/imgCardClan"
-        android:layout_toEndOf="@+id/imgCardClan"
-        android:layout_marginLeft="5dp" />
+        android:layout_below="@+id/imgCardClan"
+        android:layout_alignLeft="@+id/imgCardClan"
+        android:layout_alignStart="@+id/imgCardClan" />
 
     <ImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:id="@+id/imgLibraryDis2"
-        android:layout_below="@+id/txtCardDiscipline"
+        android:layout_alignTop="@+id/imgLibraryDis1"
         android:layout_toRightOf="@+id/imgLibraryDis1"
         android:layout_toEndOf="@+id/imgLibraryDis1"
+        android:layout_marginLeft="5dp" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/imgLibraryDis3"
+        android:layout_alignTop="@+id/imgLibraryDis2"
+        android:layout_toRightOf="@+id/imgLibraryDis2"
+        android:layout_toEndOf="@+id/imgLibraryDis2"
         android:layout_marginLeft="5dp" />
 
 </RelativeLayout>

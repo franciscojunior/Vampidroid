@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -117,6 +118,7 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
 
             vh.libraryDisciplineImageViews[0] = (ImageView) v.findViewById(R.id.imgLibraryDis1);
             vh.libraryDisciplineImageViews[1] = (ImageView) v.findViewById(R.id.imgLibraryDis2);
+            vh.libraryDisciplineImageViews[2] = (ImageView) v.findViewById(R.id.imgLibraryDis3);
 
             vh.cardTypesImageViews[0] = (ImageView) v.findViewById(R.id.imgCardType1);
             vh.cardTypesImageViews[1] = (ImageView) v.findViewById(R.id.imgCardType2);
@@ -186,12 +188,25 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
         // "select _id, Name, Type, Clan, Discipline from library where 1=1";
         if (cardType.equals(CardType.LIBRARY)) {
 
+
             String[] disciplines = cursor.getString(4).split("&|/");
 
+            //Log.d("vampidroid", "disciplines: " + cursor.getString(4));
             int disIndex = 0;
             for (String discipline : disciplines) {
-                //viewHolder.libraryDisciplineImageViews[0].setImageBitmap();
+                if (discipline.length() > 0) {
+                    viewHolder.libraryDisciplineImageViews[disIndex].setImageBitmap(imageViewsDrawablesMap.get(discipline.substring(0,3).toLowerCase()));
+                    viewHolder.libraryDisciplineImageViews[disIndex].setVisibility(View.VISIBLE);
+                    //Log.d("vampidroid", "discipline: " + discipline + " " + discipline.substring(0, 3));
+                    disIndex++;
+                }
+
             }
+            viewHolder.clearArrayImageViews(viewHolder.libraryDisciplineImageViews, disIndex);
+
+
+            viewHolder.cardClanImageView.setVisibility(View.GONE);
+
 
             String[] cardTypes = cursor.getString(2).split("&|/");
 
@@ -228,7 +243,7 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
         //
         public ImageView cardClanImageView;
 
-        public ImageView[] libraryDisciplineImageViews = new ImageView[2];
+        public ImageView[] libraryDisciplineImageViews = new ImageView[3];
 
 
 
@@ -242,7 +257,7 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
             // Optimization to clear imageviews only from fromIndex and above.
             for (int i = fromIndex; i < 8; i++) {
                 //disciplineImageViews[i].setImageDrawable(null);
-                disciplineImageViews[i].setVisibility(View.INVISIBLE);
+                disciplineImageViews[i].setVisibility(View.GONE);
 
             }
         }
@@ -251,7 +266,16 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
             // Optimization to clear imageviews only from fromIndex and above.
             for (int i = fromIndex; i < 2; i++) {
                 //disciplineImageViews[i].setImageDrawable(null);
-                cardTypesImageViews[i].setVisibility(View.INVISIBLE);
+                cardTypesImageViews[i].setVisibility(View.GONE);
+
+            }
+        }
+
+        public void clearArrayImageViews(ImageView[] theArray, int fromIndex) {
+            // Optimization to clear imageviews only from fromIndex and above.
+            for (int i = fromIndex; i < theArray.length; i++) {
+                //disciplineImageViews[i].setImageDrawable(null);
+                theArray[i].setVisibility(View.GONE);
 
             }
         }
