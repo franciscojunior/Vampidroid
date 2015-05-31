@@ -25,6 +25,10 @@ android:layout_height="fill_parent">
                             android:textStyle="bold"
                             android:textColor="#ffffff" />
                     <TextView android:text="\n
+
+v1.18.1 - 2015-05-31:
+\t * Fixed bug when removing a deck from decks listing. (#13). \n
+
 v1.18 - 2015-04-03: \n
 \t * Fixed bug using the dis+ search filter. \n
 \t * Added filter by group (eg. g234). \n
