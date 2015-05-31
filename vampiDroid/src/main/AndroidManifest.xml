@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest package="name.vampidroid" xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="18" android:versionName="1.18">
+	android:versionCode="19" android:versionName="1.18.1">
 	<application android:label="@string/app_name" android:icon="@drawable/ic_launcher" android:theme="@style/Theme.VampiDroid"
 	android:logo="@drawable/ic_launcher" android:name="VampiDroidApplication">
 		<activity android:label="@string/app_name" android:name=".VampiDroid"
