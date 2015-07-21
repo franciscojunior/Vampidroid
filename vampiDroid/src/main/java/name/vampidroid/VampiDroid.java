@@ -10,6 +10,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -254,9 +256,21 @@ public class VampiDroid extends VampiDroidBase {
 		mVampidroidFragment.getLibraryListFragment().setQuery(getLibraryQuery());
 		mVampidroidFragment.getLibraryListFragment().setOrderBy(DatabaseHelper.ORDER_BY_NAME);
 
+		setupToolbar();
 		
 	}
 
+
+	private void setupToolbar() {
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setHomeAsUpIndicator(R.drawable.ic_launcher);
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
+	}
 	private void checkAndShowTutorialButtons() {
 		// TODO Auto-generated method stub
 		

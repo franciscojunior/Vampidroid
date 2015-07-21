@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
@@ -23,7 +26,7 @@ import name.vampidroid.fragments.VampiDroidFragment;
 
 
 
-public abstract class VampiDroidBase extends ActionBarActivity implements OnCryptCardSelectedListener, OnLibraryCardSelectedListener {
+public abstract class VampiDroidBase extends AppCompatActivity implements OnCryptCardSelectedListener, OnLibraryCardSelectedListener {
 
 	
 	public static String CARD_ID = "card_id";
@@ -43,7 +46,9 @@ public abstract class VampiDroidBase extends ActionBarActivity implements OnCryp
 	    super.onCreate(savedInstanceState);
 	    //setContentView(R.layout.main);
 	    setContentView(R.layout.main);
-	    
+
+
+
 	    
 	    // Check to see if we have a frame in which to embed the details
 		// fragment directly in the containing UI.
@@ -74,13 +79,12 @@ public abstract class VampiDroidBase extends ActionBarActivity implements OnCryp
 	    	mVampidroidFragment.setDualPane(hasDetailsFrame());
 	    	
 	    }
-	    
-	    	    
-	    
-	    
-    	
+
 	}
-	
+
+
+
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {

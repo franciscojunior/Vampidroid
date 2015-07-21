@@ -12,11 +12,13 @@ import name.vampidroid.R;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -44,6 +46,8 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 	protected ViewPager mViewPager;
 
 	protected TextIndicatorAdapter mTitleFlowIndicatorAdapter;
+
+    protected TabLayout tabLayout;
 
 	private boolean mDualPane = false;
 
@@ -162,13 +166,17 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 
 		mViewPager = (ViewPager) v.findViewById(R.id.pager);
 
-		TitlePageIndicator tpi = (TitlePageIndicator) v.findViewById(R.id.titlepageindicator);
+		//TitlePageIndicator tpi = (TitlePageIndicator) v.findViewById(R.id.titlepageindicator);
+
+        tabLayout = (TabLayout) v.findViewById(R.id.tab_layout);
 
 		mTitleFlowIndicatorAdapter = new TextIndicatorAdapter(getActivity());
 
 		mViewPager.setAdapter(mTitleFlowIndicatorAdapter);
 
-		tpi.setViewPager(mViewPager);
+
+
+		//tpi.setViewPager(mViewPager);
 
 		// If this is the first time, create new fragments for the lists.
 		if (savedInstanceState == null) {
@@ -188,6 +196,8 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 
 		}
 
+        tabLayout.setupWithViewPager(mViewPager);
+
 		// Set choice behaviour.
 
 		CryptListFragment crypt = (CryptListFragment) mTitleFlowIndicatorAdapter.getItem(0);
@@ -205,6 +215,7 @@ public abstract class VampiDroidBaseFragment extends Fragment {
 		return v;
 
 	}
+
 
 	private void setupMotionEventActionDown(final View v) {
 		// TODO Auto-generated method stub
