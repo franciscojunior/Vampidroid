@@ -102,7 +102,11 @@ public abstract class VampiDroidBase extends AppCompatActivity implements OnCryp
 
 	}
 
-
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		setupToolbar();
+	}
 
 	@Override
 	public void onCryptCardSelected(long cardID) {
@@ -118,6 +122,17 @@ public abstract class VampiDroidBase extends AppCompatActivity implements OnCryp
 		// TODO Auto-generated method stub
 		
 		showLibraryCardDetails(this, cardID);
+	}
+
+	private void setupToolbar() {
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setHomeAsUpIndicator(R.drawable.ic_launcher);
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
 	}
 
 	protected void setupSearchTextBox() {
