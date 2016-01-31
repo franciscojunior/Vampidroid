@@ -22,9 +22,8 @@ public class DatabaseHelper {
 	public static final String VAMPIDROID_DB = "VampiDroid.db";
     public static final String VAMPIDROID_UPDATE_DB = "VampiDroid.update.db";
 	public static final String KEY_DATABASE_VERSION = "database_version";
-	public static final int DATABASE_VERSION = 4;
+	public static final int DATABASE_VERSION = 5;
 
-    private static final int DATABASE_VERSION_UNALIGNED_UPDATE = 4;
 
 	public static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY_INITIALCARDTEXT = new String[] { "Name",
 			"Disciplines", "Capacity", "InitialCardText" };
@@ -193,7 +192,7 @@ public class DatabaseHelper {
 
             DATABASE.execSQL("PRAGMA case_sensitive_like = true;");
 
-            if (databaseVersion < DATABASE_VERSION_UNALIGNED_UPDATE) {
+            if (databaseVersion != DATABASE_VERSION) {
 
                 Log.d(TAG, "Starting database update...");
 

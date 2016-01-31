@@ -25,6 +25,12 @@ android:layout_height="fill_parent">
                             android:textStyle="bold"
                             android:textColor="#ffffff" />
                     <TextView android:text="\n
+v1.19 - 2016-01-31: \n
+\t * Updated cards database to 'The Anarch Unbound' expansion! \n
+\t * Updated 'Filters Help' text. (@GiottoVerducci) \n
+
+\n \n \n
+
 v1.18 - 2015-04-08: \n
 \t * Fixed bug using the dis+ search filter. \n
 \t * Added filter by group (eg. g234). \n
