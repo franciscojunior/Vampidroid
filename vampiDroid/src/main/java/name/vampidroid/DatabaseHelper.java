@@ -22,7 +22,7 @@ public class DatabaseHelper {
 	public static final String VAMPIDROID_DB = "VampiDroid.db";
     public static final String VAMPIDROID_UPDATE_DB = "VampiDroid.update.db";
 	public static final String KEY_DATABASE_VERSION = "database_version";
-	public static final int DATABASE_VERSION = 5;
+	public static final int DATABASE_VERSION = 6;
 
 
 	public static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY_INITIALCARDTEXT = new String[] { "Name",
