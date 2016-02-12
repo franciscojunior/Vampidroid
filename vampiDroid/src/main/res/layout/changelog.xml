@@ -25,6 +25,12 @@ android:layout_height="fill_parent">
                             android:textStyle="bold"
                             android:textColor="#ffffff" />
                     <TextView android:text="\n
+
+v1.20 - 2016-02-11: \n
+\t * Updated cards database to include Storyline Rewards 2015 Masika Advanced! Thanks Fernando Cesar for the heads up.
+
+\n \n \n
+
 v1.19 - 2016-01-31: \n
 \t * Updated cards database to 'The Anarch Unbound' expansion! \n
 \t * Updated 'Filters Help' text. (@GiottoVerducci) \n
