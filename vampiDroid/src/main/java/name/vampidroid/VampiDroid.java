@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
@@ -183,9 +184,9 @@ public class VampiDroid extends VampiDroidBase {
 	private void showAdvancedSearchHelp() {
 		// TODO Auto-generated method stub
 
-		
+		ScrollView sv = new ScrollView(this);
 		TextView view = new TextView(this);
-		
+		sv.addView(view);
 		view.setText("     Advanced filtering uses the filters specified in the adequate text box, separated with commas \",\". For instance, writing \"for, Brujah\" in the \"Crypt filters\" will return " +
 				"only Brujah vampires with inferior Fortitude. The same applies to Library filtering.\n\n" +
 				"     Disciplines: use the first three letters of the discipline (and \"thn\" for Thanatosis). Lower case means inferior level only (eg. \"aus\"), " +
@@ -196,7 +197,7 @@ public class VampiDroid extends VampiDroidBase {
 		new AlertDialog.Builder(this)
 				.setTitle("Filters Help")
 				.setIcon(android.R.drawable.ic_menu_info_details)
-				.setView(view)
+				.setView(sv)
 				.setNegativeButton("Close",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
