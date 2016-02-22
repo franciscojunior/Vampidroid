@@ -26,6 +26,12 @@ android:layout_height="fill_parent">
                             android:textColor="#ffffff" />
                     <TextView android:text="\n
 
+v1.21 - 2016-02-22: \n
+\t * Fixed crash when long pressing a deck name. #13 \n
+\t * Fixed possible visualization problems of the Filters Help by making it scrollable. #19 \n
+
+\n \n \n
+
 v1.20 - 2016-02-11: \n
 \t * Updated cards database to include Storyline Rewards 2015 Masika Advanced! Thanks Fernando Cesar for the heads up.
 
