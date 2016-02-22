@@ -135,8 +135,8 @@ public class DecksListFragment extends SherlockListFragment {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
-		MenuInflater inflater = getSherlockActivity().getSupportMenuInflater();
-		inflater.inflate(R.menu.decks_list_context_menu, (Menu) menu);
+		android.view.MenuInflater inflater = getSherlockActivity().getMenuInflater();
+		inflater.inflate(R.menu.decks_list_context_menu, menu);
 
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
