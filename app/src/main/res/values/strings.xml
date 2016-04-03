@@ -24,5 +24,11 @@
 	
 	<string name="share_deck_cards_text">Share deck cards</string>
 	
-	<string name="remove_deck">Remove deck</string> 
+	<string name="remove_deck">Remove deck</string>
+
+	<string name="action_settings">Settings</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
 </resources>

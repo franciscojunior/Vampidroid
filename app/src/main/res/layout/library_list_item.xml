@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/txtCardName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/imgEditDeckCard"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="A long card name to test layout"
+        android:textStyle="bold"
+        style="@style/TextAppearance.AppCompat.Title">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/txtCardType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/txtCardName"
+        android:layout_below="@+id/txtCardName"
+        android:text="Card Type"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        style="@style/TextAppearance.AppCompat.Subhead">
+    </TextView>
+
+    <TextView
+        android:id="@+id/txtCardClan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/txtCardType"
+        android:layout_below="@+id/txtCardType"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="Card Clan"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        style="@style/TextAppearance.AppCompat.Subhead">
+    </TextView>
+
+    <TextView
+        android:id="@+id/txtCardDiscipline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/txtCardClan"
+        android:layout_below="@+id/txtCardClan"
+        android:text="Card Disciplines"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        style="@style/TextAppearance.AppCompat.Subhead">
+    </TextView>
+
+    <ImageView
+        android:id="@+id/imgFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/star_off"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/imgEditDeckCard" />
+
+    <ImageView
+        android:id="@+id/imgEditDeckCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/imgFavorite"
+        android:src="@drawable/ic_add_card_to_deck"
+        android:layout_alignBottom="@+id/txtCardDiscipline" />
+
+</RelativeLayout>
