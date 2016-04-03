@@ -10,3 +10,4 @@ vampiDroid/build
 .idea/gradle.xml
 library/library.iml
 Vampidroid.iml
+build/
