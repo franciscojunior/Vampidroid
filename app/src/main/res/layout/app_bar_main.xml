@@ -10,7 +10,8 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/appbar">
 
         <!--<FrameLayout
             android:id="@+id/toolbar_container"
@@ -50,7 +51,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_action_search" />
+        android:src="@drawable/ic_action_search"
+        />
 
 </android.support.design.widget.CoordinatorLayout>
 

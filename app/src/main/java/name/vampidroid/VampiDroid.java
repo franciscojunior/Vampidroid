@@ -40,9 +40,11 @@ public class VampiDroid extends AppCompatActivity
 	private LibraryCardsListViewAdapter libraryCardsListViewAdapter;
 
 	private List<FragmentFilterable> fragmentsToFilter = new ArrayList<>();
+	private SearchView searchView;
+    private MenuItem searchMenuItem;
 
 
-	@Override
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
@@ -82,6 +84,11 @@ public class VampiDroid extends AppCompatActivity
 					anim.start();
 
 				}
+
+                // Reference: http://stackoverflow.com/questions/11710042/expand-and-give-focus-to-searchview-automatically
+                // Had to add collapseActionView flag
+                MenuItemCompat.expandActionView(searchMenuItem);
+
 
 			}
 		});
@@ -170,7 +177,10 @@ public class VampiDroid extends AppCompatActivity
 		SearchManager searchManager =
 				(SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
-		final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+
+        searchMenuItem = menu.findItem(R.id.action_search);
+
+		searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
 
 		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 

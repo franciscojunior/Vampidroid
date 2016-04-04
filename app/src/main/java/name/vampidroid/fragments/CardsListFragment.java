@@ -134,6 +134,7 @@ public class CardsListFragment extends Fragment implements VampiDroid.FragmentFi
         protected Cursor doInBackground(String... params) {
 
 
+
             Cursor c = db.rawQuery(params[0], null);
 
 
