@@ -28,6 +28,8 @@ import android.view.ViewAnimationUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import name.vampidroid.fragments.CardsListFragment;
+
 
 public class VampiDroid extends AppCompatActivity
 		implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,7 +41,7 @@ public class VampiDroid extends AppCompatActivity
 	private CryptCardsListViewAdapter cryptCardsListViewAdapter;
 	private LibraryCardsListViewAdapter libraryCardsListViewAdapter;
 
-	private List<FragmentFilterable> fragmentsToFilter = new ArrayList<>();
+	private List<CardsListFragment> fragmentsToFilter = new ArrayList<>();
 	private SearchView searchView;
     private MenuItem searchMenuItem;
 
@@ -85,7 +87,8 @@ public class VampiDroid extends AppCompatActivity
 
 				}
 
-                // Reference: http://stackoverflow.com/questions/11710042/expand-and-give-focus-to-searchview-automatically
+
+				// Reference: http://stackoverflow.com/questions/11710042/expand-and-give-focus-to-searchview-automatically
                 // Had to add collapseActionView flag
                 MenuItemCompat.expandActionView(searchMenuItem);
 
@@ -123,18 +126,12 @@ public class VampiDroid extends AppCompatActivity
 
 				Log.d(TAG, "onQueryTextChange... ");
 
-				newText = "%" + newText.toLowerCase() + "%";
-
-
-
-//                ((CardsListFragment)((ViewPagerAdapter)viewPager.getAdapter()).getCachedItem(0)).setFilter(" and lower(name) like ?", new String[] {newText});
-//                ((CardsListFragment)((ViewPagerAdapter)viewPager.getAdapter()).getCachedItem(1)).setFilter(" and lower(name) like ?", new String[] {newText});
-
-
-				for (FragmentFilterable fragment:
+				for (CardsListFragment fragment:
 						fragmentsToFilter) {
 
-					fragment.setFilter(" and lower(name) like ?", new String[] {newText});
+					Log.d(TAG, "onQueryTextChange: Thread Id: " + Thread.currentThread().getId());
+					fragment.getCardsAdapter().getFilter().filter(newText);
+
 				}
 
 				return true;
@@ -148,8 +145,8 @@ public class VampiDroid extends AppCompatActivity
 	public void onAttachFragment(Fragment fragment) {
 		super.onAttachFragment(fragment);
 
-		if (fragment instanceof FragmentFilterable)
-			fragmentsToFilter.add((FragmentFilterable) fragment);
+		if (fragment instanceof CardsListFragment)
+			fragmentsToFilter.add((CardsListFragment) fragment);
 	}
 
 	private void setupViewPager(ViewPager viewPager) {
@@ -247,14 +244,6 @@ public class VampiDroid extends AppCompatActivity
 
 
 	}
-
-
-	public interface FragmentFilterable {
-
-		void setFilter(String filter, String[] args);
-	}
-
-
 
 
 }

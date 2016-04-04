@@ -12,7 +12,7 @@ import android.widget.TextView;
 /**
  * Created by fxjr on 17/03/16.
  */
-public class CryptCardsListViewAdapter extends CursorRecyclerViewAdapter<CryptCardsListViewAdapter.ViewHolder> {
+public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsListViewAdapter.ViewHolder> {
 
 
 
@@ -24,8 +24,8 @@ public class CryptCardsListViewAdapter extends CursorRecyclerViewAdapter<CryptCa
         }
     };
 
-    public CryptCardsListViewAdapter(Context context, Cursor cursor) {
-        super(context, cursor);
+    public CryptCardsListViewAdapter(Cursor cursor) {
+        super(cursor);
     }
 
 
@@ -42,7 +42,7 @@ public class CryptCardsListViewAdapter extends CursorRecyclerViewAdapter<CryptCa
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
+    public void onBindViewHolderCursor(ViewHolder viewHolder, Cursor cursor) {
 
 
         viewHolder.txtInitialCardText.setText(cursor.getString(4));
@@ -54,6 +54,7 @@ public class CryptCardsListViewAdapter extends CursorRecyclerViewAdapter<CryptCa
 
 
     }
+
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and

@@ -14,12 +14,13 @@ import name.vampidroid.CursorRecyclerViewAdapter;
 /**
  * Created by fxjr on 17/03/16.
  */
-public class LibraryCardsListViewAdapter extends CursorRecyclerViewAdapter<LibraryCardsListViewAdapter.ViewHolder> {
+public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCardsListViewAdapter.ViewHolder> {
 
 
-    public LibraryCardsListViewAdapter(Context context, Cursor cursor) {
-        super(context, cursor);
+    public LibraryCardsListViewAdapter(Cursor cursor) {
+        super(cursor);
     }
+
 
 
 
@@ -35,7 +36,7 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerViewAdapter<Libra
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
+    public void onBindViewHolderCursor(ViewHolder viewHolder, Cursor cursor) {
 
 
         viewHolder.txtCardType.setText(cursor.getString(2));
@@ -43,9 +44,6 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerViewAdapter<Libra
         viewHolder.txtCardClan.setText(cursor.getString(3));
 
         viewHolder.txtCardDiscipline.setText(cursor.getString(4));
-
-
-
 
     }
 

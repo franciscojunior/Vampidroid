@@ -12,8 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FilterQueryProvider;
 
 import name.vampidroid.CryptCardsListViewAdapter;
+import name.vampidroid.CursorRecyclerAdapter;
 import name.vampidroid.CursorRecyclerViewAdapter;
 import name.vampidroid.DatabaseHelper;
 import name.vampidroid.LibraryCardsListViewAdapter;
@@ -23,7 +25,7 @@ import name.vampidroid.VampiDroid;
 /**
  * Created by fxjr on 17/03/16.
  */
-public class CardsListFragment extends Fragment implements VampiDroid.FragmentFilterable{
+public class CardsListFragment extends Fragment{
 
     private final static String TAG = "CardsListFragment";
 
@@ -33,11 +35,11 @@ public class CardsListFragment extends Fragment implements VampiDroid.FragmentFi
     private String query;
 
 
-    public CursorRecyclerViewAdapter getCardsAdapter() {
+    public CursorRecyclerAdapter getCardsAdapter() {
         return cardsAdapter;
     }
 
-    private CursorRecyclerViewAdapter cardsAdapter;
+    private CursorRecyclerAdapter cardsAdapter;
 
 
     private SQLiteDatabase db;
@@ -96,10 +98,23 @@ public class CardsListFragment extends Fragment implements VampiDroid.FragmentFi
 //        Cursor c = db.rawQuery(query, null);
 
         if (cardType == 0)
-            cardsAdapter = new CryptCardsListViewAdapter(getContext(), null);
+            cardsAdapter = new CryptCardsListViewAdapter(null);
         else
-            cardsAdapter = new LibraryCardsListViewAdapter(getContext(), null);
+            cardsAdapter = new LibraryCardsListViewAdapter(null);
 
+        cardsAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+            private static final String TAG = "CardsListFragment";
+
+            @Override
+            public Cursor runQuery(CharSequence constraint) {
+                Log.d(TAG, "onQueryTextChange: Thread Id: " + Thread.currentThread().getId());
+                Thread.dumpStack();
+
+                return db.rawQuery(query + " and lower(name) like ?", new String[] {"%" + constraint.toString().toLowerCase() + "%"});
+
+            }
+
+        });
 
         new QueryDatabaseOperation().execute(query);
 
