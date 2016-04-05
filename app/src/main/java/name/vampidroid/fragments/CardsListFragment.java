@@ -18,6 +18,7 @@ import name.vampidroid.CryptCardsListViewAdapter;
 import name.vampidroid.CursorRecyclerAdapter;
 import name.vampidroid.CursorRecyclerViewAdapter;
 import name.vampidroid.DatabaseHelper;
+import name.vampidroid.FilterModel;
 import name.vampidroid.LibraryCardsListViewAdapter;
 import name.vampidroid.R;
 import name.vampidroid.VampiDroid;
@@ -43,6 +44,8 @@ public class CardsListFragment extends Fragment{
 
 
     private SQLiteDatabase db;
+
+    private FilterModel filterModel = new FilterModel();
 
     public CardsListFragment() {
         Log.d(TAG, "CardsListFragment constructor " + this);
@@ -107,10 +110,24 @@ public class CardsListFragment extends Fragment{
 
             @Override
             public Cursor runQuery(CharSequence constraint) {
+
                 Log.d(TAG, "onQueryTextChange: Thread Id: " + Thread.currentThread().getId());
-                Thread.dumpStack();
+                Log.d(TAG, "onQueryTextChange: constraint: " + constraint);
+
+                if (cardType == 0) {
+                    filterModel.setCryptFilter(constraint.toString());
+                    Log.d(TAG, "onQueryTextChange: cryptquery: " + filterModel.getCryptFilterQuery());
+
+                }
+                else {
+                    filterModel.setLibraryFilter(constraint.toString());
+                    Log.d(TAG, "onQueryTextChange: libraryquery: " + filterModel.getLibraryFilterQuery());
+                }
+
+                Log.d(TAG, "runQuery: test");
 
                 return db.rawQuery(query + " and lower(name) like ?", new String[] {"%" + constraint.toString().toLowerCase() + "%"});
+                //return db.rawQuery(query + filterModel.getCryptFilterQuery());
 
             }
 

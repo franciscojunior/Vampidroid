@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.MultiAutoCompleteTextView.Tokenizer;
 import android.widget.TextView;
 
@@ -33,6 +34,8 @@ public class FilterModel {
 
 	private String mLibraryFilter = "";
 	private boolean mLibraryFilterChanged = false;
+
+	private static final String TAG = "FilterModel";
 
 	enum TokenType {
 		// CLAN("Clan = '?'"), TYPE("Type = '?'"), DISCIPLINE_LIBRARY(
@@ -331,8 +334,10 @@ public class FilterModel {
 				if (token.length() == 0)
 					continue;
 
+				Log.d(TAG, "setLibraryFilter: token " + token);
 				FilterToken filter = new FilterToken(token);
 
+				Log.d(TAG, "setLibraryFilter: mTokenType " + filter.mTokenType);
 				if (filter.mTokenType.mIsLibraryToken)
 					mFiltersLibrary.add(filter);
 

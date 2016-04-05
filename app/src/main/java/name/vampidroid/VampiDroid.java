@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -58,13 +60,13 @@ public class VampiDroid extends AppCompatActivity
 		final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
+
+		final AppBarLayout appbar = (AppBarLayout) findViewById(R.id.appbar);
+
 		viewPager = (ViewPager) findViewById(R.id.viewpager);
+		setupViewPager(viewPager);
 
 		tabLayout = (TabLayout) findViewById(R.id.tablayout);
-
-
-
-		setupViewPager(viewPager);
 		tabLayout.setupWithViewPager(viewPager);
 
 
@@ -73,24 +75,26 @@ public class VampiDroid extends AppCompatActivity
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-						.setAction("Action", null).show();
 
-				// Reference: ﻿https://www.raywenderlich.com/103367/material-design
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
-					int cx = viewPager.getRight() - 30;
-					int cy = viewPager.getBottom() - 60;
-					int finalRadius = Math.max(viewPager.getWidth(), viewPager.getHeight());
-					Animator anim = ViewAnimationUtils.createCircularReveal(viewPager, cx, cy, 0, finalRadius);
-					//view.setVisibility(View.VISIBLE);
-					anim.start();
-
-				}
+//				// Reference: ﻿https://www.raywenderlich.com/103367/material-design
+//				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+//					int cx = viewPager.getRight() - 30;
+//					int cy = viewPager.getBottom() - 60;
+//					int finalRadius = Math.max(viewPager.getWidth(), viewPager.getHeight());
+//					Animator anim = ViewAnimationUtils.createCircularReveal(viewPager, cx, cy, 0, finalRadius);
+//					//view.setVisibility(View.VISIBLE);
+//					anim.start();
+//
+//				}
 
 
 				// Reference: http://stackoverflow.com/questions/11710042/expand-and-give-focus-to-searchview-automatically
                 // Had to add collapseActionView flag
                 MenuItemCompat.expandActionView(searchMenuItem);
+
+				// Show appbar so user can use the searchview.
+				// Reference: http://stackoverflow.com/questions/33958878/hide-show-toolbar-programmatically-on-coordinatorlayout
+				appbar.setExpanded(true);
 
 
 			}
@@ -126,8 +130,7 @@ public class VampiDroid extends AppCompatActivity
 
 				Log.d(TAG, "onQueryTextChange... ");
 
-				for (CardsListFragment fragment:
-						fragmentsToFilter) {
+				for (CardsListFragment fragment: ((ViewPagerAdapter)viewPager.getAdapter()).getRegisteredFragments()) {
 
 					Log.d(TAG, "onQueryTextChange: Thread Id: " + Thread.currentThread().getId());
 					fragment.getCardsAdapter().getFilter().filter(newText);
@@ -141,14 +144,6 @@ public class VampiDroid extends AppCompatActivity
 
 	}
 
-	@Override
-	public void onAttachFragment(Fragment fragment) {
-		super.onAttachFragment(fragment);
-
-		if (fragment instanceof CardsListFragment)
-			fragmentsToFilter.add((CardsListFragment) fragment);
-	}
-
 	private void setupViewPager(ViewPager viewPager) {
 		ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(viewPagerAdapter);
@@ -159,9 +154,14 @@ public class VampiDroid extends AppCompatActivity
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		if (drawer.isDrawerOpen(GravityCompat.START)) {
 			drawer.closeDrawer(GravityCompat.START);
-		} else {
+		}
+		else {
 			super.onBackPressed();
 		}
+
+//		if (!searchView.isIconified()) {
+//			MenuItemCompat.collapseActionView(searchMenuItem);
+//		}
 	}
 
 	@Override
@@ -245,6 +245,9 @@ public class VampiDroid extends AppCompatActivity
 
 	}
 
-
+	@Override
+	public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+		super.onPostCreate(savedInstanceState, persistentState);
+	}
 }
 
