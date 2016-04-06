@@ -21,11 +21,18 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.MultiAutoCompleteTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,6 +118,68 @@ public class VampiDroid extends AppCompatActivity
 
 
 
+		setupSearchBar();
+
+
+
+
+
+
+
+	}
+
+	private void setupSearchBar() {
+
+
+		final ImageView search_toolbar = (ImageView) findViewById(R.id.imageArrow);
+		search_toolbar.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				final ViewGroup search_toolbar = (ViewGroup) findViewById(R.id.search_cards_toolbar);
+				search_toolbar.setVisibility(View.GONE);
+
+				final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+				toolbar.setVisibility(View.VISIBLE);
+
+			}
+		});
+
+		final MultiAutoCompleteTextView search_text = (MultiAutoCompleteTextView) findViewById(R.id.searchText);
+		search_text.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+				Log.d(TAG, "onTextChanged: ");
+
+				for (CardsListFragment fragment: ((ViewPagerAdapter)viewPager.getAdapter()).getRegisteredFragments()) {
+
+					Log.d(TAG, "onTextChanged: Thread Id: " + Thread.currentThread().getId());
+					fragment.getCardsAdapter().getFilter().filter(s);
+
+				}
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+
+			}
+		});
+
+
+		FilterModel.CommaEAmpTokenizer tokenizer = new FilterModel.CommaEAmpTokenizer();
+
+		ArrayAdapter<String> adapterCrypt = new ArrayAdapter<>(this,
+				android.R.layout.simple_dropdown_item_1line, FilterModel.getCryptFilterStrings());
+
+		search_text.setAdapter(adapterCrypt);
+		search_text.setTokenizer(tokenizer);
 
 
 	}
@@ -170,19 +239,20 @@ public class VampiDroid extends AppCompatActivity
 		getMenuInflater().inflate(R.menu.main, menu);
 
 
-		// Sets searchable configuration defined in searchable.xml for this SearchView
-		SearchManager searchManager =
-				(SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//		// Sets searchable configuration defined in searchable.xml for this SearchView
+//		SearchManager searchManager =
+//				(SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//
+//
+//        searchMenuItem = menu.findItem(R.id.action_search);
+//
+//		searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+//
+//		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//
+//
+//		setupSearchView(searchView);
 
-
-        searchMenuItem = menu.findItem(R.id.action_search);
-
-		searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
-
-		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
-
-		setupSearchView(searchView);
 
 		return true;
 	}
@@ -198,6 +268,13 @@ public class VampiDroid extends AppCompatActivity
 		if (id == R.id.action_settings) {
 			return true;
 		} else if (id == R.id.action_search) {
+
+			final ViewGroup search_toolbar = (ViewGroup) findViewById(R.id.search_cards_toolbar);
+			search_toolbar.setVisibility(View.VISIBLE);
+
+			final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+			toolbar.setVisibility(View.GONE);
+
 
 		}
 

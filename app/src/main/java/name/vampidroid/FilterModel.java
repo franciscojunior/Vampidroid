@@ -254,7 +254,7 @@ public class FilterModel {
 
 	}
 
-	public List<String> getCryptFilterStrings() {
+	public static List<String> getCryptFilterStrings() {
 
 		ArrayList<String> result = new ArrayList<String>();
 

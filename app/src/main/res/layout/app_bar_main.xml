@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay"
         android:id="@+id/appbar">
 
-        <!--<FrameLayout
+        <FrameLayout
             android:id="@+id/toolbar_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,8 +27,12 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:layout_scrollFlags="scroll|enterAlways|snap"/>
 
+            <include layout="@layout/search_cards_inside_toolbar"
+                android:visibility="gone"
+                android:paddingLeft="50dp"
+                />
 
-        <!--</FrameLayout>-->
+        </FrameLayout>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tablayout"
