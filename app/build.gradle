@@ -17,6 +17,17 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
+
+        // Reference: http://stackoverflow.com/questions/18491649/how-to-change-the-android-app-package-name-when-assembling-with-gradle
+        beta {
+            applicationIdSuffix '.beta'
+            versionNameSuffix '-BETA'
+
+            // NB: If you want to use the default debug key for a (non-debug)
+            // build type, you need to specify it:
+            signingConfig signingConfigs.debug
+        }
+
     }
 }
 

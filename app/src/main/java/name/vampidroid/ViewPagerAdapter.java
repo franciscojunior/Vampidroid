@@ -38,6 +38,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     }
 
+    // Reference: http://stackoverflow.com/questions/8785221/retrieve-a-fragment-from-a-viewpager/24662049#24662049
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
 
