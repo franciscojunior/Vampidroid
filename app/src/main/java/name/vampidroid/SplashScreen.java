@@ -20,8 +20,7 @@ public class SplashScreen extends FragmentActivity {
 		
 		setContentView(R.layout.splashscreen);
 
-
-        new UpdateDatabaseOperation().execute();
+		new UpdateDatabaseOperation().execute();
 
 		
 //
@@ -70,6 +69,9 @@ public class SplashScreen extends FragmentActivity {
 			Log.d(TAG, "onPostExecute... ");
 
 			if (result) {
+
+
+
 				startActivity(new Intent(SplashScreen.this, VampiDroid.class));
 
 				SplashScreen.this.finish();
