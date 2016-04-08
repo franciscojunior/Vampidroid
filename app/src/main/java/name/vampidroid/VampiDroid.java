@@ -79,6 +79,7 @@ public class VampiDroid extends AppCompatActivity
 
 
 		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+		assert fab != null;
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -97,15 +98,19 @@ public class VampiDroid extends AppCompatActivity
 
 				// Reference: http://stackoverflow.com/questions/11710042/expand-and-give-focus-to-searchview-automatically
                 // Had to add collapseActionView flag
-                MenuItemCompat.expandActionView(searchMenuItem);
+                //MenuItemCompat.expandActionView(searchMenuItem);
 
 				// Show appbar so user can use the searchview.
 				// Reference: http://stackoverflow.com/questions/33958878/hide-show-toolbar-programmatically-on-coordinatorlayout
+
+				assert appbar != null;
 				appbar.setExpanded(true);
+
 
 
 			}
 		});
+
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -142,6 +147,8 @@ public class VampiDroid extends AppCompatActivity
 				final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 				toolbar.setVisibility(View.VISIBLE);
 
+
+
 			}
 		});
 
@@ -160,7 +167,8 @@ public class VampiDroid extends AppCompatActivity
 				for (CardsListFragment fragment: ((ViewPagerAdapter)viewPager.getAdapter()).getRegisteredFragments()) {
 
 					Log.d(TAG, "onTextChanged: Thread Id: " + Thread.currentThread().getId());
-					fragment.getCardsAdapter().getFilter().filter(s);
+					if (fragment != null)
+						fragment.getCardsAdapter().getFilter().filter(s);
 
 				}
 
@@ -175,8 +183,9 @@ public class VampiDroid extends AppCompatActivity
 
 		FilterModel.CommaEAmpTokenizer tokenizer = new FilterModel.CommaEAmpTokenizer();
 
-		ArrayAdapter<String> adapterCrypt = new ArrayAdapter<>(this,
-				android.R.layout.simple_dropdown_item_1line, FilterModel.getCryptFilterStrings());
+
+		ArrayAdapter<String> adapterCrypt = new ArrayAdapter<>(this.getApplicationContext(),
+				R.layout.listitem, FilterModel.getCryptFilterStrings());
 
 		search_text.setAdapter(adapterCrypt);
 		search_text.setTokenizer(tokenizer);
@@ -198,6 +207,7 @@ public class VampiDroid extends AppCompatActivity
 
 
 				Log.d(TAG, "onQueryTextChange... ");
+
 
 				for (CardsListFragment fragment: ((ViewPagerAdapter)viewPager.getAdapter()).getRegisteredFragments()) {
 
