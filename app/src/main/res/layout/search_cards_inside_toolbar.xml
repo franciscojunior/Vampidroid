@@ -19,13 +19,16 @@
 
 
     <!--Reference: http://stackoverflow.com/questions/27556623/creating-a-searchview-that-looks-like-the-material-design-guidelines-->
+    <!--Reference: http://stackoverflow.com/questions/13117662/how-to-give-colors-for-autocompletetextview-in-android-->
+    <!--Reference: http://stackoverflow.com/questions/13675827/apply-a-style-on-multiautocompletetextview-->
     <MultiAutoCompleteTextView
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:hint="@string/searchHint"
         android:imeOptions="actionSearch"
         android:id="@+id/searchText"
-        android:background="@android:color/transparent"
+
+
         />
     <!--android:background="@android:color/transparent"-->
 
