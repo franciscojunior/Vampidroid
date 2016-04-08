@@ -184,11 +184,13 @@ public class VampiDroid extends AppCompatActivity
 		FilterModel.CommaEAmpTokenizer tokenizer = new FilterModel.CommaEAmpTokenizer();
 
 
-		ArrayAdapter<String> adapterCrypt = new ArrayAdapter<>(this.getApplicationContext(),
-				R.layout.listitem, FilterModel.getCryptFilterStrings());
+		ArrayAdapter<String> adapterCrypt = new ArrayAdapter<>(this,
+				android.R.layout.simple_dropdown_item_1line, FilterModel.getCryptFilterStrings());
 
 		search_text.setAdapter(adapterCrypt);
 		search_text.setTokenizer(tokenizer);
+
+
 
 
 	}

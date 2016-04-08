@@ -17,7 +17,7 @@
             android:id="@+id/toolbar_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways|snap">-->
+            app:layout_scrollFlags="scroll|enterAlways|snap">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -26,6 +26,7 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:layout_scrollFlags="scroll|enterAlways|snap"/>
+
 
             <include layout="@layout/search_cards_inside_toolbar"
                 android:visibility="gone"
