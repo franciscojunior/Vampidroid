@@ -4,6 +4,7 @@ Vampidroid is a mobile management solution for your Vampire: The Eternal Struggl
 
 With it you will be able to search card text, manage your deck and many other things.
 
+#### This branch contains the 1.x version series of Vampidroid.
 
 ## How to compile
 
