@@ -25,32 +25,8 @@
 			</intent-filter>
 
 		</activity>
-		
-		
-		
-
-		<activity android:name=".VampiDroidSearch" android:label="Search Results"
-			android:launchMode="singleTop" android:windowSoftInputMode="stateAlwaysHidden">
-			<intent-filter>
-				<action android:name="android.intent.action.SEARCH" />
-				<category android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-
-			<meta-data android:name="android.app.searchable"
-				android:resource="@xml/searchable" />
-		</activity>
-
-		<activity android:name=".CryptDetails" android:label="Crypt Details" />
-		
-		<activity android:name=".LibraryDetails" android:label="Library Details" />
 
 		<activity android:name=".EditPreferences" android:label="Preferences" />
-		
-		<activity android:name=".FavoriteCards" android:label="Favorite Cards" android:windowSoftInputMode="stateAlwaysHidden" />
-		
-		<activity android:name=".DecksList" android:label="Decks" android:windowSoftInputMode="stateAlwaysHidden" />
-		
-		<activity android:name=".DeckCards" android:label="Deck Cards" android:windowSoftInputMode="stateAlwaysHidden" />
 		
 		<activity android:name=".NewDeck" android:label="New Deck" android:theme="@android:style/Theme.Dialog" />
 		
@@ -58,8 +34,7 @@
 		
 		<activity android:name=".Tutorial" android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
 
-		<provider android:name="VampidroidSuggestionProvider"
-			android:authorities="name.vampidroid.VampidroidSuggestionProvider"></provider>
+
 	</application>
 	<uses-sdk android:minSdkVersion="8"
 	android:targetSdkVersion="12"/>
