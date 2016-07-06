@@ -13,6 +13,12 @@ android {
     }
 
     buildTypes {
+//        Reference: http://stackoverflow.com/questions/18491649/how-to-change-the-android-app-package-name-when-assembling-with-gradle
+//        Reference: https://github.com/futurice/android-best-practices
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
