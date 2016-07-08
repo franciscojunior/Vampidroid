@@ -1,41 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="name.vampidroid">
-	<application android:name="VampiDroidApplication" android:icon="@drawable/ic_launcher" android:label="@string/app_name"
-	android:logo="@drawable/ic_launcher" android:theme="@style/AppTheme">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="name.vampidroid">
 
 
-		<activity android:name=".VampiDroid" android:label="@string/app_name"
-		android:launchMode="singleTop" android:theme="@style/AppTheme.NoActionBar"
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!--android:icon="@mipmap/ic_launcher"-->
+    <application
+        android:name="VampiDroidApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:logo="@drawable/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+
+        <activity
+            android:name=".VampiDroid"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.DEFAULT"/>
-			</intent-filter>
 
-			<meta-data android:name="android.app.default_searchable"
-				android:value=".VampiDroidSearch" />
+            <!--
+             In order to have a single instance when implementing Up navigation we use singleTop.
+             Reference: http://stackoverflow.com/questions/13293772/how-to-navigate-up-to-the-same-parent-state
+            -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
 
-		</activity>
+        </activity>
 
-		<activity android:name=".SplashScreen" android:label="@string/app_name" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+        <activity
+            android:name=".SplashScreen"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
 
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
-		</activity>
+        </activity>
 
-		<activity android:name=".EditPreferences" android:label="Preferences" />
-		
-		<activity android:name=".NewDeck" android:label="New Deck" android:theme="@android:style/Theme.Dialog" />
-		
-		<activity android:name=".AddRemoveDeckCard" android:label="Edit deck card" android:theme="@android:style/Theme.Dialog" />
-		
-		<activity android:name=".Tutorial" android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+        <activity
+            android:name=".EditPreferences"
+            android:label="Preferences" />
+
+        <activity
+            android:name=".NewDeck"
+            android:label="New Deck"
+            android:theme="@android:style/Theme.Dialog" />
+
+        <activity
+            android:name=".AddRemoveDeckCard"
+            android:label="Edit deck card"
+            android:theme="@android:style/Theme.Dialog" />
+
+        <activity
+            android:name=".Tutorial"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+
+        <activity
+            android:name=".CardDetailsActivity"
+            android:label="@string/title_activity_card_details"
+            android:parentActivityName=".VampiDroid"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="name.vampidroid.VampiDroid" />
+        </activity>
+        <activity
+            android:name=".LibraryCardDetailsActivity"
+            android:label="@string/title_activity_card_details"
+            android:parentActivityName=".VampiDroid"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="name.vampidroid.VampiDroid" />
+        </activity>
+        <activity
+            android:name=".CardImageActivity"
+            android:label="@string/title_activity_card_image"
+            android:theme="@style/AppTheme.NoActionBar.BlackStatusBarColor"></activity>
+    </application>
 
 
-	</application>
-	<uses-sdk android:minSdkVersion="8"
-	android:targetSdkVersion="12"/>
 </manifest>
