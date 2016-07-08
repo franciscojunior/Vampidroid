@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="8dp">
+
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        card_view:cardUseCompatPadding="true"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_query_section"
+        android:clickable="true"
+        android:layout_centerInParent="true"
+
+        >
+
+        <!--Reference: http://stackoverflow.com/questions/5056734/android-force-edittext-to-remove-focus/16477251#16477251-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/square_button_size"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <FrameLayout
+                android:id="@+id/search_bar_left_action_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/search_bar_left_icon_left_margin"
+                android:layout_marginLeft="@dimen/search_bar_left_icon_left_margin">
+
+
+
+                <ImageView
+                    android:alpha="1"
+                    android:id="@+id/left_action"
+                    android:layout_width="@dimen/square_button_size"
+                    android:layout_height="@dimen/square_button_size"
+                    android:padding="14dp"
+                    android:clickable="true"
+                    android:background="@drawable/oval_btn_selector"
+                    />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/search_input_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@+id/search_bar_left_action_container"
+                android:layout_toRightOf="@+id/search_bar_left_action_container"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_centerInParent="true">
+
+                <MultiAutoCompleteTextView
+                    android:id="@+id/search_bar_text"
+                    android:alpha="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/abc_search_hint"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:inputType="textNoSuggestions"
+                    android:imeOptions="actionDone" />
+
+
+
+
+            </FrameLayout>
+
+
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:alpha="1"
+                android:id="@+id/search_settings"
+                android:layout_width="@dimen/square_button_size"
+                android:layout_height="@dimen/square_button_size"
+                android:padding="@dimen/square_button_padding"
+                android:clickable="true"
+                android:src="@drawable/ic_tune"
+                android:background="@drawable/oval_btn_selector"
+
+
+                />
+
+            <ImageView
+
+                android:alpha="1"
+                android:id="@+id/clear_btn"
+                android:layout_width="@dimen/square_button_size"
+                android:layout_height="@dimen/square_button_size"
+                android:padding="@dimen/square_button_padding"
+                android:clickable="true"
+                android:src="@drawable/ic_close"
+                android:layout_toLeftOf="@id/search_settings"
+                android:layout_toStartOf="@id/search_settings"
+                android:visibility="gone"
+                android:background="@drawable/oval_btn_selector"
+                />
+
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+</FrameLayout>
+
