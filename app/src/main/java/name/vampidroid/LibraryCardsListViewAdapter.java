@@ -1,6 +1,7 @@
 package name.vampidroid;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -14,11 +15,11 @@ import name.vampidroid.CursorRecyclerViewAdapter;
 /**
  * Created by fxjr on 17/03/16.
  */
-public class LibraryCardsListViewAdapter extends CursorRecyclerViewAdapter<LibraryCardsListViewAdapter.ViewHolder> {
+public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCardsListViewAdapter.ViewHolder> {
 
 
     public LibraryCardsListViewAdapter(Context context, Cursor cursor) {
-        super(context, cursor);
+        super(cursor);
     }
 
 
@@ -26,7 +27,7 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerViewAdapter<Libra
     // Create new views (invoked by the layout manager)
     @Override
     public LibraryCardsListViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                   int viewType) {
+                                                                     int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.library_list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
@@ -35,9 +36,9 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerViewAdapter<Libra
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
+    public void onBindViewHolderCursor(ViewHolder viewHolder, Cursor cursor) {
 
-
+        viewHolder.cardId = cursor.getLong(0);
         viewHolder.txtCardType.setText(cursor.getString(2));
         viewHolder.txtCardName.setText(cursor.getString(1));
         viewHolder.txtCardClan.setText(cursor.getString(3));
@@ -58,6 +59,7 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerViewAdapter<Libra
         public TextView txtCardType;
         public TextView txtCardClan;
         public TextView txtCardDiscipline;
+        public long cardId;
 
 
         public ViewHolder(View v) {
@@ -75,11 +77,19 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerViewAdapter<Libra
         @Override
         public void onClick(View v) {
 
-            Snackbar.make(v, "Clicked on card " + txtCardName.getText(), Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            Intent launch = new Intent(v.getContext(), LibraryCardDetailsActivity.class);
+            launch.putExtra("cardId", cardId);
+
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//
+//                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)v.getContext(), txtInitialCardText, "cardTextTransition").toBundle();
+//                v.getContext().startActivity(launch, bundle);
+//            } else
+            v.getContext().startActivity(launch);
 
         }
     }
 
 }
+
 
