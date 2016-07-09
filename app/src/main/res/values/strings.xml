@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
     <string name="hello">Hello World, VampiDroid!</string>
     <string name="app_name">VampiDroid</string>
@@ -10,7 +9,7 @@
 	<string name="share_cards_text">Share Cards Text</string>
 	<string name="share_library_card_text">Share Library Card Text</string>
 	<string name="share_crypt_card_text">Share Crypt Card Text</string>
-	
+
 	<string name="preferences">Preferences</string>
 	<string name="about">About</string>
 	<string name="clear_recent_searches">Clear recent searches</string>
@@ -21,9 +20,9 @@
 	<string name="show_favorite_cards">Show favorite cards</string>
 	<string name="show_decks">Show decks</string>
 	<string name="add_new_deck">Add new deck</string>
-	
+
 	<string name="share_deck_cards_text">Share deck cards</string>
-	
+
 	<string name="remove_deck">Remove deck</string>
 
 	<string name="action_settings">Settings</string>
@@ -31,4 +30,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_card_details">Card Details</string>
+    <string name="title_activity_card_image">CardImageActivity</string>
+
+    <string name="vtes_images_folder">VTESImages</string>
 </resources>
