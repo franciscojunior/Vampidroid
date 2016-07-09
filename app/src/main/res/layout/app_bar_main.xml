@@ -10,7 +10,9 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/appbar"
+        >
 
         <!--<FrameLayout
             android:id="@+id/toolbar_container"
@@ -18,13 +20,16 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways|snap">-->
 
+        <!--Reference: http://stackoverflow.com/questions/32086148/when-add-a-custom-view-in-android-toolbar-there-will-be-a-marginleft-->
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:layout_scrollFlags="scroll|enterAlways|snap"/>
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:contentInsetStart="8dp"
+            app:contentInsetEnd="8dp"/>
 
 
         <!--</FrameLayout>-->
@@ -35,6 +40,8 @@
             android:layout_height="wrap_content"
             app:tabTextAppearance="@style/CustomTabText"
             app:tabGravity="fill"
+            app:tabMode="fixed"
+            app:tabIndicatorHeight="3dp"
             app:layout_scrollFlags="scroll|enterAlways|snap"/>
 
 
@@ -44,13 +51,23 @@
 
     <include layout="@layout/content_main" />
 
+    <!--Reference: http://stackoverflow.com/questions/32038332/using-google-design-library-how-to-hide-fab-button-on-scroll-down/32039007#32039007-->
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--android:src="@drawable/ic_action_search"-->
+        <!--app:layout_behavior="name.vampidroid.ScrollAwareFABBehavior"/>-->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_action_search" />
+        android:src="@drawable/ic_action_search"
+        />
 
 </android.support.design.widget.CoordinatorLayout>
 
