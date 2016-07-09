@@ -19,7 +19,9 @@
         android:text="A long initialcard text blah blah blah blah blah"
         android:layout_toLeftOf="@+id/textView2"
         android:layout_toStartOf="@+id/textView2"
-        style="@style/TextAppearance.AppCompat.Subhead">
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:fontFamily="sans-serif-condensed"
+        android:transitionName="cardTextTransition">
 
     </TextView>
 
@@ -35,7 +37,8 @@
         android:singleLine="true"
         android:layout_toLeftOf="@+id/imgEditDeckCard"
         android:layout_toStartOf="@+id/imgEditDeckCard"
-        android:textStyle="bold">
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-condensed">
 
     </TextView>
 
@@ -49,7 +52,8 @@
         android:text="for pre POT FOR CEL cel PRE THA tha"
         android:singleLine="true"
         android:cursorVisible="true"
-        style="@style/TextAppearance.AppCompat.Subhead">
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:fontFamily="sans-serif-condensed">
 
     </TextView>
 
@@ -75,7 +79,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignLeft="@+id/txtCardGroup"
-        android:layout_alignStart="@+id/txtCardGroup" />
+        android:layout_alignStart="@+id/txtCardGroup"
+        android:fontFamily="sans-serif-condensed"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -98,7 +103,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_toRightOf="@+id/imgEditDeckCard"
-        android:layout_toEndOf="@+id/imgEditDeckCard" />
+        android:layout_toEndOf="@+id/imgEditDeckCard"
+        android:fontFamily="sans-serif-condensed"/>
 
     <TextView
         android:id="@+id/textView1"
@@ -118,5 +124,6 @@
         android:layout_toLeftOf="@+id/imgFavorite"
         android:src="@drawable/ic_add_card_to_deck"
         android:background="?attr/selectableItemBackground" />
+
 
 </RelativeLayout>
