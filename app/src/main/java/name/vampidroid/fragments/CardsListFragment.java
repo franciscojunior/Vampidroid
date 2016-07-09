@@ -12,32 +12,33 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FilterQueryProvider;
 
 import name.vampidroid.CryptCardsListViewAdapter;
-import name.vampidroid.CursorRecyclerViewAdapter;
+import name.vampidroid.CursorRecyclerAdapter;
 import name.vampidroid.DatabaseHelper;
+import name.vampidroid.FilterModel;
 import name.vampidroid.LibraryCardsListViewAdapter;
 import name.vampidroid.R;
-import name.vampidroid.VampiDroid;
 
 /**
  * Created by fxjr on 17/03/16.
  */
-public class CardsListFragment extends Fragment implements VampiDroid.FragmentFilterable{
+public class CardsListFragment extends Fragment {
 
     private final static String TAG = "CardsListFragment";
 
 
-    private String filter;
+    private CharSequence filter;
     private int cardType;
     private String query;
 
 
-    public CursorRecyclerViewAdapter getCardsAdapter() {
+    public CursorRecyclerAdapter getCardsAdapter() {
         return cardsAdapter;
     }
 
-    private CursorRecyclerViewAdapter cardsAdapter;
+    private CursorRecyclerAdapter cardsAdapter;
 
 
     private SQLiteDatabase db;
@@ -45,7 +46,7 @@ public class CardsListFragment extends Fragment implements VampiDroid.FragmentFi
     public CardsListFragment() {
         Log.d(TAG, "CardsListFragment constructor " + this);
 
-        db = DatabaseHelper.getDatabase();
+        //db = DatabaseHelper.getDatabase();
         //Thread.dumpStack();
 
     }
@@ -62,38 +63,14 @@ public class CardsListFragment extends Fragment implements VampiDroid.FragmentFi
         return f;
     }
 
-
-    public void setFilter(String filter, String[] parameters) {
-        this.filter = filter;
-
-        Log.d(TAG, "CardsListFragment: " + this);
-
-        Log.d(TAG, "setFilter... query:" +  query);
-
-        Log.d(TAG, "setFilter... cardsAdapter:" +  cardsAdapter);
-
-
-        Cursor c = db.rawQuery(query + filter, parameters);
-
-        cardsAdapter.changeCursor(c);
-
-
-
-
-
-
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
+
         cardType = getArguments().getInt("CardType");
         query = getArguments().getString("ListQuery");
-
-//        SQLiteDatabase db = DatabaseHelper.getDatabase();
-//
-//        Cursor c = db.rawQuery(query, null);
 
         if (cardType == 0)
             cardsAdapter = new CryptCardsListViewAdapter(getContext(), null);
@@ -101,9 +78,42 @@ public class CardsListFragment extends Fragment implements VampiDroid.FragmentFi
             cardsAdapter = new LibraryCardsListViewAdapter(getContext(), null);
 
 
-        new QueryDatabaseOperation().execute(query);
+        cardsAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+            private static final String TAG = "CardsListFragment";
+
+            @Override
+            public Cursor runQuery(CharSequence constraint) {
+                Log.d(TAG, "runQuery: Thread Id: " + Thread.currentThread().getId());
+                filter = constraint;
+                return DatabaseHelper.getDatabase().rawQuery(query + constraint, null);
+
+            }
+
+        });
+
+        if (savedInstanceState != null) {
+            filter = savedInstanceState.getCharSequence("filter");
+        } else {
+            filter = "";
+        }
+
+//        new QueryDatabaseOperation().execute(query + filter);
+
+        // Initialize the adapter with the filter constraint.
+        // This will be run in a different thread so it won't impact the UIThread
+
+        cardsAdapter.getFilter().filter(filter);
 
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putCharSequence("filter", filter);
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -125,6 +135,25 @@ public class CardsListFragment extends Fragment implements VampiDroid.FragmentFi
         recyclerView.setAdapter(cardsAdapter);
 
         return recyclerView;
+    }
+
+    public int getCardType() {
+        return cardType;
+    }
+
+    public void filterCards(FilterModel filterModel) {
+
+        switch (cardType) {
+
+            case 0:
+                cardsAdapter.getFilter().filter(filterModel.getNameFilterQuery() + filterModel.getCryptFilterQuery());
+                break;
+            case 1:
+                cardsAdapter.getFilter().filter(filterModel.getNameFilterQuery() + filterModel.getLibraryFilterQuery());
+                break;
+
+
+        }
     }
 
 
@@ -149,11 +178,9 @@ public class CardsListFragment extends Fragment implements VampiDroid.FragmentFi
 
                 cardsAdapter.changeCursor(result);
             }
-            else {
-
-            }
 
 
         }
     }
 }
+
