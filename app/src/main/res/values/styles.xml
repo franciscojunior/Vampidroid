@@ -6,12 +6,20 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="drawerArrowStyle">@style/MainDrawerStyle</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
     </style>
+
+    <style name="AppTheme.NoActionBar.BlackStatusBarColor">
+
+    </style>
+
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -19,6 +27,45 @@
 
     <style name="CustomTabText" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <!--Reference: http://stackoverflow.com/questions/27840204/drawerarrowstyle-with-windowactionbaroverlay-color-in-toolbar-->
+    <style name="MainDrawerStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="barLength">16dp</item>
+        <item name="drawableSize">20dp</item>
+        <!--<item name="gapBetweenBars">3dp</item>-->
+        <!--<item name="color">@android:color/black</item>-->
+    </style>
+
+
+    <!--Reference: http://stackoverflow.com/questions/5049852/android-drawing-separator-divider-line-in-layout/14533085#14533085-->
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@android:color/black</item>
+    </style>
+
+    <style name="NavigationViewDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@android:color/black</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+
+    </style>
+
+    <style name="CardDetailsCollapsedAppBarTitle" parent="@android:style/TextAppearance">
+        <item name="android:textSize">16sp</item>
+
+    </style>
+
+
+    <style name="ActivityThemeCardImage" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@android:color/black</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="drawerArrowStyle">@style/MainDrawerStyle</item>
     </style>
 
 </resources>
