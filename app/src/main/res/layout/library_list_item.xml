@@ -16,7 +16,8 @@
         android:singleLine="true"
         android:text="A long card name to test layout"
         android:textStyle="bold"
-        style="@style/TextAppearance.AppCompat.Title">
+        style="@style/TextAppearance.AppCompat.Title"
+        android:fontFamily="sans-serif-condensed">
 
     </TextView>
 
@@ -29,7 +30,8 @@
         android:layout_below="@+id/txtCardName"
         android:text="Card Type"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        style="@style/TextAppearance.AppCompat.Subhead">
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:fontFamily="sans-serif-condensed">
     </TextView>
 
     <TextView
@@ -43,7 +45,8 @@
         android:singleLine="true"
         android:text="Card Clan"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        style="@style/TextAppearance.AppCompat.Subhead">
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:fontFamily="sans-serif-condensed">
     </TextView>
 
     <TextView
@@ -55,7 +58,8 @@
         android:layout_below="@+id/txtCardClan"
         android:text="Card Disciplines"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        style="@style/TextAppearance.AppCompat.Subhead">
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:fontFamily="sans-serif-condensed">
     </TextView>
 
     <ImageView
