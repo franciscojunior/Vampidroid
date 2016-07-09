@@ -18,47 +18,47 @@ import java.util.HashSet;
 
 public class DatabaseHelper {
 
-    private final static String TAG = "DatabaseHelper";
+	private final static String TAG = "DatabaseHelper";
 	public static final String VAMPIDROID_DB = "VampiDroid.db";
-    public static final String VAMPIDROID_UPDATE_DB = "VampiDroid.update.db";
+	public static final String VAMPIDROID_UPDATE_DB = "VampiDroid.update.db";
 	public static final String KEY_DATABASE_VERSION = "database_version";
 	public static final int DATABASE_VERSION = 6;
 
 
-	public static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY_INITIALCARDTEXT = new String[] { "Name",
-			"Disciplines", "Capacity", "InitialCardText" };
+	public static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY_INITIALCARDTEXT = new String[]{"Name",
+			"Disciplines", "Capacity", "InitialCardText"};
 
-	public static final String[] STRING_ARRAY_CRYPT_LIST_COLUMNS = new String[] { "Name", "Disciplines", "Capacity",
-			"InitialCardText", "_Group" };
+	public static final String[] STRING_ARRAY_CRYPT_LIST_COLUMNS = new String[]{"Name", "Disciplines", "Capacity",
+			"InitialCardText", "_Group"};
 
-	public static final String[] FROM_STRING_ARRAY_DECK_CRYPT_LIST_COLUMNS = new String[] { "Name", "Disciplines",
-			"Capacity", "InitialCardText", "_Group", "CardNum" };
+	public static final String[] FROM_STRING_ARRAY_DECK_CRYPT_LIST_COLUMNS = new String[]{"Name", "Disciplines",
+			"Capacity", "InitialCardText", "_Group", "CardNum"};
 
-	public static final String[] FROM_STRING_ARRAY_DECK_LIBRARY_LIST_COLUMNS = new String[] { "Name", "Type", "Clan",
-			"Discipline", "CardNum" };
+	public static final String[] FROM_STRING_ARRAY_DECK_LIBRARY_LIST_COLUMNS = new String[]{"Name", "Type", "Clan",
+			"Discipline", "CardNum"};
 
-	static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY_INITIALCARDTEXT_ADV = new String[] { "Name",
-			"Disciplines", "Capacity", "InitialCardText", "Adv" };
+	static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY_INITIALCARDTEXT_ADV = new String[]{"Name",
+			"Disciplines", "Capacity", "InitialCardText", "Adv"};
 
 	// public static final String ALL_FROM_CRYPT_QUERY =
 	// "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText, _Group from crypt where 1=1";
 
 	public static final String ALL_FROM_CRYPT_QUERY = "select _id, Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText, _Group, Adv from crypt where 1=1";
 
-	public static final String[] ALL_FROM_CRYPT_QUERY_AS_COLUMNS = new String[] { "_id", "Name", "Disciplines",
-			"Capacity", "substr(CardText, 1, 40) as InitialCardText" };
+	public static final String[] ALL_FROM_CRYPT_QUERY_AS_COLUMNS = new String[]{"_id", "Name", "Disciplines",
+			"Capacity", "substr(CardText, 1, 40) as InitialCardText"};
 
 	public static final String ALL_FROM_LIBRARY_QUERY = "select _id, Name, Type, Clan, Discipline from library where 1=1";
 
-	public static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY = new String[] { "Name", "Disciplines",
-			"Capacity" };
-	
-	
+	public static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY = new String[]{"Name", "Disciplines",
+			"Capacity"};
+
+
 	// TODO: Make ordering configurable.
 	public static String ORDER_BY_NAME = " order by Name ";
-	
 
-	public static SQLiteDatabase DATABASE = null;
+
+//	public static SQLiteDatabase DATABASE = null;
 
 	public enum CardType {
 
@@ -139,15 +139,15 @@ public class DatabaseHelper {
 			+ "(select coalesce(sum(CardNum), 0) from deck_cards where DeckId = a._id and CardType = "
 			+ String.valueOf(CardType.CRYPT.ordinal()) + " ) as CryptCardsCount, "
 			+ "(select coalesce(sum(CardNum), 0) from deck_cards where DeckId = a._id and CardType = "
-			+ String.valueOf(CardType.LIBRARY.ordinal()) + " ) as LibraryCardsCount, " 
+			+ String.valueOf(CardType.LIBRARY.ordinal()) + " ) as LibraryCardsCount, "
 			+ "(select round(cast(sum(Capacity * CardNum) as real) / sum(CardNum), 2) from crypt c inner join deck_cards dc on " +
-					"c._id = dc.CardId and DeckId = a._id and CardType = " + String.valueOf(CardType.CRYPT.ordinal()) + " ) as CryptCapacityAvg, "
+			"c._id = dc.CardId and DeckId = a._id and CardType = " + String.valueOf(CardType.CRYPT.ordinal()) + " ) as CryptCapacityAvg, "
 			+ "(select min(cast(Capacity as integer)) from crypt c inner join deck_cards dc on " +
-					"c._id = dc.CardId and DeckId = a._id and CardType = " + String.valueOf(CardType.CRYPT.ordinal()) + " ) as CryptCapacityMin, "
+			"c._id = dc.CardId and DeckId = a._id and CardType = " + String.valueOf(CardType.CRYPT.ordinal()) + " ) as CryptCapacityMin, "
 			+ "(select max(cast(Capacity as integer)) from crypt c inner join deck_cards dc on " +
-					"c._id = dc.CardId and DeckId = a._id and CardType = " + String.valueOf(CardType.CRYPT.ordinal()) + " ) as CryptCapacityMax "
-		    + "from decks a order by Name";
-	
+			"c._id = dc.CardId and DeckId = a._id and CardType = " + String.valueOf(CardType.CRYPT.ordinal()) + " ) as CryptCapacityMax "
+			+ "from decks a order by Name";
+
 
 	public static String SELECT_DECK_CRYPT_FOR_SHARING = "select CardNum, Name from crypt a inner join deck_cards b on a._id = b.CardId "
 			+ " and CardType = " + String.valueOf(CardType.CRYPT.ordinal()) + " and DeckId = ? ";
@@ -155,98 +155,101 @@ public class DatabaseHelper {
 	public static String SELECT_DECK_LIBRARY_FOR_SHARING = "select CardNum, Name from library a inner join deck_cards b on a._id = b.CardId "
 			+ " and CardType = " + String.valueOf(CardType.LIBRARY.ordinal()) + " and DeckId = ? ";
 
-    public static SQLiteDatabase getDatabase() {
-		/*
-		 * File databaseFile = context.getFileStreamPath(CARDS_DB_NAME); return
-		 * SQLiteDatabase.openDatabase(databaseFile.getAbsolutePath(), null,
-		 * SQLiteDatabase.OPEN_READWRITE);
-		 */
+	public static SQLiteDatabase getDatabase() {
 
-        if (DATABASE == null) {
-            //checkAndCreateDatabaseFile();
+//        Reference: https://en.wikipedia.org/wiki/Initialization-on-demand_holder_idiom
+//        Reference: http://stackoverflow.com/questions/7855700/why-is-volatile-used-in-this-example-of-double-checked-locking/36099644#36099644
 
-            // The file will be stored in the private data area of the application.
-            // Reference:
-            // http://www.reigndesign.com/blog/using-your-own-sqlite-database-in-android-applications/
-            File databaseFile = APPLICATION_CONTEXT.getFileStreamPath(VAMPIDROID_DB);
+		Log.d(TAG, "getDatabase ");
 
-            // version where changelog has been viewed
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(APPLICATION_CONTEXT);
-            int databaseVersion = settings.getInt(KEY_DATABASE_VERSION, 1);
+		return LazyHolder.DATABASE;
+	}
 
 
-            if (databaseVersion != DATABASE_VERSION) {
-                // Update database version.
-                Editor editor = settings.edit();
-                editor.putInt(KEY_DATABASE_VERSION, DATABASE_VERSION);
-                editor.commit();
-            }
+	private static class LazyHolder {
 
-            if (!databaseFile.exists()) {
-                createCardsDatabaseFile();
-            }
+		private static final SQLiteDatabase DATABASE = initializeDatabase();
+	}
 
 
-            DATABASE = SQLiteDatabase.openDatabase(APPLICATION_CONTEXT.getFileStreamPath(VAMPIDROID_DB)
-                    .getAbsolutePath(), null, SQLiteDatabase.OPEN_READWRITE);
+	private static SQLiteDatabase initializeDatabase() {
+		// The file will be stored in the private data area of the application.
+		// Reference:
+		// http://www.reigndesign.com/blog/using-your-own-sqlite-database-in-android-applications/
+		File databaseFile = APPLICATION_CONTEXT.getFileStreamPath(VAMPIDROID_DB);
 
-            DATABASE.execSQL("PRAGMA case_sensitive_like = true;");
-
-            if (databaseVersion != DATABASE_VERSION) {
-
-                Log.d(TAG, "Starting database update...");
-
-                updateDatabaseCards();
-
+		// version where changelog has been viewed
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(APPLICATION_CONTEXT);
+		int databaseVersion = settings.getInt(KEY_DATABASE_VERSION, -1);
 
 
-            }
-
-        }
-
-        return DATABASE;
-    }
-
-    private static void updateDatabaseCards() {
-
-        createUpdateDatabaseFile();
+		if (databaseVersion != DATABASE_VERSION) {
+			// Update database version.
+			Editor editor = settings.edit();
+			editor.putInt(KEY_DATABASE_VERSION, DATABASE_VERSION);
+			editor.commit();
+		}
 
 
-
-        DATABASE.execSQL(" attach '" + APPLICATION_CONTEXT.getFileStreamPath(VAMPIDROID_UPDATE_DB)
-                .getAbsolutePath() + "' as updatedb");
-
-
-        DATABASE.beginTransaction();
-
-        try {
-
-            DATABASE.delete("crypt", null, null);
-            DATABASE.delete("library", null, null);
-
-            DATABASE.execSQL("insert into crypt select * from updatedb.crypt");
-            DATABASE.execSQL("insert into library select * from updatedb.library");
-
-            DATABASE.setTransactionSuccessful();
-        }
-        finally {
-            DATABASE.endTransaction();
-        }
+		if (!databaseFile.exists()) {
+			Log.d(TAG, "Creating database file... ");
+			createCardsDatabaseFile();
+		}
 
 
-    }
+		SQLiteDatabase returnDatabase = SQLiteDatabase.openDatabase(APPLICATION_CONTEXT.getFileStreamPath(VAMPIDROID_DB)
+				.getAbsolutePath(), null, SQLiteDatabase.OPEN_READWRITE);
+
+		returnDatabase.execSQL("PRAGMA case_sensitive_like = true;");
+
+		if (databaseVersion != -1 && databaseVersion != DATABASE_VERSION) {
+
+			Log.d(TAG, "Starting database update...");
+
+			updateDatabaseCards(returnDatabase);
 
 
-    static public void setApplicationContext(Context context) {
+		}
+
+		Log.d(TAG, "database loaded ");
+
+		return returnDatabase;
+	}
+
+	private static void updateDatabaseCards(SQLiteDatabase database) {
+
+		createUpdateDatabaseFile();
+
+
+		database.execSQL(" attach '" + APPLICATION_CONTEXT.getFileStreamPath(VAMPIDROID_UPDATE_DB)
+				.getAbsolutePath() + "' as updatedb");
+
+
+		database.beginTransaction();
+
+		try {
+
+			database.delete("crypt", null, null);
+			database.delete("library", null, null);
+
+			database.execSQL("insert into crypt select * from updatedb.crypt");
+			database.execSQL("insert into library select * from updatedb.library");
+
+			database.setTransactionSuccessful();
+		} finally {
+			database.endTransaction();
+		}
+
+
+	}
+
+
+	static public void setApplicationContext(Context context) {
 		APPLICATION_CONTEXT = context.getApplicationContext();
 	}
 
 	public static void closeDatabase() {
-		if (DATABASE != null) {
-			DATABASE.close();
-			DATABASE = null;
-		}
-
+		LazyHolder.DATABASE.close();
 	}
 
 	private static void checkAndCreateDatabaseFile() {
@@ -271,56 +274,56 @@ public class DatabaseHelper {
 
 	}
 
-    private static void createCardsDatabaseFile() {
+	private static void createCardsDatabaseFile() {
 
-        createDatabaseFile("VampiDroid.mp3", VAMPIDROID_DB);
+		createDatabaseFile("VampiDroid.mp3", VAMPIDROID_DB);
 
-    }
+	}
 
-    private static void createUpdateDatabaseFile() {
+	private static void createUpdateDatabaseFile() {
 
-        createDatabaseFile("VampiDroid.mp3", VAMPIDROID_UPDATE_DB);
+		createDatabaseFile("VampiDroid.mp3", VAMPIDROID_UPDATE_DB);
 
-    }
-
-
-    private static void createDatabaseFile(String databaseFileNameSource, String databaseFileNameDestination) {
-
-        AssetManager am = APPLICATION_CONTEXT.getAssets();
-
-        try {
-
-            // Asset Manager doesn't work with files bigger than 1Mb at a time.
-            // Check here for explanation:
-            // http://stackoverflow.com/questions/2860157/load-files-bigger-than-1m-from-assets-folder
-            // Had to change the file suffix to .mp3 so it isn't compressed and
-            // can be opened directly.
-
-            //InputStream in = am.open("VampiDroid.mp3");
-            InputStream in = am.open(databaseFileNameSource);
-
-            OutputStream out = APPLICATION_CONTEXT.openFileOutput(databaseFileNameDestination, Context.MODE_PRIVATE);
-
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = in.read(buffer)) != -1) {
-                out.write(buffer, 0, read);
-            }
-
-            in.close();
-
-            out.flush();
-            out.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-
-        }
-
-    }
+	}
 
 
-    private static void createDatabaseFile() {
+	private static void createDatabaseFile(String databaseFileNameSource, String databaseFileNameDestination) {
+
+		AssetManager am = APPLICATION_CONTEXT.getAssets();
+
+		try {
+
+			// Asset Manager doesn't work with files bigger than 1Mb at a time.
+			// Check here for explanation:
+			// http://stackoverflow.com/questions/2860157/load-files-bigger-than-1m-from-assets-folder
+			// Had to change the file suffix to .mp3 so it isn't compressed and
+			// can be opened directly.
+
+			//InputStream in = am.open("VampiDroid.mp3");
+			InputStream in = am.open(databaseFileNameSource);
+
+			OutputStream out = APPLICATION_CONTEXT.openFileOutput(databaseFileNameDestination, Context.MODE_PRIVATE);
+
+			byte[] buffer = new byte[1024];
+			int read;
+			while ((read = in.read(buffer)) != -1) {
+				out.write(buffer, 0, read);
+			}
+
+			in.close();
+
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+
+	}
+
+
+	private static void createDatabaseFile() {
 
 		AssetManager am = APPLICATION_CONTEXT.getAssets();
 
@@ -356,7 +359,7 @@ public class DatabaseHelper {
 
 	public static void removeFavoriteCard(Long cardId, CardType cardType) {
 		getDatabase().delete("favorite_cards", "CardId = ? and CardType = ?",
-				new String[] { String.valueOf(cardId), String.valueOf(cardType.ordinal()) });
+				new String[]{String.valueOf(cardId), String.valueOf(cardType.ordinal())});
 
 	}
 
@@ -374,16 +377,16 @@ public class DatabaseHelper {
 	public static boolean containsCryptFavorite(long id) {
 
 		Cursor c = getDatabase().rawQuery("select count(*) from favorite_cards where CardId = ? and CardType = ?",
-				new String[] { String.valueOf(id), String.valueOf(CardType.CRYPT.ordinal()) });
+				new String[]{String.valueOf(id), String.valueOf(CardType.CRYPT.ordinal())});
 
 		c.moveToFirst();
-		
-		boolean result = c.getInt(0) > 0; 
+
+		boolean result = c.getInt(0) > 0;
 
 		c.close();
-		
+
 		return result;
-		
+
 
 	}
 
@@ -394,13 +397,13 @@ public class DatabaseHelper {
 			FAVORITE_CRYPT_CARDS = new HashSet<Long>();
 
 			Cursor c = getDatabase().rawQuery("select CardId from favorite_cards where CardType = ?",
-					new String[] { String.valueOf(CardType.CRYPT.ordinal()) });
+					new String[]{String.valueOf(CardType.CRYPT.ordinal())});
 
 			while (c.moveToNext()) {
 
 				FAVORITE_CRYPT_CARDS.add(c.getLong(0));
 			}
-			
+
 			c.close();
 
 		}
@@ -412,14 +415,14 @@ public class DatabaseHelper {
 	public static boolean containsFavoriteCard(long cardId, CardType cardType) {
 
 		Cursor c = getDatabase().rawQuery("select count(*) from favorite_cards where CardId = ? and CardType = ?",
-				new String[] { String.valueOf(cardId), String.valueOf(cardType.ordinal()) });
+				new String[]{String.valueOf(cardId), String.valueOf(cardType.ordinal())});
 
 		c.moveToFirst();
 
-		boolean result = c.getInt(0) > 0; 
+		boolean result = c.getInt(0) > 0;
 
 		c.close();
-		
+
 		return result;
 
 
@@ -428,12 +431,12 @@ public class DatabaseHelper {
 	public static boolean containsLibraryFavorite(long id) {
 
 		Cursor c = getDatabase().rawQuery("select count(*) from favorite_cards where CardId = ? and CardType = ?",
-				new String[] { String.valueOf(id), String.valueOf(CardType.LIBRARY.ordinal()) });
+				new String[]{String.valueOf(id), String.valueOf(CardType.LIBRARY.ordinal())});
 
-		boolean result = c.getInt(0) > 0; 
+		boolean result = c.getInt(0) > 0;
 
 		c.close();
-		
+
 		return result;
 
 
@@ -446,13 +449,13 @@ public class DatabaseHelper {
 			FAVORITE_LIBRARY_CARDS = new HashSet<Long>();
 
 			Cursor c = getDatabase().rawQuery("select CardId from favorite_cards where CardType = ?",
-					new String[] { String.valueOf(CardType.LIBRARY.ordinal()) });
+					new String[]{String.valueOf(CardType.LIBRARY.ordinal())});
 
 			while (c.moveToNext()) {
 
 				FAVORITE_LIBRARY_CARDS.add(c.getLong(0));
 			}
-			
+
 			c.close();
 
 		}
@@ -472,12 +475,12 @@ public class DatabaseHelper {
 		String result = "";
 
 		Cursor c = getDatabase().rawQuery("select Name from decks where _id = ?",
-				new String[] { String.valueOf(deckId) });
+				new String[]{String.valueOf(deckId)});
 
 		if (c.moveToFirst()) {
 			result = c.getString(0);
 		}
-		
+
 		c.close();
 
 		return result;
@@ -503,7 +506,7 @@ public class DatabaseHelper {
 	public static void addDeckCard(long deckId, long cardId, CardType cardType, int cardNum) {
 
 		getDatabase().delete("deck_cards", "DeckId = ? and CardType = ? and CardId = ?",
-				new String[] { String.valueOf(deckId), String.valueOf(cardType.ordinal()), String.valueOf(cardId) });
+				new String[]{String.valueOf(deckId), String.valueOf(cardType.ordinal()), String.valueOf(cardId)});
 
 		if (cardNum > 0) {
 
@@ -524,7 +527,7 @@ public class DatabaseHelper {
 
 		Cursor c = getDatabase().rawQuery(
 				"select CardNum from deck_cards where DeckId = ? and CardType = ? and CardId = ?",
-				new String[] { String.valueOf(deckId), String.valueOf(cardType.ordinal()), String.valueOf(cardId) });
+				new String[]{String.valueOf(deckId), String.valueOf(cardType.ordinal()), String.valueOf(cardId)});
 
 		int result = 0;
 
@@ -533,7 +536,7 @@ public class DatabaseHelper {
 			c.moveToFirst();
 			result = c.getInt(0);
 		}
-		
+
 		c.close();
 
 		return result;
@@ -546,32 +549,33 @@ public class DatabaseHelper {
 		String sql = "";
 
 		switch (cardType) {
-		case CRYPT:
-			sql = SELECT_CRYPT_CARD_NAME;
-			break;
-		case LIBRARY:
-			sql = SELECT_LIBRARY_CARD_NAME;
-			break;
+			case CRYPT:
+				sql = SELECT_CRYPT_CARD_NAME;
+				break;
+			case LIBRARY:
+				sql = SELECT_LIBRARY_CARD_NAME;
+				break;
 		}
 
-		Cursor c = getDatabase().rawQuery(sql, new String[] { String.valueOf(cardId) });
+		Cursor c = getDatabase().rawQuery(sql, new String[]{String.valueOf(cardId)});
 
 		c.moveToFirst();
 
-		String result = c.getString(0); 
+		String result = c.getString(0);
 
 		c.close();
-		
+
 		return result;
 
 	}
 
 	public static void removeDeck(long deckId) {
 
-		getDatabase().delete("deck_cards", "DeckId = ?", new String[] { String.valueOf(deckId) });
+		getDatabase().delete("deck_cards", "DeckId = ?", new String[]{String.valueOf(deckId)});
 
-		getDatabase().delete("decks", "_id = ?", new String[] { String.valueOf(deckId) });
+		getDatabase().delete("decks", "_id = ?", new String[]{String.valueOf(deckId)});
 
 	}
 
 }
+
