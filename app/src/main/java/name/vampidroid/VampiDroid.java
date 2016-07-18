@@ -387,6 +387,12 @@ public class VampiDroid extends AppCompatActivity
             filterCards();
         }
 
+        // Sync navigation drawer selected item.
+        // Reference: http://stackoverflow.com/questions/34502848/how-to-change-selected-item-in-the-navigation-drawer-depending-on-the-activity-v?rq=1
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_camera);
+
 
     }
 
