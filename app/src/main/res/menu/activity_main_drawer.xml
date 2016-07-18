@@ -20,7 +20,7 @@
 
     </group>
 
-    <group>
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
@@ -45,7 +45,10 @@
     <!--android:title="Send" />-->
     <!--</menu>-->
     <!--</item>-->
-    <group>
+
+    <!-- To get a divider before a group, add an id to it -->
+    <!--Reference: http://stackoverflow.com/questions/31559705/divider-in-navigation-drawer-using-a-xml-menu-->
+    <group android:id="@+id/nav_group_settings" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings_black_24dp"
