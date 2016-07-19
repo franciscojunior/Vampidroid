@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -20,6 +21,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -335,17 +337,19 @@ public class VampiDroid extends AppCompatActivity
 		Log.d(TAG, "onRestoreInstanceState() called with: " + "savedInstanceState =");
 
 		restoring = true;
-		super.onRestoreInstanceState(savedInstanceState);
 
-		restoring = false;
+        super.onRestoreInstanceState(savedInstanceState);
 
-		filterModel.name = savedInstanceState.getCharSequence("name");
-		filterModel.groups = savedInstanceState.getBooleanArray("groups");
-		filterModel.capacityMin = savedInstanceState.getInt("capacitymin");
-		filterModel.capacityMax = savedInstanceState.getInt("capacitymax");
 
-		filterModel.groupsFilterChanged = true;
+        filterModel.name = savedInstanceState.getCharSequence("name");
+        filterModel.groups = savedInstanceState.getBooleanArray("groups");
+        filterModel.capacityMin = savedInstanceState.getInt("capacitymin");
+        filterModel.capacityMax = savedInstanceState.getInt("capacitymax");
+        filterModel.searchCardText = savedInstanceState.getBoolean("searchcardtext");
 
+        filterModel.groupsFilterChanged = true;
+
+        restoring = false;
 
 	}
 
@@ -361,6 +365,7 @@ public class VampiDroid extends AppCompatActivity
 		outState.putBooleanArray("groups", filterModel.groups);
 		outState.putInt("capacitymin", filterModel.capacityMin);
 		outState.putInt("capacitymax", filterModel.capacityMax);
+		outState.putBoolean("searchcardtext", filterModel.searchCardText);
 
 
 
@@ -370,11 +375,26 @@ public class VampiDroid extends AppCompatActivity
 	protected void onResume() {
 		super.onResume();
 
-		Log.d(TAG, "onResume() called with: " + "");
+        Log.d(TAG, "onResume: ");
+
+        // Update possible changes to preferences.
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        boolean prefSearchCardText = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SEARCH_CARD_TEXT, false);
+
+        if (prefSearchCardText != filterModel.searchCardText) {
+            filterModel.setSearchCardText(prefSearchCardText);
+            filterCards();
+        }
+
+        // Sync navigation drawer selected item.
+        // Reference: http://stackoverflow.com/questions/34502848/how-to-change-selected-item-in-the-navigation-drawer-depending-on-the-activity-v?rq=1
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_camera);
 
 
-
-	}
+    }
 
 	private void setupSearchContainter(FrameLayout search_container) {
 
@@ -423,16 +443,9 @@ public class VampiDroid extends AppCompatActivity
 
 				Log.d(TAG, "onTextChanged() called with: " + "s = [" + s + "], start = [" + start + "], before = [" + before + "], count = [" + count + "]");
 
+                filterModel.setName(s);
 
-
-
-				// If we are restoring, there is no need to filter now. It will be filtered at the end of activity restoring...
-				if (!restoring) {
-					filterModel.setName(s);
-
-					filterCards();
-				}
-
+                filterCards();
 
 			}
 
@@ -505,11 +518,18 @@ public class VampiDroid extends AppCompatActivity
 
 		Log.d(TAG, "filterCards() called with: " + "");
 
-		for (CardsListFragment fragment:
-				fragmentsToFilter2) {
+        // If we are restoring, there is no need to filter now. The data will already be filtered out when the state was saved.
+        if (restoring) {
+            Log.d(TAG, "filterCards: not filtering because we are restoring");
+            return;
+        }
 
-			fragment.filterCards(filterModel);
-		}
+        for (CardsListFragment fragment :
+                fragmentsToFilter2) {
+
+            fragment.filterCards(filterModel);
+        }
+
 	}
 
 
@@ -667,7 +687,11 @@ public class VampiDroid extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {*/
 
-		}
+		} else if (id == R.id.nav_settings) {
+            Intent launch = new Intent(this, SettingsActivity.class);
+            startActivity(launch);
+        }
+
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);

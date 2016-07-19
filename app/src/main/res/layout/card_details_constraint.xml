@@ -104,7 +104,7 @@
 
     <TextView
         android:id="@+id/cardText"
-        android:text="A long card name dsfdf sdfsd fs dfsdf sf dsf s s sdfsfds  sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsf  "
+        android:text="A long card name This is a long card name This is a long card name  "
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:transitionName="cardTextTransition"

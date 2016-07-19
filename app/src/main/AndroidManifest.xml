@@ -51,6 +51,10 @@
             android:label="Preferences" />
 
         <activity
+            android:name=".SettingsActivity"
+            android:label="Preferences" />
+
+        <activity
             android:name=".NewDeck"
             android:label="New Deck"
             android:theme="@android:style/Theme.Dialog" />
