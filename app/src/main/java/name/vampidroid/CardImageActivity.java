@@ -39,7 +39,7 @@ public class CardImageActivity extends AppCompatActivity {
 
 
 
-        Utils.loadCardImage(imageView, getIntent().getExtras().getString("cardName"), getResources());
+        Utils.loadCardImage(this, imageView, getIntent().getExtras().getString("cardName"));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             defaultUIOptions = getWindow().getDecorView().getSystemUiVisibility();

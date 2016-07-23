@@ -1,14 +1,19 @@
 package name.vampidroid;
 
+import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Environment;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.File;
+
+import name.vampidroid.fragments.SettingsFragment;
+
+import static name.vampidroid.fragments.SettingsFragment.DEFAULT_IMAGES_FOLDER;
 
 
 /**
@@ -19,12 +24,15 @@ class Utils {
 
     private static final String TAG = "Utils";
 
-    static void loadCardImage(ImageView cardImage, String cardName, Resources res) {
+    static void loadCardImage(Activity activity, ImageView cardImage, String cardName) {
 
 
+        Resources res = activity.getResources();
+
+        String cardImagesPath = PreferenceManager.getDefaultSharedPreferences(activity).getString(SettingsFragment.KEY_PREF_CARD_IMAGES_FOLDER, DEFAULT_IMAGES_FOLDER);
         String cardFileName = cardName == null ? "" : getCardFileName(cardName) + ".jpg";
 
-        File imageFile = new File(Environment.getExternalStorageDirectory() + "/" + res.getString(R.string.vtes_images_folder) + "/" + cardFileName);
+        File imageFile = new File(cardImagesPath + "/" + cardFileName);
 
         Log.d(TAG, "setupToolbarImage: imagePath: " + imageFile.getAbsolutePath());
         Log.d(TAG, "setupToolbarImage: imageExists: " + imageFile.exists());

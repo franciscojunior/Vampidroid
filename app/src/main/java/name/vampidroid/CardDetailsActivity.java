@@ -172,7 +172,7 @@ public class CardDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(cardName);
         txtCardText.setText(cardText);
 
-        Utils.loadCardImage(cardImage, cardName, getResources());
+        Utils.loadCardImage(this, cardImage, cardName);
     }
 
 

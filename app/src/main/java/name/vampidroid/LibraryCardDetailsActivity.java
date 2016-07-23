@@ -173,7 +173,7 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         txtCardText.setText(cardText);
         txtCardType.setText(cardType);
 
-        Utils.loadCardImage(cardImage, cardName, getResources());
+        Utils.loadCardImage(this, cardImage, cardName);
     }
 
 
