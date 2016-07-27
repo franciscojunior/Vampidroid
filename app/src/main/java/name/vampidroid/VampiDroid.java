@@ -544,10 +544,23 @@ public class VampiDroid extends AppCompatActivity
 	}
 
 	//    Reference: http://stackoverflow.com/questions/11358121/how-to-handle-the-checkbox-ischecked-and-unchecked-event-in-android
-	public void disciplinesClickHandler(View view) {
+	//	http://stackoverflow.com/questions/10137692/how-to-get-resource-name-from-resource-id
+	public void disciplinesClickHandler(View v) {
 
-		int id = view.getId();
+		CheckBox checkbox = (CheckBox) v;
 
+		String discipline = getResources().getResourceEntryName(checkbox.getId());
+
+		// Check if the discipline is basic or advanced.
+
+		boolean isBasic = discipline.contains("Basic");
+
+		discipline = discipline.substring(discipline.length() - 3);
+
+		filterModel.setDiscipline(discipline, isBasic, checkbox.isChecked());
+
+
+		filterCards();
 
 	}
 
