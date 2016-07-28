@@ -21,6 +21,11 @@
     </style>
 
 
+    <!--Reference: https://www.bignerdranch.com/blog/splash-screens-the-right-way/-->
+    <style name="SplashTheme" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_splash_screen</item>
+    </style>
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
