@@ -3,6 +3,7 @@ package name.vampidroid;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FilterModel {
 
@@ -16,6 +17,15 @@ public class FilterModel {
 
     private final String CAPACITY_CRYPT_FILTER = "Cast(capacity as integer) between ";
     private final String CLAN_FILTER = "Clan = '?'";
+
+    private final String TYPE_FILTER = "Type = '?'";
+    private final String DISCIPLINE_CRYPT_FILTER = "Disciplines like '%?%'";
+    private final String DISCIPLINE_CRYPT_FILTER_BOTH_BASIC_ADVANCED = "lower(Disciplines) like '%?%'";
+
+
+    private final String DISCIPLINE_LIBRARY_FILTER = "Discipline like '%?%'";
+
+
     boolean groups[] = new boolean[6];
 
     boolean groupsFilterChanged;
@@ -27,6 +37,11 @@ public class FilterModel {
 
 
     ArrayList<CharSequence> clans = new ArrayList<>();
+
+
+    HashMap<CharSequence, CryptDiscipline> cryptDisciplines = new HashMap<>();
+
+//    ArrayList<CryptDiscipline> cryptDisciplines = new ArrayList<>();
 
 
     public String getGroupsQuery() {
@@ -123,6 +138,27 @@ public class FilterModel {
             result.append(" 1 = 0 ) ");
         }
 
+
+        // Disciplines processing
+
+        if (cryptDisciplines.size() > 0) {
+
+            result.append(" and ( ");
+
+            for (CryptDiscipline discipline : cryptDisciplines.values())
+                if (discipline.isBothSet()) {
+                    result.append(DISCIPLINE_CRYPT_FILTER_BOTH_BASIC_ADVANCED.replace("?", discipline.getName().toLowerCase())).append(" AND ");
+                } else {
+                    result.append(DISCIPLINE_CRYPT_FILTER.replace("?", discipline.getName())).append(" AND ");
+                }
+
+
+            // To avoid needing to remove the last 'OR'
+            result.append(" 1 = 1 ) ");
+
+        }
+
+
         Log.d(TAG, "getCryptFilterQuery() returned: " + result);
 
         return result.toString();
@@ -163,5 +199,101 @@ public class FilterModel {
     }
 
 
-}
+    public void setDiscipline(String discipline, boolean isBasic, boolean isSet) {
 
+
+        Log.d(TAG, "setDiscipline: " + discipline);
+
+
+
+        discipline = discipline.toLowerCase();
+
+        CryptDiscipline cryptDiscipline = cryptDisciplines.get(discipline);
+
+        if (isSet) {
+            if (cryptDiscipline == null) {
+                Log.d(TAG, "setDiscipline: cryptDiscipline is null. Creating one..." );
+                cryptDiscipline = new CryptDiscipline(discipline, isBasic, !isBasic);
+                cryptDisciplines.put(discipline, cryptDiscipline);
+            }
+
+            if (isBasic)
+                cryptDiscipline.setBasic(true);
+            else
+                cryptDiscipline.setAdvanced(true);
+
+
+        } else {
+
+            // If we are unsetting it is because the discipline was already inserted before.
+            if (isBasic)
+                cryptDiscipline.setBasic(false);
+            else
+                cryptDiscipline.setAdvanced(false);
+
+
+            if (cryptDiscipline.isAllClear())
+                cryptDisciplines.remove(discipline);
+
+        }
+
+    }
+
+
+    private class CryptDiscipline {
+
+        private String name;
+        private boolean basic;
+        private boolean advanced;
+
+        public String getName() {
+            if (isBasic()) {
+                return name.toLowerCase();
+            } else {
+                return name.toUpperCase();
+            }
+
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public boolean isBasic() {
+            return basic;
+        }
+
+        public void setBasic(boolean basic) {
+            this.basic = basic;
+        }
+
+        public boolean isAdvanced() {
+            return advanced;
+        }
+
+        public void setAdvanced(boolean advanced) {
+            this.advanced = advanced;
+        }
+
+        public CryptDiscipline(String name) {
+
+
+        }
+        public CryptDiscipline(String name, boolean basic, boolean advanced) {
+            this.name = name;
+            this.basic = basic;
+            this.advanced = advanced;
+        }
+
+
+        public boolean isAllClear() {
+            return !isBasic() && !isAdvanced();
+
+        }
+
+        public boolean isBothSet() {
+            return isBasic() && isAdvanced();
+        }
+    }
+
+}
