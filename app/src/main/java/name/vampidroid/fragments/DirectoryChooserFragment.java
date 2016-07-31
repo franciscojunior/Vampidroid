@@ -3,10 +3,9 @@ package name.vampidroid.fragments;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialogFragment;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,17 +23,17 @@ import name.vampidroid.R;
  * Created by fxjr on 22/07/16.
  */
 
-public class DirectoryChooserFragment extends AppCompatDialogFragment {
+public class DirectoryChooserFragment extends DialogFragment {
 
     private static final String TAG = "DirectoryChooserFragmen";
 
     public static final String CURRENT_DIRECTORY = "CURRENT_DIRECTORY";
 
-
     public interface DirectoryChooserFragmentListener {
-
-        public void onDirectorySelected(String directoryPath);
+        void onDirectorySelected(String directoryPath);
     }
+
+
 
 
     private TextView textviewSelectedDirectory;
@@ -41,6 +41,7 @@ public class DirectoryChooserFragment extends AppCompatDialogFragment {
     private ArrayAdapter<String> listDirectoriesAdapter;
     private List<String> directories;
     private String selectedDirectory;
+
 
 
     public static DirectoryChooserFragment newInstance(String initialDirectoryName) {
@@ -54,27 +55,34 @@ public class DirectoryChooserFragment extends AppCompatDialogFragment {
         return fragment;
     }
 
+
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-//        String title = getArguments().getString("title");
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity(), getTheme());
         alertDialogBuilder.setTitle("Choose images folder");
 
-        View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_directory_chooser, null);
+        View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_directory_chooser, null);
 
 
-        textviewSelectedDirectory = (TextView) v.findViewById(R.id.selectedDirectory);
-        selectedDirectory = getArguments().getString(CURRENT_DIRECTORY);
+        textviewSelectedDirectory = (TextView) dialogView.findViewById(R.id.selectedDirectory);
+
+        if (savedInstanceState != null) {
+            selectedDirectory = savedInstanceState.getString(CURRENT_DIRECTORY);
+        } else {
+            selectedDirectory = getArguments().getString(CURRENT_DIRECTORY);
+        }
+
         textviewSelectedDirectory.setText(selectedDirectory);
 
 
-        listviewDirectories = (ListView) v.findViewById(R.id.listDirectories);
+        listviewDirectories = (ListView) dialogView.findViewById(R.id.listDirectories);
 
 
         listviewDirectories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d(TAG, "onItemClick: " + adapterView.getAdapter().getItem(i));
 
                 String itemClicked = (String) adapterView.getAdapter().getItem(i);
                 File directory = new File(selectedDirectory);
@@ -85,7 +93,7 @@ public class DirectoryChooserFragment extends AppCompatDialogFragment {
                 }
 
                 textviewSelectedDirectory.setText(selectedDirectory);
-                showDirectoriesInPath(selectedDirectory);
+                showDirectoriesInsideSelectedDirectory();
             }
         });
 
@@ -96,9 +104,8 @@ public class DirectoryChooserFragment extends AppCompatDialogFragment {
 
         listviewDirectories.setAdapter(listDirectoriesAdapter);
 
-        showDirectoriesInPath(selectedDirectory);
 
-        alertDialogBuilder.setView(v);
+        alertDialogBuilder.setView(dialogView);
         alertDialogBuilder.setPositiveButton("OK",  new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -121,28 +128,65 @@ public class DirectoryChooserFragment extends AppCompatDialogFragment {
         });
 
 
+        showDirectoriesInsideSelectedDirectory();
+
         return alertDialogBuilder.create();
     }
 
-    private void showDirectoriesInPath(String selectedDirectory) {
 
-        Log.d(TAG, "showDirectoriesInPath() called with: textviewSelectedDirectory = [" + selectedDirectory + "]");
 
-        directories.clear();
-        directories.add("..");
 
-        File dir = new File(selectedDirectory);
+    private Runnable fillDirectoriesRunnable = new Runnable() {
+        @Override
+        public void run() {
 
-        File[] directoriesList = dir.listFiles();
+            directories.clear();
+            directories.add("..");
 
-        for (File directory : directoriesList) {
-            if (directory.isDirectory()) {
+            File dir = new File(selectedDirectory);
+
+
+            File[] directoriesList = dir.listFiles(new FileFilter() {
+                @Override
+                public boolean accept(File file) {
+                    // Only accept directories.
+                    return file.isDirectory();
+
+                }
+            });
+
+            for (File directory : directoriesList) {
                 directories.add(directory.getName());
             }
+
+
+            // In order to update the UI, post it through a widget created in the UI thread.
+            listviewDirectories.post(new Runnable() {
+                @Override
+                public void run() {
+                    // Tell list view to refresh its contents.
+                    listDirectoriesAdapter.notifyDataSetChanged();
+
+                }
+            });
         }
 
-        // Tell list view to refresh its contents.
-        listDirectoriesAdapter.notifyDataSetChanged();
+    };
 
+
+    private void showDirectoriesInsideSelectedDirectory() {
+
+        // Use another thread in order to not block the UI thread if the directory has too many files.
+        // As it is the case when selecting the cards image directory as there is a lot of images in it.
+        new Thread(fillDirectoriesRunnable).start();
+
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(CURRENT_DIRECTORY, selectedDirectory);
     }
 }
