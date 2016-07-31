@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import name.vampidroid.fragments.CardsListFragment;
+import name.vampidroid.fragments.SettingsFragment;
 
 
 public class VampiDroid extends AppCompatActivity
@@ -380,7 +381,7 @@ public class VampiDroid extends AppCompatActivity
         // Update possible changes to preferences.
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        boolean prefSearchCardText = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SEARCH_CARD_TEXT, false);
+        boolean prefSearchCardText = sharedPref.getBoolean(SettingsFragment.KEY_PREF_SEARCH_CARD_TEXT, false);
 
         if (prefSearchCardText != filterModel.searchCardText) {
             filterModel.setSearchCardText(prefSearchCardText);

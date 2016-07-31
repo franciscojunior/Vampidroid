@@ -11,7 +11,6 @@ import name.vampidroid.fragments.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    public static final String KEY_PREF_SEARCH_CARD_TEXT = "pref_searchCardText";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -3,10 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="Search Options">
-        <CheckBoxPreference android:key="pref_searchCardText" android:title="Search Card Text?" android:summary="Use this to search card text and card name at the same time">
+        <CheckBoxPreference android:key="@string/pref_search_card_text" android:title="Search Card Text?" android:summary="Use this to search card text and card name at the same time">
         </CheckBoxPreference>
         <SwitchPreferenceCompat android:key="pref_searchCardText2" android:title="Search Card Text?" android:summary="Use this to search card text and card name at the same time">
         </SwitchPreferenceCompat>
 
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Card images Options">
+
+        <!--Reference: http://stackoverflow.com/questions/5298370/how-to-add-a-button-to-a-preferencescreen-android-->
+        <Preference android:title="Card images folder"
+            android:key="@string/pref_card_images_folder"
+            android:summary="Default image folder"/>
     </PreferenceCategory>
 </PreferenceScreen>
