@@ -110,7 +110,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_alignLeft="@+id/textView18"
                 android:layout_alignStart="@+id/textView18"
-                android:src="@drawable/ic_dis_protean_sup" />
+                android:src="@drawable/ic_dis_protean_sup"
+                android:visibility="gone"/>
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
