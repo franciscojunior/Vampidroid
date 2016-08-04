@@ -118,6 +118,7 @@ public class CardDetailsActivity extends AppCompatActivity {
         disciplineImageViews[3] = (ImageView) findViewById(R.id.img_card_details_discipline4);
         disciplineImageViews[4] = (ImageView) findViewById(R.id.img_card_details_discipline5);
         disciplineImageViews[5] = (ImageView) findViewById(R.id.img_card_details_discipline6);
+        disciplineImageViews[6] = (ImageView) findViewById(R.id.img_card_details_discipline7);
 
 
     }
@@ -260,7 +261,7 @@ public class CardDetailsActivity extends AppCompatActivity {
 
     // Discipline images
 
-    private ImageView[] disciplineImageViews = new ImageView[6];
+    private ImageView[] disciplineImageViews = new ImageView[7];
 
     private void clearDisciplineImageViews() {
         clearDisciplineImageViews(0);
@@ -270,7 +271,7 @@ public class CardDetailsActivity extends AppCompatActivity {
     private void clearDisciplineImageViews(int fromIndex) {
         // Optimization to clear imageviews only from fromIndex and above.
         for (int i = fromIndex; i < disciplineImageViews.length; i++) {
-            disciplineImageViews[i].setVisibility(View.INVISIBLE);
+            disciplineImageViews[i].setVisibility(View.GONE);
 
         }
 

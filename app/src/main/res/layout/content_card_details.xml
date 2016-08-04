@@ -8,7 +8,7 @@
     tools:context="name.vampidroid.CardDetailsActivity"
     tools:showIn="@layout/activity_crypt_card_details">
 
-    <include layout="@layout/card_details_constraint" />
+    <include layout="@layout/card_details" />
 
     
 </android.support.v4.widget.NestedScrollView>

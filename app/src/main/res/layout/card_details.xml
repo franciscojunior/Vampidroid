@@ -1,115 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/textView18"
-        android:text="Disciplines"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewDisciplines"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <ImageView
-        android:id="@+id/img_card_details_discipline1"
-        android:src="@drawable/ic_dis_protean_sup"
-        android:layout_width="@dimen/card_details_image_size"
-        android:layout_height="@dimen/card_details_image_size"
-        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:layout_below="@+id/textView18"
-        android:layout_alignLeft="@+id/textView18"
-        android:layout_alignStart="@+id/textView18"
-        android:layout_marginTop="24dp"
-        />
-
-    <ImageView
-        android:id="@+id/img_card_details_discipline2"
-        android:src="@drawable/ic_dis_quietus_sup"
-        android:layout_width="@dimen/card_details_image_size"
-        android:layout_height="@dimen/card_details_image_size"
-        android:layout_alignTop="@+id/img_card_details_discipline1"
-        android:layout_toRightOf="@+id/img_card_details_discipline1"
-        android:layout_toEndOf="@+id/img_card_details_discipline1"
-        android:layout_marginLeft="16dp" />
-
-    <ImageView
-        android:id="@+id/img_card_details_discipline3"
-        android:src="@drawable/ic_dis_quietus"
-        android:layout_width="@dimen/card_details_image_size"
-        android:layout_height="@dimen/card_details_image_size"
+        android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_alignTop="@+id/img_card_details_discipline2"
-        android:layout_toRightOf="@+id/img_card_details_discipline2"
-        android:layout_toEndOf="@+id/img_card_details_discipline2"
-        android:layout_marginStart="16dp" />
+        android:layout_marginEnd="16dp">
 
-    <ImageView
-        android:id="@+id/img_card_details_discipline4"
-        android:src="@drawable/ic_dis_protean"
-        android:layout_width="@dimen/card_details_image_size"
-        android:layout_height="@dimen/card_details_image_size"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_alignTop="@+id/img_card_details_discipline3"
-        android:layout_toRightOf="@+id/img_card_details_discipline3"
-        android:layout_toEndOf="@+id/img_card_details_discipline3" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Disciplines"
+                style="@style/TextAppearance.AppCompat.Title"/>
+
+            <ImageView
+                android:id="@+id/img_card_details_discipline1"
+                android:src="@drawable/ic_dis_protean_sup"
+                android:layout_width="@dimen/card_details_image_size"
+                android:layout_height="@dimen/card_details_image_size"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_below="@+id/textView18"
+                android:layout_alignLeft="@+id/textView18"
+                android:layout_alignStart="@+id/textView18"
+                android:layout_marginTop="8dp"
+                />
+
+            <ImageView
+                android:id="@+id/img_card_details_discipline2"
+                android:src="@drawable/ic_dis_quietus_sup"
+                android:layout_width="@dimen/card_details_image_size"
+                android:layout_height="@dimen/card_details_image_size"
+                android:layout_alignTop="@+id/img_card_details_discipline1"
+                android:layout_toRightOf="@+id/img_card_details_discipline1"
+                android:layout_toEndOf="@+id/img_card_details_discipline1"
+                android:layout_marginLeft="8dp" />
+
+            <ImageView
+                android:id="@+id/img_card_details_discipline3"
+                android:src="@drawable/ic_dis_quietus"
+                android:layout_width="@dimen/card_details_image_size"
+                android:layout_height="@dimen/card_details_image_size"
+                android:layout_marginLeft="8dp"
+                android:layout_alignTop="@+id/img_card_details_discipline2"
+                android:layout_toRightOf="@+id/img_card_details_discipline2"
+                android:layout_toEndOf="@+id/img_card_details_discipline2"
+                android:layout_marginStart="8dp" />
+
+            <ImageView
+                android:id="@+id/img_card_details_discipline4"
+                android:src="@drawable/ic_dis_protean"
+                android:layout_width="@dimen/card_details_image_size"
+                android:layout_height="@dimen/card_details_image_size"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_alignTop="@+id/img_card_details_discipline3"
+                android:layout_toRightOf="@+id/img_card_details_discipline3"
+                android:layout_toEndOf="@+id/img_card_details_discipline3" />
 
 
-    <ImageView
-        android:id="@+id/img_card_details_discipline5"
-        android:src="@drawable/ic_dis_protean_sup"
-        android:layout_width="@dimen/card_details_image_size"
-        android:layout_height="@dimen/card_details_image_size"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_alignTop="@+id/img_card_details_discipline4"
-        android:layout_toRightOf="@+id/img_card_details_discipline4"
-        android:layout_toEndOf="@+id/img_card_details_discipline4" />
+            <ImageView
+                android:id="@+id/img_card_details_discipline5"
+                android:src="@drawable/ic_dis_protean_sup"
+                android:layout_width="@dimen/card_details_image_size"
+                android:layout_height="@dimen/card_details_image_size"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_alignTop="@+id/img_card_details_discipline4"
+                android:layout_toRightOf="@+id/img_card_details_discipline4"
+                android:layout_toEndOf="@+id/img_card_details_discipline4" />
 
-    <ImageView
-        android:id="@+id/img_card_details_discipline6"
-        android:src="@drawable/ic_dis_protean_sup"
-        android:layout_width="@dimen/card_details_image_size"
-        android:layout_height="@dimen/card_details_image_size"
-        android:layout_alignTop="@+id/img_card_details_discipline5"
-        android:layout_toRightOf="@+id/img_card_details_discipline5"
-        android:layout_toEndOf="@+id/img_card_details_discipline5"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        />
+            <ImageView
+                android:id="@+id/img_card_details_discipline6"
+                android:src="@drawable/ic_dis_protean_sup"
+                android:layout_width="@dimen/card_details_image_size"
+                android:layout_height="@dimen/card_details_image_size"
+                android:layout_alignTop="@+id/img_card_details_discipline5"
+                android:layout_toRightOf="@+id/img_card_details_discipline5"
+                android:layout_toEndOf="@+id/img_card_details_discipline5"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                />
 
-    <TextView
-        android:id="@+id/textView19"
-        android:text="Card Text"
-        android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/img_card_details_discipline7"
+                android:layout_width="@dimen/card_details_image_size"
+                android:layout_height="@dimen/card_details_image_size"
+                android:layout_below="@+id/img_card_details_discipline1"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_alignLeft="@+id/textView18"
+                android:layout_alignStart="@+id/textView18"
+                android:src="@drawable/ic_dis_protean_sup" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="21dp"
-        android:layout_below="@+id/img_card_details_discipline1"
-        android:layout_alignLeft="@+id/textView18"
-        android:layout_alignStart="@+id/textView18" />
+        android:layout_below="@id/cardViewDisciplines"
+        android:layout_margin="16dp">
 
-    <TextView
-        android:id="@+id/cardText"
-        android:text="A long card text"
-        android:transitionName="cardTextTransition"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView19"
-        android:layout_alignLeft="@+id/textView19"
-        android:layout_alignStart="@+id/textView19"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        style="@style/TextAppearance.AppCompat.Subhead"
-        android:fontFamily="sans-serif-condensed"
-        android:layout_marginTop="16dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="26dp"
-        android:layout_marginEnd="26dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Card Text"
+                style="@style/TextAppearance.AppCompat.Title"/>
+
+            <TextView
+                android:id="@+id/cardText"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textView19"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignStart="@+id/textView19"
+                android:layout_below="@+id/textView19"
+                android:layout_marginEnd="26dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="26dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-condensed"
+                android:text="A long card text"
+                android:transitionName="cardTextTransition" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
 </RelativeLayout>
+
