@@ -33,10 +33,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:paddingLeft="11dp"
-                android:paddingStart="11dp"
+                android:paddingLeft="24dp"
+                android:paddingStart="24dp"
                 android:text="Groups:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
 
             <android.support.percent.PercentRelativeLayout
@@ -115,8 +115,9 @@
                 android:id="@+id/disciplinesHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="11dp"
-                android:layout_marginTop="11dp"
+                android:paddingTop="16dp"
+                android:paddingLeft="24dp"
+                android:paddingBottom="16dp"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true">
 
@@ -128,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="Disciplines:"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     app:layout_widthPercent="85%"
 
                     />
@@ -1114,15 +1115,16 @@
             <View
                 style="@style/NavigationViewDivider"
                 android:layout_width="match_parent"
-                android:layout_marginTop="11dp" />
+                />
 
 
             <android.support.percent.PercentRelativeLayout
                 android:id="@+id/clansHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="11dp"
-                android:layout_marginTop="11dp"
+                android:paddingTop="16dp"
+                android:paddingLeft="24dp"
+                android:paddingBottom="16dp"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true">
 
@@ -1134,7 +1136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="Clans:"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     app:layout_widthPercent="85%"
 
                     />
@@ -1165,7 +1167,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:clickable="true"
                     android:onClick="clansViewGroupClickHandler">
 
@@ -1195,7 +1198,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1214,6 +1218,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanAhrimane"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1223,7 +1228,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1242,6 +1248,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanAkunanse"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1250,7 +1257,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1269,6 +1277,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanAssamite"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1277,7 +1286,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1296,6 +1306,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanAvenger"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1304,7 +1315,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1323,6 +1335,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanBaali"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1331,7 +1344,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1350,6 +1364,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanBloodBrother"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1358,7 +1373,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1377,6 +1393,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanBrujah"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1385,7 +1402,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1404,6 +1422,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanBrujahantitribu"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1412,7 +1431,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1431,6 +1451,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanCaitiff"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1439,7 +1460,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1458,6 +1480,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanDaughterofCacophony"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1466,7 +1489,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1485,6 +1509,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanDefender"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1493,7 +1518,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1512,6 +1538,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanFollowerofSet"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1520,7 +1547,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1539,6 +1567,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanGangrel"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1547,7 +1576,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1566,6 +1596,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanGangrelantitribu"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1574,7 +1605,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1593,6 +1625,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanGargoyle"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1601,7 +1634,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1620,6 +1654,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanGiovanni"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1628,7 +1663,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1647,6 +1683,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanGuruhi"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1655,7 +1692,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1674,6 +1712,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanHarbingerofSkulls"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1682,7 +1721,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1701,6 +1741,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanInnocent"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1709,7 +1750,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1728,6 +1770,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanIshtarri"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1736,7 +1779,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1755,6 +1799,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanJudge"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1763,7 +1808,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1782,6 +1828,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanKiasyd"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1790,7 +1837,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1809,6 +1857,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanLasombra"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1817,7 +1866,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1836,6 +1886,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanMalkavian"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1844,7 +1895,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1863,6 +1915,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanMalkavianantitribu"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1871,7 +1924,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1890,6 +1944,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanMartyr"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1898,7 +1953,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1917,6 +1973,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanNagaraja"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1925,7 +1982,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1944,6 +2002,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanNosferatu"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1952,7 +2011,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1971,6 +2031,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanNosferatuantitribu"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -1979,7 +2040,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -1998,6 +2060,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanOsebo"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2006,7 +2069,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -2025,6 +2089,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanPander"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2033,7 +2098,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -2052,6 +2118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanRavnos"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2060,7 +2127,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -2079,6 +2147,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanRedeemer"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2087,7 +2156,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -2106,6 +2176,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanSalubri"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2114,7 +2185,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -2133,6 +2205,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanSalubriantitribu"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2141,7 +2214,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -2160,6 +2234,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanSamedi"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2168,7 +2243,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -2187,6 +2263,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanToreador"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2195,7 +2272,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -2214,6 +2292,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanToreadorantitribu"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2222,7 +2301,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -2241,6 +2321,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanTremere"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2249,7 +2330,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -2268,6 +2350,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanTremereantitribu"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2276,7 +2359,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -2295,6 +2379,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanTrueBrujah"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2303,7 +2388,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -2322,6 +2408,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanTzimisce"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2330,7 +2417,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -2349,6 +2437,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanVentrue"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2357,7 +2446,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -2376,6 +2466,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanVentrueantitribu"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2384,7 +2475,8 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
+                    android:paddingLeft="11dp"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="clansViewGroupClickHandler">
 
 
@@ -2403,6 +2495,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textClanVisionary"
                         android:checked="false"
+                        android:clickable="false"
                         app:layout_widthPercent="15%" />
 
 
@@ -2414,15 +2507,16 @@
             <View
                 style="@style/NavigationViewDivider"
                 android:layout_width="match_parent"
-                android:layout_marginTop="11dp" />
+                />
 
 
             <android.support.percent.PercentRelativeLayout
                 android:id="@+id/cardTypesHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="11dp"
-                android:layout_marginTop="11dp"
+                android:paddingTop="16dp"
+                android:paddingLeft="24dp"
+                android:paddingBottom="16dp"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true">
 
@@ -2434,7 +2528,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="Card Types:"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     app:layout_widthPercent="85%"
 
                     />
@@ -2465,7 +2559,11 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp">
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="cardTypesViewGroupClickHandler"
+                    android:paddingLeft="11dp"
+                    android:paddingStart="11dp">
 
 
                     <TextView
@@ -2482,6 +2580,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textCardTypesAction"
+                        android:background="@android:color/transparent"
+                        android:clickable="false"
                         android:checked="false"
                         app:layout_widthPercent="15%" />
 
@@ -2491,7 +2591,11 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp">
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="cardTypesViewGroupClickHandler"
+                    android:paddingLeft="11dp"
+                    android:paddingStart="11dp">
 
 
                     <TextView
@@ -2508,6 +2612,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textCardTypesActionModifier"
+                        android:background="@android:color/transparent"
+                        android:clickable="false"
                         android:checked="false"
                         app:layout_widthPercent="15%" />
 
@@ -2517,7 +2623,11 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp">
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="cardTypesViewGroupClickHandler"
+                    android:paddingLeft="11dp"
+                    android:paddingStart="11dp">
 
 
                     <TextView
@@ -2534,6 +2644,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textCardTypesAlly"
+                        android:background="@android:color/transparent"
+                        android:clickable="false"
                         android:checked="false"
                         app:layout_widthPercent="15%" />
 
@@ -2543,7 +2655,11 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp">
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="cardTypesViewGroupClickHandler"
+                    android:paddingLeft="11dp"
+                    android:paddingStart="11dp">
 
 
                     <TextView
@@ -2560,6 +2676,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textCardTypesCombat"
+                        android:background="@android:color/transparent"
+                        android:clickable="false"
                         android:checked="false"
                         app:layout_widthPercent="15%" />
 
@@ -2569,7 +2687,11 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp">
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="cardTypesViewGroupClickHandler"
+                    android:paddingLeft="11dp"
+                    android:paddingStart="11dp">
 
 
                     <TextView
@@ -2586,6 +2708,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textCardTypesConviction"
+                        android:background="@android:color/transparent"
+                        android:clickable="false"
                         android:checked="false"
                         app:layout_widthPercent="15%" />
 
@@ -2595,7 +2719,11 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp">
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="cardTypesViewGroupClickHandler"
+                    android:paddingLeft="11dp"
+                    android:paddingStart="11dp">
 
 
                     <TextView
@@ -2612,6 +2740,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textCardTypesEquipment"
+                        android:background="@android:color/transparent"
+                        android:clickable="false"
                         android:checked="false"
                         app:layout_widthPercent="15%" />
 
@@ -2621,7 +2751,11 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp">
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="cardTypesViewGroupClickHandler"
+                    android:paddingLeft="11dp"
+                    android:paddingStart="11dp">
 
 
                     <TextView
@@ -2638,6 +2772,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textCardTypesEvent"
+                        android:background="@android:color/transparent"
+                        android:clickable="false"
                         android:checked="false"
                         app:layout_widthPercent="15%" />
 
@@ -2647,7 +2783,11 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp">
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="cardTypesViewGroupClickHandler"
+                    android:paddingLeft="11dp"
+                    android:paddingStart="11dp">
 
 
                     <TextView
@@ -2664,6 +2804,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textCardTypesMaster"
+                        android:background="@android:color/transparent"
+                        android:clickable="false"
                         android:checked="false"
                         app:layout_widthPercent="15%" />
 
@@ -2673,7 +2815,11 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp">
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="cardTypesViewGroupClickHandler"
+                    android:paddingLeft="11dp"
+                    android:paddingStart="11dp">
 
 
                     <TextView
@@ -2690,6 +2836,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textCardTypesPoliticalAction"
+                        android:background="@android:color/transparent"
+                        android:clickable="false"
                         android:checked="false"
                         app:layout_widthPercent="15%" />
 
@@ -2699,7 +2847,11 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp">
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="cardTypesViewGroupClickHandler"
+                    android:paddingLeft="11dp"
+                    android:paddingStart="11dp">
 
 
                     <TextView
@@ -2716,6 +2868,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textCardTypesPower"
+                        android:background="@android:color/transparent"
+                        android:clickable="false"
                         android:checked="false"
                         app:layout_widthPercent="15%" />
 
@@ -2725,7 +2879,11 @@
                 <android.support.percent.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp">
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="cardTypesViewGroupClickHandler"
+                    android:paddingLeft="11dp"
+                    android:paddingStart="11dp">
 
 
                     <TextView
@@ -2742,6 +2900,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/textCardTypesReaction"
+                        android:background="@android:color/transparent"
+                        android:clickable="false"
                         android:checked="false"
                         app:layout_widthPercent="15%" />
 
@@ -2790,7 +2950,7 @@
             <View
                 style="@style/NavigationViewDivider"
                 android:layout_width="match_parent"
-                android:layout_marginTop="11dp" />
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -2803,8 +2963,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="11dp"
+                    android:paddingLeft="11dp"
                     android:text="Capacity:"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
 
                 <LinearLayout
