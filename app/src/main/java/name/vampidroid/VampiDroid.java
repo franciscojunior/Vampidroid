@@ -686,6 +686,9 @@ public class VampiDroid extends AppCompatActivity
 	@SuppressWarnings("StatementWithEmptyBody")
 	@Override
 	public boolean onNavigationItemSelected(MenuItem item) {
+
+		boolean closeDrawer = true;
+
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
 
@@ -704,11 +707,17 @@ public class VampiDroid extends AppCompatActivity
 		} else if (id == R.id.nav_settings) {
             Intent launch = new Intent(this, SettingsActivity.class);
             startActivity(launch);
+			// Don't close the drawer when selecting settings.
+			// It was causing stuttering when starting the Settings activity.
+			closeDrawer = false;
         }
 
 
-		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-		drawer.closeDrawer(GravityCompat.START);
+		if (closeDrawer) {
+			DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+			drawer.closeDrawer(GravityCompat.START);
+		}
+
 		return true;
 	}
 
