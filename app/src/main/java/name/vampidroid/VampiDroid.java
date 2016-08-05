@@ -319,13 +319,13 @@ public class VampiDroid extends AppCompatActivity
 //                    Reference: http://stackoverflow.com/questions/19765938/show-and-hide-a-view-with-a-slide-up-down-animation
 					// Prepare the View for the animation
 					layoutToExpand.setVisibility(View.VISIBLE);
-					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-						layoutToExpand.setAlpha(0.0f);
-
-						// Start the animation
-						layoutToExpand.animate()
-								.alpha(1.0f);
-					}
+//					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+//						layoutToExpand.setAlpha(0.0f);
+//
+//						// Start the animation
+//						layoutToExpand.animate()
+//								.alpha(1.0f);
+//					}
 				}
 
 			}
