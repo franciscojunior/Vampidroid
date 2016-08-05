@@ -280,27 +280,23 @@ public class CardDetailsActivity extends AppCompatActivity {
 
 
 
-    private class UpdateDisciplineImagesOperation extends AsyncTask<String, Void, String> {
+    private class UpdateDisciplineImagesOperation extends AsyncTask<String, Void, String[]> {
+
+        private HashMap<String, Drawable> imageViewsDrawablesMap;
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected String[] doInBackground(String... strings) {
 
             Log.d(TAG, "doInBackground: Thread Id: " + Thread.currentThread().getId());
             fillImageViewsDrawablesMap(CardDetailsActivity.this);
+            imageViewsDrawablesMap = imageViewsDrawablesMapReference.get();
 
-            return strings[0];
+            return strings[0].split(" ");
         }
 
         @Override
-        protected void onPostExecute(String cardDisciplines) {
+        protected void onPostExecute(String[] disciplines) {
 
-            Log.d(TAG, "onPostExecute... ");
-
-            Log.d(TAG, "onPostExecute: Thread Id: " + Thread.currentThread().getId());
-
-            String[] disciplines = cardDisciplines.split(" ");
-
-            HashMap<String, Drawable> imageViewsDrawablesMap = imageViewsDrawablesMapReference.get();
             if (imageViewsDrawablesMap != null) {
 
                 int disIndex = 0;
@@ -311,14 +307,7 @@ public class CardDetailsActivity extends AppCompatActivity {
                     disIndex++;
                 }
 
-                clearDisciplineImageViews(disIndex);
-            } else {
-                clearDisciplineImageViews();
             }
-
-
-
-
 
         }
     }
