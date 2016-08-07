@@ -24,7 +24,7 @@ class Utils {
 
     private static final String TAG = "Utils";
 
-    static void loadCardImage(Activity activity, ImageView cardImageView, String cardName) {
+    static void loadCardImage(Activity activity, ImageView cardImageView, String cardName, int cardType) {
 
 
 //        Resources res = activity.getResources();
@@ -48,7 +48,7 @@ class Utils {
 //
 //        cardImageView.setImageDrawable(new BitmapDrawable(res, image));
 
-        new LoadImageOperation(activity, cardImageView, cardName).execute();
+        new LoadImageOperation(activity, cardImageView, cardName, cardType).execute();
 
     }
 
@@ -67,13 +67,15 @@ class Utils {
         private final Resources resources;
         private BitmapDrawable bitmapDrawable;
         private final String cardImagesPath;
+        private final int cardType;
 
-        public LoadImageOperation(Activity activity, ImageView cardImageView, String cardName) {
+        public LoadImageOperation(Activity activity, ImageView cardImageView, String cardName, int cardType) {
 
-            resources = activity.getResources();
+            this.resources = activity.getResources();
             this.cardImageView = cardImageView;
             this.cardName = cardName;
-            cardImagesPath = PreferenceManager.getDefaultSharedPreferences(activity).getString(SettingsFragment.KEY_PREF_CARD_IMAGES_FOLDER, DEFAULT_IMAGES_FOLDER);
+            this.cardImagesPath = PreferenceManager.getDefaultSharedPreferences(activity).getString(SettingsFragment.KEY_PREF_CARD_IMAGES_FOLDER, DEFAULT_IMAGES_FOLDER);
+            this.cardType = cardType;
         }
 
 
@@ -90,12 +92,13 @@ class Utils {
 
             Bitmap image;
 
+
             if (imageFile.exists()) {
                 image = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
             } else {
                 options.inSampleSize = 2; // When loading the default image, downsampling it because it is very big.
                 // TODO: 05/08/16 Convert the default image to a lower resolution.
-                image = BitmapFactory.decodeResource(resources, R.drawable.gold_back, options);
+                image = BitmapFactory.decodeResource(resources, cardType == 0 ? R.drawable.gold_back : R.drawable.green_back, options);
             }
 
             bitmapDrawable = new BitmapDrawable(resources, image);

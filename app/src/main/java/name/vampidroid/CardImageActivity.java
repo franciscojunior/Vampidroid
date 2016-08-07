@@ -37,9 +37,9 @@ public class CardImageActivity extends AppCompatActivity {
         ImageView imageView = (ImageView) findViewById(R.id.cardImage);
 
 
+        Bundle parameters = getIntent().getExtras();
 
-
-        Utils.loadCardImage(this, imageView, getIntent().getExtras().getString("cardName"));
+        Utils.loadCardImage(this, imageView, parameters.getString("cardName"), parameters.getInt("cardType"));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             defaultUIOptions = getWindow().getDecorView().getSystemUiVisibility();
