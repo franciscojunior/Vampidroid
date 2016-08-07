@@ -94,7 +94,7 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
         @Override
         public void onClick(View v) {
 
-            Intent launch = new Intent(v.getContext(), CardDetailsActivity.class);
+            Intent launch = new Intent(v.getContext(), CryptCardDetailsActivity.class);
             launch.putExtra("cardName", txtCardName.getText());
             launch.putExtra("cardText", txtInitialCardText.getText());
             launch.putExtra("cardId", cardId);

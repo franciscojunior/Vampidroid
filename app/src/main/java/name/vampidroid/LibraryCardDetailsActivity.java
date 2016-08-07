@@ -32,7 +32,7 @@ import java.util.HashMap;
 
 public class LibraryCardDetailsActivity extends AppCompatActivity {
 
-    private static final String TAG = "CardDetailsActivity";
+    private static final String TAG = "LibraryCardDetailsActiv";
     private static String QUERY_LIBRARY = "select Name, Type, Clan, Discipline, CardText, PoolCost, BloodCost, Artist, _Set from library where _id = ?";
     private ImageView cardImage;
     private String cardName;

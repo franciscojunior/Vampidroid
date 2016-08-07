@@ -69,7 +69,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
 
         <activity
-            android:name=".CardDetailsActivity"
+            android:name=".CryptCardDetailsActivity"
             android:label="@string/title_activity_card_details"
             android:parentActivityName=".VampiDroid"
             android:theme="@style/AppTheme.NoActionBar">

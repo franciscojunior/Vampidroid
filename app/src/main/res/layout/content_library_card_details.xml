@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="name.vampidroid.CardDetailsActivity"
+    tools:context="name.vampidroid.LibraryCardDetailsActivity"
     tools:showIn="@layout/activity_crypt_card_details">
 
     <include layout="@layout/library_card_details_constraint" />

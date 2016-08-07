@@ -30,9 +30,9 @@ import java.util.HashMap;
  * Created by fxjr on 06/07/16.
  */
 
-public class CardDetailsActivity extends AppCompatActivity {
+public class CryptCardDetailsActivity extends AppCompatActivity {
 
-    private static final String TAG = "CardDetailsActivity";
+    private static final String TAG = "CryptCardDetailsActivit";
     private static String QUERY_CRYPT = "select Name, Type, Clan, Disciplines, CardText, Capacity, Artist, _Set, _Group from crypt where _id = ?";
     private ImageView cardImage;
     private String cardName;
@@ -71,7 +71,7 @@ public class CardDetailsActivity extends AppCompatActivity {
                 showCardImage.putExtra("cardType", 0);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
-                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(CardDetailsActivity.this, cardImage, "cardImageTransition").toBundle();
+                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(CryptCardDetailsActivity.this, cardImage, "cardImageTransition").toBundle();
                     view.getContext().startActivity(showCardImage, bundle);
                 } else
                     view.getContext().startActivity(showCardImage);
@@ -289,7 +289,7 @@ public class CardDetailsActivity extends AppCompatActivity {
         protected String[] doInBackground(String... strings) {
 
             Log.d(TAG, "doInBackground: Thread Id: " + Thread.currentThread().getId());
-            fillImageViewsDrawablesMap(CardDetailsActivity.this);
+            fillImageViewsDrawablesMap(CryptCardDetailsActivity.this);
             imageViewsDrawablesMap = imageViewsDrawablesMapReference.get();
 
             return strings[0].split(" ");
