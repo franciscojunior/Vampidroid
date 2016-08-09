@@ -225,17 +225,6 @@ public class VampiDroid extends AppCompatActivity
 
 		setupExpandLayout(findViewById(R.id.cardTypesHeader), findViewById(R.id.cardTypesLayout), (ImageView) findViewById(R.id.imgCardTypesLayoutArrow));
 
-//        final CheckedTextView checkedTextView = (CheckedTextView)findViewById(R.id.checktextview);
-//        checkedTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                checkedTextView.toggle();
-//            }
-//        });
-
-
-
-
 
 	}
 
@@ -350,9 +339,6 @@ public class VampiDroid extends AppCompatActivity
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-
-				Log.d(TAG, "onTextChanged() called with: " + "s = [" + s + "], start = [" + start + "], before = [" + before + "], count = [" + count + "]");
-
                 filterModel.setName(s);
 
                 filterCards();
@@ -386,16 +372,10 @@ public class VampiDroid extends AppCompatActivity
 		imageViewSearchSettingsButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//                Snackbar.make(v, "Show search filter settings", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
 
 
 //                SearchSettingsFragment searchSettingsFragment = SearchSettingsFragment.newInstance();
 //                searchSettingsFragment.show(getSupportFragmentManager(), "search_settings_fragment");
-
-//                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//
-//                drawer.openDrawer(GravityCompat.END);
 
 				// If the keyboard is present, hide it.
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
