@@ -1,28 +1,20 @@
 package name.vampidroid;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,9 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
@@ -46,6 +36,9 @@ import java.util.List;
 
 import name.vampidroid.fragments.CardsListFragment;
 import name.vampidroid.fragments.SettingsFragment;
+
+import static name.vampidroid.Utils.playDrawerToggleAnim;
+import static name.vampidroid.Utils.setupExpandLayout;
 
 
 public class VampiDroid extends AppCompatActivity
@@ -108,9 +101,6 @@ public class VampiDroid extends AppCompatActivity
 				appbar.setExpanded(true);
 				search_bar_text_view.requestFocus();
 
-				// TODO: 07/06/2016 Check a way to show the softkeybard when the appbar animation is enabled.
-				// Currently, the keyboard is shown but immediately after it is hidden again because the edittext is not visible yet.
-
 				// Reference: http://stackoverflow.com/questions/2403632/android-show-soft-keyboard-automatically-when-focus-is-on-an-edittext
 				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.showSoftInput(search_bar_text_view, InputMethodManager.SHOW_IMPLICIT);
@@ -135,40 +125,6 @@ public class VampiDroid extends AppCompatActivity
 		setupSearchContainter(search_container);
 
 		toolbar.addView(search_container);
-
-
-		AppBarLayout appbar = (AppBarLayout) findViewById(R.id.appbar);
-
-		appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-			@Override
-			public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-//                    float appbarHeight = appBarLayout.getHeight();
-//                    float tabbarHeight = tabLayout.getHeight();
-//
-//
-////                    Log.d(TAG, "onOffsetChanged: tabbar" + tabbarHeight);
-////
-////                    Log.d(TAG, "onOffsetChanged: appbar" + appbarHeight);
-////
-////                    Log.d(TAG, "onOffsetChanged: " + verticalOffset);
-//
-//                    if (verticalOffset == 0) {
-//                        tabLayout.setAlpha(1);
-////                        fab.show();
-//                    }
-//                    else if (appbarHeight + verticalOffset <= tabbarHeight ){
-//                        tabLayout.setAlpha((appbarHeight + verticalOffset)/tabbarHeight);
-////                        fab.hide();
-//                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-//                        imm.hideSoftInputFromWindow(search_bar_text_view.getWindowToken(), 0);
-//                    }
-//                }
-
-			}
-		});
-
 
 		// TODO: 11/06/16 Check how to make those initializations off the main thread.
 		setupSearchFilterNavigation();
@@ -263,31 +219,11 @@ public class VampiDroid extends AppCompatActivity
 		seekBarMax.setOnSeekBarChangeListener(seekBarChangeListener);
 
 
-		final View disciplinesHeader = findViewById(R.id.disciplinesHeader);
-		final View disciplinesLayout = findViewById(R.id.disciplinesLayout);
+		setupExpandLayout(findViewById(R.id.disciplinesHeader), findViewById(R.id.disciplinesLayout), (ImageView) findViewById(R.id.imgDisciplinesLayoutArrow));
 
-		final ImageView imgDisciplinesLayoutArrow = (ImageView) findViewById(R.id.imgDisciplinesLayoutArrow);
+		setupExpandLayout(findViewById(R.id.clansHeader), findViewById(R.id.clansLayout), (ImageView) findViewById(R.id.imgClansLayoutArrow));
 
-
-		setupExpandLayout(disciplinesHeader, disciplinesLayout, imgDisciplinesLayoutArrow);
-
-
-		final View clansHeader = findViewById(R.id.clansHeader);
-		final View clansLayout = findViewById(R.id.clansLayout);
-
-		final ImageView imgClansLayoutArrow = (ImageView) findViewById(R.id.imgClansLayoutArrow);
-
-
-		setupExpandLayout(clansHeader, clansLayout, imgClansLayoutArrow);
-
-
-		final View cardTypesHeader = findViewById(R.id.cardTypesHeader);
-		final View cardTypesLayout = findViewById(R.id.cardTypesLayout);
-
-		final ImageView imgCardTypesLayoutArrow = (ImageView) findViewById(R.id.imgCardTypesLayoutArrow);
-
-
-		setupExpandLayout(cardTypesHeader, cardTypesLayout, imgCardTypesLayoutArrow);
+		setupExpandLayout(findViewById(R.id.cardTypesHeader), findViewById(R.id.cardTypesLayout), (ImageView) findViewById(R.id.imgCardTypesLayoutArrow));
 
 //        final CheckedTextView checkedTextView = (CheckedTextView)findViewById(R.id.checktextview);
 //        checkedTextView.setOnClickListener(new View.OnClickListener() {
@@ -303,34 +239,7 @@ public class VampiDroid extends AppCompatActivity
 
 	}
 
-	private void setupExpandLayout(View header, final View layoutToExpand, final ImageView imgArrow) {
-		header.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
 
-				if (layoutToExpand.isShown()) {
-					layoutToExpand.setVisibility(View.GONE);
-					imgArrow.setImageResource(R.drawable.ic_expand_more_black_24dp);
-				} else {
-
-					imgArrow.setImageResource(R.drawable.ic_expand_less_black_24dp);
-
-
-//                    Reference: http://stackoverflow.com/questions/19765938/show-and-hide-a-view-with-a-slide-up-down-animation
-					// Prepare the View for the animation
-					layoutToExpand.setVisibility(View.VISIBLE);
-//					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-//						layoutToExpand.setAlpha(0.0f);
-//
-//						// Start the animation
-//						layoutToExpand.animate()
-//								.alpha(1.0f);
-//					}
-				}
-
-			}
-		});
-	}
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -660,28 +569,7 @@ public class VampiDroid extends AppCompatActivity
 
 	// Reference: http://stackoverflow.com/questions/26835209/appcompat-v7-toolbar-up-back-arrow-not-working
 
-	public static void playDrawerToggleAnim(final DrawerArrowDrawable d) {
-		float start = d.getProgress();
-		float end = Math.abs(start - 1);
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			ValueAnimator offsetAnimator = ValueAnimator.ofFloat(start, end);
-			offsetAnimator.setDuration(300);
-			offsetAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
-			offsetAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-				@Override
-				public void onAnimationUpdate(ValueAnimator animation) {
-					float offset = 0;
-					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-						offset = (Float) animation.getAnimatedValue();
-					}
-					d.setProgress(offset);
-				}
-			});
-			offsetAnimator.start();
-		}
-		else
-			d.setProgress(end);
-	}
+
 
 	@SuppressWarnings("StatementWithEmptyBody")
 	@Override

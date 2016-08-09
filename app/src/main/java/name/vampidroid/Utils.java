@@ -1,12 +1,17 @@
 package name.vampidroid;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.preference.PreferenceManager;
+import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -56,6 +61,60 @@ class Utils {
 
 //        Reference: http://stackoverflow.com/questions/5455794/removing-whitespace-from-strings-in-java
         return cardName.replaceAll("\\W", "").toLowerCase();
+    }
+
+    public static void setupExpandLayout(final View header, final View layoutToExpand, final ImageView imgArrow) {
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (layoutToExpand.isShown()) {
+                    layoutToExpand.setVisibility(View.GONE);
+                    imgArrow.setImageResource(R.drawable.ic_expand_more_black_24dp);
+                } else {
+
+                    imgArrow.setImageResource(R.drawable.ic_expand_less_black_24dp);
+
+
+//                    Reference: http://stackoverflow.com/questions/19765938/show-and-hide-a-view-with-a-slide-up-down-animation
+                    // Prepare the View for the animation
+                    layoutToExpand.setVisibility(View.VISIBLE);
+//					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+//						layoutToExpand.setAlpha(0.0f);
+//
+//						// Start the animation
+//						layoutToExpand.animate()
+//								.alpha(1.0f);
+//					}
+                }
+
+            }
+        });
+
+
+    }
+
+    public static void playDrawerToggleAnim(final DrawerArrowDrawable d) {
+        float start = d.getProgress();
+        float end = Math.abs(start - 1);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ValueAnimator offsetAnimator = ValueAnimator.ofFloat(start, end);
+            offsetAnimator.setDuration(300);
+            offsetAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+            offsetAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    float offset = 0;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                        offset = (Float) animation.getAnimatedValue();
+                    }
+                    d.setProgress(offset);
+                }
+            });
+            offsetAnimator.start();
+        }
+        else
+            d.setProgress(end);
     }
 
 
