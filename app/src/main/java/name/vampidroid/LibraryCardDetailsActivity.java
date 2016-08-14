@@ -69,8 +69,8 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
                 Intent showCardImage = new Intent(view.getContext(), CardImageActivity.class);
                 showCardImage.putExtra("cardId", getIntent().getExtras().getLong("cardId"));
-                showCardImage.putExtra("cardName", Utils.getCardFileName(cardName, false));
-                showCardImage.putExtra("cardType", R.drawable.green_back);
+                showCardImage.putExtra("cardImageFileName", Utils.getCardFileName(cardName, false));
+                showCardImage.putExtra("resIdFallbackCardImage", R.drawable.green_back);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
                     Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(LibraryCardDetailsActivity.this, cardImage, "cardImageTransition").toBundle();
