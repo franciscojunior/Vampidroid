@@ -19,6 +19,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
 import java.io.File;
+import java.text.Normalizer;
 import java.util.HashMap;
 
 import name.vampidroid.fragments.SettingsFragment;
@@ -36,13 +37,13 @@ class Utils {
 
     private static HashMap<String, Integer> disciplinesDrawableResourcesMap;
 
-    static void loadCardImage(Activity activity, ImageView cardImageView, String cardName, int cardType) {
+    static void loadCardImage(Activity activity, ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage) {
 
 
 //        Resources res = activity.getResources();
 //
 //        String cardImagesPath = PreferenceManager.getDefaultSharedPreferences(activity).getString(SettingsFragment.KEY_PREF_CARD_IMAGES_FOLDER, DEFAULT_IMAGES_FOLDER);
-//        String cardFileName = cardName == null ? "" : getCardFileName(cardName) + ".jpg";
+//        String cardFileName = cardImageFileName == null ? "" : getCardFileName(cardImageFileName) + ".jpg";
 //
 //        File imageFile = new File(cardImagesPath + "/" + cardFileName);
 //
@@ -60,14 +61,26 @@ class Utils {
 //
 //        cardImageView.setImageDrawable(new BitmapDrawable(res, image));
 
-        new LoadImageOperation(activity, cardImageView, cardName, cardType).execute();
+        new LoadImageOperation(activity, cardImageView, cardImageFileName, resIdFallbackCardImage).execute();
 
     }
 
-    private static String getCardFileName(String cardName) {
+    public static String getCardFileName(String cardName, boolean advanced) {
 
-//        Reference: http://stackoverflow.com/questions/5455794/removing-whitespace-from-strings-in-java
-        return cardName.replaceAll("\\W", "").toLowerCase();
+        StringBuilder cardFileName = new StringBuilder();
+
+        // Reference: http://stackoverflow.com/questions/16282083/how-to-ignore-accent-in-sqlite-query-android/16283863#16283863
+        // Reference: http://stackoverflow.com/questions/5455794/removing-whitespace-from-strings-in-java
+
+        // // TODO: 14/08/16 Check the size impact of adding the Normalizer class. Maybe use the replace function instead?
+        cardFileName.append(Normalizer.normalize(cardName, Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]|\\W", "").toLowerCase());
+
+        cardFileName.append(advanced ? "adv" : "");
+
+        cardFileName.append(".jpg");
+
+        return cardFileName.toString();
     }
 
     public static void setupExpandLayout(final View header, final View layoutToExpand, final ImageView imgArrow) {
@@ -202,19 +215,20 @@ class Utils {
 
 
         private final ImageView cardImageView;
-        private final String cardName;
+        private final String cardImageFileName;
         private final Resources resources;
         private BitmapDrawable bitmapDrawable;
         private final String cardImagesPath;
-        private final int cardType;
+        private final int resIdFallbackCardImage;
 
-        public LoadImageOperation(Activity activity, ImageView cardImageView, String cardName, int cardType) {
+
+        public LoadImageOperation(Activity activity, ImageView cardImageView, String cardImageFileName, int resIdFallbackCardImage) {
 
             this.resources = activity.getResources();
             this.cardImageView = cardImageView;
-            this.cardName = cardName;
+            this.cardImageFileName = cardImageFileName;
             this.cardImagesPath = PreferenceManager.getDefaultSharedPreferences(activity).getString(SettingsFragment.KEY_PREF_CARD_IMAGES_FOLDER, DEFAULT_IMAGES_FOLDER);
-            this.cardType = cardType;
+            this.resIdFallbackCardImage = resIdFallbackCardImage;
         }
 
 
@@ -222,9 +236,9 @@ class Utils {
         protected Void doInBackground(Void... voids) {
 
 
-            String cardFileName = cardName == null ? "" : getCardFileName(cardName) + ".jpg";
+//            String cardFileName = cardImageFileName == null ? "" : getCardFileName(cardImageFileName) + ".jpg";
 
-            File imageFile = new File(cardImagesPath + "/" + cardFileName);
+            File imageFile = new File(cardImagesPath + "/" + cardImageFileName);
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 1;
@@ -237,7 +251,7 @@ class Utils {
             } else {
                 options.inSampleSize = 2; // When loading the default image, downsampling it because it is very big.
                 // TODO: 05/08/16 Convert the default image to a lower resolution.
-                image = BitmapFactory.decodeResource(resources, cardType == 0 ? R.drawable.gold_back : R.drawable.green_back, options);
+                image = BitmapFactory.decodeResource(resources, resIdFallbackCardImage, options);
             }
 
             bitmapDrawable = new BitmapDrawable(resources, image);
@@ -285,13 +299,10 @@ class Utils {
 
         private void addImageToCache(String disciplineKey) {
             if (imageViewsDrawablesMap.get(disciplineKey) == null) {
-                Log.d(TAG, "addImageToCache: " + disciplineKey + " not in cache. Adding it...");
                 Integer resourceId = Utils.getDisciplineStringsDrawableResourcesMap().get(disciplineKey);
                 if (resourceId != null) {
                     imageViewsDrawablesMap.put(disciplineKey, new BitmapDrawable(res, BitmapFactory.decodeResource(res, resourceId, options)));
                 }
-            } else {
-                Log.d(TAG, "addImageToCache: " + disciplineKey + " in cache. ");
             }
         }
 

@@ -24,13 +24,14 @@ import android.widget.TextView;
 public class CryptCardDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "CryptCardDetailsActivit";
-    private static String QUERY_CRYPT = "select Name, Type, Clan, Disciplines, CardText, Capacity, Artist, _Set, _Group from crypt where _id = ?";
+    private static String QUERY_CRYPT = "select Name, Type, Clan, Disciplines, CardText, Capacity, Artist, _Set, _Group, Adv from crypt where _id = ?";
     private ImageView cardImage;
     private String cardName;
 
     // Discipline images
 
     private ImageView[] disciplineImageViews = new ImageView[7];
+    private String cardAdvanced;
 
 
     @Override
@@ -62,8 +63,8 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
                 Intent showCardImage = new Intent(view.getContext(), CardImageActivity.class);
                 showCardImage.putExtra("cardId", getIntent().getExtras().getLong("cardId"));
-                showCardImage.putExtra("cardName", cardName);
-                showCardImage.putExtra("cardType", 0);
+                showCardImage.putExtra("cardImageFileName", Utils.getCardFileName(cardName, cardAdvanced.length() > 0));
+                showCardImage.putExtra("resIdFallbackCardImage", R.drawable.gold_back);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
                     Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(CryptCardDetailsActivity.this, cardImage, "cardImageTransition").toBundle();
@@ -146,6 +147,7 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         String cardArtist = c.getString(6);
         String cardSetRarity = c.getString(7);
         String cardGroup = c.getString(8);
+        cardAdvanced = c.getString(9);
 
         c.close();
 
@@ -156,6 +158,6 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(cardName);
         txtCardText.setText(cardText);
 
-        Utils.loadCardImage(this, cardImage, cardName, 0);
+        Utils.loadCardImage(this, cardImage, Utils.getCardFileName(cardName, cardAdvanced.length() > 0), R.drawable.gold_back);
     }
 }
