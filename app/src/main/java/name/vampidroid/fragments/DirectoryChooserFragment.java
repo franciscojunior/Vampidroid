@@ -85,11 +85,28 @@ public class DirectoryChooserFragment extends DialogFragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 String itemClicked = (String) adapterView.getAdapter().getItem(i);
-                File directory = new File(selectedDirectory);
                 if (itemClicked.equals("..")) {
-                    selectedDirectory = directory.getParentFile().getAbsolutePath();
+                    File directory = new File(selectedDirectory);
+
+                    // Check if there is a parent directory. If not, it means we are on root.
+                    if (directory.getParentFile() != null) {
+                        selectedDirectory = directory.getParentFile().getAbsolutePath();
+                    } else {
+                        // Continue on root.
+                        selectedDirectory = "/";
+                    }
                 } else {
-                    selectedDirectory = selectedDirectory + "/" + itemClicked;
+
+                    StringBuilder selectedDirectoryBuilder = new StringBuilder();
+
+                    // if we are on root, don't add the heading slash.
+                    if (selectedDirectory.equals("/")) {
+                        selectedDirectoryBuilder.append("/").append(itemClicked);
+                    } else {
+                        selectedDirectoryBuilder.append(selectedDirectory).append("/").append(itemClicked);
+                    }
+
+                    selectedDirectory = selectedDirectoryBuilder.toString();
                 }
 
                 textviewSelectedDirectory.setText(selectedDirectory);
@@ -155,8 +172,10 @@ public class DirectoryChooserFragment extends DialogFragment {
                 }
             });
 
-            for (File directory : directoriesList) {
-                directories.add(directory.getName());
+            if (directoriesList != null) {
+                for (File directory : directoriesList) {
+                    directories.add(directory.getName());
+                }
             }
 
 
