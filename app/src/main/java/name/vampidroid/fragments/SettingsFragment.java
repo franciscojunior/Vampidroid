@@ -4,14 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import name.vampidroid.R;
+import name.vampidroid.Utils;
 
 /**
  * Created by fxjr on 09/07/16.
@@ -30,8 +29,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
     public static final String KEY_PREF_SEARCH_CARD_TEXT = "pref_searchCardText";
     public static final String DEFAULT_IMAGES_FOLDER = Environment.getExternalStorageDirectory().getAbsolutePath();
 
-    private String prefCardImagesFolder;
-
     public static final String DIRECTORY_CHOOSER_FRAGMENT_TAG = "directorychooser";
 
 
@@ -42,11 +39,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
 
 
         Preference imagesFolderButton = findPreference(getString(R.string.pref_card_images_folder));
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        prefCardImagesFolder = sharedPref.getString(SettingsFragment.KEY_PREF_CARD_IMAGES_FOLDER, DEFAULT_IMAGES_FOLDER);
-
-        imagesFolderButton.setSummary(prefCardImagesFolder);
+        imagesFolderButton.setSummary(Utils.getCardImagesPath());
 
         imagesFolderButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -55,7 +49,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
                 Log.d(TAG, "onPreferenceClick: ");
 
 
-                DirectoryChooserFragment directoryChooserFragment = DirectoryChooserFragment.newInstance(prefCardImagesFolder);
+                DirectoryChooserFragment directoryChooserFragment = DirectoryChooserFragment.newInstance(Utils.getCardImagesPath());
                 directoryChooserFragment.setTargetFragment(SettingsFragment.this, 0);
                 directoryChooserFragment.show(getFragmentManager(), DIRECTORY_CHOOSER_FRAGMENT_TAG);
 
@@ -91,16 +85,16 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
 
         Log.d(TAG, "onDirectorySelected() called with: directoryPath = [" + directoryPath + "]");
 
-        prefCardImagesFolder = directoryPath;
+        Utils.setCardImagesPath(directoryPath);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(KEY_PREF_CARD_IMAGES_FOLDER, prefCardImagesFolder);
+        editor.putString(KEY_PREF_CARD_IMAGES_FOLDER, directoryPath);
         editor.apply();
 
         // Update settings UI to reflect the new selected directory.
 
         Preference imagesFolderButton = findPreference(getString(R.string.pref_card_images_folder));
-        imagesFolderButton.setSummary(prefCardImagesFolder);
+        imagesFolderButton.setSummary(directoryPath);
 
     }
 
