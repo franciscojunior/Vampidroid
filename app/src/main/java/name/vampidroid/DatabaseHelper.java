@@ -48,7 +48,7 @@ public class DatabaseHelper {
 	public static final String[] ALL_FROM_CRYPT_QUERY_AS_COLUMNS = new String[]{"_id", "Name", "Disciplines",
 			"Capacity", "substr(CardText, 1, 40) as InitialCardText"};
 
-	public static final String ALL_FROM_LIBRARY_QUERY = "select _id, Name, Type, Clan, Discipline from library where 1=1";
+	public static final String ALL_FROM_LIBRARY_QUERY = "select _id, Name, Type, PoolCost, BloodCost, ConvictionCost from library where 1=1";
 
 	public static final String[] STRING_ARRAY_NAME_DISCIPLINES_CAPACITY = new String[]{"Name", "Disciplines",
 			"Capacity"};
