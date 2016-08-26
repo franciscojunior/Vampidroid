@@ -1,10 +1,12 @@
 package name.vampidroid;
 
-import java.util.Arrays;
-
 import android.app.Application;
-import android.os.AsyncTask;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
+
+import name.vampidroid.fragments.SettingsFragment;
+
+import static name.vampidroid.fragments.SettingsFragment.DEFAULT_IMAGES_FOLDER;
 
 public class VampiDroidApplication extends Application {
 
@@ -26,6 +28,8 @@ public class VampiDroidApplication extends Application {
 		Log.d(TAG, "starting application");
 		DatabaseHelper.setApplicationContext(getApplicationContext());
 
+		Utils.setResources(getResources());
+		Utils.setCardImagesPath(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SettingsFragment.KEY_PREF_CARD_IMAGES_FOLDER, DEFAULT_IMAGES_FOLDER));
 		//new UpdateDatabaseOperation().execute();
 
 
