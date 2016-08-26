@@ -3,14 +3,15 @@ package name.vampidroid;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.design.widget.Snackbar;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import name.vampidroid.CursorRecyclerViewAdapter;
 
 /**
  * Created by fxjr on 17/03/16.
@@ -38,15 +39,31 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCa
     @Override
     public void onBindViewHolderCursor(ViewHolder viewHolder, Cursor cursor) {
 
+        String cardName = cursor.getString(1);
+
         viewHolder.cardId = cursor.getLong(0);
         viewHolder.txtCardType.setText(cursor.getString(2));
-        viewHolder.txtCardName.setText(cursor.getString(1));
-        viewHolder.txtCardClan.setText(cursor.getString(3));
+        viewHolder.txtCardName.setText(cardName);
 
-        viewHolder.txtCardDiscipline.setText(cursor.getString(4));
+        // // TODO: 24/08/16 Move this logic to a future LibraryCard model class
+        // Check card cost. It can be PoolCost, BloodCost or ConvictionCost.
+        String cardCost = "0";
 
+        if (cursor.getString(3).length() > 0) {
+            cardCost = cursor.getString(3);
+        } else if (cursor.getString(4).length() > 0) {
+            cardCost = cursor.getString(4);
+        } else if (cursor.getString(5).length() > 0) {
+            cardCost = cursor.getString(5);
+        }
 
+        viewHolder.txtCardCost.setText(cardCost);
 
+//        viewHolder.txtCardClan.setText(cursor.getString(3));
+
+//        viewHolder.txtCardDiscipline.setText(cursor.getString(4));
+
+        Utils.loadCardImageThumbnail(viewHolder.imageViewCardImage, Utils.getCardFileName(cardName), R.drawable.green_back);
 
     }
 
@@ -54,11 +71,13 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCa
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        // each data item is just a string in this case
+
+        private final ImageView imageViewCardImage;
         public TextView txtCardName;
         public TextView txtCardType;
         public TextView txtCardClan;
         public TextView txtCardDiscipline;
+        public TextView txtCardCost;
         public long cardId;
 
 
@@ -67,8 +86,10 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCa
 
             txtCardType = (TextView) v.findViewById(R.id.txtCardType);
             txtCardName = (TextView) v.findViewById(R.id.txtCardName);
-            txtCardClan = (TextView) v.findViewById(R.id.txtCardClan);
-            txtCardDiscipline = (TextView) v.findViewById(R.id.txtCardDiscipline);
+//            txtCardClan = (TextView) v.findViewById(R.id.txtCardClan);
+//            txtCardDiscipline = (TextView) v.findViewById(R.id.txtCardDiscipline);
+            txtCardCost = (TextView) v.findViewById(R.id.txtCardCost);
+            imageViewCardImage = (ImageView) v.findViewById(R.id.imageViewCardImage);
 
             v.setOnClickListener(this);
 
@@ -77,15 +98,17 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCa
         @Override
         public void onClick(View v) {
 
-            Intent launch = new Intent(v.getContext(), LibraryCardDetailsActivity.class);
+            Context context = v.getContext();
+            Intent launch = new Intent(context, LibraryCardDetailsActivity.class);
             launch.putExtra("cardId", cardId);
 
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//
-//                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)v.getContext(), txtInitialCardText, "cardTextTransition").toBundle();
-//                v.getContext().startActivity(launch, bundle);
-//            } else
-            v.getContext().startActivity(launch);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+
+                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(Utils.getActivity(context), imageViewCardImage, "cardImageTransition").toBundle();
+                v.getContext().startActivity(launch, bundle);
+            } else {
+                v.getContext().startActivity(launch);
+            }
 
         }
     }
