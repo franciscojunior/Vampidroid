@@ -1,44 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="?attr/selectableItemBackground"
-    android:paddingLeft="16dp"
-    android:paddingTop="8dp"
-    android:paddingRight="8dp">
+    android:background="?attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/txtCardInitialText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/txtCardExtraInformation"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="A long initialcard text blah blah blah blah blah"
-        android:layout_toLeftOf="@+id/textView2"
-        android:layout_toStartOf="@+id/textView2"
+        android:text="A long initialcard text blah blah"
         style="@style/TextAppearance.AppCompat.Subhead"
         android:fontFamily="sans-serif-condensed"
-        android:transitionName="cardTextTransition">
+        android:transitionName="cardTextTransition"
+        app:layout_constraintLeft_toLeftOf="@+id/txtCardName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/txtCardExtraInformation"
+        app:layout_constraintRight_toLeftOf="@+id/textView18"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="Capacity:"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:fontFamily="sans-serif-condensed"
+        android:transitionName="cardTextTransition"
+        app:layout_constraintBottom_toBottomOf="@+id/txtCardInitialText"
+        app:layout_constraintRight_toLeftOf="@+id/txtCardCost"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp">
 
     </TextView>
 
     <TextView
         android:id="@+id/txtCardName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
         android:text="A long card name to test layout"
         style="@style/TextAppearance.AppCompat.Title"
         android:includeFontPadding="true"
         android:singleLine="true"
-        android:layout_toLeftOf="@+id/imgEditDeckCard"
-        android:layout_toStartOf="@+id/imgEditDeckCard"
         android:textStyle="bold"
-        android:fontFamily="sans-serif-condensed">
+        android:fontFamily="sans-serif-condensed"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toRightOf="@+id/imageViewCardImage"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.0">
 
     </TextView>
 
@@ -46,51 +69,28 @@
         android:id="@+id/txtCardExtraInformation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtCardName"
-        android:layout_alignRight="@+id/txtCardName"
-        android:layout_below="@+id/txtCardName"
-        android:text="for pre POT FOR CEL cel PRE THA tha"
+        android:text="for pre POT FOR CEL cel PRE"
         android:singleLine="true"
         android:cursorVisible="true"
         style="@style/TextAppearance.AppCompat.Subhead"
-        android:fontFamily="sans-serif-condensed">
+        android:fontFamily="sans-serif-condensed"
+        app:layout_constraintTop_toBottomOf="@+id/txtCardName"
+        app:layout_constraintLeft_toLeftOf="@+id/txtCardName">
 
     </TextView>
 
-    <ImageView
-        android:id="@+id/imgFavorite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:src="@android:drawable/star_off"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
-    </ImageView>
-
     <TextView
         android:id="@+id/txtCardCost"
-        android:layout_width="20dip"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="10"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignLeft="@+id/txtCardGroup"
-        android:layout_alignStart="@+id/txtCardGroup"
-        android:fontFamily="sans-serif-condensed"/>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Capacity:"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_alignTop="@+id/txtCardInitialText"
-        android:layout_toLeftOf="@+id/imgFavorite"
-        android:layout_toStartOf="@+id/imgFavorite" />
+        android:fontFamily="sans-serif-condensed"
+        app:layout_constraintBottom_toBottomOf="@+id/textView18"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="8dp" />
 
     <TextView
         android:id="@+id/txtCardGroup"
@@ -99,12 +99,11 @@
         android:gravity="center"
         android:text="11"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_alignTop="@+id/textView1"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/imgEditDeckCard"
-        android:layout_toEndOf="@+id/imgEditDeckCard"
-        android:fontFamily="sans-serif-condensed"/>
+        android:fontFamily="sans-serif-condensed"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView1" />
 
     <TextView
         android:id="@+id/textView1"
@@ -112,18 +111,25 @@
         android:layout_height="wrap_content"
         android:text="Group:"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_below="@+id/txtCardName"
-        android:layout_alignRight="@+id/textView2"
-        android:layout_alignEnd="@+id/textView2" />
+        app:layout_constraintRight_toLeftOf="@+id/txtCardGroup"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView18" />
 
     <ImageView
-        android:id="@+id/imgEditDeckCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/imgFavorite"
-        android:src="@drawable/ic_add_card_to_deck"
-        android:background="?attr/selectableItemBackground" />
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        tools:srcCompat="@drawable/gold_back"
+        android:id="@+id/imageViewCardImage"
+        android:transitionName="cardImageTransition"
+        android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toTopOf="@+id/txtCardName"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtCardInitialText"
+        android:layout_marginBottom="8dp"
+        tools:src="@drawable/gold_back"/>
 
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

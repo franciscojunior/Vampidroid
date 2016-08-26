@@ -1,7 +1,6 @@
 package name.vampidroid;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,10 +8,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -55,12 +56,17 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
     @Override
     public void onBindViewHolderCursor(ViewHolder viewHolder, Cursor cursor) {
 
+        String cardName = cursor.getString(1);
+
         viewHolder.cardId = cursor.getLong(0);
         viewHolder.txtInitialCardText.setText(cursor.getString(4));
-        viewHolder.txtCardName.setText(cursor.getString(1));
+        viewHolder.txtCardName.setText(cardName);
         viewHolder.txtCardCost.setText(cursor.getString(3));
         viewHolder.txtCardExtraInformation.setText(cursor.getString(2));
         viewHolder.txtCardGroup.setText(cursor.getString(5));
+        viewHolder.txtCardAdv = cursor.getString(6);
+
+        Utils.loadCardImageThumbnail(viewHolder.imageViewCardImage, Utils.getCardFileName(cardName, viewHolder.txtCardAdv.length() > 0), R.drawable.gold_back);
 
     }
 
@@ -75,6 +81,8 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
         public TextView txtCardCost;
         public TextView txtCardGroup;
         public long cardId;
+        public ImageView imageViewCardImage;
+        public String txtCardAdv;
 
 
         public ViewHolder(View v) {
@@ -85,26 +93,64 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
             txtCardExtraInformation = (TextView) v.findViewById(R.id.txtCardExtraInformation);
             txtCardCost = (TextView) v.findViewById(R.id.txtCardCost);
             txtCardGroup = (TextView) v.findViewById(R.id.txtCardGroup);
+            imageViewCardImage = (ImageView) v.findViewById(R.id.imageViewCardImage);
 
             v.setOnClickListener(this);
 
-            v.findViewById(R.id.imgEditDeckCard).setOnClickListener(editDeckListener);
+            //imageViewCardImage.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
 
-            Intent launch = new Intent(v.getContext(), CryptCardDetailsActivity.class);
+            Context context = v.getContext();
+
+            Intent launch;
+
+            if (ImageView.class.isInstance(v)) {
+                launch = new Intent(context, CardImageActivity.class);
+            } else {
+                launch = new Intent(context, CryptCardDetailsActivity.class);
+            }
+
             launch.putExtra("cardName", txtCardName.getText());
             launch.putExtra("cardText", txtInitialCardText.getText());
             launch.putExtra("cardId", cardId);
+            launch.putExtra("cardImageFileName", Utils.getCardFileName(txtCardName.getText().toString(), txtCardAdv.length() > 0));
+            launch.putExtra("resIdFallbackCardImage", R.drawable.gold_back);
+
+//            showCardImage.putExtra("cardId", getIntent().getExtras().getLong("cardId"));
+//            showCardImage.putExtra("cardImageFileName", Utils.getCardFileName(cardName, cardAdvanced.length() > 0));
+//            showCardImage.putExtra("resIdFallbackCardImage", R.drawable.gold_back);
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//
+//                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(CryptCardDetailsActivity.this, cardImage, "cardImageTransition").toBundle();
+//                view.getContext().startActivity(showCardImage, bundle);
+//            } else
+//                view.getContext().startActivity(showCardImage);
+
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
-                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)v.getContext(), txtInitialCardText, "cardTextTransition").toBundle();
-                v.getContext().startActivity(launch, bundle);
+                Bundle bundle;
+
+//                if (ImageView.class.isInstance(v)) {
+//                    bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(Utils.getActivity(context), imageViewCardImage, "cardImageTransition").toBundle();
+//                } else {
+//                    bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(Utils.getActivity(context), txtInitialCardText, "cardTextTransition").toBundle();
+//                }
+
+
+                //    Reference: https://github.com/codepath/android_guides/wiki/Shared-Element-Activity-Transition
+                Pair<View, String> element1 = Pair.create((View)txtInitialCardText, "cardTextTransition");
+                Pair<View, String> element2 = Pair.create((View)imageViewCardImage, "cardImageTransition");
+
+
+                bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(Utils.getActivity(context), element1, element2).toBundle();
+
+                context.startActivity(launch, bundle);
             } else
-                v.getContext().startActivity(launch);
+                context.startActivity(launch);
 
 
 
