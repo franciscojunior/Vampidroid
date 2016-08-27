@@ -3,6 +3,7 @@ package name.vampidroid;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,8 +13,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.util.LruCache;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
-import android.support.v7.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
@@ -22,22 +21,48 @@ import java.io.File;
 import java.text.Normalizer;
 import java.util.HashMap;
 
-import name.vampidroid.fragments.SettingsFragment;
-
-import static name.vampidroid.fragments.SettingsFragment.DEFAULT_IMAGES_FOLDER;
 
 
 /**
  * Created by fxjr on 03/07/16.
  */
 
-class Utils {
+public class Utils {
 
     private static final String TAG = "Utils";
 
     private static HashMap<String, Integer> disciplinesDrawableResourcesMap;
+    private static Resources resources;
 
-    static void loadCardImage(Activity activity, ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage) {
+    public interface LoadCardImageAsync {
+
+        public void onImageLoaded(BitmapDrawable image);
+
+    }
+    private static String cardImagesPath;
+
+    public static void setResources(Resources resources) {
+        Utils.resources = resources;
+    }
+
+    public static void setCardImagesPath(String cardImagesPath) {
+        Utils.cardImagesPath = cardImagesPath;
+    }
+
+    public static String getCardImagesPath() {
+        return cardImagesPath;
+    }
+
+
+    static void loadCardImageThumbnail(ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage) {
+        new LoadImageOperation(cardImageView, cardImageFileName, resIdFallbackCardImage, 8).execute();
+    }
+
+    static void loadCardImage(ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage, LoadCardImageAsync callback) {
+        new LoadImageOperation(cardImageView, cardImageFileName, resIdFallbackCardImage, callback).execute();
+    }
+
+    static void loadCardImage(ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage) {
 
 
 //        Resources res = activity.getResources();
@@ -61,8 +86,12 @@ class Utils {
 //
 //        cardImageView.setImageDrawable(new BitmapDrawable(res, image));
 
-        new LoadImageOperation(activity, cardImageView, cardImageFileName, resIdFallbackCardImage).execute();
+        new LoadImageOperation(cardImageView, cardImageFileName, resIdFallbackCardImage).execute();
 
+    }
+
+    public static String getCardFileName(String cardName) {
+        return getCardFileName(cardName, false);
     }
 
     public static String getCardFileName(String cardName, boolean advanced) {
@@ -137,11 +166,9 @@ class Utils {
             d.setProgress(end);
     }
 
-
     public static HashMap<String, Integer> getDisciplineStringsDrawableResourcesMap() {
         return disciplinesDrawableResourcesMap;
     }
-
 
 
     static {
@@ -206,29 +233,47 @@ class Utils {
         disciplinesDrawableResourcesMap.put("VIS", R.drawable.ic_dis_visceratika_sup);
     }
 
+
+
     public static void updateDisciplineImages(Context context, ImageView[] disciplineImageViews, String cardDisciplines) {
         new Utils.UpdateDisciplineImagesOperation(context, disciplineImageViews).execute(cardDisciplines);
     }
 
 
+
+
     private static class LoadImageOperation extends AsyncTask<Void, Void, Void> {
+
 
 
         private final ImageView cardImageView;
         private final String cardImageFileName;
-        private final Resources resources;
+        private final LoadCardImageAsync callback;
+        private final int bitmapSampleSize;
         private BitmapDrawable bitmapDrawable;
-        private final String cardImagesPath;
         private final int resIdFallbackCardImage;
 
 
-        public LoadImageOperation(Activity activity, ImageView cardImageView, String cardImageFileName, int resIdFallbackCardImage) {
+        public LoadImageOperation(ImageView cardImageView, String cardImageFileName, int resIdFallbackCardImage, int inSampleSize) {
+            this(cardImageView, cardImageFileName, resIdFallbackCardImage, inSampleSize, null);
+        }
 
-            this.resources = activity.getResources();
+        public LoadImageOperation(ImageView cardImageView, String cardImageFileName, int resIdFallbackCardImage) {
+            this(cardImageView, cardImageFileName, resIdFallbackCardImage, null);
+        }
+
+        public LoadImageOperation(ImageView cardImageView, String cardImageFileName, int resIdFallbackCardImage, LoadCardImageAsync callback) {
+            this(cardImageView, cardImageFileName, resIdFallbackCardImage, 1, callback);
+        }
+
+        public LoadImageOperation(ImageView cardImageView, String cardImageFileName, int resIdFallbackCardImage, int inSampleSize, LoadCardImageAsync callback) {
+
             this.cardImageView = cardImageView;
             this.cardImageFileName = cardImageFileName;
-            this.cardImagesPath = PreferenceManager.getDefaultSharedPreferences(activity).getString(SettingsFragment.KEY_PREF_CARD_IMAGES_FOLDER, DEFAULT_IMAGES_FOLDER);
             this.resIdFallbackCardImage = resIdFallbackCardImage;
+            this.callback = callback;
+            this.bitmapSampleSize = inSampleSize;
+
         }
 
 
@@ -241,7 +286,7 @@ class Utils {
             File imageFile = new File(cardImagesPath + "/" + cardImageFileName);
 
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 1;
+            options.inSampleSize = bitmapSampleSize;
 
             Bitmap image;
 
@@ -249,8 +294,6 @@ class Utils {
             if (imageFile.exists()) {
                 image = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
             } else {
-                options.inSampleSize = 2; // When loading the default image, downsampling it because it is very big.
-                // TODO: 05/08/16 Convert the default image to a lower resolution.
                 image = BitmapFactory.decodeResource(resources, resIdFallbackCardImage, options);
             }
 
@@ -261,9 +304,15 @@ class Utils {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
+
             cardImageView.setImageDrawable(bitmapDrawable);
+            if (callback != null) {
+                callback.onImageLoaded(bitmapDrawable);
+            }
         }
     }
+
 
     public static class UpdateDisciplineImagesOperation extends AsyncTask<String, Void, String[]> {
 
@@ -319,6 +368,17 @@ class Utils {
             }
 
         }
+    }
+
+    //    Reference: http://stackoverflow.com/questions/8276634/android-get-hosting-activity-from-a-view
+    public static Activity getActivity(Context fromContext) {
+        while (fromContext instanceof ContextWrapper) {
+            if (fromContext instanceof Activity) {
+                return (Activity)fromContext;
+            }
+            fromContext = ((ContextWrapper)fromContext).getBaseContext();
+        }
+        return null;
     }
 }
 
