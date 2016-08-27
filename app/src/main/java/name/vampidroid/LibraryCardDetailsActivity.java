@@ -1,30 +1,24 @@
 package name.vampidroid;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
 
 /**
  * Created by fxjr on 06/07/16.
@@ -40,6 +34,7 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
     // Discipline images
 
     private ImageView[] disciplineImageViews = new ImageView[3];
+    private FloatingActionButton fab;
 
 
     @Override
@@ -49,7 +44,7 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,35 +77,46 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
             }
         });
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-
-            CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-            collapsingToolbarLayout.setExpandedTitleMarginBottom(220);
-            collapsingToolbarLayout.setExpandedTitleMarginStart(200);
-
-
-            // If we are in landscape, let the tile fixed on top.
-            // Reference: http://stackoverflow.com/questions/2795833/check-orientation-on-android-phone#2799001
-            //collapsingToolbarLayout.setTitleEnabled(false);
-//            toolbar.setTitleTextAppearance(this, R.style.CardDetailsCollapsedAppBarTitle);
-
-//            Reference: http://stackoverflow.com/questions/36560292/how-to-increase-font-size-of-title-in-collapsingtoolbarlayout
-            collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CardDetailsCollapsedAppBarTitle);
-
-        }
-
-
-        //fillImageViewsDrawablesMap(this);
-
-
         setupDisciplineImagesArray();
 
         setupCardData();
 
     }
 
+    //    Reference: https://github.com/codepath/android_guides/wiki/Shared-Element-Activity-Transition
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                supportFinishAfterTransition();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        fab.hide();
+        super.onBackPressed();
+
+    }
 
 
+    //    Reference: http://stackoverflow.com/questions/19312109/execute-a-method-after-an-activity-is-visible-to-user
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        fab.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fab.show();
+            }
+        }, 300);
+
+    }
 
 
     private void setupDisciplineImagesArray() {
@@ -155,18 +161,6 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
 
 
-//        String[] disciplines = cardDisciplines.split(" ");
-//
-//        int disIndex = 0;
-//        for (String discipline : disciplines) {
-//            disciplineImageViews[disIndex].setImageDrawable(imageViewsDrawablesMap.get(discipline));
-//            //viewHolder.disciplineImageViews[disIndex].setImageBitmap(imageViewsDrawablesMap.get(discipline));
-//            disciplineImageViews[disIndex].setVisibility(View.VISIBLE);
-//            disIndex++;
-//        }
-//
-//        clearDisciplineImageViews(disIndex);
-
         Utils.updateDisciplineImages(this, disciplineImageViews, cardDisciplines);
 
         getSupportActionBar().setTitle(cardName);
@@ -175,7 +169,34 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         txtCardText.setText(cardText);
         txtCardType.setText(cardType);
 
-        Utils.loadCardImage(this, cardImage, Utils.getCardFileName(cardName, false), R.drawable.green_back);
+        Utils.loadCardImage(cardImage, Utils.getCardFileName(cardName), R.drawable.green_back, new Utils.LoadCardImageAsync() {
+            @Override
+            public void onImageLoaded(BitmapDrawable image) {
+
+                final TextView txtCardTypeLabel = (TextView) findViewById(R.id.txtCardTypeLabel);
+                final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.txtCardDisciplinesLabel);
+                final TextView txtCardTextLabel = (TextView) findViewById(R.id.txtCardTextLabel);
+
+                Palette.from(image.getBitmap()).generate(new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(Palette p) {
+
+                        final int defaultColor = ContextCompat.getColor(LibraryCardDetailsActivity.this, R.color.colorAccent);
+
+                        txtCardTypeLabel.setTextColor(p.getVibrantColor(defaultColor));
+                        txtDisciplinesLabel.setTextColor(p.getVibrantColor(defaultColor));
+                        txtCardTextLabel.setTextColor(p.getVibrantColor(defaultColor));
+
+
+                        // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
+                        fab.setBackgroundTintList(ColorStateList.valueOf(p.getVibrantColor(defaultColor)));
+                    }
+                });
+
+
+
+            }
+        });
     }
 
 
