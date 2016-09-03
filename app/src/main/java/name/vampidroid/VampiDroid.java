@@ -244,7 +244,7 @@ public class VampiDroid extends AppCompatActivity
         filterModel.groups = savedInstanceState.getBooleanArray("groups");
         filterModel.capacityMin = savedInstanceState.getInt("capacitymin");
         filterModel.capacityMax = savedInstanceState.getInt("capacitymax");
-        filterModel.searchCardText = savedInstanceState.getBoolean("searchcardtext");
+        filterModel.searchInsideCardText = savedInstanceState.getBoolean("searchcardtext");
 
         filterModel.groupsFilterChanged = true;
 
@@ -264,7 +264,7 @@ public class VampiDroid extends AppCompatActivity
 		outState.putBooleanArray("groups", filterModel.groups);
 		outState.putInt("capacitymin", filterModel.capacityMin);
 		outState.putInt("capacitymax", filterModel.capacityMax);
-		outState.putBoolean("searchcardtext", filterModel.searchCardText);
+		outState.putBoolean("searchcardtext", filterModel.searchInsideCardText);
 
 
 
@@ -281,8 +281,8 @@ public class VampiDroid extends AppCompatActivity
 
         boolean prefSearchCardText = sharedPref.getBoolean(SettingsFragment.KEY_PREF_SEARCH_CARD_TEXT, false);
 
-        if (prefSearchCardText != filterModel.searchCardText) {
-            filterModel.setSearchCardText(prefSearchCardText);
+        if (prefSearchCardText != filterModel.searchInsideCardText) {
+            filterModel.setSearchInsideCardText(prefSearchCardText);
             filterCards();
         }
 

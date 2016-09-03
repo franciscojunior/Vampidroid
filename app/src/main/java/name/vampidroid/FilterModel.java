@@ -11,7 +11,7 @@ public class FilterModel {
 
     CharSequence name = "";
 
-    boolean searchCardText = false;
+    boolean searchInsideCardText = false;
 
     private final String GROUP_CRYPT_FILTER = "(_group = '*' or _group in (?))";
 
@@ -86,8 +86,8 @@ public class FilterModel {
     }
 
 
-    public void setSearchCardText(boolean searchCardText) {
-        this.searchCardText = searchCardText;
+    public void setSearchInsideCardText(boolean searchInsideCardText) {
+        this.searchInsideCardText = searchInsideCardText;
     }
 
     public String getNameFilterQuery() {
@@ -95,7 +95,7 @@ public class FilterModel {
 
         if (name.length() == 0)
             return "";
-        else if (searchCardText) {
+        else if (searchInsideCardText) {
             return " and (lower(Name) like '%" + name + "%' or lower(CardText) like '%" + name + "%')";
         } else {
             return " and (lower(Name) like '%" + name + "%')";
