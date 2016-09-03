@@ -199,6 +199,10 @@ public class FilterModel {
     }
 
 
+    public String getOrderBy() {
+        return " order by Name";
+    }
+
     public void setDiscipline(String discipline, boolean isBasic, boolean isSet) {
 
 

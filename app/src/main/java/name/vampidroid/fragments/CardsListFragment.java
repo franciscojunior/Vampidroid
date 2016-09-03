@@ -146,10 +146,10 @@ public class CardsListFragment extends Fragment {
         switch (cardType) {
 
             case 0:
-                cardsAdapter.getFilter().filter(filterModel.getNameFilterQuery() + filterModel.getCryptFilterQuery());
+                cardsAdapter.getFilter().filter(filterModel.getNameFilterQuery() + filterModel.getCryptFilterQuery() + filterModel.getOrderBy());
                 break;
             case 1:
-                cardsAdapter.getFilter().filter(filterModel.getNameFilterQuery() + filterModel.getLibraryFilterQuery());
+                cardsAdapter.getFilter().filter(filterModel.getNameFilterQuery() + filterModel.getLibraryFilterQuery() + filterModel.getOrderBy());
                 break;
 
 
