@@ -23,6 +23,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:expandedTitleMarginStart="8dp"
             app:expandedTitleMarginEnd="8dp"
+            app:expandedTitleTextAppearance="@style/CardDetailsExpandedText"
             >
 
             <!--Reference: https://github.com/chrisbanes/cheesesquare/blob/master/app/src/main/res/layout/activity_detail.xml-->
