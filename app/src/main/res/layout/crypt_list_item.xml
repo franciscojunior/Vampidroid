@@ -58,9 +58,9 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="16dp"
         app:layout_constraintHorizontal_bias="0.0">
 
     </TextView>
@@ -88,9 +88,9 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:fontFamily="sans-serif-condensed"
         app:layout_constraintBottom_toBottomOf="@+id/textView18"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="8dp" />
+        android:layout_marginRight="16dp" />
 
     <TextView
         android:id="@+id/txtCardGroup"
@@ -100,9 +100,9 @@
         android:text="11"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:fontFamily="sans-serif-condensed"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView1" />
 
     <TextView
@@ -122,14 +122,15 @@
         tools:srcCompat="@drawable/gold_back"
         android:id="@+id/imageViewCardImage"
         android:transitionName="cardImageTransition"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="16dp"
         app:layout_constraintTop_toTopOf="@+id/txtCardName"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/txtCardInitialText"
         android:layout_marginBottom="8dp"
-        tools:src="@drawable/gold_back"/>
+        tools:src="@drawable/gold_back"
+        android:scaleType="fitStart" />
 
 
 </android.support.constraint.ConstraintLayout>
