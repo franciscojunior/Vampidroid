@@ -66,8 +66,14 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
         viewHolder.txtCardGroup.setText(cursor.getString(5));
         viewHolder.txtCardAdv = cursor.getString(6);
 
-        Utils.loadCardImageThumbnail(viewHolder.imageViewCardImage, Utils.getCardFileName(cardName, viewHolder.txtCardAdv.length() > 0), R.drawable.gold_back);
+        String cardImageFileName = Utils.getCardFileName(cardName, viewHolder.txtCardAdv.length() > 0);
 
+        // Loading optimization.
+        // To avoid setting an image in a imageview which may be out of screen, set a tag in the imageview.
+        // The image loader will compare this tag when seting the image in the imageview and only
+        // set the image if the tag matches.
+        viewHolder.imageViewCardImage.setTag(cardImageFileName);
+        Utils.loadCardImageThumbnail(viewHolder.imageViewCardImage, cardImageFileName, R.drawable.gold_back);
     }
 
     // Provide a reference to the views for each data item

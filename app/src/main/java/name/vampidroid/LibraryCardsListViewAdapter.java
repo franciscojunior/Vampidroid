@@ -63,7 +63,13 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCa
 
 //        viewHolder.txtCardDiscipline.setText(cursor.getString(4));
 
-        Utils.loadCardImageThumbnail(viewHolder.imageViewCardImage, Utils.getCardFileName(cardName), R.drawable.green_back);
+        // Loading optimization.
+        // To avoid setting an image in a imageview which may be out of screen, set a tag in the imageview.
+        // The image loader will compare this tag when seting the image in the imageview and only
+        // set the image if the tag matches.
+        String cardImageFileName = Utils.getCardFileName(cardName);
+        viewHolder.imageViewCardImage.setTag(cardImageFileName);
+        Utils.loadCardImageThumbnail(viewHolder.imageViewCardImage, cardImageFileName, R.drawable.green_back);
 
     }
 
