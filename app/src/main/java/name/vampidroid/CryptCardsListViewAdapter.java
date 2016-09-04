@@ -107,59 +107,22 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View view) {
 
-            Context context = v.getContext();
+            Context context = view.getContext();
 
-            Intent launch;
+            Intent launch = new Intent(context, CryptCardDetailsActivity.class);
 
-            if (ImageView.class.isInstance(v)) {
-                launch = new Intent(context, CardImageActivity.class);
-            } else {
-                launch = new Intent(context, CryptCardDetailsActivity.class);
-            }
-
-            launch.putExtra("cardName", txtCardName.getText());
-            launch.putExtra("cardText", txtInitialCardText.getText());
             launch.putExtra("cardId", cardId);
-            launch.putExtra("cardImageFileName", Utils.getCardFileName(txtCardName.getText().toString(), txtCardAdv.length() > 0));
-            launch.putExtra("resIdFallbackCardImage", R.drawable.gold_back);
-
-//            showCardImage.putExtra("cardId", getIntent().getExtras().getLong("cardId"));
-//            showCardImage.putExtra("cardImageFileName", Utils.getCardFileName(cardName, cardAdvanced.length() > 0));
-//            showCardImage.putExtra("resIdFallbackCardImage", R.drawable.gold_back);
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//
-//                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(CryptCardDetailsActivity.this, cardImage, "cardImageTransition").toBundle();
-//                view.getContext().startActivity(showCardImage, bundle);
-//            } else
-//                view.getContext().startActivity(showCardImage);
-
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
-                Bundle bundle;
-
-//                if (ImageView.class.isInstance(v)) {
-//                    bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(Utils.getActivity(context), imageViewCardImage, "cardImageTransition").toBundle();
-//                } else {
-//                    bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(Utils.getActivity(context), txtInitialCardText, "cardTextTransition").toBundle();
-//                }
-
-
-                //    Reference: https://github.com/codepath/android_guides/wiki/Shared-Element-Activity-Transition
-                Pair<View, String> element1 = Pair.create((View)txtInitialCardText, "cardTextTransition");
-                Pair<View, String> element2 = Pair.create((View)imageViewCardImage, "cardImageTransition");
-
-
-                bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(Utils.getActivity(context), element1, element2).toBundle();
-
-                context.startActivity(launch, bundle);
-            } else
-                context.startActivity(launch);
-
-
-
+                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(Utils.getActivity(context), imageViewCardImage, "cardImageTransition").toBundle();
+                view.getContext().startActivity(launch, bundle);
+                bundle.clear();
+            } else {
+                view.getContext().startActivity(launch);
+            }
         }
     }
 
