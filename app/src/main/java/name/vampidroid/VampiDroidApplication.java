@@ -4,6 +4,8 @@ import android.app.Application;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
+import com.squareup.picasso.Picasso;
+
 import name.vampidroid.fragments.SettingsFragment;
 
 import static name.vampidroid.fragments.SettingsFragment.DEFAULT_IMAGES_FOLDER;
@@ -30,6 +32,9 @@ public class VampiDroidApplication extends Application {
 
 		Utils.setResources(getResources());
 		Utils.setCardImagesPath(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SettingsFragment.KEY_PREF_CARD_IMAGES_FOLDER, DEFAULT_IMAGES_FOLDER));
+
+		Picasso.with(getApplicationContext()).setIndicatorsEnabled(true);
+		Picasso.with(getApplicationContext()).setLoggingEnabled(true);
 		//new UpdateDatabaseOperation().execute();
 
 

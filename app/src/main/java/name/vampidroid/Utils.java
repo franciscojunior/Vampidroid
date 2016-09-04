@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.text.Normalizer;
 
@@ -56,17 +58,28 @@ public class Utils {
 
     static void loadCardImageThumbnail(ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage) {
 
-        cardImageView.setImageDrawable(null);
-        AsyncTask loadTask = (AsyncTask)cardImageView.getTag();
+//        cardImageView.setImageDrawable(null);
+//        AsyncTask loadTask = (AsyncTask)cardImageView.getTag();
+//
+//        if (loadTask != null) {
+//            loadTask.cancel(false);
+//        }
+//        cardImageView.setTag(new LoadImageOperation(cardImageView, cardImageFileName, resIdFallbackCardImage, 8).execute());
 
-        if (loadTask != null) {
-            loadTask.cancel(false);
-        }
-        cardImageView.setTag(new LoadImageOperation(cardImageView, cardImageFileName, resIdFallbackCardImage, 8).execute());
+        File imageFile = new File(cardImagesPath + "/" + cardImageFileName);
+
+        Picasso.with(cardImageView.getContext()).load(imageFile).placeholder(resIdFallbackCardImage).fit().centerInside().into(cardImageView);
+
     }
 
     static void loadCardImage(ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage, LoadCardImageAsync callback) {
-        new LoadImageOperation(cardImageView, cardImageFileName, resIdFallbackCardImage, callback).execute();
+
+//        new LoadImageOperation(cardImageView, cardImageFileName, resIdFallbackCardImage, callback).execute();
+        File imageFile = new File(cardImagesPath + "/" + cardImageFileName);
+
+        Picasso.with(cardImageView.getContext()).load(imageFile).placeholder(resIdFallbackCardImage).into(cardImageView);
+
+
     }
 
     static void loadCardImage(ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage) {
