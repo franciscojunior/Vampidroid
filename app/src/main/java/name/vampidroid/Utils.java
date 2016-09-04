@@ -55,7 +55,14 @@ public class Utils {
 
 
     static void loadCardImageThumbnail(ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage) {
-        new LoadImageOperation(cardImageView, cardImageFileName, resIdFallbackCardImage, 8, true).execute();
+
+        cardImageView.setImageDrawable(null);
+        AsyncTask loadTask = (AsyncTask)cardImageView.getTag();
+
+        if (loadTask != null) {
+            loadTask.cancel(false);
+        }
+        cardImageView.setTag(new LoadImageOperation(cardImageView, cardImageFileName, resIdFallbackCardImage, 8).execute());
     }
 
     static void loadCardImage(ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage, LoadCardImageAsync callback) {
@@ -255,11 +262,9 @@ public class Utils {
         private final int bitmapSampleSize;
         private BitmapDrawable bitmapDrawable;
         private final int resIdFallbackCardImage;
-        private boolean checkTag;
 
-
-        LoadImageOperation(ImageView cardImageView, String cardImageFileName, int resIdFallbackCardImage, int inSampleSize, boolean checkTag) {
-            this(cardImageView, cardImageFileName, resIdFallbackCardImage, inSampleSize, checkTag, null);
+        LoadImageOperation(ImageView cardImageView, String cardImageFileName, int resIdFallbackCardImage, int inSampleSize) {
+            this(cardImageView, cardImageFileName, resIdFallbackCardImage, inSampleSize, null);
         }
 
         LoadImageOperation(ImageView cardImageView, String cardImageFileName, int resIdFallbackCardImage) {
@@ -267,17 +272,16 @@ public class Utils {
         }
 
         LoadImageOperation(ImageView cardImageView, String cardImageFileName, int resIdFallbackCardImage, LoadCardImageAsync callback) {
-            this(cardImageView, cardImageFileName, resIdFallbackCardImage, 1, false, callback);
+            this(cardImageView, cardImageFileName, resIdFallbackCardImage, 1, callback);
         }
 
-        LoadImageOperation(ImageView cardImageView, String cardImageFileName, int resIdFallbackCardImage, int inSampleSize, boolean checkTag, LoadCardImageAsync callback) {
+        LoadImageOperation(ImageView cardImageView, String cardImageFileName, int resIdFallbackCardImage, int inSampleSize, LoadCardImageAsync callback) {
 
             this.cardImageView = cardImageView;
             this.cardImageFileName = cardImageFileName;
             this.resIdFallbackCardImage = resIdFallbackCardImage;
             this.callback = callback;
             this.bitmapSampleSize = inSampleSize;
-            this.checkTag = checkTag;
 
         }
 
@@ -285,17 +289,17 @@ public class Utils {
         protected Void doInBackground(Void... voids) {
 
 
-            if (isCancelled()) {
-                Log.d(TAG, "doInBackground: doing nothing because the task was cancelled.");
-            }
-
             File imageFile = new File(cardImagesPath + "/" + cardImageFileName);
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = bitmapSampleSize;
 
-            Bitmap image;
+            if (isCancelled()) {
+                Log.d(TAG, "doInBackground: doing nothing because the task was cancelled.");
+                return null;
+            }
 
+            Bitmap image;
 
             if (imageFile.exists()) {
                 image = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
@@ -311,19 +315,16 @@ public class Utils {
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            // // TODO: 03/09/16 improve code to avoid the decoding of the image too, not only the setting.
-            if (!checkTag || cardImageView.getTag().equals(cardImageFileName)) {
-                cardImageView.setImageDrawable(bitmapDrawable);
-                if (callback != null) {
-                    callback.onImageLoaded(bitmapDrawable);
-                }
+            cardImageView.setImageDrawable(bitmapDrawable);
+            if (callback != null) {
+                callback.onImageLoaded(bitmapDrawable);
             }
         }
 
         @Override
         protected void onCancelled() {
             super.onCancelled();
-            Log.d(TAG, "onCancelled() called");
+
         }
 
     }
