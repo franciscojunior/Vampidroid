@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -172,6 +173,9 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         Utils.updateDisciplineImages(this, disciplineImageViews, cardDisciplines);
 
 
+        //        Reference: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
+        supportPostponeEnterTransition();
+
         getSupportActionBar().setTitle(cardName);
         txtCardText.setText(cardText);
 
@@ -179,8 +183,11 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
             @Override
             public void onImageLoaded(BitmapDrawable image) {
 
+                supportStartPostponedEnterTransition();
+
                 final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.textCardDisciplines);
                 final TextView txtTextLabel = (TextView) findViewById(R.id.textCardText);
+
 
                 Palette.from(image.getBitmap()).generate(new Palette.PaletteAsyncListener() {
                     @Override
@@ -201,5 +208,29 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
             }
         });
+
+//        Utils.loadCardImage(cardImage, Utils.getCardFileName(cardName, cardAdvanced.length() > 0), R.drawable.gold_back, new Utils.EmptyLoadCardImageWithPalette() {
+//            @Override
+//            public void onImageLoaded(Palette p) {
+//
+//                supportStartPostponedEnterTransition();
+//
+//                final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.textCardDisciplines);
+//                final TextView txtTextLabel = (TextView) findViewById(R.id.textCardText);
+//
+//
+//                final int defaultColor = ContextCompat.getColor(CryptCardDetailsActivity.this, R.color.colorAccent);
+//
+//                txtDisciplinesLabel.setTextColor(p.getVibrantColor(defaultColor));
+//                txtTextLabel.setTextColor(p.getVibrantColor(defaultColor));
+//
+//
+//                // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
+//                fab.setBackgroundTintList(ColorStateList.valueOf(p.getVibrantColor(defaultColor)));
+//
+//            }
+//        });
     }
+
+
 }

@@ -13,16 +13,21 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.util.LruCache;
 import android.support.v4.util.SimpleArrayMap;
+import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.io.File;
 import java.text.Normalizer;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 
 /**
@@ -72,15 +77,48 @@ public class Utils {
 
     }
 
-    static void loadCardImage(ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage, LoadCardImageAsync callback) {
+    static void loadCardImage(final ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage, final LoadCardImageAsync callback) {
+
+        new LoadImageOperation(cardImageView, cardImageFileName, resIdFallbackCardImage, callback).execute();
+//        File imageFile = new File(cardImagesPath + "/" + cardImageFileName);
+//
+//        Picasso
+//                .with(cardImageView.getContext().getApplicationContext())
+//                .load(imageFile)
+//                .error(resIdFallbackCardImage)
+//                .into(cardImageView, new Callback.EmptyCallback() {
+//                    @Override
+//                    public void onSuccess() {
+//                        callback.onImageLoaded((BitmapDrawable)cardImageView.getDrawable());
+//
+//                    }
+//                });
+
+
+    }
+
+    static void loadCardImage(final ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage, final LoadCardImageWithPalette callback) {
 
 //        new LoadImageOperation(cardImageView, cardImageFileName, resIdFallbackCardImage, callback).execute();
         File imageFile = new File(cardImagesPath + "/" + cardImageFileName);
 
-        Picasso.with(cardImageView.getContext()).load(imageFile).placeholder(resIdFallbackCardImage).into(cardImageView);
+        Picasso
+                .with(cardImageView.getContext())
+                .load(imageFile)
+                .transform(PaletteTransformation.instance())
+                .error(resIdFallbackCardImage)
+                .into(cardImageView, new Callback.EmptyCallback() {
+                    @Override
+                    public void onSuccess() {
+
+                        callback.onImageLoaded(PaletteTransformation.getPalette(((BitmapDrawable) cardImageView.getDrawable()).getBitmap()));
+
+                    }
+                });
 
 
     }
+
 
     static void loadCardImage(ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage) {
 
@@ -410,6 +448,48 @@ public class Utils {
         }
         return null;
     }
+
+    public final static class PaletteTransformation implements Transformation {
+        private static final PaletteTransformation INSTANCE = new PaletteTransformation();
+        private static final Map<Bitmap, Palette> CACHE = new WeakHashMap<>();
+
+        public static PaletteTransformation instance() {
+            return INSTANCE;
+        }
+
+        public static Palette getPalette(Bitmap bitmap) {
+            return CACHE.get(bitmap);
+        }
+
+        private PaletteTransformation() {}
+
+        @Override public Bitmap transform(Bitmap source) {
+            Palette palette = Palette.generate(source);
+            CACHE.put(source, palette);
+            return source;
+        }
+
+        // ...
+
+        @Override
+        public String key() {
+            return "PaletteTransformation";
+        }
+    }
+
+    public interface LoadCardImageWithPalette {
+
+        public void onImageLoaded(Palette palette);
+
+    }
+
+    public static class EmptyLoadCardImageWithPalette implements LoadCardImageWithPalette {
+        @Override
+        public void onImageLoaded(Palette palette) {
+
+        }
+    }
+
 
 }
 
