@@ -1,11 +1,15 @@
 package name.vampidroid.fragments;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,6 +32,8 @@ public class DirectoryChooserFragment extends DialogFragment {
     private static final String TAG = "DirectoryChooserFragmen";
 
     public static final String CURRENT_DIRECTORY = "CURRENT_DIRECTORY";
+
+    public static final int GRANT_STORAGE_ACCESS_REQUEST_CODE = 1;
 
     public interface DirectoryChooserFragmentListener {
         void onDirectorySelected(String directoryPath);
@@ -110,7 +116,7 @@ public class DirectoryChooserFragment extends DialogFragment {
                 }
 
                 textviewSelectedDirectory.setText(selectedDirectory);
-                showDirectoriesInsideSelectedDirectory();
+                fillDirectoriesInsideSelectedDirectory();
             }
         });
 
@@ -145,7 +151,22 @@ public class DirectoryChooserFragment extends DialogFragment {
         });
 
 
-        showDirectoriesInsideSelectedDirectory();
+        //    Reference: https://gist.github.com/MariusVolkhart/618a51bb09c4fc7f86a4
+        //    Reference: http://stackoverflow.com/questions/33162152/storage-permission-error-in-marshmallow
+
+
+        // At first, this storage permission was being asked on the SettingsFragment, but I faced a problem
+        // when trying to open the DirectoryChooserFragment, the problem is reported on this bug report:
+        // https://code.google.com/p/android/issues/detail?id=190966
+        // Reference: http://stackoverflow.com/questions/33264031/calling-dialogfragments-show-from-within-onrequestpermissionsresult-causes
+        // On the bug report, at this comment: https://code.google.com/p/android/issues/detail?id=190966#c33
+        // there is the idea of asking the permission in the fragment itself which is what is done here.
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, GRANT_STORAGE_ACCESS_REQUEST_CODE);
+        }
+
 
         return alertDialogBuilder.create();
     }
@@ -193,7 +214,7 @@ public class DirectoryChooserFragment extends DialogFragment {
     };
 
 
-    private void showDirectoriesInsideSelectedDirectory() {
+    private void fillDirectoriesInsideSelectedDirectory() {
 
         // Use another thread in order to not block the UI thread if the directory has too many files.
         // As it is the case when selecting the cards image directory as there is a lot of images in it.
@@ -207,5 +228,20 @@ public class DirectoryChooserFragment extends DialogFragment {
         super.onSaveInstanceState(outState);
 
         outState.putString(CURRENT_DIRECTORY, selectedDirectory);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+        // Check permissions again to see if we were granted while the fragment was paused. I.e.: the user went to app settings
+        // and granted us the permission.
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+            fillDirectoriesInsideSelectedDirectory();
+        }
+
     }
 }
