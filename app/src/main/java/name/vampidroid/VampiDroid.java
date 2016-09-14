@@ -452,7 +452,7 @@ public class VampiDroid extends AppCompatActivity
 
 		filterModel.setCardType(label.getText(), checkBox.isChecked());
 
-
+		filterCards();
 
 	}
 

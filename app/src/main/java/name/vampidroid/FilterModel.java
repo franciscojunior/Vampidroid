@@ -175,7 +175,24 @@ public class FilterModel implements Parcelable {
     }
 
     public String getLibraryFilterQuery() {
-        return "";
+
+        StringBuilder result = new StringBuilder();
+
+        if (cardTypes.size() > 0) {
+            result.append(" and ( ");
+
+            for (CharSequence cardType : cardTypes) {
+
+                    result.append(TYPE_FILTER.replace("?", cardType)).append(" OR ");
+                }
+
+
+                // To avoid needing to remove the last 'OR'
+                result.append(" 1 = 0 ) ");
+            }
+
+        Log.d(TAG, "getLibraryFilterQuery() returned: " + result);
+        return result.toString();
     }
 
     public void setCapacityMin(int progress) {
