@@ -239,16 +239,9 @@ public class VampiDroid extends AppCompatActivity
 
         super.onRestoreInstanceState(savedInstanceState);
 
+		filterModel = savedInstanceState.getParcelable("filtermodel");
 
-        filterModel.name = savedInstanceState.getCharSequence("name");
-        filterModel.groups = savedInstanceState.getBooleanArray("groups");
-        filterModel.capacityMin = savedInstanceState.getInt("capacitymin");
-        filterModel.capacityMax = savedInstanceState.getInt("capacitymax");
-        filterModel.searchInsideCardText = savedInstanceState.getBoolean("searchcardtext");
-
-        filterModel.groupsFilterChanged = true;
-
-        restoring = false;
+		restoring = false;
 
 	}
 
@@ -260,11 +253,7 @@ public class VampiDroid extends AppCompatActivity
 
 
 
-		outState.putCharSequence("name", filterModel.name);
-		outState.putBooleanArray("groups", filterModel.groups);
-		outState.putInt("capacitymin", filterModel.capacityMin);
-		outState.putInt("capacitymax", filterModel.capacityMax);
-		outState.putBoolean("searchcardtext", filterModel.searchInsideCardText);
+		outState.putParcelable("filtermodel", filterModel);
 
 
 
@@ -405,8 +394,6 @@ public class VampiDroid extends AppCompatActivity
 	}
 
 	private void filterCards() {
-
-		Log.d(TAG, "filterCards() called with: " + "");
 
         // If we are restoring, there is no need to filter now. The data will already be filtered out when the state was saved.
         if (restoring) {

@@ -1,11 +1,13 @@
 package name.vampidroid;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class FilterModel {
+public class FilterModel implements Parcelable {
 
     private static final String TAG = "FilterModel";
 
@@ -42,6 +44,12 @@ public class FilterModel {
     HashMap<CharSequence, CryptDiscipline> cryptDisciplines = new HashMap<>();
 
 //    ArrayList<CryptDiscipline> cryptDisciplines = new ArrayList<>();
+
+
+    public FilterModel() {
+
+    }
+
 
 
     public String getGroupsQuery() {
@@ -209,14 +217,13 @@ public class FilterModel {
         Log.d(TAG, "setDiscipline: " + discipline);
 
 
-
         discipline = discipline.toLowerCase();
 
         CryptDiscipline cryptDiscipline = cryptDisciplines.get(discipline);
 
         if (isSet) {
             if (cryptDiscipline == null) {
-                Log.d(TAG, "setDiscipline: cryptDiscipline is null. Creating one..." );
+                Log.d(TAG, "setDiscipline: cryptDiscipline is null. Creating one...");
                 cryptDiscipline = new CryptDiscipline(discipline, isBasic, !isBasic);
                 cryptDisciplines.put(discipline, cryptDiscipline);
             }
@@ -243,8 +250,53 @@ public class FilterModel {
 
     }
 
+    private FilterModel(Parcel in) {
 
-    private class CryptDiscipline {
+        in.readBooleanArray(groups);
+        in.readList(cardTypes, null);
+        in.readList(clans, null);
+        in.readMap(cryptDisciplines, CryptDiscipline.class.getClassLoader());
+        capacityMin = in.readInt();
+        capacityMax = in.readInt();
+        searchInsideCardText = in.readByte() != 0;
+
+        groupsFilterChanged = true;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+//        Log.d(TAG, "FilterModel: groups:" + groups[0] + groups[1] +groups[2] +groups[3] +groups[4] +groups[5]);
+
+        dest.writeBooleanArray(groups);
+        dest.writeList(cardTypes);
+        dest.writeList(clans);
+        dest.writeMap(cryptDisciplines);
+        dest.writeInt(capacityMin);
+        dest.writeInt(capacityMax);
+        dest.writeByte((byte) (searchInsideCardText ? 1 : 0));
+
+
+    }
+
+    public static final Parcelable.Creator<FilterModel> CREATOR
+            = new Parcelable.Creator<FilterModel>() {
+        public FilterModel createFromParcel(Parcel in) {
+            return new FilterModel(in);
+        }
+
+        public FilterModel[] newArray(int size) {
+            return new FilterModel[size];
+        }
+    };
+
+
+    private static class CryptDiscipline implements Parcelable {
 
         private String name;
         private boolean basic;
@@ -283,6 +335,7 @@ public class FilterModel {
 
 
         }
+
         public CryptDiscipline(String name, boolean basic, boolean advanced) {
             this.name = name;
             this.basic = basic;
@@ -298,6 +351,40 @@ public class FilterModel {
         public boolean isBothSet() {
             return isBasic() && isAdvanced();
         }
+
+
+        private CryptDiscipline (Parcel in) {
+
+            name = in.readString();
+            basic = in.readByte() != 0;
+            advanced = in.readByte() != 0;
+
+
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+
+            dest.writeString(name);
+            dest.writeByte((byte) (basic ? 1 : 0));
+            dest.writeByte((byte) (advanced ? 1 : 0));
+        }
+
+        public static final Parcelable.Creator<CryptDiscipline> CREATOR
+                = new Parcelable.Creator<CryptDiscipline>() {
+            public CryptDiscipline createFromParcel(Parcel in) {
+                return new CryptDiscipline(in);
+            }
+
+            public CryptDiscipline[] newArray(int size) {
+                return new CryptDiscipline[size];
+            }
+        };
     }
 
 }
