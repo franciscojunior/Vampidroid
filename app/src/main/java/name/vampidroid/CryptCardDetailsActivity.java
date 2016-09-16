@@ -36,6 +36,7 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
     private ImageView[] disciplineImageViews = new ImageView[7];
     private String cardAdvanced;
     private FloatingActionButton fab;
+    private String cardDisciplines;
 
 
     @Override
@@ -158,7 +159,7 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         cardName = c.getString(0);
         String cardType = c.getString(1);
         String cardClan = c.getString(2);
-        String cardDisciplines = c.getString(3);
+        cardDisciplines = c.getString(3);
         String cardText = c.getString(4);
         String cardCapacity = c.getString(5);
         String cardArtist = c.getString(6);
@@ -169,7 +170,6 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         c.close();
 
 
-        Utils.updateDisciplineImages(this, disciplineImageViews, cardDisciplines);
 
 
         getSupportActionBar().setTitle(cardName);
@@ -201,5 +201,12 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.updateDisciplineImages(this, disciplineImageViews, cardDisciplines);
+
     }
 }
