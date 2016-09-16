@@ -19,6 +19,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
 
 /**
  * Created by fxjr on 06/07/16.
@@ -169,17 +172,53 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         txtCardText.setText(cardText);
         txtCardType.setText(cardType);
 
-        Utils.loadCardImage(cardImage, Utils.getCardFileName(cardName), R.drawable.green_back, new Utils.LoadCardImageAsync() {
-            @Override
-            public void onImageLoaded(BitmapDrawable image) {
+//        Utils.loadCardImage(cardImage, Utils.getCardFileName(cardName), R.drawable.green_back, new Utils.LoadCardImageAsync() {
+//            @Override
+//            public void onImageLoaded(BitmapDrawable image) {
+//
+//                final TextView txtCardTypeLabel = (TextView) findViewById(R.id.txtCardTypeLabel);
+//                final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.txtCardDisciplinesLabel);
+//                final TextView txtCardTextLabel = (TextView) findViewById(R.id.txtCardTextLabel);
+//
+//                Palette.from(image.getBitmap()).generate(new Palette.PaletteAsyncListener() {
+//                    @Override
+//                    public void onGenerated(Palette p) {
+//
+//                        final int defaultColor = ContextCompat.getColor(LibraryCardDetailsActivity.this, R.color.colorAccent);
+//
+//                        txtCardTypeLabel.setTextColor(p.getVibrantColor(defaultColor));
+//                        txtDisciplinesLabel.setTextColor(p.getVibrantColor(defaultColor));
+//                        txtCardTextLabel.setTextColor(p.getVibrantColor(defaultColor));
+//
+//
+//                        // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
+//                        fab.setBackgroundTintList(ColorStateList.valueOf(p.getVibrantColor(defaultColor)));
+//                    }
+//                });
+//
+//
+//
+//            }
+//        });
 
-                final TextView txtCardTypeLabel = (TextView) findViewById(R.id.txtCardTypeLabel);
-                final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.txtCardDisciplinesLabel);
-                final TextView txtCardTextLabel = (TextView) findViewById(R.id.txtCardTextLabel);
-
-                Palette.from(image.getBitmap()).generate(new Palette.PaletteAsyncListener() {
+        Picasso
+                .with(this)
+                .load(Utils.getCardFileNameFullPath(Utils.getCardFileName(cardName)))
+                .transform(Utils.PaletteTransformation.instance())
+                .noFade()
+                .placeholder(R.drawable.green_back)
+                .into(cardImage, new Callback.EmptyCallback() {
                     @Override
-                    public void onGenerated(Palette p) {
+                    public void onSuccess() {
+
+                        supportStartPostponedEnterTransition();
+
+                        Palette p = Utils.PaletteTransformation.getPalette(((BitmapDrawable) cardImage.getDrawable()).getBitmap());
+
+                        final TextView txtCardTypeLabel = (TextView) findViewById(R.id.txtCardTypeLabel);
+                        final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.txtCardDisciplinesLabel);
+                        final TextView txtCardTextLabel = (TextView) findViewById(R.id.txtCardTextLabel);
+
 
                         final int defaultColor = ContextCompat.getColor(LibraryCardDetailsActivity.this, R.color.colorAccent);
 
@@ -190,13 +229,15 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
                         // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
                         fab.setBackgroundTintList(ColorStateList.valueOf(p.getVibrantColor(defaultColor)));
+
+                    }
+
+                    @Override
+                    public void onError() {
+                        supportStartPostponedEnterTransition();
+
                     }
                 });
-
-
-
-            }
-        });
     }
 
 

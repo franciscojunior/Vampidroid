@@ -41,6 +41,8 @@ public class Utils {
     static SimpleArrayMap<String, Integer> disciplinesDrawableResourceIdsMap;
     static Resources resources;
 
+
+
     interface LoadCardImageAsync {
 
         public void onImageLoaded(BitmapDrawable image);
@@ -148,6 +150,12 @@ public class Utils {
 
     }
 
+    public static File getCardFileNameFullPath(String cardFileName) {
+
+        File imageFile = new File(cardImagesPath + "/" + cardFileName);
+        return imageFile;
+    }
+
     static String getCardFileName(String cardName) {
         return getCardFileName(cardName, false);
     }
@@ -233,6 +241,11 @@ public class Utils {
             ((BitmapDrawable) oldValue).getBitmap().recycle();
         }
     };
+
+
+    public static SimpleArrayMap<String, Integer> getDisciplinesDrawableResourceIdsMap() {
+        return disciplinesDrawableResourceIdsMap;
+    }
 
     static {
 

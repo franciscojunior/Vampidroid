@@ -48,15 +48,15 @@ public class VampiDroidApplication extends Application {
 
 	}
 
-	@Override
-	public void onLowMemory() {
-		super.onLowMemory();
-		Utils.disciplineDrawablesCache.evictAll();
-	}
-
-	@Override
-	public void onTrimMemory(int level) {
-		super.onTrimMemory(level);
-		Utils.disciplineDrawablesCache.evictAll();
-	}
+//	@Override
+//	public void onLowMemory() {
+//		super.onLowMemory();
+//		Utils.disciplineDrawablesCache.evictAll();
+//	}
+//
+//	@Override
+//	public void onTrimMemory(int level) {
+//		super.onTrimMemory(level);
+//		Utils.disciplineDrawablesCache.evictAll();
+//	}
 }

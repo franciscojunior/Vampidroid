@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.SimpleArrayMap;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +20,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by fxjr on 06/07/16.
@@ -169,29 +172,34 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
         c.close();
 
-
-        Utils.updateDisciplineImages(this, disciplineImageViews, cardDisciplines);
-
-
         //        Reference: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
         supportPostponeEnterTransition();
+
+//        Utils.updateDisciplineImages(this, disciplineImageViews, cardDisciplines);
+
+        updateDisciplineImages(cardDisciplines);
+
 
         getSupportActionBar().setTitle(cardName);
         txtCardText.setText(cardText);
 
-        Utils.loadCardImage(cardImage, Utils.getCardFileName(cardName, cardAdvanced.length() > 0), R.drawable.gold_back, new Utils.LoadCardImageAsync() {
-            @Override
-            public void onImageLoaded(BitmapDrawable image) {
 
-                supportStartPostponedEnterTransition();
-
-                final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.textCardDisciplines);
-                final TextView txtTextLabel = (TextView) findViewById(R.id.textCardText);
-
-
-                Palette.from(image.getBitmap()).generate(new Palette.PaletteAsyncListener() {
+        Picasso
+                .with(this)
+                .load(Utils.getCardFileNameFullPath(Utils.getCardFileName(cardName, cardAdvanced.length() > 0)))
+                .transform(Utils.PaletteTransformation.instance())
+                .noFade()
+                .placeholder(R.drawable.gold_back)
+                .into(cardImage, new Callback.EmptyCallback() {
                     @Override
-                    public void onGenerated(Palette p) {
+                    public void onSuccess() {
+
+                        supportStartPostponedEnterTransition();
+
+                        Palette p = Utils.PaletteTransformation.getPalette(((BitmapDrawable) cardImage.getDrawable()).getBitmap());
+
+                        final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.textCardDisciplines);
+                        final TextView txtTextLabel = (TextView) findViewById(R.id.textCardText);
 
                         final int defaultColor = ContextCompat.getColor(CryptCardDetailsActivity.this, R.color.colorAccent);
 
@@ -201,13 +209,47 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
                         // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
                         fab.setBackgroundTintList(ColorStateList.valueOf(p.getVibrantColor(defaultColor)));
+
+                    }
+
+                    @Override
+                    public void onError() {
+                        supportStartPostponedEnterTransition();
+
                     }
                 });
 
 
 
-            }
-        });
+//        Utils.loadCardImage(cardImage, Utils.getCardFileName(cardName, cardAdvanced.length() > 0), R.drawable.gold_back, new Utils.LoadCardImageAsync() {
+//            @Override
+//            public void onImageLoaded(BitmapDrawable image) {
+//
+//                supportStartPostponedEnterTransition();
+//
+//                final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.textCardDisciplines);
+//                final TextView txtTextLabel = (TextView) findViewById(R.id.textCardText);
+//
+//
+//                Palette.from(image.getBitmap()).generate(new Palette.PaletteAsyncListener() {
+//                    @Override
+//                    public void onGenerated(Palette p) {
+//
+//                        final int defaultColor = ContextCompat.getColor(CryptCardDetailsActivity.this, R.color.colorAccent);
+//
+//                        txtDisciplinesLabel.setTextColor(p.getVibrantColor(defaultColor));
+//                        txtTextLabel.setTextColor(p.getVibrantColor(defaultColor));
+//
+//
+//                        // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
+//                        fab.setBackgroundTintList(ColorStateList.valueOf(p.getVibrantColor(defaultColor)));
+//                    }
+//                });
+//
+//
+//
+//            }
+//        });
 
 //        Utils.loadCardImage(cardImage, Utils.getCardFileName(cardName, cardAdvanced.length() > 0), R.drawable.gold_back, new Utils.EmptyLoadCardImageWithPalette() {
 //            @Override
@@ -230,6 +272,27 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 //
 //            }
 //        });
+    }
+
+    private void updateDisciplineImages(String cardDisciplines) {
+
+        int disIndex = 0;
+        SimpleArrayMap<String, Integer> disciplinesDrawableResourceIdsMap = Utils.getDisciplinesDrawableResourceIdsMap();
+
+        for (String discipline: cardDisciplines.split(" ")) {
+            Integer disciplineDrawableResourceId = disciplinesDrawableResourceIdsMap.get(discipline);
+            if (disciplineDrawableResourceId == null)
+                continue;
+            Picasso
+                    .with(this)
+                    .load(disciplineDrawableResourceId)
+                    .noFade()
+                    .fit()
+                    .into(disciplineImageViews[disIndex]);
+
+            disciplineImageViews[disIndex++].setVisibility(View.VISIBLE);
+        }
+
     }
 
 

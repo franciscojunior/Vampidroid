@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 /**
  * Created by fxjr on 17/03/16.
  */
@@ -63,7 +65,14 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCa
 
 //        viewHolder.txtCardDiscipline.setText(cursor.getString(4));
 
-        Utils.loadCardImageThumbnail(viewHolder.imageViewCardImage, Utils.getCardFileName(cardName), R.drawable.green_back);
+//        Utils.loadCardImageThumbnail(viewHolder.imageViewCardImage, Utils.getCardFileName(cardName), R.drawable.green_back);
+        Picasso
+                .with(viewHolder.imageViewCardImage.getContext())
+                .load(Utils.getCardFileNameFullPath(Utils.getCardFileName(cardName)))
+                .placeholder(R.drawable.green_back)
+                .fit()
+                .centerInside()
+                .into(viewHolder.imageViewCardImage);
 
     }
 

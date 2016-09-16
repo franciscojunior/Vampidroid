@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
 /**
  * Created by fxjr on 06/07/16.
  */
@@ -39,8 +42,6 @@ public class CardImageActivity extends AppCompatActivity {
 
         Bundle parameters = getIntent().getExtras();
 
-        Utils.loadCardImage(imageView, parameters.getString("cardImageFileName"), parameters.getInt("resIdFallbackCardImage"));
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             defaultUIOptions = getWindow().getDecorView().getSystemUiVisibility();
         }
@@ -63,6 +64,25 @@ public class CardImageActivity extends AppCompatActivity {
 
             }
         });
+
+        supportPostponeEnterTransition();
+
+        Picasso
+                .with(this)
+                .load(Utils.getCardFileNameFullPath(parameters.getString("cardImageFileName")))
+                .noFade()
+                .error(parameters.getInt("resIdFallbackCardImage"))
+                .into(imageView, new Callback.EmptyCallback() {
+                    @Override
+                    public void onSuccess() {
+                        supportStartPostponedEnterTransition();
+                    }
+
+                    @Override
+                    public void onError() {
+                        supportStartPostponedEnterTransition();
+                    }
+                });
 
     }
 

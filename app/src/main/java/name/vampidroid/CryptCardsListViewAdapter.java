@@ -10,11 +10,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by fxjr on 17/03/16.
@@ -66,7 +69,14 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
         viewHolder.txtCardGroup.setText(cursor.getString(5));
         viewHolder.txtCardAdv = cursor.getString(6);
 
-        Utils.loadCardImageThumbnail(viewHolder.imageViewCardImage, Utils.getCardFileName(cardName, viewHolder.txtCardAdv.length() > 0), R.drawable.gold_back);
+//        Utils.loadCardImageThumbnail(viewHolder.imageViewCardImage, Utils.getCardFileName(cardName, viewHolder.txtCardAdv.length() > 0), R.drawable.gold_back);
+        Picasso
+                .with(viewHolder.imageViewCardImage.getContext())
+                .load(Utils.getCardFileNameFullPath(Utils.getCardFileName(cardName, viewHolder.txtCardAdv.length() > 0)))
+                .placeholder(R.drawable.gold_back)
+                .fit()
+                .centerInside()
+                .into(viewHolder.imageViewCardImage);
     }
 
     // Provide a reference to the views for each data item
