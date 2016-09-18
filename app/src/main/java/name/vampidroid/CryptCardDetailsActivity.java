@@ -62,7 +62,8 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
         cardImage = (ImageView) findViewById(R.id.cardImage);
 
-
+//        Reference: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
+        supportPostponeEnterTransition();
 
 
         cardImage.setOnClickListener(new View.OnClickListener() {
@@ -172,8 +173,7 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
         c.close();
 
-        //        Reference: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
-        supportPostponeEnterTransition();
+
 
 //        Utils.updateDisciplineImages(this, disciplineImageViews, cardDisciplines);
 
