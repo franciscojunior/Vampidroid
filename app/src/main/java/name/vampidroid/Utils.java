@@ -252,69 +252,115 @@ public class Utils {
         disciplinesDrawableResourceIdsMap = new SimpleArrayMap<>();
 
         disciplinesDrawableResourceIdsMap.put("abo", R.drawable.ic_dis_abombwe);
+        disciplinesDrawableResourceIdsMap.put("Abombwe", R.drawable.ic_dis_abombwe);
         disciplinesDrawableResourceIdsMap.put("ABO", R.drawable.ic_dis_abombwe_sup);
         disciplinesDrawableResourceIdsMap.put("ani", R.drawable.ic_dis_animalism);
+        disciplinesDrawableResourceIdsMap.put("Animalism", R.drawable.ic_dis_animalism);
         disciplinesDrawableResourceIdsMap.put("ANI", R.drawable.ic_dis_animalism_sup);
         disciplinesDrawableResourceIdsMap.put("aus", R.drawable.ic_dis_auspex);
+        disciplinesDrawableResourceIdsMap.put("Auspex", R.drawable.ic_dis_auspex);
         disciplinesDrawableResourceIdsMap.put("AUS", R.drawable.ic_dis_auspex_sup);
         disciplinesDrawableResourceIdsMap.put("cel", R.drawable.ic_dis_celerity);
+        disciplinesDrawableResourceIdsMap.put("Celerity", R.drawable.ic_dis_celerity);
         disciplinesDrawableResourceIdsMap.put("CEL", R.drawable.ic_dis_celerity_sup);
         disciplinesDrawableResourceIdsMap.put("chi", R.drawable.ic_dis_chimerstry);
+        disciplinesDrawableResourceIdsMap.put("Chimerstry", R.drawable.ic_dis_chimerstry);
         disciplinesDrawableResourceIdsMap.put("CHI", R.drawable.ic_dis_chimerstry_sup);
         disciplinesDrawableResourceIdsMap.put("dai", R.drawable.ic_dis_daimoinon);
+        disciplinesDrawableResourceIdsMap.put("Daimoinon", R.drawable.ic_dis_daimoinon);
         disciplinesDrawableResourceIdsMap.put("DAI", R.drawable.ic_dis_daimoinon_sup);
         disciplinesDrawableResourceIdsMap.put("dem", R.drawable.ic_dis_dementation);
+        disciplinesDrawableResourceIdsMap.put("Dementation", R.drawable.ic_dis_dementation);
         disciplinesDrawableResourceIdsMap.put("DEM", R.drawable.ic_dis_dementation_sup);
         disciplinesDrawableResourceIdsMap.put("dom", R.drawable.ic_dis_dominate);
+        disciplinesDrawableResourceIdsMap.put("Dominate", R.drawable.ic_dis_dominate);
         disciplinesDrawableResourceIdsMap.put("DOM", R.drawable.ic_dis_dominate_sup);
         disciplinesDrawableResourceIdsMap.put("for", R.drawable.ic_dis_fortitude);
+        disciplinesDrawableResourceIdsMap.put("Fortitude", R.drawable.ic_dis_fortitude);
         disciplinesDrawableResourceIdsMap.put("FOR", R.drawable.ic_dis_fortitude_sup);
         disciplinesDrawableResourceIdsMap.put("mel", R.drawable.ic_dis_melpominee);
+        disciplinesDrawableResourceIdsMap.put("Melpominee", R.drawable.ic_dis_melpominee);
         disciplinesDrawableResourceIdsMap.put("MEL", R.drawable.ic_dis_melpominee_sup);
         disciplinesDrawableResourceIdsMap.put("myt", R.drawable.ic_dis_mytherceria);
+        disciplinesDrawableResourceIdsMap.put("Mytherceria", R.drawable.ic_dis_mytherceria);
         disciplinesDrawableResourceIdsMap.put("MYT", R.drawable.ic_dis_mytherceria_sup);
         disciplinesDrawableResourceIdsMap.put("nec", R.drawable.ic_dis_necromancy);
+        disciplinesDrawableResourceIdsMap.put("Necromancy", R.drawable.ic_dis_necromancy);
         disciplinesDrawableResourceIdsMap.put("NEC", R.drawable.ic_dis_necromancy_sup);
         disciplinesDrawableResourceIdsMap.put("obe", R.drawable.ic_dis_obeah);
+        disciplinesDrawableResourceIdsMap.put("Obeah", R.drawable.ic_dis_obeah);
         disciplinesDrawableResourceIdsMap.put("OBE", R.drawable.ic_dis_obeah_sup);
         disciplinesDrawableResourceIdsMap.put("obf", R.drawable.ic_dis_obfuscate);
+        disciplinesDrawableResourceIdsMap.put("Obfuscate", R.drawable.ic_dis_obfuscate);
         disciplinesDrawableResourceIdsMap.put("OBF", R.drawable.ic_dis_obfuscate_sup);
         disciplinesDrawableResourceIdsMap.put("obt", R.drawable.ic_dis_obtenebration);
+        disciplinesDrawableResourceIdsMap.put("Obtenebration", R.drawable.ic_dis_obtenebration);
         disciplinesDrawableResourceIdsMap.put("OBT", R.drawable.ic_dis_obtenebration_sup);
         disciplinesDrawableResourceIdsMap.put("pot", R.drawable.ic_dis_potence);
+        disciplinesDrawableResourceIdsMap.put("Potence", R.drawable.ic_dis_potence);
         disciplinesDrawableResourceIdsMap.put("POT", R.drawable.ic_dis_potence_sup);
         disciplinesDrawableResourceIdsMap.put("pre", R.drawable.ic_dis_presence);
+        disciplinesDrawableResourceIdsMap.put("Presence", R.drawable.ic_dis_presence);
         disciplinesDrawableResourceIdsMap.put("PRE", R.drawable.ic_dis_presence_sup);
         disciplinesDrawableResourceIdsMap.put("pro", R.drawable.ic_dis_protean);
+        disciplinesDrawableResourceIdsMap.put("Protean", R.drawable.ic_dis_protean);
         disciplinesDrawableResourceIdsMap.put("PRO", R.drawable.ic_dis_protean_sup);
         disciplinesDrawableResourceIdsMap.put("qui", R.drawable.ic_dis_quietus);
+        disciplinesDrawableResourceIdsMap.put("Quietus", R.drawable.ic_dis_quietus);
         disciplinesDrawableResourceIdsMap.put("QUI", R.drawable.ic_dis_quietus_sup);
         disciplinesDrawableResourceIdsMap.put("san", R.drawable.ic_dis_sanguinus);
+        disciplinesDrawableResourceIdsMap.put("Sanguinus", R.drawable.ic_dis_sanguinus);
         disciplinesDrawableResourceIdsMap.put("SAN", R.drawable.ic_dis_sanguinus_sup);
         disciplinesDrawableResourceIdsMap.put("ser", R.drawable.ic_dis_serpentis);
+        disciplinesDrawableResourceIdsMap.put("Serpentis", R.drawable.ic_dis_serpentis);
         disciplinesDrawableResourceIdsMap.put("SER", R.drawable.ic_dis_serpentis_sup);
         disciplinesDrawableResourceIdsMap.put("spi", R.drawable.ic_dis_spiritus);
+        disciplinesDrawableResourceIdsMap.put("Spiritus", R.drawable.ic_dis_spiritus);
         disciplinesDrawableResourceIdsMap.put("SPI", R.drawable.ic_dis_spiritus_sup);
         disciplinesDrawableResourceIdsMap.put("tem", R.drawable.ic_dis_temporis);
+        disciplinesDrawableResourceIdsMap.put("Temporis", R.drawable.ic_dis_temporis);
         disciplinesDrawableResourceIdsMap.put("TEM", R.drawable.ic_dis_temporis_sup);
         disciplinesDrawableResourceIdsMap.put("thn", R.drawable.ic_dis_thanatosis);
+        disciplinesDrawableResourceIdsMap.put("Thanatosis", R.drawable.ic_dis_thanatosis);
         disciplinesDrawableResourceIdsMap.put("THN", R.drawable.ic_dis_thanatosis_sup);
         disciplinesDrawableResourceIdsMap.put("tha", R.drawable.ic_dis_thaumaturgy);
+        disciplinesDrawableResourceIdsMap.put("Thaumaturgy", R.drawable.ic_dis_thaumaturgy);
         disciplinesDrawableResourceIdsMap.put("THA", R.drawable.ic_dis_thaumaturgy_sup);
         disciplinesDrawableResourceIdsMap.put("val", R.drawable.ic_dis_valeren);
+        disciplinesDrawableResourceIdsMap.put("Valeren", R.drawable.ic_dis_valeren);
         disciplinesDrawableResourceIdsMap.put("VAL", R.drawable.ic_dis_valeren_sup);
         disciplinesDrawableResourceIdsMap.put("vic", R.drawable.ic_dis_vicissitude);
+        disciplinesDrawableResourceIdsMap.put("Vicissitude", R.drawable.ic_dis_vicissitude);
         disciplinesDrawableResourceIdsMap.put("VIC", R.drawable.ic_dis_vicissitude_sup);
         disciplinesDrawableResourceIdsMap.put("vis", R.drawable.ic_dis_visceratika);
+        disciplinesDrawableResourceIdsMap.put("Visceratika", R.drawable.ic_dis_visceratika);
         disciplinesDrawableResourceIdsMap.put("VIS", R.drawable.ic_dis_visceratika_sup);
     }
 
 
 
-    static void updateDisciplineImages(Context context, ImageView[] disciplineImageViews, String cardDisciplines) {
-        new Utils.UpdateDisciplineImagesOperation(context, disciplineImageViews).execute(cardDisciplines);
-    }
+//    static void updateDisciplineImages(Context context, ImageView[] disciplineImageViews, String cardDisciplines) {
+//        new Utils.UpdateDisciplineImagesOperation(context, disciplineImageViews).execute(cardDisciplines);
+//    }
 
+    static void updateDisciplineImages(Context context, ImageView[] disciplineImageViews, String cardDisciplines) {
+
+        int disIndex = 0;
+        for (String discipline: cardDisciplines.split(" |/")) {
+            Integer disciplineDrawableResourceId = disciplinesDrawableResourceIdsMap.get(discipline);
+            if (disciplineDrawableResourceId == null)
+                continue;
+            Picasso
+                    .with(context)
+                    .load(disciplineDrawableResourceId)
+                    .noFade()
+                    .fit()
+                    .into(disciplineImageViews[disIndex]);
+
+            disciplineImageViews[disIndex++].setVisibility(View.VISIBLE);
+        }
+
+    }
 
     private static class LoadImageOperation extends AsyncTask<Void, Void, Void> {
 
