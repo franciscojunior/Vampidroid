@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -60,6 +61,8 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
         cardImage = (ImageView) findViewById(R.id.cardImage);
 
+        //        Reference: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
+        supportPostponeEnterTransition();
 
         cardImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,8 +166,11 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         c.close();
 
 
+        if (cardDisciplines.length() > 0) {
 
-        Utils.updateDisciplineImages(this, disciplineImageViews, cardDisciplines);
+            findViewById(R.id.cardViewDisciplines).setVisibility(View.VISIBLE);
+            Utils.updateDisciplineImages(this, disciplineImageViews, cardDisciplines);
+        }
 
         getSupportActionBar().setTitle(cardName);
 
