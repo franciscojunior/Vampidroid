@@ -1,120 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/constraintLayout"
+    android:orientation="vertical"
     >
-    <TextView
-        android:id="@+id/txtCardTypeLabel"
-        android:text="Card Type"
-        android:layout_width="wrap_content"
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardviewCartType"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/TextAppearance.AppCompat.Title"
-        app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        android:layout_marginTop="16dp" />
-
-    <TextView
-        android:id="@+id/txtCardDisciplinesLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="Disciplines"
-        style="@style/TextAppearance.AppCompat.Title"
-        app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/cardType"
-        android:layout_marginTop="32dp" />
-
-    <ImageView
-        android:id="@+id/img_card_details_discipline1"
-        tools:src="@drawable/ic_dis_celerity_sup"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="@+id/txtCardDisciplinesLabel"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtCardDisciplinesLabel"
-        android:layout_marginTop="16dp" />
-
-
-    <ImageView
-        android:id="@+id/img_card_details_discipline2"
-        tools:src="@drawable/ic_dis_celerity_sup"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:visibility="gone"
-        app:layout_constraintLeft_toRightOf="@+id/img_card_details_discipline1"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtCardDisciplinesLabel"
-        android:layout_marginTop="16dp" />
-
-
-    <ImageView
-        android:id="@+id/img_card_details_discipline3"
-        tools:src="@drawable/ic_dis_celerity_sup"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:visibility="gone"
-        app:layout_constraintLeft_toRightOf="@+id/img_card_details_discipline2"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtCardDisciplinesLabel"
-        android:layout_marginTop="16dp" />
-
-
-    <TextView
-        android:id="@+id/txtCardTextLabel"
-        android:text="Card Text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/TextAppearance.AppCompat.Title"
-        app:layout_constraintLeft_toLeftOf="@+id/constraintLayout"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/img_card_details_discipline1"
-        android:layout_marginTop="32dp" />
-
-    <TextView
-        android:id="@+id/cardText"
-        android:text="A long card name dsfdf sdfsd fs dfsdf sf dsf s s sdfsfds  sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsf  "
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:transitionName="cardTextTransition"
-        style="@style/TextAppearance.AppCompat.Subhead"
-        android:fontFamily="sans-serif-condensed"
-        app:layout_constraintLeft_toLeftOf="@+id/txtCardTextLabel"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtCardTextLabel"
+        card_view:cardUseCompatPadding="true"
         android:layout_marginTop="16dp"
-        app:layout_constraintRight_toRightOf="@+id/constraintLayout"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp" />
+        >
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            >
 
-    <TextView
-        android:id="@+id/cardType"
-        android:text="Master"
-        android:layout_width="0dp"
+            <TextView
+                android:id="@+id/txtCardTypeLabel"
+                android:text="Card Type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/cardType"
+                android:text="Master"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:fontFamily="sans-serif-condensed"
+                app:layout_constraintTop_toBottomOf="@+id/txtCardTypeLabel"
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="@+id/txtCardTypeLabel"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp" />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewDisciplines"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/TextAppearance.AppCompat.Subhead"
-        android:fontFamily="sans-serif-condensed"
-        app:layout_constraintLeft_toLeftOf="@+id/txtCardTypeLabel"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtCardTypeLabel"
         android:layout_marginTop="16dp"
-        app:layout_constraintRight_toRightOf="@+id/constraintLayout"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp" />
+        android:visibility="gone"
+        tools:visibility="visible"
+        card_view:cardUseCompatPadding="true">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/constraintLayout"
+            android:paddingBottom="16dp"
+            >
+
+            <TextView
+                android:id="@+id/txtCardDisciplinesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:text="Disciplines"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/colorAccent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="16dp"
+
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="16dp" />
+
+            <ImageView
+                android:id="@+id/img_card_details_discipline1"
+                tools:src="@drawable/ic_dis_celerity_sup"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:visibility="visible"
+                app:layout_constraintLeft_toLeftOf="@+id/txtCardDisciplinesLabel"
+                app:layout_constraintTop_toBottomOf="@+id/txtCardDisciplinesLabel"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp" />
 
 
-</android.support.constraint.ConstraintLayout>
+            <ImageView
+                android:id="@+id/img_card_details_discipline2"
+                tools:src="@drawable/ic_dis_celerity_sup"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:visibility="visible"
+                app:layout_constraintLeft_toRightOf="@+id/img_card_details_discipline1"
+                app:layout_constraintTop_toBottomOf="@+id/txtCardDisciplinesLabel"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp" />
+
+
+            <ImageView
+                android:id="@+id/img_card_details_discipline3"
+                tools:src="@drawable/ic_dis_celerity_sup"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:visibility="visible"
+                app:layout_constraintLeft_toRightOf="@+id/img_card_details_discipline2"
+                app:layout_constraintTop_toBottomOf="@+id/txtCardDisciplinesLabel"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewCardText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        card_view:cardUseCompatPadding="true">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            >
+
+            <TextView
+                android:id="@+id/txtCardTextLabel"
+                android:text="Card Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/cardText"
+                android:text="A long card name dsfdf sdfsd fs dfsdf sf dsf s s s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsf End of the text "
+                android:layout_width="0dp"
+                android:transitionName="cardTextTransition"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/txtCardTextLabel"
+                app:layout_constraintLeft_toLeftOf="@+id/txtCardTextLabel"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginRight="16dp"
+                android:layout_height="wrap_content" />
+
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+
+</LinearLayout>
