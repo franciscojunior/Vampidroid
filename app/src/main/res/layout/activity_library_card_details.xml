@@ -30,7 +30,7 @@
             <!--Reference: https://github.com/codepath/android_guides/wiki/Handling-Scrolls-with-CoordinatorLayout-->
             <ImageView
                 android:id="@+id/cardImage"
-                tools:src="@drawable/gold_back"
+                tools:src="@drawable/green_back"
                 android:transitionName="cardImageTransition"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                 android:layout_width="match_parent"
