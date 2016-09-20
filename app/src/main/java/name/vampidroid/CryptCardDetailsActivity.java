@@ -177,31 +177,23 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(cardName);
         txtCardText.setText(cardText);
 
-        Utils.loadCardImage(cardImage, Utils.getCardFileName(cardName, cardAdvanced.length() > 0), R.drawable.gold_back, new Utils.LoadCardImageAsync() {
+        Utils.loadCardImage(cardImage, Utils.getCardFileName(cardName, cardAdvanced.length() > 0), R.drawable.gold_back, new Utils.EmptyLoadCardImageAsync() {
             @Override
-            public void onImageLoaded(BitmapDrawable image) {
+            public void onImageLoaded(BitmapDrawable image, Palette palette) {
 
                 final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.textCardDisciplines);
                 final TextView txtTextLabel = (TextView) findViewById(R.id.textCardText);
 
                 supportStartPostponedEnterTransition();
 
-                Palette.from(image.getBitmap()).generate(new Palette.PaletteAsyncListener() {
-                    @Override
-                    public void onGenerated(Palette p) {
+                final int defaultColor = ContextCompat.getColor(CryptCardDetailsActivity.this, R.color.colorAccent);
 
-                        final int defaultColor = ContextCompat.getColor(CryptCardDetailsActivity.this, R.color.colorAccent);
-
-                        txtDisciplinesLabel.setTextColor(p.getVibrantColor(defaultColor));
-                        txtTextLabel.setTextColor(p.getVibrantColor(defaultColor));
+                txtDisciplinesLabel.setTextColor(palette.getVibrantColor(defaultColor));
+                txtTextLabel.setTextColor(palette.getVibrantColor(defaultColor));
 
 
-                        // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
-                        fab.setBackgroundTintList(ColorStateList.valueOf(p.getVibrantColor(defaultColor)));
-                    }
-                });
-
-
+                // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
+                fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(defaultColor)));
 
             }
         });

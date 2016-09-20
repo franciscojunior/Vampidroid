@@ -175,9 +175,9 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         txtCardText.setText(cardText);
         txtCardType.setText(cardType);
 
-        Utils.loadCardImage(cardImage, Utils.getCardFileName(cardName), R.drawable.green_back, new Utils.LoadCardImageAsync() {
+        Utils.loadCardImage(cardImage, Utils.getCardFileName(cardName), R.drawable.green_back, new Utils.EmptyLoadCardImageAsync() {
             @Override
-            public void onImageLoaded(BitmapDrawable image) {
+            public void onImageLoaded(BitmapDrawable image, Palette palette) {
 
                 final TextView txtCardTypeLabel = (TextView) findViewById(R.id.txtCardTypeLabel);
                 final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.txtCardDisciplinesLabel);
@@ -185,23 +185,15 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
                 supportStartPostponedEnterTransition();
 
-                Palette.from(image.getBitmap()).generate(new Palette.PaletteAsyncListener() {
-                    @Override
-                    public void onGenerated(Palette p) {
+                final int defaultColor = ContextCompat.getColor(LibraryCardDetailsActivity.this, R.color.colorAccent);
 
-                        final int defaultColor = ContextCompat.getColor(LibraryCardDetailsActivity.this, R.color.colorAccent);
-
-                        txtCardTypeLabel.setTextColor(p.getVibrantColor(defaultColor));
-                        txtDisciplinesLabel.setTextColor(p.getVibrantColor(defaultColor));
-                        txtCardTextLabel.setTextColor(p.getVibrantColor(defaultColor));
+                txtCardTypeLabel.setTextColor(palette.getVibrantColor(defaultColor));
+                txtDisciplinesLabel.setTextColor(palette.getVibrantColor(defaultColor));
+                txtCardTextLabel.setTextColor(palette.getVibrantColor(defaultColor));
 
 
-                        // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
-                        fab.setBackgroundTintList(ColorStateList.valueOf(p.getVibrantColor(defaultColor)));
-                    }
-                });
-
-
+                // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
+                fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(defaultColor)));
 
             }
         });

@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.util.LruCache;
 import android.support.v4.util.SimpleArrayMap;
+import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.util.Log;
 import android.view.View;
@@ -36,9 +37,19 @@ public class Utils {
 
     interface LoadCardImageAsync {
 
-        public void onImageLoaded(BitmapDrawable image);
+        public void onImageLoaded(BitmapDrawable image, Palette palette);
 
     }
+
+    public static class EmptyLoadCardImageAsync implements LoadCardImageAsync {
+
+        @Override
+        public void onImageLoaded(BitmapDrawable image, Palette palette) {
+
+        }
+    }
+
+
     static String cardImagesPath;
 
     public static void setResources(Resources resources) {
@@ -289,6 +300,7 @@ public class Utils {
         private final LoadCardImageAsync callback;
         private final int bitmapSampleSize;
         private BitmapDrawable bitmapDrawable;
+        private Palette palette;
         private final int resIdFallbackCardImage;
 
         LoadImageOperation(ImageView cardImageView, String cardImageFileName, int resIdFallbackCardImage, int inSampleSize) {
@@ -335,6 +347,11 @@ public class Utils {
                 image = BitmapFactory.decodeResource(resources, resIdFallbackCardImage, options);
             }
 
+            // If a callback was supplied, the palette needs to be generated.
+            if (callback != null) {
+                palette = Palette.from(image).generate();
+            }
+
             bitmapDrawable = new BitmapDrawable(resources, image);
             return null;
         }
@@ -345,7 +362,7 @@ public class Utils {
 
             cardImageView.setImageDrawable(bitmapDrawable);
             if (callback != null) {
-                callback.onImageLoaded(bitmapDrawable);
+                callback.onImageLoaded(bitmapDrawable, palette);
             }
         }
 
