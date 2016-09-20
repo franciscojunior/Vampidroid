@@ -35,5 +35,5 @@ dependencies {
     compile 'com.android.support:percent:24.2.1'
     compile 'com.android.support:preference-v7:24.2.1'
     compile 'com.android.support:palette-v7:24.2.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
 }
