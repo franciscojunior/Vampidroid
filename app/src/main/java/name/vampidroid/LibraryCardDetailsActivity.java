@@ -44,6 +44,9 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //        Reference: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
+        supportPostponeEnterTransition();
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,6 +179,8 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                 final TextView txtCardTypeLabel = (TextView) findViewById(R.id.txtCardTypeLabel);
                 final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.txtCardDisciplinesLabel);
                 final TextView txtCardTextLabel = (TextView) findViewById(R.id.txtCardTextLabel);
+
+                supportStartPostponedEnterTransition();
 
                 Palette.from(image.getBitmap()).generate(new Palette.PaletteAsyncListener() {
                     @Override

@@ -46,6 +46,9 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //        Reference: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
+        supportPostponeEnterTransition();
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +61,6 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
 
         cardImage = (ImageView) findViewById(R.id.cardImage);
-
 
 
 
@@ -181,6 +183,8 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
                 final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.textCardDisciplines);
                 final TextView txtTextLabel = (TextView) findViewById(R.id.textCardText);
+
+                supportStartPostponedEnterTransition();
 
                 Palette.from(image.getBitmap()).generate(new Palette.PaletteAsyncListener() {
                     @Override
