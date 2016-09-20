@@ -164,7 +164,10 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
 
 
-        Utils.updateDisciplineImages(this, disciplineImageViews, cardDisciplines);
+        if (cardDisciplines.length() > 0) {
+            findViewById(R.id.cardViewDisciplines).setVisibility(View.VISIBLE);
+            Utils.updateDisciplineImages(this, disciplineImageViews, cardDisciplines);
+        }
 
         getSupportActionBar().setTitle(cardName);
 
