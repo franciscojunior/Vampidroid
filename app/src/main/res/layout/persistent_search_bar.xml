@@ -85,9 +85,8 @@
                 android:layout_height="@dimen/square_button_size"
                 android:padding="@dimen/square_button_padding"
                 android:clickable="true"
-                android:src="@drawable/ic_tune"
+                android:src="@drawable/ic_filter_list_black_24dp"
                 android:background="@drawable/oval_btn_selector"
-
 
                 />
 
