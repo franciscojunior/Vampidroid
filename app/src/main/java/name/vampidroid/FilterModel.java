@@ -80,8 +80,8 @@ public class FilterModel implements Parcelable {
     }
 
 
-    public void setGroup(CharSequence text, boolean isSet) {
-        groups[Integer.parseInt(text.toString()) - 1] = isSet;
+    public void setGroup(int group, boolean isSet) {
+        groups[group - 1] = isSet;
         groupsFilterChanged = true;
     }
 
