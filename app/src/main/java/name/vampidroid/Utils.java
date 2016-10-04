@@ -130,36 +130,7 @@ public class Utils {
         return cardFileName.toString();
     }
 
-    static void setupExpandLayout(final View header, final View layoutToExpand, final ImageView imgArrow) {
-        header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                if (layoutToExpand.isShown()) {
-                    layoutToExpand.setVisibility(View.GONE);
-                    imgArrow.setImageResource(R.drawable.ic_expand_more_black_24dp);
-                } else {
-
-                    imgArrow.setImageResource(R.drawable.ic_expand_less_black_24dp);
-
-
-//                    Reference: http://stackoverflow.com/questions/19765938/show-and-hide-a-view-with-a-slide-up-down-animation
-                    // Prepare the View for the animation
-                    layoutToExpand.setVisibility(View.VISIBLE);
-//					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-//						layoutToExpand.setAlpha(0.0f);
-//
-//						// Start the animation
-//						layoutToExpand.animate()
-//								.alpha(1.0f);
-//					}
-                }
-
-            }
-        });
-
-
-    }
 
     static void playDrawerToggleAnim(final DrawerArrowDrawable d) {
         float start = d.getProgress();
@@ -399,7 +370,7 @@ public class Utils {
         @Override
         protected String[] doInBackground(String... strings) {
 
-            String[] disciplines = strings[0].split(" ");
+            String[] disciplines = strings[0].split(" |/|&");
             for (String disciplineKey : disciplines) {
                 addImageToCache(disciplineKey);
             }
