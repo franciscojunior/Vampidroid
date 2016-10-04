@@ -3,7 +3,9 @@ package name.vampidroid;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -28,11 +30,11 @@ public class CardImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_image);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        //fullScreen();
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         ImageView imageView = (ImageView) findViewById(R.id.cardImage);
 
@@ -45,28 +47,34 @@ public class CardImageActivity extends AppCompatActivity {
             defaultUIOptions = getWindow().getDecorView().getSystemUiVisibility();
         }
 
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    View decorView = getWindow().getDecorView();
-
-                    if (inFullScreenMode) {
-                        decorView.setSystemUiVisibility(defaultUIOptions);
-
-                    } else {
-                        decorView.setSystemUiVisibility(uiOptionsFullScreen);
-                    }
-                }
-
-            }
-        });
+//        imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+//                    View decorView = getWindow().getDecorView();
+//                        decorView.setSystemUiVisibility(uiOptionsFullScreen);
+//
+//                    }
+//
+//                }
+//
+//        });
 
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                supportFinishAfterTransition();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public void fullScreen() {
 

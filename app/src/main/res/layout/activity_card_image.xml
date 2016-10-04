@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Reference: http://stackoverflow.com/questions/16135984/full-screen-background-image-in-an-activity/16139059#16139059-->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_card_image"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_width="match_parent"
     android:fitsSystemWindows="true"
     android:clipToPadding="false"
     tools:context="name.vampidroid.CardImageActivity"
-    android:background="@android:color/black">
+    android:background="@android:color/black"
+    android:orientation="vertical"
+    >
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:background="@android:color/transparent"
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+
+            />
+    </android.support.design.widget.AppBarLayout>
 
 
     <ImageView
@@ -16,8 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:transitionName="cardImageTransition"
-        android:adjustViewBounds="true"
+        android:adjustViewBounds="false"
 
         />
-</FrameLayout>
-
+</LinearLayout>
