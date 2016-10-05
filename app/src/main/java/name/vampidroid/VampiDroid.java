@@ -127,7 +127,20 @@ public class VampiDroid extends AppCompatActivity
 
 		setupSearchContainter(search_container);
 
-		toolbar.addView(search_container);
+
+
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+		getSupportActionBar().setCustomView(search_container);
+		getSupportActionBar().setDisplayShowCustomEnabled(true);
+
+//		toolbar.setContentInsetsAbsolute(0, 0);
+
+		// Reference: http://stackoverflow.com/questions/26433409/android-lollipop-appcompat-actionbar-custom-view-doesnt-take-up-whole-screen-w
+		ViewGroup.LayoutParams lp = search_container.getLayoutParams();
+		lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+		search_container.setLayoutParams(lp);
+
 
 		// TODO: 11/06/16 Check how to make those initializations off the main thread.
 		setupSearchFilterNavigation();
