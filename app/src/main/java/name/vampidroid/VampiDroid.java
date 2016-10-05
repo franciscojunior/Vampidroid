@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -21,24 +22,24 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.readystatesoftware.viewbadger.BadgeView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import name.vampidroid.fragments.CardsListFragment;
 import name.vampidroid.fragments.SettingsFragment;
+import name.vampidroid.ui.widget.CardFilters;
 
 import static name.vampidroid.Utils.playDrawerToggleAnim;
-import static name.vampidroid.Utils.setupExpandLayout;
 
 
 public class VampiDroid extends AppCompatActivity
@@ -66,6 +67,8 @@ public class VampiDroid extends AppCompatActivity
 	FilterModel filterModel = new FilterModel();
 
 	boolean restoring = false;
+	private BadgeView searchFiltersBadge;
+	private CardFilters cardFilters;
 
 
 	@Override
@@ -132,102 +135,79 @@ public class VampiDroid extends AppCompatActivity
 
 
 
+
+
+
 	}
 
 	private void setupSearchFilterNavigation() {
-		SeekBar seekBarMin = (SeekBar) findViewById(R.id.seekBarCapacityMin);
-		SeekBar seekBarMax = (SeekBar) findViewById(R.id.seekBarCapacityMax);
 
-//        Reference: http://stackoverflow.com/questions/18400910/seekbar-in-a-navigationdrawer
+		cardFilters = (CardFilters) findViewById(R.id.cardFilters);
 
-		View.OnTouchListener seekBarDisallowDrawerInterceptTouchEvent = new View.OnTouchListener() {
+//		tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//			@Override
+//			public void onTabSelected(TabLayout.Tab tab) {
+//				if (tab.getPosition() == 0) {
+//					cardFilters.showCryptFilters();
+//				} else {
+//					cardFilters.showLibraryFilters();
+//				}
+//			}
+//
+//			@Override
+//			public void onTabUnselected(TabLayout.Tab tab) {
+//
+//			}
+//
+//			@Override
+//			public void onTabReselected(TabLayout.Tab tab) {
+//
+//			}
+//		});
+
+
+
+		cardFilters.setOnCardFiltersChangeListener(new CardFilters.OnCardFiltersChangeListener() {
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-
-				int action = event.getAction();
-				switch (action)
-				{
-					case MotionEvent.ACTION_DOWN:
-						// Disallow Drawer to intercept touch events.
-						v.getParent().requestDisallowInterceptTouchEvent(true);
-						break;
-
-					case MotionEvent.ACTION_UP:
-						// Allow Drawer to intercept touch events.
-						v.getParent().requestDisallowInterceptTouchEvent(false);
-						break;
-				}
-
-				// Handle seekbar touch events.
-				v.onTouchEvent(event);
-				return true;
-
-			}
-		};
-
-		seekBarMin.setOnTouchListener(seekBarDisallowDrawerInterceptTouchEvent);
-		seekBarMax.setOnTouchListener(seekBarDisallowDrawerInterceptTouchEvent);
-
-
-		SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-//                switch (seekBar.getId()) {
-//
-//                    case R.id.seekBarCapacityMin:
-//                        filterModel.setCapacityMin(progress);
-//
-//                        break;
-//                    case R.id.seekBarCapacityMax:
-//                        filterModel.setCapacityMax(progress);
-//                        break;
-//
-//                }
-//
-//                filterCards();
-
+			public void onGroupsChanged(int group, boolean isChecked) {
+				filterModel.setGroup(group, isChecked);
+				updateFiltersBadgeText();
+				filterCards();
 			}
 
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
+			public void onCapacitiesChanged(int minCapacity, int maxCapacity) {
 
+				filterModel.setCapacityMin(minCapacity);
+				filterModel.setCapacityMax(maxCapacity);
+				updateFiltersBadgeText();
+				filterCards();
 			}
 
 			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
+			public void onCryptDisciplineChanged(String discipline, boolean isBasic, boolean isChecked) {
 
-				switch (seekBar.getId()) {
-
-					case R.id.seekBarCapacityMin:
-						filterModel.setCapacityMin(seekBar.getProgress());
-
-						break;
-					case R.id.seekBarCapacityMax:
-						filterModel.setCapacityMax(seekBar.getProgress());
-						break;
-
-				}
-
+				filterModel.setDiscipline(discipline, isBasic, isChecked);
+				updateFiltersBadgeText();
 				filterCards();
 
 			}
-		};
 
 
-		seekBarMin.setOnSeekBarChangeListener(seekBarChangeListener);
-		seekBarMax.setOnSeekBarChangeListener(seekBarChangeListener);
-
-
-		setupExpandLayout(findViewById(R.id.disciplinesHeader), findViewById(R.id.disciplinesLayout), (ImageView) findViewById(R.id.imgDisciplinesLayoutArrow));
-
-		setupExpandLayout(findViewById(R.id.clansHeader), findViewById(R.id.clansLayout), (ImageView) findViewById(R.id.imgClansLayoutArrow));
-
-		setupExpandLayout(findViewById(R.id.cardTypesHeader), findViewById(R.id.cardTypesLayout), (ImageView) findViewById(R.id.imgCardTypesLayoutArrow));
-
+		});
 
 	}
 
+	private void updateFiltersBadgeText() {
+		int numberOfFiltersApplied = cardFilters.getNumberOfFiltersApplied();
+		if (numberOfFiltersApplied > 0) {
+			searchFiltersBadge.setText(String.valueOf(numberOfFiltersApplied));
+			searchFiltersBadge.show();
+		} else {
+			searchFiltersBadge.hide();
+		}
+
+	}
 
 
 	@Override
@@ -282,7 +262,9 @@ public class VampiDroid extends AppCompatActivity
         navigationView.setCheckedItem(R.id.nav_camera);
 
 
-    }
+		updateFiltersBadgeText();
+
+	}
 
 	private void setupSearchContainter(FrameLayout search_container) {
 
@@ -391,6 +373,10 @@ public class VampiDroid extends AppCompatActivity
 		});
 
 
+		searchFiltersBadge = new BadgeView(this, imageViewSearchSettingsButton);
+		searchFiltersBadge.setBadgeBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+
+
 	}
 
 	private void filterCards() {
@@ -410,34 +396,24 @@ public class VampiDroid extends AppCompatActivity
 	}
 
 
-	public void groupsClickHandler (View v) {
-
-		CheckBox checkbox = (CheckBox) v;
-
-		filterModel.setGroup(checkbox.getText(), checkbox.isChecked());
-
-		filterCards();
-
-	}
-
 	//    Reference: http://stackoverflow.com/questions/11358121/how-to-handle-the-checkbox-ischecked-and-unchecked-event-in-android
 	//	http://stackoverflow.com/questions/10137692/how-to-get-resource-name-from-resource-id
 	public void disciplinesClickHandler(View v) {
 
-		CheckBox checkbox = (CheckBox) v;
-
-		String discipline = getResources().getResourceEntryName(checkbox.getId());
-
-		// Check if the discipline is basic or advanced.
-
-		boolean isBasic = discipline.contains("Basic");
-
-		discipline = discipline.substring(discipline.length() - 3);
-
-		filterModel.setDiscipline(discipline, isBasic, checkbox.isChecked());
-
-
-		filterCards();
+//		CheckBox checkbox = (CheckBox) v;
+//
+//		String discipline = getResources().getResourceEntryName(checkbox.getId());
+//
+//		// Check if the discipline is basic or advanced.
+//
+//		boolean isBasic = discipline.contains("Basic");
+//
+//		discipline = discipline.substring(discipline.length() - 3);
+//
+//		filterModel.setDiscipline(discipline, isBasic, checkbox.isChecked());
+//
+//
+//		filterCards();
 
 	}
 

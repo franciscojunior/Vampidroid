@@ -75,20 +75,25 @@
             </FrameLayout>
 
 
-            <ImageView
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:alpha="1"
-                android:id="@+id/search_settings"
-                android:layout_width="@dimen/square_button_size"
-                android:layout_height="@dimen/square_button_size"
-                android:padding="@dimen/square_button_padding"
-                android:clickable="true"
-                android:src="@drawable/ic_filter_list_black_24dp"
-                android:background="@drawable/oval_btn_selector"
+                android:id="@+id/search_settings_container">
+                <ImageView
 
-                />
+                    android:alpha="1"
+                    android:id="@+id/search_settings"
+                    android:layout_width="@dimen/square_button_size"
+                    android:layout_height="@dimen/square_button_size"
+                    android:padding="@dimen/square_button_padding"
+                    android:clickable="true"
+                    android:src="@drawable/ic_filter_list_black_24dp"
+                    android:background="@drawable/oval_btn_selector"
 
+                    />
+            </FrameLayout>
             <ImageView
 
                 android:alpha="1"
@@ -98,8 +103,8 @@
                 android:padding="@dimen/square_button_padding"
                 android:clickable="true"
                 android:src="@drawable/ic_close"
-                android:layout_toLeftOf="@id/search_settings"
-                android:layout_toStartOf="@id/search_settings"
+                android:layout_toLeftOf="@id/search_settings_container"
+                android:layout_toStartOf="@id/search_settings_container"
                 android:visibility="gone"
                 android:background="@drawable/oval_btn_selector"
                 />
