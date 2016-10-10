@@ -370,7 +370,7 @@ public class Utils {
         @Override
         protected String[] doInBackground(String... strings) {
 
-            String[] disciplines = strings[0].split(" |/|&");
+            String[] disciplines = strings[0].split("[^a-zA-Z]+");
             for (String disciplineKey : disciplines) {
                 addImageToCache(disciplineKey);
             }
