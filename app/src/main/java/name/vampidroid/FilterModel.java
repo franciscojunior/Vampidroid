@@ -40,6 +40,8 @@ public class FilterModel implements Parcelable {
 
     ArrayList<CharSequence> clans = new ArrayList<>();
 
+    ArrayList<CharSequence> libraryDisciplines = new ArrayList<>();
+
 
     HashMap<CharSequence, CryptDiscipline> cryptDisciplines = new HashMap<>();
 
@@ -184,12 +186,25 @@ public class FilterModel implements Parcelable {
             for (CharSequence cardType : cardTypes) {
 
                     result.append(TYPE_FILTER.replace("?", cardType)).append(" OR ");
-                }
-
-
-                // To avoid needing to remove the last 'OR'
-                result.append(" 1 = 0 ) ");
             }
+
+
+            // To avoid needing to remove the last 'OR'
+            result.append(" 1 = 0 ) ");
+        }
+
+        if (libraryDisciplines.size() > 0) {
+            result.append(" and ( ");
+
+            for (CharSequence libraryDiscipline : libraryDisciplines) {
+
+                result.append(DISCIPLINE_LIBRARY_FILTER.replace("?", libraryDiscipline)).append(" AND ");
+            }
+
+
+            // To avoid needing to remove the last 'OR'
+            result.append(" 1 = 1 ) ");
+        }
 
         Log.d(TAG, "getLibraryFilterQuery() returned: " + result);
         return result.toString();
@@ -220,6 +235,15 @@ public class FilterModel implements Parcelable {
         else
             clans.remove(clan);
 
+
+    }
+
+    public void setLibraryDiscipline(String libraryDiscipline, boolean isSet) {
+
+        if (isSet)
+            libraryDisciplines.add(libraryDiscipline);
+        else
+            libraryDisciplines.remove(libraryDiscipline);
 
     }
 

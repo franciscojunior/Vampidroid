@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import name.vampidroid.R;
 
@@ -32,13 +33,16 @@ public class CardFilters extends LinearLayout {
     private View clansLayout;
     private View cardTypesHeader;
     private View cardTypesLayout;
+    private View libraryDisciplinesHeader;
+    private View libraryDisciplinesLayout;
+
 
     OnCardFiltersChangeListener cardFiltersChangeListener;
-
 
     int numberOfGroupFiltersApplied = 0;
     int numberOfCapacityFiltersApplied = 0;
     int numberOfCryptDisciplineFiltersApplied = 0;
+    private int numberOfLibraryDisciplineFiltersApplied = 0;
     private SparseArray<Parcelable> container;
 
     public interface OnCardFiltersChangeListener {
@@ -49,6 +53,8 @@ public class CardFilters extends LinearLayout {
 
 
         void onCryptDisciplineChanged(String discipline, boolean isBasic, boolean isChecked);
+
+        void onLibraryDisciplineChanged(String discipline, boolean isChecked);
     }
 
 
@@ -114,6 +120,8 @@ public class CardFilters extends LinearLayout {
         cardTypesHeader = findViewById(R.id.cardTypesHeader);
         cardTypesLayout = findViewById(R.id.cardTypesLayout);
 
+        libraryDisciplinesHeader = findViewById(R.id.libraryDisciplinesHeader);
+        libraryDisciplinesLayout = findViewById(R.id.libraryDisciplinesLayout);
 
         setupGroupsHandler();
 
@@ -121,11 +129,16 @@ public class CardFilters extends LinearLayout {
 
         setupCryptDisciplinesHandler();
 
+        setupLibraryDisciplinesHandler();
+
         setupExpandLayout(disciplinesHeader, disciplinesLayout, (ImageView) findViewById(R.id.imgDisciplinesLayoutArrow));
 
         setupExpandLayout(clansHeader, clansLayout, (ImageView) findViewById(R.id.imgClansLayoutArrow));
 
         setupExpandLayout(cardTypesHeader, cardTypesLayout, (ImageView) findViewById(R.id.imgCardTypesLayoutArrow));
+
+        setupExpandLayout(libraryDisciplinesHeader, libraryDisciplinesLayout, (ImageView) findViewById(R.id.imgLibraryDisciplinesLayoutArrow));
+
     }
 
     private void setupCapacitiesHandler() {
@@ -282,6 +295,36 @@ public class CardFilters extends LinearLayout {
         cryptDisciplineCheckBox.setOnCheckedChangeListener(cryptDisciplineHandler);
     }
 
+    private void setupLibraryDisciplinesHandler() {
+
+
+        ViewGroup libraryDisciplinesContainer = (ViewGroup) findViewById(R.id.libraryDisciplinesLayout);
+
+        for (int i = 0; i < libraryDisciplinesContainer.getChildCount(); i++) {
+            ViewGroup libraryDisciplineRow = (ViewGroup) libraryDisciplinesContainer.getChildAt(i);
+
+            final TextView libraryDisciplineText = (TextView) libraryDisciplineRow.getChildAt(0);
+            final CheckBox libraryDisciplineCheckbox = (CheckBox) libraryDisciplineRow.getChildAt(1); // Adv Discipline
+
+
+            libraryDisciplineRow.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    libraryDisciplineCheckbox.toggle();
+
+                    numberOfLibraryDisciplineFiltersApplied += libraryDisciplineCheckbox.isChecked() ? 1 : -1;
+
+                    if (cardFiltersChangeListener != null) {
+                        cardFiltersChangeListener.onLibraryDisciplineChanged(libraryDisciplineText.getText().toString(), libraryDisciplineCheckbox.isChecked());
+                    }
+
+                }
+            });
+
+        }
+
+    }
+
 
     private void setupExpandLayout(final View header, final View layoutToExpand, final ImageView imgArrow) {
         header.setOnClickListener(new View.OnClickListener() {
@@ -339,7 +382,7 @@ public class CardFilters extends LinearLayout {
 
     public int getNumberOfFiltersApplied() {
 
-        return numberOfGroupFiltersApplied + numberOfCapacityFiltersApplied + numberOfCryptDisciplineFiltersApplied;
+        return numberOfGroupFiltersApplied + numberOfCapacityFiltersApplied + numberOfCryptDisciplineFiltersApplied + numberOfLibraryDisciplineFiltersApplied;
 
     }
 

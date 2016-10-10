@@ -206,6 +206,15 @@ public class VampiDroid extends AppCompatActivity
 
 			}
 
+			@Override
+			public void onLibraryDisciplineChanged(String discipline, boolean isChecked) {
+
+				filterModel.setLibraryDiscipline(discipline, isChecked);
+				updateFiltersBadgeText();
+				filterCards();
+
+			}
+
 
 		});
 

@@ -1,0 +1,1173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/libraryDisciplinesHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:paddingBottom="16dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="16dp">
+
+        <TextView
+            android:id="@+id/textLibraryDisciplines"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="Library Disciplines:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintLeft_creator="1" />
+
+        <ImageView
+            android:id="@+id/imgLibraryDisciplinesLayoutArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ic_expand_more_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintRight_creator="1" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/libraryDisciplinesLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible"
+
+        >
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesAbombwe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Abombwe"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesAbombwe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesAbombwe"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesAnimalism"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Animalism"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesAnimalism"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesAnimalism"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesAuspex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Auspex"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesAuspex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesAuspex"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesCelerity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Celerity"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesCelerity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesCelerity"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesChimerstry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Chimerstry"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesChimerstry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesChimerstry"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesDaimoinon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Daimoinon"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesDaimoinon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesDaimoinon"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesDefense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Defense"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesDefense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesDefense"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesDementation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Dementation"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesDementation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesDementation"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesDominate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Dominate"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesDominate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesDominate"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesFlight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Flight"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesFlight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesFlight"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesFortitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Fortitude"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesFortitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesFortitude"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesInnocence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Innocence"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesInnocence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesInnocence"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesJudgment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Judgment"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesJudgment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesJudgment"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesMartyrdom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Martyrdom"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesMartyrdom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesMartyrdom"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesMelpominee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Melpominee"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesMelpominee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesMelpominee"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+            sss
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesMytherceria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Mytherceria"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesMytherceria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesMytherceria"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesNecromancy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Necromancy"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesNecromancy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesNecromancy"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesObeah"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Obeah"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesObeah"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesObeah"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesObfuscate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Obfuscate"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesObfuscate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesObfuscate"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesObtenebration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Obtenebration"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesObtenebration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesObtenebration"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesPotence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Potence"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesPotence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesPotence"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesPresence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Presence"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesPresence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesPresence"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesProtean"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Protean"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesProtean"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesProtean"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesQuietus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Quietus"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesQuietus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesQuietus"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesRedemption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Redemption"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesRedemption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesRedemption"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesSanguinus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Sanguinus"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesSanguinus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesSanguinus"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesSerpentis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Serpentis"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesSerpentis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesSerpentis"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesSpiritus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Spiritus"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesSpiritus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesSpiritus"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesStriga"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Striga"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesStriga"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesStriga"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesTemporis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Temporis"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesTemporis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesTemporis"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesThanatosis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Thanatosis"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesThanatosis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesThanatosis"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesThaumaturgy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Thaumaturgy"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesThaumaturgy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesThaumaturgy"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesValeren"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Valeren"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesValeren"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesValeren"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesVengeance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Vengeance"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesVengeance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesVengeance"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesVicissitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Vicissitude"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesVicissitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesVicissitude"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesVisceratika"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Visceratika"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesVisceratika"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesVisceratika"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textLibraryDisciplinesVision"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Vision"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxLibraryDisciplinesVision"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textLibraryDisciplinesVision"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+        </android.support.percent.PercentRelativeLayout>
+
+
+    </LinearLayout>
+
+
+</merge>

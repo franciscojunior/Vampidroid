@@ -2970,6 +2970,17 @@
         style="@style/NavigationViewDivider"
         android:layout_width="match_parent" />
 
+    <include
+        android:id="@+id/libraryDisciplinesFilters"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/widget_card_filters_library_disciplines"
+        />
+
+    <View
+        style="@style/NavigationViewDivider"
+        android:layout_width="match_parent" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
