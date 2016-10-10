@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 
+// Reference: https://github.com/nickbutcher/plaid/blob/master/app/build.gradle
+def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def gitTag = 'git describe --tags'.execute([], project.rootDir).text.trim()
+def gitCommitCount = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
@@ -8,8 +13,8 @@ android {
         applicationId "name.vampidroid"
         minSdkVersion 9
         targetSdkVersion 24
-        versionCode 2000
-        versionName "2.0"
+        versionCode gitCommitCount
+        versionName gitTag
     }
 
     buildTypes {
