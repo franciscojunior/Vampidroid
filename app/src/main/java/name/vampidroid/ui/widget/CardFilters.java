@@ -170,6 +170,9 @@ public class CardFilters extends LinearLayout {
         final CryptCapacitySeekBars cryptCapacitySeekBars = (CryptCapacitySeekBars) findViewById(R.id.crypt_capacity_seekbars);
 
         SeekBar.OnSeekBarChangeListener cryptSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+
+            boolean trackingTouchStarted = false;
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 Log.d(TAG, "onProgressChanged() called with: seekBar = [" + seekBar + "], progress = [" + progress + "], fromUser = [" + fromUser + "]");
@@ -178,7 +181,7 @@ public class CardFilters extends LinearLayout {
                 numberOfCapacityFiltersApplied += cryptCapacitySeekBars.getMinSeekBarValue() > 1 ? 1 : 0;
                 numberOfCapacityFiltersApplied += cryptCapacitySeekBars.getMaxSeekBarValue() < 11 ? 1 : 0;
 
-                if (!fromUser) {
+                if (!fromUser && !trackingTouchStarted) {
                     // The progress was changed because of a state restore. Report this change.
                     if (cardFiltersChangeListener != null) {
                         cardFiltersChangeListener.onCapacitiesChanged(cryptCapacitySeekBars.getMinSeekBarValue(), cryptCapacitySeekBars.getMaxSeekBarValue());
@@ -190,6 +193,7 @@ public class CardFilters extends LinearLayout {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
+                trackingTouchStarted = true;
             }
 
             @Override
@@ -198,6 +202,7 @@ public class CardFilters extends LinearLayout {
                 if (cardFiltersChangeListener != null) {
                     cardFiltersChangeListener.onCapacitiesChanged(cryptCapacitySeekBars.getMinSeekBarValue(), cryptCapacitySeekBars.getMaxSeekBarValue());
                 }
+                trackingTouchStarted = false;
 
             }
         };
