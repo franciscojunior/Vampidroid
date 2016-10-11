@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cardTypesHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:paddingBottom="16dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="16dp">
+
+        <TextView
+            android:id="@+id/textCardTypes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="Card Types:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintLeft_creator="1" />
+
+        <ImageView
+            android:id="@+id/imgCardTypesLayoutArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ic_expand_more_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintRight_creator="1" />
+
+        <name.vampidroid.ui.widget.BadgeTextView
+            android:id="@+id/textCardTypesBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="2"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/textCardTypes"
+            tools:visibility="visible" />
+    </android.support.constraint.ConstraintLayout>
+
+
+    <LinearLayout
+        android:id="@+id/cardTypesLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible"
+
+        >
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textCardTypesAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Action"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxCardTypesAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textCardTypesAction"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:checked="false"
+                app:layout_widthPercent="15%" />
+
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textCardTypesActionModifier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Action Modifier"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxCardTypesActionModifier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textCardTypesActionModifier"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:checked="false"
+                app:layout_widthPercent="15%" />
+
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textCardTypesAlly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Ally"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxCardTypesAlly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textCardTypesAlly"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:checked="false"
+                app:layout_widthPercent="15%" />
+
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textCardTypesCombat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Combat"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxCardTypesCombat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textCardTypesCombat"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:checked="false"
+                app:layout_widthPercent="15%" />
+
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textCardTypesConviction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Conviction"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxCardTypesConviction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textCardTypesConviction"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:checked="false"
+                app:layout_widthPercent="15%" />
+
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textCardTypesEquipment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Equipment"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxCardTypesEquipment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textCardTypesEquipment"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:checked="false"
+                app:layout_widthPercent="15%" />
+
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textCardTypesEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Event"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxCardTypesEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textCardTypesEvent"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:checked="false"
+                app:layout_widthPercent="15%" />
+
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textCardTypesMaster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Master"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxCardTypesMaster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textCardTypesMaster"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:checked="false"
+                app:layout_widthPercent="15%" />
+
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textCardTypesPoliticalAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Political Action"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxCardTypesPoliticalAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textCardTypesPoliticalAction"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:checked="false"
+                app:layout_widthPercent="15%" />
+
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textCardTypesPower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Power"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxCardTypesPower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textCardTypesPower"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:checked="false"
+                app:layout_widthPercent="15%" />
+
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textCardTypesReaction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Reaction"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <CheckBox
+                android:id="@+id/checkBoxCardTypesReaction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textCardTypesReaction"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:checked="false"
+                app:layout_widthPercent="15%" />
+
+
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            
+            android:paddingLeft="11dp"
+            android:paddingStart="11dp">
+
+
+            <TextView
+                android:id="@+id/textCardTypesRetainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Retainer"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="85%" />
+
+            <!--Reference: Background transparent:-->
+            <!--http://stackoverflow.com/questions/35625620/listview-item-with-checkbox-how-to-remove-checkbox-ripple-effect-->
+            <CheckBox
+                android:id="@+id/checkBoxCardTypesRetainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@android:color/transparent"
+                android:checked="false"
+                android:clickable="false"
+                app:layout_widthPercent="15%" />
+
+
+        </android.support.percent.PercentRelativeLayout>
+
+    </LinearLayout>
+</merge>

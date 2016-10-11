@@ -27,8 +27,8 @@ import name.vampidroid.R;
 public class CardFilters extends LinearLayout {
 
     private static final String TAG = "CardFilters";
-    private View disciplinesHeader;
-    private View disciplinesLayout;
+    private View cryptDisciplinesHeader;
+    private View cryptDisciplinesLayout;
     private View clansHeader;
     private View clansLayout;
     private View cardTypesHeader;
@@ -36,25 +36,34 @@ public class CardFilters extends LinearLayout {
     private View libraryDisciplinesHeader;
     private View libraryDisciplinesLayout;
 
-
     OnCardFiltersChangeListener cardFiltersChangeListener;
 
-    int numberOfGroupFiltersApplied = 0;
-    int numberOfCapacityFiltersApplied = 0;
-    int numberOfCryptDisciplineFiltersApplied = 0;
-    private int numberOfLibraryDisciplineFiltersApplied = 0;
+    int numberOfGroupFiltersApplied;
+    int numberOfCapacityFiltersApplied;
+    int numberOfCryptDisciplineFiltersApplied;
+    int numberOfLibraryDisciplineFiltersApplied;
+    int numberOfClansFiltersApplied;
+    int numberOfCardTypesFiltersApplied;
+
     private SparseArray<Parcelable> container;
+    BadgeTextView cryptDisciplinesBagde;
+    BadgeTextView clansBagde;
+    BadgeTextView cardTypesBagde;
+    BadgeTextView libraryDisciplinesBagde;
 
     public interface OnCardFiltersChangeListener {
 
         void onGroupsChanged(int group, boolean isChecked);
 
-        void onCapacitiesChanged(int minCapacity, int maxCapacity);
-
-
         void onCryptDisciplineChanged(String discipline, boolean isBasic, boolean isChecked);
 
+        void onClansChanged(String clan, boolean isChecked);
+
+        void onCardTypeChanged(String cardType, boolean isChecked);
+
         void onLibraryDisciplineChanged(String discipline, boolean isChecked);
+
+        void onCapacitiesChanged(int minCapacity, int maxCapacity);
     }
 
 
@@ -111,33 +120,49 @@ public class CardFilters extends LinearLayout {
     void initViews() {
 
 
-        disciplinesHeader = findViewById(R.id.disciplinesHeader);
-        disciplinesLayout = findViewById(R.id.disciplinesLayout);
+        cryptDisciplinesHeader = findViewById(R.id.disciplinesHeader);
+        cryptDisciplinesLayout = findViewById(R.id.disciplinesLayout);
+        cryptDisciplinesBagde = (BadgeTextView) findViewById(R.id.textCryptDisciplinesBadge);
 
         clansHeader = findViewById(R.id.clansHeader);
         clansLayout = findViewById(R.id.clansLayout);
+        clansBagde = (BadgeTextView) findViewById(R.id.textClansBadge);
 
         cardTypesHeader = findViewById(R.id.cardTypesHeader);
         cardTypesLayout = findViewById(R.id.cardTypesLayout);
+        cardTypesBagde = (BadgeTextView) findViewById(R.id.textCardTypesBadge);
 
         libraryDisciplinesHeader = findViewById(R.id.libraryDisciplinesHeader);
         libraryDisciplinesLayout = findViewById(R.id.libraryDisciplinesLayout);
+        libraryDisciplinesBagde = (BadgeTextView) findViewById(R.id.textLibraryDisciplinesBadge);
 
         setupGroupsHandler();
 
-        setupCapacitiesHandler();
 
         setupCryptDisciplinesHandler();
 
+        setupClansHandler();
+
+        setupCardTypesHandler();
+
         setupLibraryDisciplinesHandler();
 
-        setupExpandLayout(disciplinesHeader, disciplinesLayout, (ImageView) findViewById(R.id.imgDisciplinesLayoutArrow));
+        setupCapacitiesHandler();
+
+        setupExpandLayout(cryptDisciplinesHeader, cryptDisciplinesLayout, (ImageView) findViewById(R.id.imgDisciplinesLayoutArrow));
 
         setupExpandLayout(clansHeader, clansLayout, (ImageView) findViewById(R.id.imgClansLayoutArrow));
 
         setupExpandLayout(cardTypesHeader, cardTypesLayout, (ImageView) findViewById(R.id.imgCardTypesLayoutArrow));
 
         setupExpandLayout(libraryDisciplinesHeader, libraryDisciplinesLayout, (ImageView) findViewById(R.id.imgLibraryDisciplinesLayoutArrow));
+
+
+        cryptDisciplinesBagde.setAutoShowHide(true);
+        clansBagde.setAutoShowHide(true);
+        cardTypesBagde.setAutoShowHide(true);
+        libraryDisciplinesBagde.setAutoShowHide(true);
+
 
     }
 
@@ -224,6 +249,9 @@ public class CardFilters extends LinearLayout {
 //        }
 //    }
 
+
+
+    //    Reference: http://stackoverflow.com/questions/11358121/how-to-handle-the-checkbox-ischecked-and-unchecked-event-in-android
     private void setupGroupsHandler() {
 
         CompoundButton.OnCheckedChangeListener groupsClickListener = new CompoundButton.OnCheckedChangeListener() {
@@ -257,7 +285,7 @@ public class CardFilters extends LinearLayout {
     private void setupCryptDisciplinesHandler() {
 
 
-        ViewGroup cryptDisciplinesContainer = (ViewGroup) findViewById(R.id.disciplinesLayout);
+        ViewGroup cryptDisciplinesContainer = (ViewGroup) cryptDisciplinesLayout;
 
         for (int i = 0; i < cryptDisciplinesContainer.getChildCount(); i++) {
             ViewGroup cryptDisciplineRow = (ViewGroup) cryptDisciplinesContainer.getChildAt(i);
@@ -265,14 +293,14 @@ public class CardFilters extends LinearLayout {
             CheckBox cryptDisciplineCheckboxBasic = (CheckBox) cryptDisciplineRow.getChildAt(1); // Basic Discipline
             CheckBox cryptDisciplineCheckboxAdv = (CheckBox) cryptDisciplineRow.getChildAt(2); // Adv Discipline
 
-            setupCryptDisciplineHandler(cryptDisciplineCheckboxBasic, true);
-            setupCryptDisciplineHandler(cryptDisciplineCheckboxAdv, false);
+            setupCryptDisciplineHandlerHelper(cryptDisciplineCheckboxBasic, true);
+            setupCryptDisciplineHandlerHelper(cryptDisciplineCheckboxAdv, false);
 
         }
 
     }
 
-    private void setupCryptDisciplineHandler(CheckBox cryptDisciplineCheckBox, final boolean isBasic) {
+    private void setupCryptDisciplineHandlerHelper(CheckBox cryptDisciplineCheckBox, final boolean isBasic) {
 
 
         CompoundButton.OnCheckedChangeListener cryptDisciplineHandler = new CompoundButton.OnCheckedChangeListener() {
@@ -280,6 +308,7 @@ public class CardFilters extends LinearLayout {
             public void onCheckedChanged(CompoundButton checkbox, boolean isChecked) {
 
                 numberOfCryptDisciplineFiltersApplied += isChecked ? 1 : -1;
+                cryptDisciplinesBagde.setNumericText(numberOfCryptDisciplineFiltersApplied);
 
                 // TODO: 01/10/16 Change to use a tag
                 String discipline = getResources().getResourceEntryName(checkbox.getId());
@@ -295,34 +324,116 @@ public class CardFilters extends LinearLayout {
         cryptDisciplineCheckBox.setOnCheckedChangeListener(cryptDisciplineHandler);
     }
 
+    private void setupCardTypesHandler() {
+
+        setupTextCheckBoxRowHandler((ViewGroup) cardTypesLayout, new OnTextCheckBoxRowHandlerClickListener() {
+            @Override
+            public void onClick(TextView rowText, CheckBox rowCheckBox) {
+                rowCheckBox.toggle();
+
+                numberOfCardTypesFiltersApplied += rowCheckBox.isChecked() ? 1 : -1;
+
+                cardTypesBagde.setNumericText(numberOfCardTypesFiltersApplied);
+
+                if (cardFiltersChangeListener != null) {
+                    cardFiltersChangeListener.onCardTypeChanged(rowText.getText().toString(), rowCheckBox.isChecked());
+                }
+            }
+        });
+    }
+
+    private void setupClansHandler() {
+        setupTextCheckBoxRowHandler((ViewGroup) clansLayout, new OnTextCheckBoxRowHandlerClickListener() {
+            @Override
+            public void onClick(TextView rowText, CheckBox rowCheckBox) {
+                rowCheckBox.toggle();
+
+                numberOfClansFiltersApplied += rowCheckBox.isChecked() ? 1 : -1;
+
+                clansBagde.setNumericText(numberOfClansFiltersApplied);
+
+                if (cardFiltersChangeListener != null) {
+                    cardFiltersChangeListener.onClansChanged(rowText.getText().toString(), rowCheckBox.isChecked());
+                }
+            }
+        });
+    }
+
+//
+//    private void setupLibraryDisciplinesHandler2() {
+//
+//
+//        ViewGroup libraryDisciplinesContainer = (ViewGroup) findViewById(R.id.libraryDisciplinesLayout);
+//
+//        for (int i = 0; i < libraryDisciplinesContainer.getChildCount(); i++) {
+//            ViewGroup libraryDisciplineRow = (ViewGroup) libraryDisciplinesContainer.getChildAt(i);
+//
+//            final TextView libraryDisciplineText = (TextView) libraryDisciplineRow.getChildAt(0);
+//            final CheckBox libraryDisciplineCheckbox = (CheckBox) libraryDisciplineRow.getChildAt(1);
+//
+//
+//            libraryDisciplineRow.setOnClickListener(new OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    libraryDisciplineCheckbox.toggle();
+//
+//                    numberOfLibraryDisciplineFiltersApplied += libraryDisciplineCheckbox.isChecked() ? 1 : -1;
+//
+//
+//                    libraryDisciplinesBagde.setNumericText(numberOfLibraryDisciplineFiltersApplied);
+//
+//                    if (cardFiltersChangeListener != null) {
+//                        cardFiltersChangeListener.onLibraryDisciplineChanged(libraryDisciplineText.getText().toString(), libraryDisciplineCheckbox.isChecked());
+//                    }
+//
+//                }
+//            });
+//
+//        }
+//
+//    }
+
     private void setupLibraryDisciplinesHandler() {
 
+        setupTextCheckBoxRowHandler((ViewGroup) libraryDisciplinesLayout, new OnTextCheckBoxRowHandlerClickListener() {
+            @Override
+            public void onClick(TextView rowText, CheckBox rowCheckBox) {
+                rowCheckBox.toggle();
 
-        ViewGroup libraryDisciplinesContainer = (ViewGroup) findViewById(R.id.libraryDisciplinesLayout);
-
-        for (int i = 0; i < libraryDisciplinesContainer.getChildCount(); i++) {
-            ViewGroup libraryDisciplineRow = (ViewGroup) libraryDisciplinesContainer.getChildAt(i);
-
-            final TextView libraryDisciplineText = (TextView) libraryDisciplineRow.getChildAt(0);
-            final CheckBox libraryDisciplineCheckbox = (CheckBox) libraryDisciplineRow.getChildAt(1); // Adv Discipline
+                numberOfLibraryDisciplineFiltersApplied += rowCheckBox.isChecked() ? 1 : -1;
 
 
-            libraryDisciplineRow.setOnClickListener(new OnClickListener() {
+                libraryDisciplinesBagde.setNumericText(numberOfLibraryDisciplineFiltersApplied);
+
+                if (cardFiltersChangeListener != null) {
+                    cardFiltersChangeListener.onLibraryDisciplineChanged(rowText.getText().toString(), rowCheckBox.isChecked());
+                }
+            }
+        });
+    }
+
+    interface OnTextCheckBoxRowHandlerClickListener {
+        void onClick(TextView rowText, CheckBox rowCheckBox);
+    }
+
+
+    private void setupTextCheckBoxRowHandler(ViewGroup root, final OnTextCheckBoxRowHandlerClickListener rowClickListener) {
+
+        for (int i = 0; i < root.getChildCount(); i++) {
+            ViewGroup row = (ViewGroup) root.getChildAt(i);
+
+            final TextView rowText = (TextView) row.getChildAt(0);
+            final CheckBox rowCheckbox = (CheckBox) row.getChildAt(1);
+
+            row.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    libraryDisciplineCheckbox.toggle();
-
-                    numberOfLibraryDisciplineFiltersApplied += libraryDisciplineCheckbox.isChecked() ? 1 : -1;
-
-                    if (cardFiltersChangeListener != null) {
-                        cardFiltersChangeListener.onLibraryDisciplineChanged(libraryDisciplineText.getText().toString(), libraryDisciplineCheckbox.isChecked());
-                    }
-
+                    rowClickListener.onClick(rowText, rowCheckbox);
                 }
             });
 
-        }
 
+        }
     }
 
 
@@ -363,8 +474,8 @@ public class CardFilters extends LinearLayout {
     }
 
     public void showCryptFilters() {
-        disciplinesHeader.setVisibility(VISIBLE);
-        disciplinesLayout.setVisibility(VISIBLE);
+        cryptDisciplinesHeader.setVisibility(VISIBLE);
+        cryptDisciplinesLayout.setVisibility(VISIBLE);
 
         clansHeader.setVisibility(VISIBLE);
         clansLayout.setVisibility(VISIBLE);
@@ -373,8 +484,8 @@ public class CardFilters extends LinearLayout {
 
     public void showLibraryFilters() {
 
-        disciplinesHeader.setVisibility(GONE);
-        disciplinesLayout.setVisibility(GONE);
+        cryptDisciplinesHeader.setVisibility(GONE);
+        cryptDisciplinesLayout.setVisibility(GONE);
 
         clansHeader.setVisibility(GONE);
         clansLayout.setVisibility(GONE);
@@ -382,7 +493,7 @@ public class CardFilters extends LinearLayout {
 
     public int getNumberOfFiltersApplied() {
 
-        return numberOfGroupFiltersApplied + numberOfCapacityFiltersApplied + numberOfCryptDisciplineFiltersApplied + numberOfLibraryDisciplineFiltersApplied;
+        return numberOfGroupFiltersApplied + numberOfCryptDisciplineFiltersApplied + numberOfClansFiltersApplied + numberOfCardTypesFiltersApplied + numberOfLibraryDisciplineFiltersApplied + numberOfCapacityFiltersApplied;
 
     }
 

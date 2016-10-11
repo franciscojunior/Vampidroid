@@ -182,15 +182,6 @@ public class VampiDroid extends AppCompatActivity
 			}
 
 			@Override
-			public void onCapacitiesChanged(int minCapacity, int maxCapacity) {
-
-				filterModel.setCapacityMin(minCapacity);
-				filterModel.setCapacityMax(maxCapacity);
-				searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
-				filterCards();
-			}
-
-			@Override
 			public void onCryptDisciplineChanged(String discipline, boolean isBasic, boolean isChecked) {
 
 				filterModel.setDiscipline(discipline, isBasic, isChecked);
@@ -200,12 +191,34 @@ public class VampiDroid extends AppCompatActivity
 			}
 
 			@Override
+			public void onClansChanged(String clan, boolean isChecked) {
+				filterModel.setClan(clan, isChecked);
+				searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+				filterCards();
+			}
+
+			@Override
+			public void onCardTypeChanged(String cardType, boolean isChecked) {
+				filterModel.setCardType(cardType, isChecked);
+				searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+				filterCards();
+			}
+
+			@Override
 			public void onLibraryDisciplineChanged(String discipline, boolean isChecked) {
 
 				filterModel.setLibraryDiscipline(discipline, isChecked);
 				searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
 				filterCards();
+			}
 
+			@Override
+			public void onCapacitiesChanged(int minCapacity, int maxCapacity) {
+
+				filterModel.setCapacityMin(minCapacity);
+				filterModel.setCapacityMax(maxCapacity);
+				searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+				filterCards();
 			}
 
 
@@ -396,55 +409,7 @@ public class VampiDroid extends AppCompatActivity
 	}
 
 
-	//    Reference: http://stackoverflow.com/questions/11358121/how-to-handle-the-checkbox-ischecked-and-unchecked-event-in-android
-	//	http://stackoverflow.com/questions/10137692/how-to-get-resource-name-from-resource-id
-	public void disciplinesClickHandler(View v) {
 
-//		CheckBox checkbox = (CheckBox) v;
-//
-//		String discipline = getResources().getResourceEntryName(checkbox.getId());
-//
-//		// Check if the discipline is basic or advanced.
-//
-//		boolean isBasic = discipline.contains("Basic");
-//
-//		discipline = discipline.substring(discipline.length() - 3);
-//
-//		filterModel.setDiscipline(discipline, isBasic, checkbox.isChecked());
-//
-//
-//		filterCards();
-
-	}
-
-
-	public void cardTypesViewGroupClickHandler(View view) {
-
-		ViewGroup viewGroup = (ViewGroup) view;
-		TextView label = (TextView) viewGroup.getChildAt(0);
-		CheckBox checkBox = (CheckBox) viewGroup.getChildAt(1);
-
-		checkBox.toggle();
-
-		filterModel.setCardType(label.getText(), checkBox.isChecked());
-
-		filterCards();
-
-	}
-
-	public void clansViewGroupClickHandler(View view) {
-
-		ViewGroup viewGroup = (ViewGroup) view;
-		TextView label = (TextView) viewGroup.getChildAt(0);
-		CheckBox checkBox = (CheckBox) viewGroup.getChildAt(1);
-
-		checkBox.toggle();
-
-		filterModel.setClan(label.getText(), checkBox.isChecked());
-
-		filterCards();
-
-	}
 
 
 	@Override
