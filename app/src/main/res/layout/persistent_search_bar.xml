@@ -33,8 +33,6 @@
                 android:layout_marginStart="@dimen/search_bar_left_icon_left_margin"
                 android:layout_marginLeft="@dimen/search_bar_left_icon_left_margin">
 
-
-
                 <ImageView
                     android:alpha="1"
                     android:id="@+id/left_action"
@@ -81,6 +79,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:id="@+id/search_settings_container">
+
                 <ImageView
 
                     android:alpha="1"
@@ -93,6 +92,17 @@
                     android:background="@drawable/oval_btn_selector"
 
                     />
+
+                <name.vampidroid.ui.widget.BadgeTextView
+                    android:id="@+id/search_settings_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:visibility="visible"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp" />
+
             </FrameLayout>
             <ImageView
 

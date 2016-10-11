@@ -30,13 +30,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.readystatesoftware.viewbadger.BadgeView;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import name.vampidroid.fragments.CardsListFragment;
 import name.vampidroid.fragments.SettingsFragment;
+import name.vampidroid.ui.widget.BadgeTextView;
 import name.vampidroid.ui.widget.CardFilters;
 
 import static name.vampidroid.Utils.playDrawerToggleAnim;
@@ -67,8 +66,8 @@ public class VampiDroid extends AppCompatActivity
 	FilterModel filterModel = new FilterModel();
 
 	boolean restoring = false;
-	private BadgeView searchFiltersBadge;
-	private CardFilters cardFilters;
+	BadgeTextView searchFiltersBadge;
+	CardFilters cardFilters;
 
 
 	@Override
@@ -145,12 +144,6 @@ public class VampiDroid extends AppCompatActivity
 		// TODO: 11/06/16 Check how to make those initializations off the main thread.
 		setupSearchFilterNavigation();
 
-
-
-
-
-
-
 	}
 
 	private void setupSearchFilterNavigation() {
@@ -184,7 +177,7 @@ public class VampiDroid extends AppCompatActivity
 			@Override
 			public void onGroupsChanged(int group, boolean isChecked) {
 				filterModel.setGroup(group, isChecked);
-				updateFiltersBadgeText();
+				searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
 				filterCards();
 			}
 
@@ -193,7 +186,7 @@ public class VampiDroid extends AppCompatActivity
 
 				filterModel.setCapacityMin(minCapacity);
 				filterModel.setCapacityMax(maxCapacity);
-				updateFiltersBadgeText();
+				searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
 				filterCards();
 			}
 
@@ -201,7 +194,7 @@ public class VampiDroid extends AppCompatActivity
 			public void onCryptDisciplineChanged(String discipline, boolean isBasic, boolean isChecked) {
 
 				filterModel.setDiscipline(discipline, isBasic, isChecked);
-				updateFiltersBadgeText();
+				searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
 				filterCards();
 
 			}
@@ -210,7 +203,7 @@ public class VampiDroid extends AppCompatActivity
 			public void onLibraryDisciplineChanged(String discipline, boolean isChecked) {
 
 				filterModel.setLibraryDiscipline(discipline, isChecked);
-				updateFiltersBadgeText();
+				searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
 				filterCards();
 
 			}
@@ -219,18 +212,6 @@ public class VampiDroid extends AppCompatActivity
 		});
 
 	}
-
-	private void updateFiltersBadgeText() {
-		int numberOfFiltersApplied = cardFilters.getNumberOfFiltersApplied();
-		if (numberOfFiltersApplied > 0) {
-			searchFiltersBadge.setText(String.valueOf(numberOfFiltersApplied));
-			searchFiltersBadge.show();
-		} else {
-			searchFiltersBadge.hide();
-		}
-
-	}
-
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -283,8 +264,7 @@ public class VampiDroid extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.nav_camera);
 
-
-		updateFiltersBadgeText();
+		searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
 
 	}
 
@@ -294,6 +274,8 @@ public class VampiDroid extends AppCompatActivity
 		search_bar_text_view = (TextView) search_container.findViewById(R.id.search_bar_text);
 		final ImageView imageViewCloseButton = (ImageView) search_container.findViewById(R.id.clear_btn);
 		final ImageView imageViewSearchSettingsButton = (ImageView) search_container.findViewById(R.id.search_settings);
+		searchFiltersBadge = (BadgeTextView) search_container.findViewById(R.id.search_settings_badge);
+		searchFiltersBadge.setAutoShowHide(true);
 
 
 		imageViewLeftAction.setImageDrawable(drawerArrowDrawable);
@@ -395,13 +377,9 @@ public class VampiDroid extends AppCompatActivity
 		});
 
 
-		searchFiltersBadge = new BadgeView(this, imageViewSearchSettingsButton);
-		searchFiltersBadge.setBadgeBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-
-
 	}
 
-	private void filterCards() {
+	void filterCards() {
 
         // If we are restoring, there is no need to filter now. The data will already be filtered out when the state was saved.
         if (restoring) {
