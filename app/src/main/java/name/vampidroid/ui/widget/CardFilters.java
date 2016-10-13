@@ -67,7 +67,6 @@ public class CardFilters extends LinearLayout {
     }
 
 
-
     public CardFilters(Context context) {
         super(context);
         init();
@@ -253,7 +252,6 @@ public class CardFilters extends LinearLayout {
 //            super.onRestoreInstanceState(state);
 //        }
 //    }
-
 
 
     //    Reference: http://stackoverflow.com/questions/11358121/how-to-handle-the-checkbox-ischecked-and-unchecked-event-in-android

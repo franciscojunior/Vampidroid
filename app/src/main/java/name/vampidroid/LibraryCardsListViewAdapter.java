@@ -24,7 +24,6 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCa
     }
 
 
-
     // Create new views (invoked by the layout manager)
     @Override
     public LibraryCardsListViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,

@@ -54,7 +54,7 @@ public class CardsListFragment extends Fragment {
     public static CardsListFragment newInstance(int cardType, String listQuery) {
         // Supply index input as an argument.
         Bundle args = new Bundle();
-        args.putInt("CardType", cardType );
+        args.putInt("CardType", cardType);
         args.putString("ListQuery", listQuery);
 
         CardsListFragment f = new CardsListFragment();
@@ -112,7 +112,6 @@ public class CardsListFragment extends Fragment {
 
         outState.putCharSequence("filter", filter);
     }
-
 
 
     @Override

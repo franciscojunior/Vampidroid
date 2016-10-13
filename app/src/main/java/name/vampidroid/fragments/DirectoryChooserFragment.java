@@ -40,14 +40,11 @@ public class DirectoryChooserFragment extends DialogFragment {
     }
 
 
-
-
     private TextView textviewSelectedDirectory;
     private ListView listviewDirectories;
     private ArrayAdapter<String> listDirectoriesAdapter;
     private List<String> directories;
     private String selectedDirectory;
-
 
 
     public static DirectoryChooserFragment newInstance(String initialDirectoryName) {
@@ -60,7 +57,6 @@ public class DirectoryChooserFragment extends DialogFragment {
         fragment.setArguments(args);
         return fragment;
     }
-
 
 
     @Override
@@ -129,7 +125,7 @@ public class DirectoryChooserFragment extends DialogFragment {
 
 
         alertDialogBuilder.setView(dialogView);
-        alertDialogBuilder.setPositiveButton("OK",  new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -170,8 +166,6 @@ public class DirectoryChooserFragment extends DialogFragment {
 
         return alertDialogBuilder.create();
     }
-
-
 
 
     private Runnable fillDirectoriesRunnable = new Runnable() {

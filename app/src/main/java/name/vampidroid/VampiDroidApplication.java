@@ -10,27 +10,27 @@ import static name.vampidroid.fragments.SettingsFragment.DEFAULT_IMAGES_FOLDER;
 
 public class VampiDroidApplication extends Application {
 
-	private static final String TAG = "VampiDroidApplication";
+    private static final String TAG = "VampiDroidApplication";
 
-	@Override
-	public void onTerminate() {
-		super.onTerminate();
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
 
-		Log.d(TAG, "finishing application");
-		DatabaseHelper.closeDatabase();
-	}
+        Log.d(TAG, "finishing application");
+        DatabaseHelper.closeDatabase();
+    }
 
-	@Override
-	public void onCreate() {
-		// TODO Auto-generated method stub
-		super.onCreate();
+    @Override
+    public void onCreate() {
+        // TODO Auto-generated method stub
+        super.onCreate();
 
-		Log.d(TAG, "starting application");
-		DatabaseHelper.setApplicationContext(getApplicationContext());
+        Log.d(TAG, "starting application");
+        DatabaseHelper.setApplicationContext(getApplicationContext());
 
-		Utils.setResources(getResources());
-		Utils.setCardImagesPath(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SettingsFragment.KEY_PREF_CARD_IMAGES_FOLDER, DEFAULT_IMAGES_FOLDER));
-		//new UpdateDatabaseOperation().execute();
+        Utils.setResources(getResources());
+        Utils.setCardImagesPath(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SettingsFragment.KEY_PREF_CARD_IMAGES_FOLDER, DEFAULT_IMAGES_FOLDER));
+        //new UpdateDatabaseOperation().execute();
 
 
 //		FilterModel.initFilterModel(
@@ -41,17 +41,17 @@ public class VampiDroidApplication extends Application {
 //
 
 
-	}
+    }
 
-	@Override
-	public void onLowMemory() {
-		super.onLowMemory();
-		Utils.disciplineDrawablesCache.evictAll();
-	}
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        Utils.disciplineDrawablesCache.evictAll();
+    }
 
-	@Override
-	public void onTrimMemory(int level) {
-		super.onTrimMemory(level);
-		Utils.disciplineDrawablesCache.evictAll();
-	}
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        Utils.disciplineDrawablesCache.evictAll();
+    }
 }

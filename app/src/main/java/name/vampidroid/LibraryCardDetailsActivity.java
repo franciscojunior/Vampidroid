@@ -138,8 +138,6 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         TextView txtCardType = (TextView) findViewById(R.id.cardType);
 
 
-
-
         long cardId = getIntent().getExtras().getLong("cardId");
 
         String query;
@@ -147,7 +145,7 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         query = QUERY_LIBRARY;
 
         SQLiteDatabase db = DatabaseHelper.getDatabase();
-        Cursor c = db.rawQuery(query, new String[] {String.valueOf(cardId)});
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(cardId)});
         c.moveToFirst();
 
         cardName = c.getString(0);
@@ -161,7 +159,6 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         String cardSetRarity = c.getString(7);
 
         c.close();
-
 
 
         if (cardDisciplines.length() > 0) {

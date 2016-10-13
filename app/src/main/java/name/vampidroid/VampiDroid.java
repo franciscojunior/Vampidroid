@@ -42,113 +42,109 @@ import static name.vampidroid.Utils.playDrawerToggleAnim;
 
 
 public class VampiDroid extends AppCompatActivity
-		implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
-	private final static String TAG = "MainActivity";
+    private final static String TAG = "MainActivity";
 
-	private ViewPager viewPager;
-	private TabLayout tabLayout;
-	private CryptCardsListViewAdapter cryptCardsListViewAdapter;
-	private LibraryCardsListViewAdapter libraryCardsListViewAdapter;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+    private CryptCardsListViewAdapter cryptCardsListViewAdapter;
+    private LibraryCardsListViewAdapter libraryCardsListViewAdapter;
 
-	private List<CardsListFragment> fragmentsToFilter2 = new ArrayList<>();
+    private List<CardsListFragment> fragmentsToFilter2 = new ArrayList<>();
 
-	private FrameLayout search_container;
-	private Toolbar toolbar;
-	private DrawerLayout drawerLayout;
-	private DrawerArrowDrawable drawerArrowDrawable;
+    private FrameLayout search_container;
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private DrawerArrowDrawable drawerArrowDrawable;
 
-	private boolean searchShown = false;
-	private TextView search_bar_text_view;
+    private boolean searchShown = false;
+    private TextView search_bar_text_view;
 
-	String filter = "";
+    String filter = "";
 
-	FilterModel filterModel = new FilterModel();
+    FilterModel filterModel = new FilterModel();
 
-	boolean restoring = false;
-	BadgeTextView searchFiltersBadge;
-	CardFilters cardFilters;
-
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-
-		super.onCreate(savedInstanceState);
-
-		Log.d(TAG, "onCreate... ");
+    boolean restoring = false;
+    BadgeTextView searchFiltersBadge;
+    CardFilters cardFilters;
 
 
-		setContentView(R.layout.activity_main);
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
 
-		viewPager = (ViewPager) findViewById(R.id.viewpager);
+        super.onCreate(savedInstanceState);
 
-		tabLayout = (TabLayout) findViewById(R.id.tablayout);
-
+        Log.d(TAG, "onCreate... ");
 
 
-		setupViewPager(viewPager);
-		tabLayout.setupWithViewPager(viewPager);
+        setContentView(R.layout.activity_main);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tablayout);
 
 
-
-		final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-		fab.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
+        setupViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
 
 
-				AppBarLayout appbar = (AppBarLayout) findViewById(R.id.appbar);
-				appbar.setExpanded(true);
-				search_bar_text_view.requestFocus();
-
-				// Reference: http://stackoverflow.com/questions/2403632/android-show-soft-keyboard-automatically-when-focus-is-on-an-edittext
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.showSoftInput(search_bar_text_view, InputMethodManager.SHOW_IMPLICIT);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
 
-			}
-		});
+                AppBarLayout appbar = (AppBarLayout) findViewById(R.id.appbar);
+                appbar.setExpanded(true);
+                search_bar_text_view.requestFocus();
 
-		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-
-
-		drawerArrowDrawable = new DrawerArrowDrawable(this);
-
-		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-		navigationView.setNavigationItemSelectedListener(this);
+                // Reference: http://stackoverflow.com/questions/2403632/android-show-soft-keyboard-automatically-when-focus-is-on-an-edittext
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(search_bar_text_view, InputMethodManager.SHOW_IMPLICIT);
 
 
-		search_container = (FrameLayout) getLayoutInflater().inflate(R.layout.persistent_search_bar, null);
+            }
+        });
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
 
-		setupSearchContainter(search_container);
+        drawerArrowDrawable = new DrawerArrowDrawable(this);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
 
+        search_container = (FrameLayout) getLayoutInflater().inflate(R.layout.persistent_search_bar, null);
 
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-		getSupportActionBar().setCustomView(search_container);
-		getSupportActionBar().setDisplayShowCustomEnabled(true);
+        setupSearchContainter(search_container);
+
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        getSupportActionBar().setCustomView(search_container);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
 
 //		toolbar.setContentInsetsAbsolute(0, 0);
 
-		// Reference: http://stackoverflow.com/questions/26433409/android-lollipop-appcompat-actionbar-custom-view-doesnt-take-up-whole-screen-w
-		ViewGroup.LayoutParams lp = search_container.getLayoutParams();
-		lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-		search_container.setLayoutParams(lp);
+        // Reference: http://stackoverflow.com/questions/26433409/android-lollipop-appcompat-actionbar-custom-view-doesnt-take-up-whole-screen-w
+        ViewGroup.LayoutParams lp = search_container.getLayoutParams();
+        lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        search_container.setLayoutParams(lp);
 
 
-		// TODO: 11/06/16 Check how to make those initializations off the main thread.
-		setupSearchFilterNavigation();
+        // TODO: 11/06/16 Check how to make those initializations off the main thread.
+        setupSearchFilterNavigation();
 
-	}
+    }
 
-	private void setupSearchFilterNavigation() {
+    private void setupSearchFilterNavigation() {
 
-		cardFilters = (CardFilters) findViewById(R.id.cardFilters);
+        cardFilters = (CardFilters) findViewById(R.id.cardFilters);
 
 //		tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 //			@Override
@@ -172,92 +168,89 @@ public class VampiDroid extends AppCompatActivity
 //		});
 
 
+        cardFilters.setOnCardFiltersChangeListener(new CardFilters.OnCardFiltersChangeListener() {
+            @Override
+            public void onGroupsChanged(int group, boolean isChecked) {
+                filterModel.setGroup(group, isChecked);
+                searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+                filterCards();
+            }
 
-		cardFilters.setOnCardFiltersChangeListener(new CardFilters.OnCardFiltersChangeListener() {
-			@Override
-			public void onGroupsChanged(int group, boolean isChecked) {
-				filterModel.setGroup(group, isChecked);
-				searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
-				filterCards();
-			}
+            @Override
+            public void onCryptDisciplineChanged(String discipline, boolean isBasic, boolean isChecked) {
 
-			@Override
-			public void onCryptDisciplineChanged(String discipline, boolean isBasic, boolean isChecked) {
+                filterModel.setDiscipline(discipline, isBasic, isChecked);
+                searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+                filterCards();
 
-				filterModel.setDiscipline(discipline, isBasic, isChecked);
-				searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
-				filterCards();
+            }
 
-			}
+            @Override
+            public void onClansChanged(String clan, boolean isChecked) {
+                filterModel.setClan(clan, isChecked);
+                searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+                filterCards();
+            }
 
-			@Override
-			public void onClansChanged(String clan, boolean isChecked) {
-				filterModel.setClan(clan, isChecked);
-				searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
-				filterCards();
-			}
+            @Override
+            public void onCardTypeChanged(String cardType, boolean isChecked) {
+                filterModel.setCardType(cardType, isChecked);
+                searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+                filterCards();
+            }
 
-			@Override
-			public void onCardTypeChanged(String cardType, boolean isChecked) {
-				filterModel.setCardType(cardType, isChecked);
-				searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
-				filterCards();
-			}
+            @Override
+            public void onLibraryDisciplineChanged(String discipline, boolean isChecked) {
 
-			@Override
-			public void onLibraryDisciplineChanged(String discipline, boolean isChecked) {
+                filterModel.setLibraryDiscipline(discipline, isChecked);
+                searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+                filterCards();
+            }
 
-				filterModel.setLibraryDiscipline(discipline, isChecked);
-				searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
-				filterCards();
-			}
+            @Override
+            public void onCapacitiesChanged(int minCapacity, int maxCapacity) {
 
-			@Override
-			public void onCapacitiesChanged(int minCapacity, int maxCapacity) {
-
-				filterModel.setCapacityMin(minCapacity);
-				filterModel.setCapacityMax(maxCapacity);
-				searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
-				filterCards();
-			}
+                filterModel.setCapacityMin(minCapacity);
+                filterModel.setCapacityMax(maxCapacity);
+                searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+                filterCards();
+            }
 
 
-		});
+        });
 
-	}
+    }
 
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
 
-		Log.d(TAG, "onRestoreInstanceState() called with: " + "savedInstanceState =");
+        Log.d(TAG, "onRestoreInstanceState() called with: " + "savedInstanceState =");
 
-		restoring = true;
+        restoring = true;
 
         super.onRestoreInstanceState(savedInstanceState);
 
-		filterModel = savedInstanceState.getParcelable("filtermodel");
+        filterModel = savedInstanceState.getParcelable("filtermodel");
 
-		restoring = false;
+        restoring = false;
 
-	}
+    }
 
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		Log.d(TAG, "onSaveInstanceState() called with: " + "outState = ");
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG, "onSaveInstanceState() called with: " + "outState = ");
 
-		super.onSaveInstanceState(outState);
-
-
-
-		outState.putParcelable("filtermodel", filterModel);
+        super.onSaveInstanceState(outState);
 
 
+        outState.putParcelable("filtermodel", filterModel);
 
-	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         Log.d(TAG, "onResume: ");
 
@@ -277,122 +270,116 @@ public class VampiDroid extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.nav_camera);
 
-		searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+        searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
 
-	}
+    }
 
-	private void setupSearchContainter(FrameLayout search_container) {
+    private void setupSearchContainter(FrameLayout search_container) {
 
-		final ImageView imageViewLeftAction = (ImageView) search_container.findViewById(R.id.left_action);
-		search_bar_text_view = (TextView) search_container.findViewById(R.id.search_bar_text);
-		final ImageView imageViewCloseButton = (ImageView) search_container.findViewById(R.id.clear_btn);
-		final ImageView imageViewSearchSettingsButton = (ImageView) search_container.findViewById(R.id.search_settings);
-		searchFiltersBadge = (BadgeTextView) search_container.findViewById(R.id.search_settings_badge);
-		searchFiltersBadge.setAutoShowHide(true);
-
-
-		imageViewLeftAction.setImageDrawable(drawerArrowDrawable);
-		imageViewLeftAction.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-				if (search_bar_text_view.getText().length() > 0) {
-					search_bar_text_view.setText("");
-				} else if (drawerArrowDrawable.getProgress() != 0){
-					playDrawerToggleAnim(drawerArrowDrawable);
-					// Reference: http://stackoverflow.com/questions/5056734/android-force-edittext-to-remove-focus/16477251#16477251
-					search_bar_text_view.clearFocus();
-					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(search_bar_text_view.getWindowToken(), 0);
-				} else {
-					drawerLayout.openDrawer(GravityCompat.START);
-				}
+        final ImageView imageViewLeftAction = (ImageView) search_container.findViewById(R.id.left_action);
+        search_bar_text_view = (TextView) search_container.findViewById(R.id.search_bar_text);
+        final ImageView imageViewCloseButton = (ImageView) search_container.findViewById(R.id.clear_btn);
+        final ImageView imageViewSearchSettingsButton = (ImageView) search_container.findViewById(R.id.search_settings);
+        searchFiltersBadge = (BadgeTextView) search_container.findViewById(R.id.search_settings_badge);
+        searchFiltersBadge.setAutoShowHide(true);
 
 
+        imageViewLeftAction.setImageDrawable(drawerArrowDrawable);
+        imageViewLeftAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (search_bar_text_view.getText().length() > 0) {
+                    search_bar_text_view.setText("");
+                } else if (drawerArrowDrawable.getProgress() != 0) {
+                    playDrawerToggleAnim(drawerArrowDrawable);
+                    // Reference: http://stackoverflow.com/questions/5056734/android-force-edittext-to-remove-focus/16477251#16477251
+                    search_bar_text_view.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(search_bar_text_view.getWindowToken(), 0);
+                } else {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
 
 
-
-			}
-		});
-
+            }
+        });
 
 
+        search_bar_text_view.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-		search_bar_text_view.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-			}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 filterModel.setName(s);
 
                 filterCards();
 
-			}
+            }
 
-			@Override
-			public void afterTextChanged(Editable s) {
+            @Override
+            public void afterTextChanged(Editable s) {
 
-				if (s.length() > 0) {
-					imageViewCloseButton.setVisibility(View.VISIBLE);
-				} else {
-					imageViewCloseButton.setVisibility(View.GONE);
+                if (s.length() > 0) {
+                    imageViewCloseButton.setVisibility(View.VISIBLE);
+                } else {
+                    imageViewCloseButton.setVisibility(View.GONE);
 
-				}
-
-
-
-			}
-		});
+                }
 
 
-		imageViewCloseButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				search_bar_text_view.setText("");
-			}
-		});
+            }
+        });
 
 
-		imageViewSearchSettingsButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
+        imageViewCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search_bar_text_view.setText("");
+            }
+        });
+
+
+        imageViewSearchSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
 
 //                SearchSettingsFragment searchSettingsFragment = SearchSettingsFragment.newInstance();
 //                searchSettingsFragment.show(getSupportFragmentManager(), "search_settings_fragment");
 
-				// If the keyboard is present, hide it.
-				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(search_bar_text_view.getWindowToken(), 0);
+                // If the keyboard is present, hide it.
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(search_bar_text_view.getWindowToken(), 0);
 
-				// Open right navigation view.
-				drawerLayout.openDrawer(GravityCompat.END);
-
-
-			}
-		});
-
-		search_bar_text_view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-
-				if (hasFocus) {
-					// Only animate if we are showing the burger icon.
-					if (drawerArrowDrawable.getProgress() == 0.0)
-						playDrawerToggleAnim(drawerArrowDrawable);
-				}
-
-			}
-		});
+                // Open right navigation view.
+                drawerLayout.openDrawer(GravityCompat.END);
 
 
-	}
+            }
+        });
 
-	void filterCards() {
+        search_bar_text_view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (hasFocus) {
+                    // Only animate if we are showing the burger icon.
+                    if (drawerArrowDrawable.getProgress() == 0.0)
+                        playDrawerToggleAnim(drawerArrowDrawable);
+                }
+
+            }
+        });
+
+
+    }
+
+    void filterCards() {
 
         // If we are restoring, there is no need to filter now. The data will already be filtered out when the state was saved.
         if (restoring) {
@@ -406,91 +393,86 @@ public class VampiDroid extends AppCompatActivity
             fragment.filterCards(filterModel);
         }
 
-	}
+    }
 
 
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+
+        if (fragment instanceof CardsListFragment)
+            fragmentsToFilter2.add((CardsListFragment) fragment);
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(viewPagerAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (drawerArrowDrawable.getProgress() != 0) {
+            playDrawerToggleAnim(drawerArrowDrawable);
+            // Reference: http://stackoverflow.com/questions/5056734/android-force-edittext-to-remove-focus/16477251#16477251
+            search_bar_text_view.clearFocus();
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(search_bar_text_view.getWindowToken(), 0);
+
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        Log.d(TAG, "onOptionsItemSelected: ");
+
+        if (id == android.R.id.home) {
+
+            drawerLayout.openDrawer(GravityCompat.START);
+
+            return true;
+
+        } else if (id == R.id.action_settings) {  //noinspection SimplifiableIfStatement
+            return true;
+
+        } else if (id == R.id.action_search) {
+
+        }
 
 
+        return super.onOptionsItemSelected(item);
+    }
 
-	@Override
-	public void onAttachFragment(Fragment fragment) {
-		super.onAttachFragment(fragment);
-
-		if (fragment instanceof CardsListFragment)
-			fragmentsToFilter2.add((CardsListFragment) fragment);
-	}
-
-	private void setupViewPager(ViewPager viewPager) {
-		ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-		viewPager.setAdapter(viewPagerAdapter);
-	}
-
-	@Override
-	public void onBackPressed() {
-		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-		if (drawer.isDrawerOpen(GravityCompat.START)) {
-			drawer.closeDrawer(GravityCompat.START);
-		} else if (drawerArrowDrawable.getProgress() != 0){
-			playDrawerToggleAnim(drawerArrowDrawable);
-			// Reference: http://stackoverflow.com/questions/5056734/android-force-edittext-to-remove-focus/16477251#16477251
-			search_bar_text_view.clearFocus();
-			InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(search_bar_text_view.getWindowToken(), 0);
-
-		} else {
-			super.onBackPressed();
-		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-
-		Log.d(TAG, "onOptionsItemSelected: ");
-
-		if (id == android.R.id.home) {
-
-			drawerLayout.openDrawer(GravityCompat.START);
-
-			return true;
-
-		} else if (id == R.id.action_settings) {  //noinspection SimplifiableIfStatement
-			return true;
-
-		} else if (id == R.id.action_search) {
-
-		}
+    // Reference: http://stackoverflow.com/questions/26835209/appcompat-v7-toolbar-up-back-arrow-not-working
 
 
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
 
-		return super.onOptionsItemSelected(item);
-	}
+        boolean closeDrawer = true;
 
-	// Reference: http://stackoverflow.com/questions/26835209/appcompat-v7-toolbar-up-back-arrow-not-working
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
 
-
-
-	@SuppressWarnings("StatementWithEmptyBody")
-	@Override
-	public boolean onNavigationItemSelected(MenuItem item) {
-
-		boolean closeDrawer = true;
-
-		// Handle navigation view item clicks here.
-		int id = item.getItemId();
-
-		if (id == R.id.nav_camera) {
-			// Handle the camera action
-		} else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
 
         /*} else if (id == R.id.nav_slideshow) {
 
@@ -500,23 +482,22 @@ public class VampiDroid extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {*/
 
-		} else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_settings) {
             Intent launch = new Intent(this, SettingsActivity.class);
             startActivity(launch);
-			// Don't close the drawer when selecting settings.
-			// It was causing stuttering when starting the Settings activity.
-			closeDrawer = false;
+            // Don't close the drawer when selecting settings.
+            // It was causing stuttering when starting the Settings activity.
+            closeDrawer = false;
         }
 
 
-		if (closeDrawer) {
-			DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-			drawer.closeDrawer(GravityCompat.START);
-		}
+        if (closeDrawer) {
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+        }
 
-		return true;
-	}
-
+        return true;
+    }
 
 
 }

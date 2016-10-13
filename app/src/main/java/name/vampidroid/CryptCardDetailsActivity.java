@@ -63,7 +63,6 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         cardImage = (ImageView) findViewById(R.id.cardImage);
 
 
-
         cardImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,11 +140,9 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
     }
 
 
-
     private void setupCardData() {
 
         TextView txtCardText = (TextView) findViewById(R.id.cardText);
-
 
 
         long cardId = getIntent().getExtras().getLong("cardId");
@@ -155,7 +152,7 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         query = QUERY_CRYPT;
 
         SQLiteDatabase db = DatabaseHelper.getDatabase();
-        Cursor c = db.rawQuery(query, new String[] {String.valueOf(cardId)});
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(cardId)});
         c.moveToFirst();
 
         cardName = c.getString(0);
@@ -170,8 +167,6 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         cardAdvanced = c.getString(9);
 
         c.close();
-
-
 
 
         getSupportActionBar().setTitle(cardName);

@@ -23,7 +23,6 @@ import android.widget.TextView;
 public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsListViewAdapter.ViewHolder> {
 
 
-
     View.OnClickListener editDeckListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -39,7 +38,6 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
     public CryptCardsListViewAdapter(Context context, Cursor cursor) {
         super(cursor);
     }
-
 
 
     // Create new views (invoked by the layout manager)

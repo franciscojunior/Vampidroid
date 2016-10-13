@@ -74,7 +74,7 @@ public class BadgeTextView extends TextView {
                 setVisibility(VISIBLE);
             }
 
-            if (value == 0 ) {
+            if (value == 0) {
                 startAnimation(hideBadgeAnimation);
                 setVisibility(GONE);
                 return;

@@ -10,13 +10,13 @@ public class SplashScreen extends FragmentActivity {
     private static final String TAG = "SplashScreen";
 
     @Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
 
-		startActivity(new Intent(this, VampiDroid.class));
+        startActivity(new Intent(this, VampiDroid.class));
 
-		finish();
-	}
+        finish();
+    }
 
 }

@@ -32,7 +32,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
     public static final String DIRECTORY_CHOOSER_FRAGMENT_TAG = "directorychooser";
 
 
-
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.preferences);

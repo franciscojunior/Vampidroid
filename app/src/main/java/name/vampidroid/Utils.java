@@ -68,7 +68,7 @@ public class Utils {
     static void loadCardImageThumbnail(ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage) {
 
         cardImageView.setImageDrawable(null);
-        AsyncTask loadTask = (AsyncTask)cardImageView.getTag();
+        AsyncTask loadTask = (AsyncTask) cardImageView.getTag();
 
         if (loadTask != null) {
             loadTask.cancel(false);
@@ -131,11 +131,10 @@ public class Utils {
     }
 
 
-
     static void playDrawerToggleAnim(final DrawerArrowDrawable d) {
         float start = d.getProgress();
         float end = Math.abs(start - 1);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ValueAnimator offsetAnimator = ValueAnimator.ofFloat(start, end);
             offsetAnimator.setDuration(300);
             offsetAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -150,8 +149,7 @@ public class Utils {
                 }
             });
             offsetAnimator.start();
-        }
-        else
+        } else
             d.setProgress(end);
     }
 
@@ -256,14 +254,12 @@ public class Utils {
     }
 
 
-
     static void updateDisciplineImages(Context context, ImageView[] disciplineImageViews, String cardDisciplines) {
         new Utils.UpdateDisciplineImagesOperation(context, disciplineImageViews).execute(cardDisciplines);
     }
 
 
     private static class LoadImageOperation extends AsyncTask<Void, Void, Void> {
-
 
 
         private final ImageView cardImageView;
@@ -349,14 +345,13 @@ public class Utils {
     static class UpdateDisciplineImagesOperation extends AsyncTask<String, Void, String[]> {
 
 
-
         private static BitmapFactory.Options options = new BitmapFactory.Options();
 
         private Resources res;
 
         private ImageView[] imageViewsToUpdate;
 
-        static  {
+        static {
 
             options.inSampleSize = 4;
         }
@@ -407,9 +402,9 @@ public class Utils {
     static Activity getActivity(Context fromContext) {
         while (fromContext instanceof ContextWrapper) {
             if (fromContext instanceof Activity) {
-                return (Activity)fromContext;
+                return (Activity) fromContext;
             }
-            fromContext = ((ContextWrapper)fromContext).getBaseContext();
+            fromContext = ((ContextWrapper) fromContext).getBaseContext();
         }
         return null;
     }

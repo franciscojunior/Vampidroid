@@ -22,84 +22,82 @@ import name.vampidroid.DatabaseHelper.CardType;
 
 public class CardListCursorAdapter extends SimpleCursorAdapter {
 
-	private HashSet<Long> favoriteCards;
-	private CardType cardType;
+    private HashSet<Long> favoriteCards;
+    private CardType cardType;
 
-	public CardListCursorAdapter(CardType cardType, Context context, int layout, Cursor c, String[] from, int[] to) {
-		super(context, layout, c, from, to);
-		// TODO Auto-generated constructor stub
+    public CardListCursorAdapter(CardType cardType, Context context, int layout, Cursor c, String[] from, int[] to) {
+        super(context, layout, c, from, to);
+        // TODO Auto-generated constructor stub
 
-		switch (cardType) {
+        switch (cardType) {
 
-		case CRYPT:
-			this.favoriteCards = DatabaseHelper.getFavoriteCryptCards();
-			break;
+            case CRYPT:
+                this.favoriteCards = DatabaseHelper.getFavoriteCryptCards();
+                break;
 
-		case LIBRARY:
-			this.favoriteCards = DatabaseHelper.getFavoriteLibraryCards();
-			break;
-		}
+            case LIBRARY:
+                this.favoriteCards = DatabaseHelper.getFavoriteLibraryCards();
+                break;
+        }
 
-		this.cardType = cardType;
+        this.cardType = cardType;
 
         fillImageViewsDrawablesMap(context);
-	}
+    }
 
-	@Override
-	public View newView(final Context context, Cursor cursor, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		View v = super.newView(context, cursor, parent);
+    @Override
+    public View newView(final Context context, Cursor cursor, ViewGroup parent) {
+        // TODO Auto-generated method stub
+        View v = super.newView(context, cursor, parent);
 
-		ViewHolder vh = new ViewHolder();
-		vh.favoriteImageView = (ImageView) v.findViewById(R.id.imgFavorite);
+        ViewHolder vh = new ViewHolder();
+        vh.favoriteImageView = (ImageView) v.findViewById(R.id.imgFavorite);
 
-		vh.favoriteImageView.setOnClickListener(new OnClickListener() {
+        vh.favoriteImageView.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
 
-				Long cardid = (Long) v.getTag();
+                Long cardid = (Long) v.getTag();
 
-				if (favoriteCards.contains(cardid)) {
+                if (favoriteCards.contains(cardid)) {
 
-					((ImageView) v).setImageResource(R.drawable.btn_star_big_off);
+                    ((ImageView) v).setImageResource(R.drawable.btn_star_big_off);
 
-					DatabaseHelper.removeFavoriteCard(cardid, cardType);
+                    DatabaseHelper.removeFavoriteCard(cardid, cardType);
 
-					favoriteCards.remove(cardid);
-				}
+                    favoriteCards.remove(cardid);
+                } else {
+                    ((ImageView) v).setImageResource(R.drawable.btn_star_big_on);
+                    DatabaseHelper.addFavoriteCard(cardid, cardType);
 
-				else {
-					((ImageView) v).setImageResource(R.drawable.btn_star_big_on);
-					DatabaseHelper.addFavoriteCard(cardid, cardType);
+                    favoriteCards.add(cardid);
+                }
 
-					favoriteCards.add(cardid);
-				}
+            }
+        });
 
-			}
-		});
+        vh.editDeckCardImageView = (ImageView) v.findViewById(R.id.imgEditDeckCard);
 
-		vh.editDeckCardImageView = (ImageView) v.findViewById(R.id.imgEditDeckCard);
+        vh.editDeckCardImageView.setOnClickListener(new OnClickListener() {
 
-		vh.editDeckCardImageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
+                Long cardid = (Long) v.getTag();
 
-				Long cardid = (Long) v.getTag();
+                Intent data = new Intent(mContext, AddRemoveDeckCard.class);
+                data.putExtra("CardType", cardType);
+                data.putExtra("CardId", cardid);
 
-				Intent data = new Intent(mContext, AddRemoveDeckCard.class);
-				data.putExtra("CardType", cardType);
-				data.putExtra("CardId", cardid);
+                mContext.startActivity(data);
 
-				mContext.startActivity(data);
+            }
+        });
 
-			}
-		});
-
-		vh.txtCardName = (TextView) v.findViewById(R.id.txtCardName);
+        vh.txtCardName = (TextView) v.findViewById(R.id.txtCardName);
 
 
         vh.disciplineImageViews[0] = (ImageView) v.findViewById(R.id.imgDis1);
@@ -111,46 +109,46 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
         vh.disciplineImageViews[6] = (ImageView) v.findViewById(R.id.imgDis7);
         vh.disciplineImageViews[7] = (ImageView) v.findViewById(R.id.imgDis8);
 
-		v.setTag(vh);
+        v.setTag(vh);
 
-		return v;
+        return v;
 
-	}
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // TODO Auto-generated method stub
 
-		View v = super.getView(position, convertView, parent);
+        View v = super.getView(position, convertView, parent);
 
-		Long cardid = Long.valueOf(getItemId(position));
+        Long cardid = Long.valueOf(getItemId(position));
 
-		ViewHolder viewHolder = (ViewHolder) v.getTag();
+        ViewHolder viewHolder = (ViewHolder) v.getTag();
 
-		if (favoriteCards.contains(cardid))
-			viewHolder.favoriteImageView.setImageResource(R.drawable.btn_star_big_on);
-		else
-			viewHolder.favoriteImageView.setImageResource(R.drawable.btn_star_big_off);
+        if (favoriteCards.contains(cardid))
+            viewHolder.favoriteImageView.setImageResource(R.drawable.btn_star_big_on);
+        else
+            viewHolder.favoriteImageView.setImageResource(R.drawable.btn_star_big_off);
 
-		// Set images tags to cardid so we can find it later when we click them.
-		viewHolder.favoriteImageView.setTag(cardid);
-		viewHolder.editDeckCardImageView.setTag(cardid);
+        // Set images tags to cardid so we can find it later when we click them.
+        viewHolder.favoriteImageView.setTag(cardid);
+        viewHolder.editDeckCardImageView.setTag(cardid);
 
-		return v;
+        return v;
 
-	}
+    }
 
-	@Override
-	public void bindView(View view, Context context, Cursor cursor) {
-		// TODO Auto-generated method stub
-		super.bindView(view, context, cursor);
+    @Override
+    public void bindView(View view, Context context, Cursor cursor) {
+        // TODO Auto-generated method stub
+        super.bindView(view, context, cursor);
 
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
-		int advColumnIndex = cursor.getColumnIndex("Adv");
-		if (advColumnIndex != -1 && cursor.getString(advColumnIndex).length() > 0) {
-			viewHolder.txtCardName.setText("Adv. " + viewHolder.txtCardName.getText());
-		}
+        int advColumnIndex = cursor.getColumnIndex("Adv");
+        if (advColumnIndex != -1 && cursor.getString(advColumnIndex).length() > 0) {
+            viewHolder.txtCardName.setText("Adv. " + viewHolder.txtCardName.getText());
+        }
 
         if (cardType.equals(CardType.CRYPT)) {
 
@@ -170,10 +168,10 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
 
     }
 
-	private final static class ViewHolder {
-		public ImageView favoriteImageView;
-		public ImageView editDeckCardImageView;
-		public TextView txtCardName;
+    private final static class ViewHolder {
+        public ImageView favoriteImageView;
+        public ImageView editDeckCardImageView;
+        public TextView txtCardName;
 
         // Discipline images
 
@@ -194,7 +192,7 @@ public class CardListCursorAdapter extends SimpleCursorAdapter {
             }
         }
 
-	}
+    }
 
 
     public static final HashMap<String, Drawable> imageViewsDrawablesMap = new HashMap<>();

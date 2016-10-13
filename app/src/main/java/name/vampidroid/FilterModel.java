@@ -53,7 +53,6 @@ public class FilterModel implements Parcelable {
     }
 
 
-
     public String getGroupsQuery() {
 
 
@@ -185,7 +184,7 @@ public class FilterModel implements Parcelable {
 
             for (CharSequence cardType : cardTypes) {
 
-                    result.append(TYPE_FILTER.replace("?", cardType)).append(" OR ");
+                result.append(TYPE_FILTER.replace("?", cardType)).append(" OR ");
             }
 
 
@@ -394,7 +393,7 @@ public class FilterModel implements Parcelable {
         }
 
 
-        private CryptDiscipline (Parcel in) {
+        private CryptDiscipline(Parcel in) {
 
             name = in.readString();
             basic = in.readByte() != 0;

@@ -64,8 +64,7 @@ public class CryptCapacitySeekBars extends LinearLayout {
             public boolean onTouch(View v, MotionEvent event) {
 
                 int action = event.getAction();
-                switch (action)
-                {
+                switch (action) {
                     case MotionEvent.ACTION_DOWN:
                         // Disallow Drawer to intercept touch events.
                         v.getParent().requestDisallowInterceptTouchEvent(true);

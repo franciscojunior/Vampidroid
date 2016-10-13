@@ -19,7 +19,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     private static final String TAG = "ViewPagerAdapter";
 
     private final Object[] fragments = new Object[2];
-    private final String[] fragmentTitles = new String[] {"Crypt", "Library"};
+    private final String[] fragmentTitles = new String[]{"Crypt", "Library"};
 
     public ViewPagerAdapter(FragmentManager manager) {
         super(manager);
@@ -43,12 +43,14 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
         fragments[position] = super.instantiateItem(container, position);
 
-        ((Fragment)fragments[position]).setRetainInstance(true);
+        ((Fragment) fragments[position]).setRetainInstance(true);
 
         return fragments[position];
     }
 
-    public Object getCachedItem(int position) {return fragments[position];}
+    public Object getCachedItem(int position) {
+        return fragments[position];
+    }
 
 
     @Override
