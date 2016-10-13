@@ -1,4 +1,4 @@
-package name.vampidroid;
+package name.vampidroid.ui.widget;
 
 
 import android.content.Context;

@@ -116,7 +116,7 @@
         android:text="x"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <name.vampidroid.BlockingRequestLayoutImageView
+    <name.vampidroid.ui.widget.BlockingRequestLayoutImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:id="@+id/imgDis1"
@@ -127,7 +127,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp" />
 
-    <name.vampidroid.BlockingRequestLayoutImageView
+    <name.vampidroid.ui.widget.BlockingRequestLayoutImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:id="@+id/imgDis2"
@@ -136,7 +136,7 @@
         android:layout_toEndOf="@+id/imgDis1"
         android:layout_marginLeft="5dp" />
 
-    <name.vampidroid.BlockingRequestLayoutImageView
+    <name.vampidroid.ui.widget.BlockingRequestLayoutImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:id="@+id/imgDis3"
@@ -145,7 +145,7 @@
         android:layout_toEndOf="@+id/imgDis2"
         android:layout_marginLeft="5dp" />
 
-    <name.vampidroid.BlockingRequestLayoutImageView
+    <name.vampidroid.ui.widget.BlockingRequestLayoutImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:id="@+id/imgDis4"
@@ -154,7 +154,7 @@
         android:layout_toEndOf="@+id/imgDis3"
         android:layout_marginLeft="5dp" />
 
-    <name.vampidroid.BlockingRequestLayoutImageView
+    <name.vampidroid.ui.widget.BlockingRequestLayoutImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:id="@+id/imgDis5"
@@ -163,7 +163,7 @@
         android:layout_toEndOf="@+id/imgDis4"
         android:layout_marginLeft="5dp" />
 
-    <name.vampidroid.BlockingRequestLayoutImageView
+    <name.vampidroid.ui.widget.BlockingRequestLayoutImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:id="@+id/imgDis6"
@@ -172,7 +172,7 @@
         android:layout_toEndOf="@+id/imgDis5"
         android:layout_marginLeft="5dp" />
 
-    <name.vampidroid.BlockingRequestLayoutImageView
+    <name.vampidroid.ui.widget.BlockingRequestLayoutImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:id="@+id/imgDis7"
@@ -181,7 +181,7 @@
         android:layout_toEndOf="@+id/imgDis6"
         android:layout_marginLeft="5dp" />
 
-    <name.vampidroid.BlockingRequestLayoutImageView
+    <name.vampidroid.ui.widget.BlockingRequestLayoutImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:id="@+id/imgDis8"
