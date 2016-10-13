@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -46,10 +47,6 @@ public class CardFilters extends LinearLayout {
     int numberOfCardTypesFiltersApplied;
 
     private SparseArray<Parcelable> container;
-    BadgeTextView cryptDisciplinesBagde;
-    BadgeTextView clansBagde;
-    BadgeTextView cardTypesBagde;
-    BadgeTextView libraryDisciplinesBagde;
 
     public interface OnCardFiltersChangeListener {
 
@@ -121,19 +118,15 @@ public class CardFilters extends LinearLayout {
 
         cryptDisciplinesHeader = findViewById(R.id.disciplinesHeader);
         cryptDisciplinesLayout = findViewById(R.id.disciplinesLayout);
-        cryptDisciplinesBagde = (BadgeTextView) findViewById(R.id.textCryptDisciplinesBadge);
 
         clansHeader = findViewById(R.id.clansHeader);
         clansLayout = findViewById(R.id.clansLayout);
-        clansBagde = (BadgeTextView) findViewById(R.id.textClansBadge);
 
         cardTypesHeader = findViewById(R.id.cardTypesHeader);
         cardTypesLayout = findViewById(R.id.cardTypesLayout);
-        cardTypesBagde = (BadgeTextView) findViewById(R.id.textCardTypesBadge);
 
         libraryDisciplinesHeader = findViewById(R.id.libraryDisciplinesHeader);
         libraryDisciplinesLayout = findViewById(R.id.libraryDisciplinesLayout);
-        libraryDisciplinesBagde = (BadgeTextView) findViewById(R.id.textLibraryDisciplinesBadge);
 
         setupGroupsHandler();
 
@@ -155,13 +148,6 @@ public class CardFilters extends LinearLayout {
         setupExpandLayout(cardTypesHeader, cardTypesLayout, (ImageView) findViewById(R.id.imgCardTypesLayoutArrow));
 
         setupExpandLayout(libraryDisciplinesHeader, libraryDisciplinesLayout, (ImageView) findViewById(R.id.imgLibraryDisciplinesLayoutArrow));
-
-
-        cryptDisciplinesBagde.setAutoShowHide(true);
-        clansBagde.setAutoShowHide(true);
-        cardTypesBagde.setAutoShowHide(true);
-        libraryDisciplinesBagde.setAutoShowHide(true);
-
 
     }
 
@@ -254,6 +240,15 @@ public class CardFilters extends LinearLayout {
 //    }
 
 
+
+    void updateFilterHeaderStatus(TextView headerText, int value) {
+        if (value > 0) {
+            headerText.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+        } else {
+            headerText.setTextColor(ContextCompat.getColor(getContext(), android.R.color.black));
+        }
+
+    }
     //    Reference: http://stackoverflow.com/questions/11358121/how-to-handle-the-checkbox-ischecked-and-unchecked-event-in-android
     private void setupGroupsHandler() {
 
@@ -306,12 +301,16 @@ public class CardFilters extends LinearLayout {
     private void setupCryptDisciplineHandlerHelper(CheckBox cryptDisciplineCheckBox, final boolean isBasic) {
 
 
+        final TextView cryptHeaderText = (TextView) findViewById(R.id.textDisciplines);
+
         CompoundButton.OnCheckedChangeListener cryptDisciplineHandler = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton checkbox, boolean isChecked) {
 
                 numberOfCryptDisciplineFiltersApplied += isChecked ? 1 : -1;
-                cryptDisciplinesBagde.setNumericText(numberOfCryptDisciplineFiltersApplied);
+
+//                cryptDisciplinesBagde.setNumericText(numberOfCryptDisciplineFiltersApplied);
+                updateFilterHeaderStatus(cryptHeaderText, numberOfCryptDisciplineFiltersApplied);
 
                 // TODO: 01/10/16 Change to use a tag
                 String discipline = getResources().getResourceEntryName(checkbox.getId());
@@ -329,6 +328,8 @@ public class CardFilters extends LinearLayout {
 
     private void setupCardTypesHandler() {
 
+        final TextView cardTypesHeaderText = (TextView) findViewById(R.id.textCardTypes);
+
         setupTextCheckBoxRowHandler((ViewGroup) cardTypesLayout, new OnTextCheckBoxRowHandlerClickListener() {
             @Override
             public void onClick(TextView rowText, CheckBox rowCheckBox) {
@@ -336,7 +337,7 @@ public class CardFilters extends LinearLayout {
 
                 numberOfCardTypesFiltersApplied += rowCheckBox.isChecked() ? 1 : -1;
 
-                cardTypesBagde.setNumericText(numberOfCardTypesFiltersApplied);
+                updateFilterHeaderStatus(cardTypesHeaderText, numberOfCardTypesFiltersApplied);
 
                 if (cardFiltersChangeListener != null) {
                     cardFiltersChangeListener.onCardTypeChanged(rowText.getText().toString(), rowCheckBox.isChecked());
@@ -346,6 +347,9 @@ public class CardFilters extends LinearLayout {
     }
 
     private void setupClansHandler() {
+
+        final TextView clansHeaderText = (TextView) findViewById(R.id.textClans);
+
         setupTextCheckBoxRowHandler((ViewGroup) clansLayout, new OnTextCheckBoxRowHandlerClickListener() {
             @Override
             public void onClick(TextView rowText, CheckBox rowCheckBox) {
@@ -353,7 +357,7 @@ public class CardFilters extends LinearLayout {
 
                 numberOfClansFiltersApplied += rowCheckBox.isChecked() ? 1 : -1;
 
-                clansBagde.setNumericText(numberOfClansFiltersApplied);
+                updateFilterHeaderStatus(clansHeaderText, numberOfClansFiltersApplied);
 
                 if (cardFiltersChangeListener != null) {
                     cardFiltersChangeListener.onClansChanged(rowText.getText().toString(), rowCheckBox.isChecked());
@@ -398,6 +402,9 @@ public class CardFilters extends LinearLayout {
 
     private void setupLibraryDisciplinesHandler() {
 
+
+        final TextView libraryDisciplinesHeaderText = (TextView) findViewById(R.id.textLibraryDisciplines);
+
         setupTextCheckBoxRowHandler((ViewGroup) libraryDisciplinesLayout, new OnTextCheckBoxRowHandlerClickListener() {
             @Override
             public void onClick(TextView rowText, CheckBox rowCheckBox) {
@@ -406,7 +413,7 @@ public class CardFilters extends LinearLayout {
                 numberOfLibraryDisciplineFiltersApplied += rowCheckBox.isChecked() ? 1 : -1;
 
 
-                libraryDisciplinesBagde.setNumericText(numberOfLibraryDisciplineFiltersApplied);
+                updateFilterHeaderStatus(libraryDisciplinesHeaderText, numberOfLibraryDisciplineFiltersApplied);
 
                 if (cardFiltersChangeListener != null) {
                     cardFiltersChangeListener.onLibraryDisciplineChanged(rowText.getText().toString(), rowCheckBox.isChecked());

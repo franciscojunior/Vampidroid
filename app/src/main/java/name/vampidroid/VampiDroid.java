@@ -25,7 +25,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,7 +34,6 @@ import java.util.List;
 
 import name.vampidroid.fragments.CardsListFragment;
 import name.vampidroid.fragments.SettingsFragment;
-import name.vampidroid.ui.widget.BadgeTextView;
 import name.vampidroid.ui.widget.CardFilters;
 
 import static name.vampidroid.Utils.playDrawerToggleAnim;
@@ -66,8 +64,8 @@ public class VampiDroid extends AppCompatActivity
     FilterModel filterModel = new FilterModel();
 
     boolean restoring = false;
-    BadgeTextView searchFiltersBadge;
     CardFilters cardFilters;
+    private ImageView imageViewSearchSettingsButton;
 
 
     @Override
@@ -172,7 +170,7 @@ public class VampiDroid extends AppCompatActivity
             @Override
             public void onGroupsChanged(int group, boolean isChecked) {
                 filterModel.setGroup(group, isChecked);
-                searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+                updateSearchSettingsButtonState();
                 filterCards();
             }
 
@@ -180,7 +178,7 @@ public class VampiDroid extends AppCompatActivity
             public void onCryptDisciplineChanged(String discipline, boolean isBasic, boolean isChecked) {
 
                 filterModel.setDiscipline(discipline, isBasic, isChecked);
-                searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+                updateSearchSettingsButtonState();
                 filterCards();
 
             }
@@ -188,14 +186,14 @@ public class VampiDroid extends AppCompatActivity
             @Override
             public void onClansChanged(String clan, boolean isChecked) {
                 filterModel.setClan(clan, isChecked);
-                searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+                updateSearchSettingsButtonState();
                 filterCards();
             }
 
             @Override
             public void onCardTypeChanged(String cardType, boolean isChecked) {
                 filterModel.setCardType(cardType, isChecked);
-                searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+                updateSearchSettingsButtonState();
                 filterCards();
             }
 
@@ -203,7 +201,7 @@ public class VampiDroid extends AppCompatActivity
             public void onLibraryDisciplineChanged(String discipline, boolean isChecked) {
 
                 filterModel.setLibraryDiscipline(discipline, isChecked);
-                searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+                updateSearchSettingsButtonState();
                 filterCards();
             }
 
@@ -212,12 +210,21 @@ public class VampiDroid extends AppCompatActivity
 
                 filterModel.setCapacityMin(minCapacity);
                 filterModel.setCapacityMax(maxCapacity);
-                searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+                updateSearchSettingsButtonState();
                 filterCards();
             }
 
 
         });
+
+    }
+
+    void updateSearchSettingsButtonState() {
+        if (cardFilters.getNumberOfFiltersApplied() > 0) {
+            imageViewSearchSettingsButton.setColorFilter(ContextCompat.getColor(VampiDroid.this, R.color.colorAccent));
+        } else {
+            imageViewSearchSettingsButton.clearColorFilter();
+        }
 
     }
 
@@ -270,7 +277,7 @@ public class VampiDroid extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.nav_camera);
 
-        searchFiltersBadge.setNumericText(cardFilters.getNumberOfFiltersApplied());
+        updateSearchSettingsButtonState();
 
     }
 
@@ -279,10 +286,7 @@ public class VampiDroid extends AppCompatActivity
         final ImageView imageViewLeftAction = (ImageView) search_container.findViewById(R.id.left_action);
         search_bar_text_view = (TextView) search_container.findViewById(R.id.search_bar_text);
         final ImageView imageViewCloseButton = (ImageView) search_container.findViewById(R.id.clear_btn);
-        final ImageView imageViewSearchSettingsButton = (ImageView) search_container.findViewById(R.id.search_settings);
-        searchFiltersBadge = (BadgeTextView) search_container.findViewById(R.id.search_settings_badge);
-        searchFiltersBadge.setAutoShowHide(true);
-
+        imageViewSearchSettingsButton = (ImageView) search_container.findViewById(R.id.search_settings);
 
         imageViewLeftAction.setImageDrawable(drawerArrowDrawable);
         imageViewLeftAction.setOnClickListener(new View.OnClickListener() {
