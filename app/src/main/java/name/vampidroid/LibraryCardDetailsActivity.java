@@ -112,12 +112,12 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
-        fab.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                fab.show();
-            }
-        }, 300);
+//        fab.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                fab.show();
+//            }
+//        }, 300);
 
     }
 
