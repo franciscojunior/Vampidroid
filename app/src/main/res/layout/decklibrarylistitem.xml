@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<name.vampidroid.FixIssue59368RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
@@ -93,4 +93,4 @@
         android:text="x"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-</name.vampidroid.FixIssue59368RelativeLayout>
+</RelativeLayout>
