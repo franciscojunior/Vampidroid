@@ -1,8 +1,10 @@
 package name.vampidroid;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -41,7 +43,16 @@ public class CardImageActivity extends AppCompatActivity {
 
         Bundle parameters = getIntent().getExtras();
 
-        Utils.loadCardImage(imageView, parameters.getString("cardImageFileName"), parameters.getInt("resIdFallbackCardImage"));
+        // Reference: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
+        supportPostponeEnterTransition();
+
+        Utils.loadCardImage(imageView, parameters.getString("cardImageFileName"), parameters.getInt("resIdFallbackCardImage"), new Utils.EmptyLoadCardImageAsync() {
+            @Override
+            public void onImageLoaded(BitmapDrawable image, Palette palette) {
+
+                supportStartPostponedEnterTransition();
+            }
+        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             defaultUIOptions = getWindow().getDecorView().getSystemUiVisibility();
