@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +56,7 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
         String cardName = cursor.getString(1);
 
         viewHolder.cardId = cursor.getLong(0);
-        viewHolder.txtInitialCardText.setText(cursor.getString(4));
+        viewHolder.txtCardClan.setText(cursor.getString(4));
         viewHolder.txtCardName.setText(cardName);
         viewHolder.txtCardCost.setText(cursor.getString(3));
         viewHolder.txtCardExtraInformation.setText(cursor.getString(2));
@@ -72,7 +71,7 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
-        public TextView txtInitialCardText;
+        public TextView txtCardClan;
         public TextView txtCardName;
         public TextView txtCardExtraInformation;
         public TextView txtCardCost;
@@ -85,7 +84,7 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
         public ViewHolder(View v) {
             super(v);
 
-            txtInitialCardText = (TextView) v.findViewById(R.id.txtCardInitialText);
+            txtCardClan = (TextView) v.findViewById(R.id.txtCardClan);
             txtCardName = (TextView) v.findViewById(R.id.txtCardName);
             txtCardExtraInformation = (TextView) v.findViewById(R.id.txtCardExtraInformation);
             txtCardCost = (TextView) v.findViewById(R.id.txtCardCost);

@@ -43,7 +43,7 @@ public class DatabaseHelper {
     // public static final String ALL_FROM_CRYPT_QUERY =
     // "select _id, case when length(Adv) > 0 then 'Adv.' || ' ' || Name else Name end as Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText, _Group from crypt where 1=1";
 
-    public static final String ALL_FROM_CRYPT_QUERY = "select _id, Name, Disciplines, Capacity, substr(CardText, 1, 40) as InitialCardText, _Group, Adv from crypt where 1=1";
+    public static final String ALL_FROM_CRYPT_QUERY = "select _id, Name, Disciplines, Capacity, Clan, _Group, Adv from crypt where 1=1";
 
     public static final String[] ALL_FROM_CRYPT_QUERY_AS_COLUMNS = new String[]{"_id", "Name", "Disciplines",
             "Capacity", "substr(CardText, 1, 40) as InitialCardText"};
