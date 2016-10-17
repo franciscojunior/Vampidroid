@@ -162,6 +162,11 @@ public class CryptCapacitySeekBars extends LinearLayout {
         externalSeekBarChangeListenerMax = listener;
     }
 
+    public void reset() {
+        seekBarMin.setProgress(0);
+        seekBarMax.setProgress(seekBarMax.getMax());
+    }
+
 
     public int getMinSeekBarValue() {
         return seekBarMin.getProgress() + 1; // zero based.

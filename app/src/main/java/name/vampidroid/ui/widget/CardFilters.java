@@ -47,6 +47,10 @@ public class CardFilters extends LinearLayout {
     int numberOfCardTypesFiltersApplied;
 
     private SparseArray<Parcelable> container;
+    private CryptCapacitySeekBars cryptCapacitySeekBars;
+
+
+    private boolean isResetting = false;
 
     public interface OnCardFiltersChangeListener {
 
@@ -61,6 +65,8 @@ public class CardFilters extends LinearLayout {
         void onLibraryDisciplineChanged(String discipline, boolean isChecked);
 
         void onCapacitiesChanged(int minCapacity, int maxCapacity);
+
+        void onReset();
     }
 
 
@@ -152,7 +158,7 @@ public class CardFilters extends LinearLayout {
     }
 
     private void setupCapacitiesHandler() {
-        final CryptCapacitySeekBars cryptCapacitySeekBars = (CryptCapacitySeekBars) findViewById(R.id.crypt_capacity_seekbars);
+        cryptCapacitySeekBars = (CryptCapacitySeekBars) findViewById(R.id.crypt_capacity_seekbars);
 
         SeekBar.OnSeekBarChangeListener cryptSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
 
@@ -168,7 +174,7 @@ public class CardFilters extends LinearLayout {
 
                 if (!fromUser && !trackingTouchStarted) {
                     // The progress was changed because of a state restore. Report this change.
-                    if (cardFiltersChangeListener != null) {
+                    if (cardFiltersChangeListener != null & !isResetting) {
                         cardFiltersChangeListener.onCapacitiesChanged(cryptCapacitySeekBars.getMinSeekBarValue(), cryptCapacitySeekBars.getMaxSeekBarValue());
                     }
                 }
@@ -184,7 +190,7 @@ public class CardFilters extends LinearLayout {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                if (cardFiltersChangeListener != null) {
+                if (cardFiltersChangeListener != null && !isResetting) {
                     cardFiltersChangeListener.onCapacitiesChanged(cryptCapacitySeekBars.getMinSeekBarValue(), cryptCapacitySeekBars.getMaxSeekBarValue());
                 }
                 trackingTouchStarted = false;
@@ -259,8 +265,9 @@ public class CardFilters extends LinearLayout {
                 Log.d(TAG, "onCheckedChanged() called with: checkbox = [" + checkbox + "], isChecked = [" + isChecked + "]");
 
                 numberOfGroupFiltersApplied += isChecked ? 1 : -1;
+                Log.d(TAG, "onCheckedChanged: numberOfGroupFiltersApplied:" + numberOfGroupFiltersApplied);
 
-                if (cardFiltersChangeListener != null) {
+                if (cardFiltersChangeListener != null && !isResetting) {
                     cardFiltersChangeListener.onGroupsChanged(Integer.parseInt(checkbox.getText().toString()), isChecked);
                 }
 
@@ -309,14 +316,13 @@ public class CardFilters extends LinearLayout {
 
                 numberOfCryptDisciplineFiltersApplied += isChecked ? 1 : -1;
 
-//                cryptDisciplinesBagde.setNumericText(numberOfCryptDisciplineFiltersApplied);
                 updateFilterHeaderStatus(cryptHeaderText, numberOfCryptDisciplineFiltersApplied);
 
                 // TODO: 01/10/16 Change to use a tag
                 String discipline = getResources().getResourceEntryName(checkbox.getId());
                 discipline = discipline.substring(discipline.length() - 3);
 
-                if (cardFiltersChangeListener != null) {
+                if (cardFiltersChangeListener != null && !isResetting) {
                     cardFiltersChangeListener.onCryptDisciplineChanged(discipline, isBasic, isChecked);
                 }
 
@@ -339,7 +345,7 @@ public class CardFilters extends LinearLayout {
 
                 updateFilterHeaderStatus(cardTypesHeaderText, numberOfCardTypesFiltersApplied);
 
-                if (cardFiltersChangeListener != null) {
+                if (cardFiltersChangeListener != null && !isResetting) {
                     cardFiltersChangeListener.onCardTypeChanged(rowText.getText().toString(), rowCheckBox.isChecked());
                 }
             }
@@ -359,46 +365,13 @@ public class CardFilters extends LinearLayout {
 
                 updateFilterHeaderStatus(clansHeaderText, numberOfClansFiltersApplied);
 
-                if (cardFiltersChangeListener != null) {
+                if (cardFiltersChangeListener != null && !isResetting) {
                     cardFiltersChangeListener.onClansChanged(rowText.getText().toString(), rowCheckBox.isChecked());
                 }
             }
         });
     }
 
-//
-//    private void setupLibraryDisciplinesHandler2() {
-//
-//
-//        ViewGroup libraryDisciplinesContainer = (ViewGroup) findViewById(R.id.libraryDisciplinesLayout);
-//
-//        for (int i = 0; i < libraryDisciplinesContainer.getChildCount(); i++) {
-//            ViewGroup libraryDisciplineRow = (ViewGroup) libraryDisciplinesContainer.getChildAt(i);
-//
-//            final TextView libraryDisciplineText = (TextView) libraryDisciplineRow.getChildAt(0);
-//            final CheckBox libraryDisciplineCheckbox = (CheckBox) libraryDisciplineRow.getChildAt(1);
-//
-//
-//            libraryDisciplineRow.setOnClickListener(new OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    libraryDisciplineCheckbox.toggle();
-//
-//                    numberOfLibraryDisciplineFiltersApplied += libraryDisciplineCheckbox.isChecked() ? 1 : -1;
-//
-//
-//                    libraryDisciplinesBagde.setNumericText(numberOfLibraryDisciplineFiltersApplied);
-//
-//                    if (cardFiltersChangeListener != null) {
-//                        cardFiltersChangeListener.onLibraryDisciplineChanged(libraryDisciplineText.getText().toString(), libraryDisciplineCheckbox.isChecked());
-//                    }
-//
-//                }
-//            });
-//
-//        }
-//
-//    }
 
     private void setupLibraryDisciplinesHandler() {
 
@@ -415,7 +388,7 @@ public class CardFilters extends LinearLayout {
 
                 updateFilterHeaderStatus(libraryDisciplinesHeaderText, numberOfLibraryDisciplineFiltersApplied);
 
-                if (cardFiltersChangeListener != null) {
+                if (cardFiltersChangeListener != null && !isResetting) {
                     cardFiltersChangeListener.onLibraryDisciplineChanged(rowText.getText().toString(), rowCheckBox.isChecked());
                 }
             }
@@ -507,5 +480,51 @@ public class CardFilters extends LinearLayout {
 
     }
 
+
+    public void clearFilters() {
+
+        isResetting = true;
+
+        resetChildCheckboxes(this);
+        cryptCapacitySeekBars.reset();
+
+        numberOfGroupFiltersApplied = 0;
+        numberOfCapacityFiltersApplied = 0;
+        numberOfCryptDisciplineFiltersApplied = 0;
+        numberOfLibraryDisciplineFiltersApplied = 0;
+        numberOfClansFiltersApplied = 0;
+        numberOfCardTypesFiltersApplied = 0;
+
+
+        updateFilterHeaderStatus((TextView) findViewById(R.id.textClans), 0);
+        updateFilterHeaderStatus((TextView) findViewById(R.id.textCardTypes), 0);
+        updateFilterHeaderStatus((TextView) findViewById(R.id.textLibraryDisciplines), 0);
+
+
+        isResetting = false;
+
+        if (cardFiltersChangeListener != null) {
+            cardFiltersChangeListener.onReset();
+        }
+
+    }
+
+    private void resetChildCheckboxes(ViewGroup viewGroup) {
+
+        int viewGroupChildCount = viewGroup.getChildCount();
+        for (int i = 0; i < viewGroupChildCount; i++) {
+            if (viewGroup.getChildAt(i) instanceof ViewGroup) {
+                resetChildCheckboxes((ViewGroup) viewGroup.getChildAt(i));
+            }
+
+            if (viewGroup.getChildAt(i) instanceof CheckBox) {
+                CheckBox checkBox = (CheckBox) viewGroup.getChildAt(i);
+                checkBox.setChecked(false);
+            }
+
+        }
+    }
+
 }
+
 

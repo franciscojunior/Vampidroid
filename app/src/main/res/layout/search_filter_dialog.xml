@@ -32,35 +32,6 @@
         </name.vampidroid.ui.widget.CardFilters>
 
     </ScrollView>
-    <!--<android.support.percent.PercentRelativeLayout-->
-    <!--android:id="@+id/linearLayout2"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:layout_alignParentLeft="true"-->
-    <!--android:layout_alignParentStart="true"-->
-    <!--android:gravity="bottom"-->
-    <!--android:orientation="horizontal"-->
-    <!--app:layout_heightPercent="10%">-->
-
-    <!--<Button-->
-    <!--android:id="@+id/button"-->
-    <!--style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="Save filter"-->
-    <!--app:layout_widthPercent="50%" />-->
-
-    <!--<Button-->
-    <!--android:id="@+id/button2"-->
-    <!--style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_toRightOf="@id/button"-->
-    <!--android:text="Clear filter"-->
-    <!--app:layout_widthPercent="50%" />-->
-    <!--</android.support.percent.PercentRelativeLayout>-->
-
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -68,20 +39,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
-        <!--<Button-->
-        <!--android:id="@+id/button"-->
-        <!--style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Save filter"-->
-        <!--android:layout_weight="1" />-->
-
         <Button
             android:id="@+id/button2"
             style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
+            android:onClick="clearFilters"
             android:layout_weight="1"
             android:text="Clear filter" />
     </LinearLayout>

@@ -214,6 +214,13 @@ public class VampiDroid extends AppCompatActivity
                 filterCards();
             }
 
+            @Override
+            public void onReset() {
+                filterModel = new FilterModel();
+                updateSearchSettingsButtonState();
+                filterCards();
+            }
+
 
         });
 
@@ -504,6 +511,11 @@ public class VampiDroid extends AppCompatActivity
     }
 
 
+    public void clearFilters(View v) {
+
+        cardFilters.clearFilters();
+
+    }
 }
 
 
