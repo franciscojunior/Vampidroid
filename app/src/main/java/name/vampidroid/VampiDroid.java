@@ -282,7 +282,7 @@ public class VampiDroid extends AppCompatActivity
         // Reference: http://stackoverflow.com/questions/34502848/how-to-change-selected-item-in-the-navigation-drawer-depending-on-the-activity-v?rq=1
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setCheckedItem(R.id.nav_camera);
+        navigationView.setCheckedItem(R.id.nav_cards);
 
         updateSearchSettingsButtonState();
 
@@ -481,18 +481,8 @@ public class VampiDroid extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_cards) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        /*} else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {*/
-
         } else if (id == R.id.nav_settings) {
             Intent launch = new Intent(this, SettingsActivity.class);
             startActivity(launch);

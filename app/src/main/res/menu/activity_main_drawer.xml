@@ -3,8 +3,8 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
+            android:id="@+id/nav_cards"
+            android:icon="@drawable/ic_library_books_black_24dp"
             android:title="Cards" />
 
         <!--
@@ -20,31 +20,19 @@
 
     </group>
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Decks">
-            <!--<menu>-->
-                <!--<item-->
-                    <!--android:id="@+id/deck1"-->
-                    <!--android:title="Deck 1" />-->
-            <!--</menu>-->
-        </item>
-    </group>
+    <!--<group android:checkableBehavior="single">-->
+        <!--<item-->
+            <!--android:id="@+id/nav_gallery"-->
+            <!--android:icon="@drawable/ic_menu_gallery"-->
+            <!--android:title="Decks">-->
+            <!--&lt;!&ndash;<menu>&ndash;&gt;-->
+                <!--&lt;!&ndash;<item&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/deck1"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:title="Deck 1" />&ndash;&gt;-->
+            <!--&lt;!&ndash;</menu>&ndash;&gt;-->
+        <!--</item>-->
+    <!--</group>-->
 
-    <!--<item android:title="Communicate">-->
-    <!--<menu>-->
-    <!--<item-->
-    <!--android:id="@+id/nav_share"-->
-    <!--android:icon="@drawable/ic_menu_share"-->
-    <!--android:title="Share" />-->
-    <!--<item-->
-    <!--android:id="@+id/nav_send"-->
-    <!--android:icon="@drawable/ic_menu_send"-->
-    <!--android:title="Send" />-->
-    <!--</menu>-->
-    <!--</item>-->
 
     <!-- To get a divider before a group, add an id to it -->
     <!--Reference: http://stackoverflow.com/questions/31559705/divider-in-navigation-drawer-using-a-xml-menu-->
