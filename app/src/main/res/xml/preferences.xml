@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="Search Options">
-        <CheckBoxPreference android:key="@string/pref_search_card_text" android:title="Search Card Text?" android:summary="Use this to search card text and card name at the same time">
-        </CheckBoxPreference>
-        <SwitchPreferenceCompat android:key="pref_searchCardText2" android:title="Search Card Text?" android:summary="Use this to search card text and card name at the same time">
+        <!--<CheckBoxPreference android:key="@string/pref_search_card_text" android:title="Search Card Text?" android:summary="Use this to search card text and card name at the same time">-->
+        <!--</CheckBoxPreference>-->
+        <SwitchPreferenceCompat android:key="@string/pref_search_card_text" android:title="Search Card Text?" android:summary="Set this to search card text and card name at the same time in the search box">
         </SwitchPreferenceCompat>
 
     </PreferenceCategory>
