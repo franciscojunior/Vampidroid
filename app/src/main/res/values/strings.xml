@@ -37,5 +37,6 @@
 	<string name="pref_search_card_text">pref_searchCardText</string>
 	<string name="pref_card_images_folder">pref_cardImagesFolder</string>
 	<string name="search_bar_filter_card_name">Filter card name...</string>
+	<string name="search_bar_filter_card_name_and_card_text">Filter card name and text...</string>
 
 </resources>

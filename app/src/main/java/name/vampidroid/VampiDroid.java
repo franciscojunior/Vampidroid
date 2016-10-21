@@ -274,6 +274,8 @@ public class VampiDroid extends AppCompatActivity
 
         boolean prefSearchCardText = sharedPref.getBoolean(SettingsFragment.KEY_PREF_SEARCH_CARD_TEXT, false);
 
+        search_bar_text_view.setHint(prefSearchCardText ? R.string.search_bar_filter_card_name_and_card_text : R.string.search_bar_filter_card_name);
+
         if (prefSearchCardText != filterModel.searchInsideCardText) {
             filterModel.setSearchInsideCardText(prefSearchCardText);
             filterCards();
