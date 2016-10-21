@@ -292,7 +292,8 @@ public class CardFilters extends LinearLayout {
 
         ViewGroup cryptDisciplinesContainer = (ViewGroup) cryptDisciplinesLayout;
 
-        for (int i = 0; i < cryptDisciplinesContainer.getChildCount(); i++) {
+        // The first child viewgroup are just labels for the basic and advanced checkboxes columns. Skip it.
+        for (int i = 1; i < cryptDisciplinesContainer.getChildCount(); i++) {
             ViewGroup cryptDisciplineRow = (ViewGroup) cryptDisciplinesContainer.getChildAt(i);
 
             CheckBox cryptDisciplineCheckboxBasic = (CheckBox) cryptDisciplineRow.getChildAt(1); // Basic Discipline

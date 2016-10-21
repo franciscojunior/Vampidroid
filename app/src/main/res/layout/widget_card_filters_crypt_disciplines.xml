@@ -59,6 +59,40 @@
 
 
             <TextView
+                android:id="@+id/textDisciplinesPlaceholder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                app:layout_widthPercent="70%" />
+
+            <TextView
+                android:id="@+id/textBas"
+                android:text="Basic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textDisciplinesPlaceholder"
+                android:checked="false"
+                app:layout_widthPercent="15%" />
+
+            <TextView
+                android:id="@+id/textAdv"
+                android:text="Adv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textBas"
+                android:checked="false"
+                app:layout_widthPercent="15%" />
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11dp">
+
+
+            <TextView
                 android:id="@+id/textViewDisciplineABO"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
