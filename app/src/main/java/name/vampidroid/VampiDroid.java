@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.preference.PreferenceManager;
@@ -489,6 +490,20 @@ public class VampiDroid extends AppCompatActivity
             // Don't close the drawer when selecting settings.
             // It was causing stuttering when starting the Settings activity.
             closeDrawer = false;
+        } else if (id == R.id.nav_about) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            // Inflate and set the layout for the dialog
+            // Pass null as the parent view because its going in the dialog layout
+            View dialogView = getLayoutInflater().inflate(R.layout.about, null);
+
+            builder.setTitle("About")
+                    .setView(dialogView)
+                    .setPositiveButton("Close", null);
+
+            builder.show();
+
         }
 
 

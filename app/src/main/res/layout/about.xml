@@ -1,52 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:orientation="vertical"
-android:layout_width="fill_parent"
-android:layout_height="fill_parent">
-    <ScrollView android:id="@+id/aboutscrollview" 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/aboutscrollview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:orientation="vertical"
-            android:layout_width="fill_parent" 
-            android:layout_height="fill_parent">    
-            <LinearLayout
-                android:orientation="vertical"
+            >
+
+
+            <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-                    <TextView android:text=" \t VampiDroid is an Android app to search and organize cards of Jyhad™, Vampire: The Eternal Struggle™! \n \t For more information about VTES, checkout these sites: \n "
-                            android:layout_width="fill_parent" 
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="15px"              
-                            android:layout_gravity="center_vertical"
-                            android:textColor="#ffffff"
-                            android:singleLine="false" />  
-                    <TextView android:text="http://www.vekn.net/"
-                            android:layout_width="fill_parent" 
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="15px"              
-                            android:layout_gravity="center_vertical"
-                            android:textColor="#ffffff"
-                            android:singleLine="false"
-                            android:autoLink="web" />  
-                     <TextView android:text="http://www.thelasombra.com/"
-                            android:layout_width="fill_parent" 
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="15px"              
-                            android:layout_gravity="center_vertical"
-                            android:textColor="#ffffff"
-                            android:singleLine="false"
-                            android:autoLink="web" />
-                            
-                     <TextView android:text="Disclaimer: 
-\n \n
-\t Jyhad™, Vampire: The Eternal Struggle™ and all game symbols are trademarks of Wizards of the Coast, Inc. and CCP hf. White Wolf, World of Darkness and all related terms are trademarks of CCP hf. \n
-\t This product is not published nor endorsed by CCP hf."
-                            android:layout_width="fill_parent" 
-                            android:layout_height="wrap_content"            
-                            android:paddingTop="15px"
-                            android:paddingLeft="15px"
-                            android:layout_gravity="center_vertical"
-                            android:textStyle="bold"
-                            android:textColor="#ffffff" />
-                    
-                    </LinearLayout>
-            </ScrollView>                   
+                android:layout_height="wrap_content"
+                android:text="VampiDroid is an Android app to search and organize cards of Jyhad™, Vampire: The Eternal Struggle™!"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="For more information about VTES, checkout these sites:"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:autoLink="web"
+                android:text="http://www.vekn.net/"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:autoLink="web"
+                android:text="http://www.thelasombra.com/"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingTop="8dp"
+                android:text="Disclaimer: Jyhad™, Vampire: The Eternal Struggle™ and all game symbols are trademarks of Wizards of the Coast, Inc. and CCP hf. White Wolf, World of Darkness and all related terms are trademarks of CCP hf. This product is not published nor endorsed by CCP hf."
+                android:textStyle="bold"
+                android:paddingBottom="8dp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Version ID:"
+                android:gravity="center"
+                android:layout_marginTop="8dp" />
+
+            <!--Reference: http://stackoverflow.com/questions/28954071/how-can-i-access-a-buildconfig-value-in-my-androidmanifest-xml-file-->
+            <TextView
+                android:id="@+id/textAppVersion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/version_name"
+                android:gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
