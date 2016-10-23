@@ -9,6 +9,55 @@
     >
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cardViewCardText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        card_view:cardUseCompatPadding="true">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            >
+
+            <TextView
+                android:id="@+id/txtCardTextLabel"
+                android:text="Card Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/cardText"
+                android:text="A long card name dsfdf sdfsd fs dfsdf sf dsf s s s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd End of the text "
+                android:layout_width="0dp"
+                android:transitionName="cardTextTransition"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/txtCardTextLabel"
+                app:layout_constraintLeft_toLeftOf="@+id/txtCardTextLabel"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginRight="16dp"
+                android:layout_height="wrap_content" />
+
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
         android:id="@+id/cardviewCartType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -123,54 +172,6 @@
 
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardViewCardText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        card_view:cardUseCompatPadding="true">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="16dp"
-            >
-
-            <TextView
-                android:id="@+id/txtCardTextLabel"
-                android:text="Card Text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/colorAccent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="16dp" />
-
-            <TextView
-                android:id="@+id/cardText"
-                android:text="A long card name dsfdf sdfsd fs dfsdf sf dsf s s s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsfdf sdfsd fs dfsdf sf dsf s s sdfsfds sdfsf s sdfsfd dsf sdfsdfdfdsf sdfdsf End of the text "
-                android:layout_width="0dp"
-                android:transitionName="cardTextTransition"
-                style="@style/TextAppearance.AppCompat.Subhead"
-                android:fontFamily="sans-serif-condensed"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/txtCardTextLabel"
-                app:layout_constraintLeft_toLeftOf="@+id/txtCardTextLabel"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginRight="16dp"
-                android:layout_height="wrap_content" />
-
-
-
-        </android.support.constraint.ConstraintLayout>
-
-    </android.support.v7.widget.CardView>
 
 
 
