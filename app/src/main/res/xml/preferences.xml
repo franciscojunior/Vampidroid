@@ -16,5 +16,12 @@
         <Preference android:title="Card images folder"
             android:key="@string/pref_card_images_folder"
             android:summary="Default image folder"/>
+        <Preference android:title="Images help"
+            android:summary="Card images have to be in the format: cardname.jpg Find card images ready to be used in the ardb project. Click here to be redirected there."
+            android:persistent="false"
+            >
+            <intent  android:action="android.intent.action.VIEW"
+                android:data="https://code.google.com/archive/p/ardb/downloads"/>
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>
