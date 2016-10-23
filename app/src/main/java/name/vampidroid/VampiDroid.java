@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -393,6 +394,19 @@ public class VampiDroid extends AppCompatActivity
 
     }
 
+
+    Handler updateFiltersHandler = new Handler();
+
+    Runnable updateFilters = new Runnable() {
+        @Override
+        public void run() {
+            for (CardsListFragment fragment :
+                    fragmentsToFilter2)
+                fragment.filterCards(filterModel);
+        }
+    };
+
+
     void filterCards() {
 
         // If we are restoring, there is no need to filter now. The data will already be filtered out when the state was saved.
@@ -401,11 +415,8 @@ public class VampiDroid extends AppCompatActivity
             return;
         }
 
-        for (CardsListFragment fragment :
-                fragmentsToFilter2) {
-
-            fragment.filterCards(filterModel);
-        }
+        updateFiltersHandler.removeCallbacks(updateFilters);
+        updateFiltersHandler.postDelayed(updateFilters, 250);
 
     }
 
