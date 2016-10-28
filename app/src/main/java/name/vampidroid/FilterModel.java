@@ -15,7 +15,7 @@ public class FilterModel implements Parcelable {
 
     boolean searchInsideCardText = false;
 
-    private final String GROUP_CRYPT_FILTER = "(_group = '*' or _group in (?))";
+    private final String GROUP_CRYPT_FILTER = "(_group in (?))";
 
     private final String CAPACITY_CRYPT_FILTER = "Cast(capacity as integer) between ";
     private final String CLAN_FILTER = "Clan = '?'";
@@ -28,7 +28,7 @@ public class FilterModel implements Parcelable {
     private final String DISCIPLINE_LIBRARY_FILTER = "Discipline like '%?%'";
 
 
-    boolean groups[] = new boolean[6];
+    boolean groups[] = new boolean[7];
 
     boolean groupsFilterChanged;
     String groupsFilterCached = "";
@@ -61,8 +61,13 @@ public class FilterModel implements Parcelable {
 
 
             for (int i = 0; i < groups.length; i++) {
-                if (groups[i])
-                    result.append("'").append(i + 1).append("',");
+                if (groups[i]) {
+                    if (i == 0) {
+                        result.append("'ANY',");
+                    } else {
+                        result.append("'").append(i).append("',");
+                    }
+                }
 
             }
 
@@ -82,7 +87,7 @@ public class FilterModel implements Parcelable {
 
 
     public void setGroup(int group, boolean isSet) {
-        groups[group - 1] = isSet;
+        groups[group] = isSet;
         groupsFilterChanged = true;
     }
 

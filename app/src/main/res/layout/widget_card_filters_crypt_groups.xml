@@ -3,75 +3,110 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:paddingLeft="24dp"
-        android:paddingStart="24dp"
-        android:text="Groups:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-
-
-    <android.support.percent.PercentRelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/relativeLayoutGroups"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:layout_height="match_parent"
+        android:paddingBottom="16dp"
+        android:layout_marginTop="16dp"
+        >
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Groups:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_marginStart="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="24dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/checkBox0"
+            android:text="ANY"
+            android:tag="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox1" />
 
         <CheckBox
             android:id="@+id/checkBox1"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"
             android:text="1"
-            app:layout_widthPercent="16%" />
+            android:tag="1"
+            android:layout_marginStart="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView5"
+            android:layout_marginTop="8dp" />
 
         <CheckBox
             android:id="@+id/checkBox2"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/checkBox1"
             android:checked="false"
             android:text="2"
-            app:layout_widthPercent="16%" />
+            android:tag="2"
+            android:layout_marginStart="4dp"
+            app:layout_constraintLeft_toRightOf="@+id/checkBox1"
+            android:layout_marginLeft="4dp"
+            app:layout_constraintTop_toTopOf="@+id/checkBox1" />
+
 
         <CheckBox
             android:id="@+id/checkBox3"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/checkBox2"
             android:checked="false"
             android:text="3"
-            app:layout_widthPercent="16%" />
+            android:tag="3"
+            android:layout_marginStart="4dp"
+            app:layout_constraintLeft_toRightOf="@+id/checkBox2"
+            android:layout_marginLeft="4dp"
+            app:layout_constraintTop_toTopOf="@+id/checkBox2" />
 
         <CheckBox
             android:id="@+id/checkBox4"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/checkBox3"
             android:checked="false"
             android:text="4"
-            app:layout_widthPercent="16%" />
+            android:tag="4"
+            android:layout_marginStart="4dp"
+            app:layout_constraintLeft_toRightOf="@+id/checkBox3"
+            android:layout_marginLeft="4dp"
+            app:layout_constraintTop_toTopOf="@+id/checkBox3" />
 
         <CheckBox
             android:id="@+id/checkBox5"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/checkBox4"
             android:checked="false"
             android:text="5"
-            app:layout_widthPercent="16%" />
+            android:tag="5"
+            android:layout_marginStart="4dp"
+            app:layout_constraintLeft_toRightOf="@+id/checkBox4"
+            android:layout_marginLeft="4dp"
+            app:layout_constraintTop_toTopOf="@+id/checkBox4" />
 
         <CheckBox
             android:id="@+id/checkBox6"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/checkBox5"
             android:checked="false"
             android:text="6"
-            app:layout_widthPercent="16%" />
-    </android.support.percent.PercentRelativeLayout>
+            android:tag="6"
+            android:layout_marginStart="4dp"
+            app:layout_constraintLeft_toRightOf="@+id/checkBox5"
+            android:layout_marginLeft="4dp"
+            app:layout_constraintTop_toTopOf="@+id/checkBox5" />
+
+    </android.support.constraint.ConstraintLayout>
 </merge>

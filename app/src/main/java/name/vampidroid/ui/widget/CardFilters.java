@@ -46,11 +46,10 @@ public class CardFilters extends LinearLayout {
     int numberOfClansFiltersApplied;
     int numberOfCardTypesFiltersApplied;
 
-    private SparseArray<Parcelable> container;
-    private CryptCapacitySeekBars cryptCapacitySeekBars;
+    CryptCapacitySeekBars cryptCapacitySeekBars;
 
 
-    private boolean isResetting = false;
+    boolean isResetting = false;
 
     public interface OnCardFiltersChangeListener {
 
@@ -268,7 +267,7 @@ public class CardFilters extends LinearLayout {
                 Log.d(TAG, "onCheckedChanged: numberOfGroupFiltersApplied:" + numberOfGroupFiltersApplied);
 
                 if (cardFiltersChangeListener != null && !isResetting) {
-                    cardFiltersChangeListener.onGroupsChanged(Integer.parseInt(checkbox.getText().toString()), isChecked);
+                    cardFiltersChangeListener.onGroupsChanged(Integer.parseInt(checkbox.getTag().toString()), isChecked);
                 }
 
             }
