@@ -37,6 +37,9 @@ public class CardFilters extends LinearLayout {
     private View libraryDisciplinesHeader;
     private View libraryDisciplinesLayout;
 
+    private View cryptFiltersLayoutGroup;
+    private View libraryFiltersLayoutGroup;
+
     OnCardFiltersChangeListener cardFiltersChangeListener;
 
     int numberOfGroupFiltersApplied;
@@ -120,6 +123,8 @@ public class CardFilters extends LinearLayout {
 
     void initViews() {
 
+        cryptFiltersLayoutGroup = findViewById(R.id.cryptFiltersLayoutGroup);
+        libraryFiltersLayoutGroup = findViewById(R.id.libraryFiltersLayoutGroup);
 
         cryptDisciplinesHeader = findViewById(R.id.disciplinesHeader);
         cryptDisciplinesLayout = findViewById(R.id.disciplinesLayout);
@@ -457,21 +462,18 @@ public class CardFilters extends LinearLayout {
     }
 
     public void showCryptFilters() {
-        cryptDisciplinesHeader.setVisibility(VISIBLE);
-        cryptDisciplinesLayout.setVisibility(VISIBLE);
 
-        clansHeader.setVisibility(VISIBLE);
-        clansLayout.setVisibility(VISIBLE);
+        cryptFiltersLayoutGroup.setVisibility(VISIBLE);
+        libraryFiltersLayoutGroup.setVisibility(GONE);
+
 
     }
 
     public void showLibraryFilters() {
 
-        cryptDisciplinesHeader.setVisibility(GONE);
-        cryptDisciplinesLayout.setVisibility(GONE);
+        libraryFiltersLayoutGroup.setVisibility(VISIBLE);
+        cryptFiltersLayoutGroup.setVisibility(GONE);
 
-        clansHeader.setVisibility(GONE);
-        clansLayout.setVisibility(GONE);
     }
 
     public int getNumberOfFiltersApplied() {

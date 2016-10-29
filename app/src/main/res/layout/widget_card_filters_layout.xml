@@ -8,47 +8,55 @@
     tools:showIn="@layout/search_filter_dialog"
     >
 
-    <include layout="@layout/widget_card_filters_crypt_groups" />
+    <LinearLayout
+        android:id="@+id/libraryFiltersLayoutGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <View
-        style="@style/NavigationViewDivider"
-        android:layout_width="match_parent" />
-
-
-    <include layout="@layout/widget_card_filters_crypt_disciplines" />
-
-
-    <View
-        style="@style/NavigationViewDivider"
-        android:layout_width="match_parent" />
+        <include layout="@layout/widget_card_filters_library_types" />
 
 
-    <include layout="@layout/widget_card_filters_crypt_clans" />
+        <View
+            style="@style/NavigationViewDivider"
+            android:layout_width="match_parent" />
 
-    <View
-        style="@style/NavigationViewDivider"
-        android:layout_width="match_parent" />
+        <include
+            layout="@layout/widget_card_filters_library_disciplines"
+            />
 
+        <View
+            style="@style/NavigationViewDivider"
+            android:layout_width="match_parent" />
 
-    <include layout="@layout/widget_card_filters_library_types" />
+    </LinearLayout>
 
-
-    <View
-        style="@style/NavigationViewDivider"
-        android:layout_width="match_parent" />
-
-    <include
-        layout="@layout/widget_card_filters_library_disciplines"
-        />
-
-    <View
-        style="@style/NavigationViewDivider"
-        android:layout_width="match_parent" />
 
     <LinearLayout
+        android:id="@+id/cryptFiltersLayoutGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <include layout="@layout/widget_card_filters_crypt_groups" />
+
+        <View
+            style="@style/NavigationViewDivider"
+            android:layout_width="match_parent" />
+
+        <include layout="@layout/widget_card_filters_crypt_disciplines" />
+
+
+        <View
+            style="@style/NavigationViewDivider"
+            android:layout_width="match_parent" />
+
+        <include layout="@layout/widget_card_filters_crypt_clans" />
+
+        <View
+            style="@style/NavigationViewDivider"
+            android:layout_width="match_parent" />
 
         <TextView
             android:id="@+id/textViewewe55"
