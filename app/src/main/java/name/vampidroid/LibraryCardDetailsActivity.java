@@ -35,6 +35,7 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
     private ImageView[] disciplineImageViews = new ImageView[3];
     private FloatingActionButton fab;
+    private String cardDisciplines;
 
 
     @Override
@@ -151,7 +152,7 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         cardName = c.getString(0);
         String cardType = c.getString(1);
         String cardClan = c.getString(2);
-        String cardDisciplines = c.getString(3);
+        cardDisciplines = c.getString(3);
         String cardText = c.getString(4);
         String cardPoolCost = c.getString(5);
         String cardBloodCost = c.getString(5);
@@ -160,11 +161,6 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
         c.close();
 
-
-        if (cardDisciplines.length() > 0) {
-            findViewById(R.id.cardViewDisciplines).setVisibility(View.VISIBLE);
-            Utils.updateDisciplineImages(this, disciplineImageViews, cardDisciplines);
-        }
 
         getSupportActionBar().setTitle(cardName);
 
@@ -196,6 +192,16 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (cardDisciplines.length() > 0) {
+            findViewById(R.id.cardViewDisciplines).setVisibility(View.VISIBLE);
+            Utils.updateDisciplineImages(this, disciplineImageViews, cardDisciplines);
+        }
+
+    }
 
 }
 
