@@ -360,6 +360,19 @@ public class Utils {
 
             res = context.getResources();
             imageViewsToUpdate = imageViews;
+
+
+            // If the cache was cleared (maybe because of a low memory situation) those imageviews will have references to BitmapDrawables which
+            // have references to recycled bitmaps. This happened when those BitmapDrawables were evicted from the cache.
+            // In this case, clear the imageViews drawables (BitmapDrawable) references.
+            // This is needed because we are loading the bitmap drawables using asynctask in a backgrond thread. This means the UI thread may try to
+            // draw the imageViews (which have the recycled bitmap reference) before we can load the new BitmapDrawables crashing the application.
+            // Then, we clear them here.
+            if (disciplineDrawablesCache.size() == 0) {
+                for (int i = 0; i < imageViewsToUpdate.length; i++) {
+                    imageViewsToUpdate[i].setImageDrawable(null);
+                }
+            }
         }
 
         @Override
