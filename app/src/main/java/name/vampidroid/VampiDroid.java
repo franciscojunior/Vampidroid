@@ -48,10 +48,6 @@ public class VampiDroid extends AppCompatActivity
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private CryptCardsListViewAdapter cryptCardsListViewAdapter;
-    private LibraryCardsListViewAdapter libraryCardsListViewAdapter;
-
-    private List<CardsListFragment> fragmentsToFilter2 = new ArrayList<>();
 
     private FrameLayout search_container;
     private Toolbar toolbar;
@@ -61,13 +57,12 @@ public class VampiDroid extends AppCompatActivity
     private boolean searchShown = false;
     private TextView search_bar_text_view;
 
-    String filter = "";
-
     FilterModel filterModel = new FilterModel();
 
     boolean restoring = false;
     CardFilters cardFilters;
     private ImageView imageViewSearchSettingsButton;
+    private ViewPagerAdapter viewPagerAdapter;
 
 
     @Override
@@ -173,7 +168,7 @@ public class VampiDroid extends AppCompatActivity
             public void onGroupsChanged(int group, boolean isChecked) {
                 filterModel.setGroup(group, isChecked);
                 updateSearchSettingsButtonState();
-                filterCards();
+                filterCryptCards();
             }
 
             @Override
@@ -181,7 +176,7 @@ public class VampiDroid extends AppCompatActivity
 
                 filterModel.setDiscipline(discipline, isBasic, isChecked);
                 updateSearchSettingsButtonState();
-                filterCards();
+                filterCryptCards();
 
             }
 
@@ -189,14 +184,14 @@ public class VampiDroid extends AppCompatActivity
             public void onClansChanged(String clan, boolean isChecked) {
                 filterModel.setClan(clan, isChecked);
                 updateSearchSettingsButtonState();
-                filterCards();
+                filterCryptCards();
             }
 
             @Override
             public void onCardTypeChanged(String cardType, boolean isChecked) {
                 filterModel.setCardType(cardType, isChecked);
                 updateSearchSettingsButtonState();
-                filterCards();
+                filterLibraryCards();
             }
 
             @Override
@@ -204,7 +199,7 @@ public class VampiDroid extends AppCompatActivity
 
                 filterModel.setLibraryDiscipline(discipline, isChecked);
                 updateSearchSettingsButtonState();
-                filterCards();
+                filterLibraryCards();
             }
 
             @Override
@@ -213,14 +208,15 @@ public class VampiDroid extends AppCompatActivity
                 filterModel.setCapacityMin(minCapacity);
                 filterModel.setCapacityMax(maxCapacity);
                 updateSearchSettingsButtonState();
-                filterCards();
+                filterCryptCards();
             }
 
             @Override
             public void onReset() {
                 filterModel = new FilterModel();
                 updateSearchSettingsButtonState();
-                filterCards();
+                filterCryptCards();
+                filterLibraryCards();
             }
 
 
@@ -279,7 +275,8 @@ public class VampiDroid extends AppCompatActivity
 
         if (prefSearchCardText != filterModel.searchInsideCardText) {
             filterModel.setSearchInsideCardText(prefSearchCardText);
-            filterCards();
+            filterCryptCards();
+            filterLibraryCards();
         }
 
         // Sync navigation drawer selected item.
@@ -321,6 +318,19 @@ public class VampiDroid extends AppCompatActivity
         });
 
 
+        final Handler cardNameUpdateFiltersHandler = new Handler();
+
+        final Runnable cardNameUpdateFilters = new Runnable() {
+            @Override
+            public void run() {
+
+                filterCryptCards();
+                filterLibraryCards();
+
+            }
+        };
+
+
         search_bar_text_view.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -330,9 +340,15 @@ public class VampiDroid extends AppCompatActivity
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                filterModel.setName(s);
+                if (!restoring) {
 
-                filterCards();
+                    filterModel.setName(s);
+
+                    // This delay gives time to the user to finish typing before filtering.
+                    // So we don't need to filter after every letter.
+                    cardNameUpdateFiltersHandler.removeCallbacks(cardNameUpdateFilters);
+                    cardNameUpdateFiltersHandler.postDelayed(cardNameUpdateFilters, 250);
+                }
 
             }
 
@@ -395,42 +411,25 @@ public class VampiDroid extends AppCompatActivity
     }
 
 
-    Handler updateFiltersHandler = new Handler();
 
-    Runnable updateFilters = new Runnable() {
-        @Override
-        public void run() {
-            for (CardsListFragment fragment :
-                    fragmentsToFilter2)
-                fragment.filterCards(filterModel);
+    void filterCryptCards() {
+        CardsListFragment cryptFragment = (CardsListFragment) viewPagerAdapter.getCachedItem(0);
+        if (cryptFragment != null) {
+            cryptFragment.filterCards(filterModel);
         }
-    };
+    }
 
-
-    void filterCards() {
-
-        // If we are restoring, there is no need to filter now. The data will already be filtered out when the state was saved.
-        if (restoring) {
-            Log.d(TAG, "filterCards: not filtering because we are restoring");
-            return;
+    void filterLibraryCards() {
+        CardsListFragment libraryFragment = (CardsListFragment) viewPagerAdapter.getCachedItem(1);
+        if (libraryFragment != null) {
+            libraryFragment.filterCards(filterModel);
         }
-
-        updateFiltersHandler.removeCallbacks(updateFilters);
-        updateFiltersHandler.postDelayed(updateFilters, 250);
 
     }
 
-
-    @Override
-    public void onAttachFragment(Fragment fragment) {
-        super.onAttachFragment(fragment);
-
-        if (fragment instanceof CardsListFragment)
-            fragmentsToFilter2.add((CardsListFragment) fragment);
-    }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
     }
 
