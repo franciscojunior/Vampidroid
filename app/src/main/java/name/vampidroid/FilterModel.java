@@ -297,6 +297,7 @@ public class FilterModel implements Parcelable {
 
     private FilterModel(Parcel in) {
 
+        name = in.readString();
         in.readBooleanArray(groups);
         in.readList(cardTypes, null);
         in.readList(clans, null);
@@ -318,6 +319,7 @@ public class FilterModel implements Parcelable {
 
 //        Log.d(TAG, "FilterModel: groups:" + groups[0] + groups[1] +groups[2] +groups[3] +groups[4] +groups[5]);
 
+        dest.writeString(name.toString());
         dest.writeBooleanArray(groups);
         dest.writeList(cardTypes);
         dest.writeList(clans);
