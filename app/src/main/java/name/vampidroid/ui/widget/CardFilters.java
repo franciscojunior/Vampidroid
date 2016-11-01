@@ -3,6 +3,7 @@ package name.vampidroid.ui.widget;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -216,38 +217,46 @@ public class CardFilters extends LinearLayout {
 //        this.container = container;
     }
 
-//    @Override
-//    protected Parcelable onSaveInstanceState() {
-//
-//        Log.d(TAG, "onSaveInstanceState() called");
-//        Bundle state = new Bundle();
-//        Parcelable superState = super.onSaveInstanceState();
-//        state.putParcelable("superState", superState);
-//
-//        state.putInt("numberOfGroupFiltersApplied", numberOfGroupFiltersApplied);
-//        state.putInt("numberOfCapacityFiltersApplied", numberOfCapacityFiltersApplied);
-//        state.putInt("numberOfCryptDisciplineFiltersApplied", numberOfCryptDisciplineFiltersApplied);
-//
-//        return state;
-//    }
-//
-//    @Override
-//    protected void onRestoreInstanceState(Parcelable state) {
-//        Log.d(TAG, "onRestoreInstanceState() called with: state = [" + state + "]");
-//
-//        if (state instanceof Bundle) {
-//            Log.d(TAG, "onRestoreInstanceState: Restoring from bundle");
-//            Bundle bundle = (Bundle) state;
-//            super.onRestoreInstanceState(bundle.getParcelable("superState"));
-//
-//            numberOfGroupFiltersApplied = bundle.getInt("numberOfGroupFiltersApplied");
-//            numberOfCapacityFiltersApplied = bundle.getInt("numberOfCapacityFiltersApplied");
-//            numberOfCryptDisciplineFiltersApplied = bundle.getInt("numberOfCryptDisciplineFiltersApplied");
-//
-//        } else {
-//            super.onRestoreInstanceState(state);
-//        }
-//    }
+    @Override
+    protected Parcelable onSaveInstanceState() {
+
+        Log.d(TAG, "onSaveInstanceState() called");
+        Bundle state = new Bundle();
+        Parcelable superState = super.onSaveInstanceState();
+        state.putParcelable("superState", superState);
+
+        // Only save numberOf*FiltersApplied state which can't be reproduced. The filters which have a handler for the checkbox click will
+        // restore the values when restoring checkbox state.
+
+        state.putInt("numberOfClansFiltersApplied", numberOfClansFiltersApplied);
+        state.putInt("numberOfCardTypesFiltersApplied", numberOfCardTypesFiltersApplied);
+        state.putInt("numberOfLibraryDisciplineFiltersApplied", numberOfLibraryDisciplineFiltersApplied);
+
+        return state;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        Log.d(TAG, "onRestoreInstanceState() called with: state = [" + state + "]");
+
+        if (state instanceof Bundle) {
+            Log.d(TAG, "onRestoreInstanceState: Restoring from bundle");
+            Bundle bundle = (Bundle) state;
+            super.onRestoreInstanceState(bundle.getParcelable("superState"));
+
+
+            numberOfClansFiltersApplied = bundle.getInt("numberOfClansFiltersApplied");
+            numberOfCardTypesFiltersApplied = bundle.getInt("numberOfCardTypesFiltersApplied");
+            numberOfLibraryDisciplineFiltersApplied = bundle.getInt("numberOfLibraryDisciplineFiltersApplied");
+
+            updateFilterHeaderStatus((TextView) findViewById(R.id.textClans), numberOfClansFiltersApplied);
+            updateFilterHeaderStatus((TextView) findViewById(R.id.textCardTypes), numberOfCardTypesFiltersApplied);
+            updateFilterHeaderStatus((TextView) findViewById(R.id.textLibraryDisciplines), numberOfLibraryDisciplineFiltersApplied);
+
+        } else {
+            super.onRestoreInstanceState(state);
+        }
+    }
 
 
 
