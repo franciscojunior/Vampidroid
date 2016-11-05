@@ -54,7 +54,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_centerInParent="true">
 
-                <MultiAutoCompleteTextView
+                <EditText
                     android:id="@+id/search_bar_text"
                     android:alpha="1"
                     android:layout_width="match_parent"

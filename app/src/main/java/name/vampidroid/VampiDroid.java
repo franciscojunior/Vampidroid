@@ -1,6 +1,5 @@
 package name.vampidroid;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,14 +8,12 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -26,19 +23,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import name.vampidroid.fragments.CardsListFragment;
 import name.vampidroid.fragments.SettingsFragment;
 import name.vampidroid.ui.widget.CardFilters;
-
-import static name.vampidroid.Utils.playDrawerToggleAnim;
+import name.vampidroid.ui.widget.PersistentSearchBar;
 
 
 public class VampiDroid extends AppCompatActivity
@@ -49,19 +38,14 @@ public class VampiDroid extends AppCompatActivity
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
-    private FrameLayout search_container;
+    private PersistentSearchBar persistentSearchBar;
     private Toolbar toolbar;
-    private DrawerLayout drawerLayout;
-    private DrawerArrowDrawable drawerArrowDrawable;
-
-    private boolean searchShown = false;
-    private TextView search_bar_text_view;
+    DrawerLayout drawerLayout;
 
     FilterModel filterModel = new FilterModel();
 
     boolean restoring = false;
     CardFilters cardFilters;
-    private ImageView imageViewSearchSettingsButton;
     private ViewPagerAdapter viewPagerAdapter;
 
 
@@ -94,12 +78,8 @@ public class VampiDroid extends AppCompatActivity
 
                 AppBarLayout appbar = (AppBarLayout) findViewById(R.id.appbar);
                 appbar.setExpanded(true);
-                search_bar_text_view.requestFocus();
 
-                // Reference: http://stackoverflow.com/questions/2403632/android-show-soft-keyboard-automatically-when-focus-is-on-an-edittext
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(search_bar_text_view, InputMethodManager.SHOW_IMPLICIT);
-
+                persistentSearchBar.editSearchBarText();
 
             }
         });
@@ -107,29 +87,26 @@ public class VampiDroid extends AppCompatActivity
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
 
-        drawerArrowDrawable = new DrawerArrowDrawable(this);
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        search_container = (FrameLayout) getLayoutInflater().inflate(R.layout.persistent_search_bar, null);
+        persistentSearchBar = new PersistentSearchBar(this);
 
-
-        setupSearchContainter(search_container);
+        setupPersistentSearchBar();
 
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        getSupportActionBar().setCustomView(search_container);
+        getSupportActionBar().setCustomView(persistentSearchBar);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
 
 //		toolbar.setContentInsetsAbsolute(0, 0);
 
         // Reference: http://stackoverflow.com/questions/26433409/android-lollipop-appcompat-actionbar-custom-view-doesnt-take-up-whole-screen-w
-        ViewGroup.LayoutParams lp = search_container.getLayoutParams();
+        ViewGroup.LayoutParams lp = persistentSearchBar.getLayoutParams();
         lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        search_container.setLayoutParams(lp);
+        persistentSearchBar.setLayoutParams(lp);
 
 
         // TODO: 11/06/16 Check how to make those initializations off the main thread.
@@ -225,12 +202,7 @@ public class VampiDroid extends AppCompatActivity
     }
 
     void updateSearchSettingsButtonState() {
-        if (cardFilters.getNumberOfFiltersApplied() > 0) {
-            imageViewSearchSettingsButton.setColorFilter(ContextCompat.getColor(VampiDroid.this, R.color.colorAccent));
-        } else {
-            imageViewSearchSettingsButton.clearColorFilter();
-        }
-
+        persistentSearchBar.updateChangesIndicator(cardFilters.getNumberOfFiltersApplied() > 0, ContextCompat.getColor(VampiDroid.this, R.color.colorAccent));
     }
 
     @Override
@@ -271,8 +243,7 @@ public class VampiDroid extends AppCompatActivity
 
         boolean prefSearchCardText = sharedPref.getBoolean(SettingsFragment.KEY_PREF_SEARCH_CARD_TEXT, false);
 
-        search_bar_text_view.setHint(prefSearchCardText ? R.string.search_bar_filter_card_name_and_card_text : R.string.search_bar_filter_card_name);
-
+        persistentSearchBar.setSearchBarTextHint(prefSearchCardText ? R.string.search_bar_filter_card_name_and_card_text : R.string.search_bar_filter_card_name);
         if (prefSearchCardText != filterModel.searchInsideCardText) {
             filterModel.setSearchInsideCardText(prefSearchCardText);
             filterCryptCards();
@@ -289,34 +260,7 @@ public class VampiDroid extends AppCompatActivity
 
     }
 
-    private void setupSearchContainter(FrameLayout search_container) {
-
-        final ImageView imageViewLeftAction = (ImageView) search_container.findViewById(R.id.left_action);
-        search_bar_text_view = (TextView) search_container.findViewById(R.id.search_bar_text);
-        final ImageView imageViewCloseButton = (ImageView) search_container.findViewById(R.id.clear_btn);
-        imageViewSearchSettingsButton = (ImageView) search_container.findViewById(R.id.search_settings);
-
-        imageViewLeftAction.setImageDrawable(drawerArrowDrawable);
-        imageViewLeftAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (search_bar_text_view.getText().length() > 0) {
-                    search_bar_text_view.setText("");
-                } else if (drawerArrowDrawable.getProgress() != 0) {
-                    playDrawerToggleAnim(drawerArrowDrawable);
-                    // Reference: http://stackoverflow.com/questions/5056734/android-force-edittext-to-remove-focus/16477251#16477251
-                    search_bar_text_view.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(search_bar_text_view.getWindowToken(), 0);
-                } else {
-                    drawerLayout.openDrawer(GravityCompat.START);
-                }
-
-
-            }
-        });
-
+    private void setupPersistentSearchBar() {
 
         final Handler cardNameUpdateFiltersHandler = new Handler();
 
@@ -330,8 +274,7 @@ public class VampiDroid extends AppCompatActivity
             }
         };
 
-
-        search_bar_text_view.addTextChangedListener(new TextWatcher() {
+        persistentSearchBar.addSearchBarTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -355,37 +298,17 @@ public class VampiDroid extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable s) {
 
-                if (s.length() > 0) {
-                    imageViewCloseButton.setVisibility(View.VISIBLE);
-                } else {
-                    imageViewCloseButton.setVisibility(View.GONE);
-
-                }
-
-
             }
         });
 
 
-        imageViewCloseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                search_bar_text_view.setText("");
-            }
-        });
-
-
-        imageViewSearchSettingsButton.setOnClickListener(new View.OnClickListener() {
+        persistentSearchBar.setSearchSettingsClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
 //                SearchSettingsFragment searchSettingsFragment = SearchSettingsFragment.newInstance();
 //                searchSettingsFragment.show(getSupportFragmentManager(), "search_settings_fragment");
-
-                // If the keyboard is present, hide it.
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(search_bar_text_view.getWindowToken(), 0);
 
                 // Open right navigation view.
                 drawerLayout.openDrawer(GravityCompat.END);
@@ -394,19 +317,12 @@ public class VampiDroid extends AppCompatActivity
             }
         });
 
-        search_bar_text_view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        persistentSearchBar.setHamburgerClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-
-                if (hasFocus) {
-                    // Only animate if we are showing the burger icon.
-                    if (drawerArrowDrawable.getProgress() == 0.0)
-                        playDrawerToggleAnim(drawerArrowDrawable);
-                }
-
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
             }
         });
-
 
     }
 
@@ -438,13 +354,8 @@ public class VampiDroid extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if (drawerArrowDrawable.getProgress() != 0) {
-            playDrawerToggleAnim(drawerArrowDrawable);
-            // Reference: http://stackoverflow.com/questions/5056734/android-force-edittext-to-remove-focus/16477251#16477251
-            search_bar_text_view.clearFocus();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(search_bar_text_view.getWindowToken(), 0);
-
+        } else if (persistentSearchBar.isSearchBarTextFocused()) {
+            persistentSearchBar.clearSearchBarTextFocus();
         } else {
             super.onBackPressed();
         }
