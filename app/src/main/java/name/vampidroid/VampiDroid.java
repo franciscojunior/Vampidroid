@@ -126,6 +126,8 @@ public class VampiDroid extends AppCompatActivity
 				} else {
 					cardFilters.showLibraryFilters();
 				}
+
+                updateSearchSettingsButtonState();
 			}
 
 			@Override
@@ -202,7 +204,19 @@ public class VampiDroid extends AppCompatActivity
     }
 
     void updateSearchSettingsButtonState() {
-        persistentSearchBar.updateChangesIndicator(cardFilters.getNumberOfFiltersApplied() > 0, ContextCompat.getColor(VampiDroid.this, R.color.colorAccent));
+
+        boolean haveChanges = false;
+
+        switch (tabLayout.getSelectedTabPosition()) {
+            case 0:
+                haveChanges = cardFilters.getNumberOfCryptFiltersApplied() > 0;
+                break;
+            case 1:
+                haveChanges = cardFilters.getNumberOfLibraryFiltersApplied() > 0;
+                break;
+        }
+        persistentSearchBar.updateChangesIndicator(haveChanges, ContextCompat.getColor(VampiDroid.this, R.color.colorAccent));
+
     }
 
     @Override

@@ -491,6 +491,13 @@ public class CardFilters extends LinearLayout {
 
     }
 
+    public int getNumberOfCryptFiltersApplied() {
+        return numberOfGroupFiltersApplied + numberOfCryptDisciplineFiltersApplied + numberOfClansFiltersApplied + numberOfCapacityFiltersApplied;
+    }
+
+    public int getNumberOfLibraryFiltersApplied() {
+        return numberOfCardTypesFiltersApplied + numberOfLibraryDisciplineFiltersApplied;
+    }
 
     public void clearFilters() {
 
