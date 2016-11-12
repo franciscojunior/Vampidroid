@@ -107,14 +107,20 @@ public class FilterModel implements Parcelable {
     public String getNameFilterQuery() {
         // TODO Auto-generated method stub
 
-        if (name.length() == 0)
+        if (name.length() == 0) {
             return "";
-        else if (searchInsideCardText) {
-            return " and (lower(Name) like '%" + name + "%' or lower(CardText) like '%" + name + "%')";
-        } else {
-            return " and (lower(Name) like '%" + name + "%')";
         }
 
+        StringBuilder sbNameFilter = new StringBuilder();
+        sbNameFilter.append("'%").append(name.toString().trim().replace(' ' , '%').replace("'" , "''")).append("%'");
+
+        String nameFilter = sbNameFilter.toString();
+
+        if (searchInsideCardText) {
+            return " and (lower(Name) like " + nameFilter + " or lower(CardText) like " + nameFilter + ")";
+        } else {
+            return " and (lower(Name) like " + nameFilter + ")";
+        }
 
     }
 
