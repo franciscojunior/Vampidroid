@@ -43,8 +43,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
         fragments[position] = super.instantiateItem(container, position);
 
-        ((Fragment) fragments[position]).setRetainInstance(true);
-
         return fragments[position];
     }
 
