@@ -1,63 +1,78 @@
 package name.vampidroid;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.content.Context;
+import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import name.vampidroid.DatabaseHelper;
-import name.vampidroid.fragments.CardsListFragment;
 
 /**
  * Created by fxjr on 27/02/16.
  */
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class ViewPagerAdapter extends PagerAdapter {
+
     private static final String TAG = "ViewPagerAdapter";
+    private final Context context;
 
-    private final Object[] fragments = new Object[2];
-    private final String[] fragmentTitles = new String[]{"Crypt", "Library"};
+    private final RecyclerView[] recyclerViews = new RecyclerView[2];
+    private final String[] recyclerViewTitles = new String[]{"Crypt", "Library"};
+    private final RecyclerView.Adapter[] recyclerViewsAdapters = new RecyclerView.Adapter[2];
 
-    public ViewPagerAdapter(FragmentManager manager) {
-        super(manager);
+    public ViewPagerAdapter(Context context, RecyclerView.Adapter cryptCardsAdapter, RecyclerView.Adapter libraryCardsAdapter) {
+
+        this.context = context;
+        recyclerViewsAdapters[0] = cryptCardsAdapter;
+        recyclerViewsAdapters[1] = libraryCardsAdapter;
+
     }
 
-
-    // This is called when viewpager wants a new fragment and it isn't found in the fragment manager.
-    // i.e. When the activity is restarted.
     @Override
-    public Fragment getItem(int position) {
-        Log.d(TAG, "getItem: ...");
-        if (position == 0)
-            return CardsListFragment.newInstance(0, DatabaseHelper.ALL_FROM_CRYPT_QUERY);
-        else
-            return CardsListFragment.newInstance(1, DatabaseHelper.ALL_FROM_LIBRARY_QUERY);
+    public int getCount() {
+        return recyclerViewTitles.length;
+    }
 
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return view == object;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
 
-        fragments[position] = super.instantiateItem(container, position);
+        RecyclerView recyclerView = (RecyclerView) LayoutInflater.from(context).inflate(R.layout.fragment_cards_list, container, false);
 
-        return fragments[position];
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        // specify an adapter (see also next example)
+
+        recyclerView.setAdapter(recyclerViewsAdapters[position]);
+
+        recyclerViews[position] = recyclerView;
+
+        container.addView(recyclerView);
+
+        return recyclerView;
+
     }
-
-    public Object getCachedItem(int position) {
-        return fragments[position];
-    }
-
 
     @Override
-    public int getCount() {
-        return fragmentTitles.length;
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        Log.d(TAG, "destroyItem() called with: container = [" + container + "], position = [" + position + "], object = [" + object + "]");
+        container.removeViewAt(position);
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return fragmentTitles[position];
+        return recyclerViewTitles[position];
     }
+
 }

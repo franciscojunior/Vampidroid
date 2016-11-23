@@ -2,6 +2,7 @@ package name.vampidroid;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
@@ -23,8 +24,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FilterQueryProvider;
 
-import name.vampidroid.fragments.CardsListFragment;
 import name.vampidroid.fragments.SettingsFragment;
 import name.vampidroid.ui.widget.CardFilters;
 import name.vampidroid.ui.widget.PersistentSearchBar;
@@ -47,6 +48,9 @@ public class VampiDroid extends AppCompatActivity
     boolean restoring = false;
     CardFilters cardFilters;
     private ViewPagerAdapter viewPagerAdapter;
+
+    CursorRecyclerAdapter cryptCardsAdapter;
+    CursorRecyclerAdapter libraryCardsAdapter;
 
 
     @Override
@@ -112,7 +116,16 @@ public class VampiDroid extends AppCompatActivity
         // TODO: 11/06/16 Check how to make those initializations off the main thread.
         setupSearchFilterNavigation();
 
+        if (savedInstanceState != null) {
+            filterModel = savedInstanceState.getParcelable("filtermodel");
+        } else {
+            filterModel = new FilterModel();
+        }
+
+        filterCryptCards();
+        filterLibraryCards();
     }
+
 
     private void setupSearchFilterNavigation() {
 
@@ -228,7 +241,7 @@ public class VampiDroid extends AppCompatActivity
 
         super.onRestoreInstanceState(savedInstanceState);
 
-        filterModel = savedInstanceState.getParcelable("filtermodel");
+//        filterModel = savedInstanceState.getParcelable("filtermodel");
 
         restoring = false;
 
@@ -263,6 +276,7 @@ public class VampiDroid extends AppCompatActivity
             filterCryptCards();
             filterLibraryCards();
         }
+
 
         // Sync navigation drawer selected item.
         // Reference: http://stackoverflow.com/questions/34502848/how-to-change-selected-item-in-the-navigation-drawer-depending-on-the-activity-v?rq=1
@@ -341,27 +355,67 @@ public class VampiDroid extends AppCompatActivity
     }
 
 
-
     void filterCryptCards() {
-        CardsListFragment cryptFragment = (CardsListFragment) viewPagerAdapter.getCachedItem(0);
-        if (cryptFragment != null) {
-            cryptFragment.filterCards(filterModel);
-        }
+
+        Log.d(TAG, "filterCryptCards() called");
+        cryptCardsAdapter.getFilter().filter(filterModel.getNameFilterQuery() + filterModel.getCryptFilterQuery() + filterModel.getOrderBy());
     }
 
     void filterLibraryCards() {
-        CardsListFragment libraryFragment = (CardsListFragment) viewPagerAdapter.getCachedItem(1);
-        if (libraryFragment != null) {
-            libraryFragment.filterCards(filterModel);
-        }
+
+        Log.d(TAG, "filterLibraryCards() called");
+        libraryCardsAdapter.getFilter().filter(filterModel.getNameFilterQuery() + filterModel.getLibraryFilterQuery() + filterModel.getOrderBy());
 
     }
 
 
     private void setupViewPager(ViewPager viewPager) {
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        cryptCardsAdapter = setupCardsAdapter(0);
+        libraryCardsAdapter = setupCardsAdapter(1);
+
+        viewPagerAdapter = new ViewPagerAdapter(this, cryptCardsAdapter, libraryCardsAdapter);
         viewPager.setAdapter(viewPagerAdapter);
+
     }
+
+
+    private CursorRecyclerAdapter setupCardsAdapter(int cardType) {
+
+        CursorRecyclerAdapter cardsAdapter;
+        final String initialQuery;
+
+        if (cardType == 0) {
+            cardsAdapter = new CryptCardsListViewAdapter(this, null);
+            initialQuery = DatabaseHelper.ALL_FROM_CRYPT_QUERY;
+        } else {
+            cardsAdapter = new LibraryCardsListViewAdapter(this, null);
+            initialQuery = DatabaseHelper.ALL_FROM_LIBRARY_QUERY;
+
+        }
+
+
+        cardsAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+            private static final String TAG = "CardsListFragment";
+
+            @Override
+            public Cursor runQuery(CharSequence constraint) {
+                Log.d(TAG, "runQuery: Thread Id: " + Thread.currentThread().getId());
+                return DatabaseHelper.getDatabase().rawQuery(initialQuery + constraint, null);
+
+            }
+
+        });
+
+
+//        cardsAdapter.getFilter().filter("");
+
+        return cardsAdapter;
+    }
+
+
+
+
 
     @Override
     public void onBackPressed() {
