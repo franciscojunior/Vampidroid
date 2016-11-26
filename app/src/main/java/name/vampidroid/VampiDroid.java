@@ -158,49 +158,58 @@ public class VampiDroid extends AppCompatActivity
         cardFilters.setOnCardFiltersChangeListener(new CardFilters.OnCardFiltersChangeListener() {
             @Override
             public void onGroupsChanged(int group, boolean isChecked) {
-                filterModel.setGroup(group, isChecked);
-                updateSearchSettingsButtonState();
-                filterCryptCards();
+                if (!restoring) {
+                    filterModel.setGroup(group, isChecked);
+                    updateSearchSettingsButtonState();
+                    filterCryptCards();
+                }
             }
 
             @Override
             public void onCryptDisciplineChanged(String discipline, boolean isBasic, boolean isChecked) {
-
-                filterModel.setDiscipline(discipline, isBasic, isChecked);
-                updateSearchSettingsButtonState();
-                filterCryptCards();
+                if (!restoring) {
+                    filterModel.setDiscipline(discipline, isBasic, isChecked);
+                    updateSearchSettingsButtonState();
+                    filterCryptCards();
+                }
 
             }
 
             @Override
             public void onClansChanged(String clan, boolean isChecked) {
-                filterModel.setClan(clan, isChecked);
-                updateSearchSettingsButtonState();
-                filterCryptCards();
+                if (!restoring) {
+                    filterModel.setClan(clan, isChecked);
+                    updateSearchSettingsButtonState();
+                    filterCryptCards();
+                }
             }
 
             @Override
             public void onCardTypeChanged(String cardType, boolean isChecked) {
-                filterModel.setCardType(cardType, isChecked);
-                updateSearchSettingsButtonState();
-                filterLibraryCards();
+                if (!restoring) {
+                    filterModel.setCardType(cardType, isChecked);
+                    updateSearchSettingsButtonState();
+                    filterLibraryCards();
+                }
             }
 
             @Override
             public void onLibraryDisciplineChanged(String discipline, boolean isChecked) {
-
-                filterModel.setLibraryDiscipline(discipline, isChecked);
-                updateSearchSettingsButtonState();
-                filterLibraryCards();
+                if (!restoring) {
+                    filterModel.setLibraryDiscipline(discipline, isChecked);
+                    updateSearchSettingsButtonState();
+                    filterLibraryCards();
+                }
             }
 
             @Override
             public void onCapacitiesChanged(int minCapacity, int maxCapacity) {
-
-                filterModel.setCapacityMin(minCapacity);
-                filterModel.setCapacityMax(maxCapacity);
-                updateSearchSettingsButtonState();
-                filterCryptCards();
+                if (!restoring) {
+                    filterModel.setCapacityMin(minCapacity);
+                    filterModel.setCapacityMax(maxCapacity);
+                    updateSearchSettingsButtonState();
+                    filterCryptCards();
+                }
             }
 
             @Override
