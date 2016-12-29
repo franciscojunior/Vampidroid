@@ -29,6 +29,7 @@ import android.widget.FilterQueryProvider;
 import name.vampidroid.fragments.SettingsFragment;
 import name.vampidroid.ui.widget.CardFilters;
 import name.vampidroid.ui.widget.PersistentSearchBar;
+import name.vampidroid.utils.FilterStateQueryConverter;
 
 
 public class VampiDroid extends AppCompatActivity
@@ -43,7 +44,7 @@ public class VampiDroid extends AppCompatActivity
     private Toolbar toolbar;
     DrawerLayout drawerLayout;
 
-    FilterModel filterModel = new FilterModel();
+    FilterState filterState = new FilterState();
 
     boolean restoring = false;
     CardFilters cardFilters;
@@ -117,9 +118,9 @@ public class VampiDroid extends AppCompatActivity
         setupSearchFilterNavigation();
 
         if (savedInstanceState != null) {
-            filterModel = savedInstanceState.getParcelable("filtermodel");
+            filterState = savedInstanceState.getParcelable("filtermodel");
         } else {
-            filterModel = new FilterModel();
+            filterState = new FilterState();
         }
 
         filterCryptCards();
@@ -159,7 +160,7 @@ public class VampiDroid extends AppCompatActivity
             @Override
             public void onGroupsChanged(int group, boolean isChecked) {
                 if (!restoring) {
-                    filterModel.setGroup(group, isChecked);
+                    filterState.setGroup(group, isChecked);
                     updateSearchSettingsButtonState();
                     filterCryptCards();
                 }
@@ -168,7 +169,7 @@ public class VampiDroid extends AppCompatActivity
             @Override
             public void onCryptDisciplineChanged(String discipline, boolean isBasic, boolean isChecked) {
                 if (!restoring) {
-                    filterModel.setDiscipline(discipline, isBasic, isChecked);
+                    filterState.setDiscipline(discipline, isBasic, isChecked);
                     updateSearchSettingsButtonState();
                     filterCryptCards();
                 }
@@ -178,7 +179,7 @@ public class VampiDroid extends AppCompatActivity
             @Override
             public void onClansChanged(String clan, boolean isChecked) {
                 if (!restoring) {
-                    filterModel.setClan(clan, isChecked);
+                    filterState.setClan(clan, isChecked);
                     updateSearchSettingsButtonState();
                     filterCryptCards();
                 }
@@ -187,7 +188,7 @@ public class VampiDroid extends AppCompatActivity
             @Override
             public void onCardTypeChanged(String cardType, boolean isChecked) {
                 if (!restoring) {
-                    filterModel.setCardType(cardType, isChecked);
+                    filterState.setCardType(cardType, isChecked);
                     updateSearchSettingsButtonState();
                     filterLibraryCards();
                 }
@@ -196,7 +197,7 @@ public class VampiDroid extends AppCompatActivity
             @Override
             public void onLibraryDisciplineChanged(String discipline, boolean isChecked) {
                 if (!restoring) {
-                    filterModel.setLibraryDiscipline(discipline, isChecked);
+                    filterState.setLibraryDiscipline(discipline, isChecked);
                     updateSearchSettingsButtonState();
                     filterLibraryCards();
                 }
@@ -205,8 +206,8 @@ public class VampiDroid extends AppCompatActivity
             @Override
             public void onCapacitiesChanged(int minCapacity, int maxCapacity) {
                 if (!restoring) {
-                    filterModel.setCapacityMin(minCapacity);
-                    filterModel.setCapacityMax(maxCapacity);
+                    filterState.setCapacityMin(minCapacity);
+                    filterState.setCapacityMax(maxCapacity);
                     updateSearchSettingsButtonState();
                     filterCryptCards();
                 }
@@ -214,7 +215,7 @@ public class VampiDroid extends AppCompatActivity
 
             @Override
             public void onReset() {
-                filterModel = new FilterModel();
+                filterState.reset();
                 updateSearchSettingsButtonState();
                 filterCryptCards();
                 filterLibraryCards();
@@ -250,7 +251,7 @@ public class VampiDroid extends AppCompatActivity
 
         super.onRestoreInstanceState(savedInstanceState);
 
-//        filterModel = savedInstanceState.getParcelable("filtermodel");
+//        filterState = savedInstanceState.getParcelable("filtermodel");
 
         restoring = false;
 
@@ -263,7 +264,7 @@ public class VampiDroid extends AppCompatActivity
         super.onSaveInstanceState(outState);
 
 
-        outState.putParcelable("filtermodel", filterModel);
+        outState.putParcelable("filtermodel", filterState);
 
 
     }
@@ -280,8 +281,8 @@ public class VampiDroid extends AppCompatActivity
         boolean prefSearchCardText = sharedPref.getBoolean(SettingsFragment.KEY_PREF_SEARCH_CARD_TEXT, false);
 
         persistentSearchBar.setSearchBarTextHint(prefSearchCardText ? R.string.search_bar_filter_card_name_and_card_text : R.string.search_bar_filter_card_name);
-        if (prefSearchCardText != filterModel.searchInsideCardText) {
-            filterModel.setSearchInsideCardText(prefSearchCardText);
+        if (prefSearchCardText != filterState.searchInsideCardText) {
+            filterState.setSearchInsideCardText(prefSearchCardText);
             filterCryptCards();
             filterLibraryCards();
         }
@@ -322,7 +323,7 @@ public class VampiDroid extends AppCompatActivity
 
                 if (!restoring) {
 
-                    filterModel.setName(s);
+                    filterState.setName(s);
 
                     // This delay gives time to the user to finish typing before filtering.
                     // So we don't need to filter after every letter.
@@ -367,13 +368,13 @@ public class VampiDroid extends AppCompatActivity
     void filterCryptCards() {
 
         Log.d(TAG, "filterCryptCards() called");
-        cryptCardsAdapter.getFilter().filter(filterModel.getNameFilterQuery() + filterModel.getCryptFilterQuery() + filterModel.getOrderBy());
+        cryptCardsAdapter.getFilter().filter(FilterStateQueryConverter.getCryptFilter(filterState));
     }
 
     void filterLibraryCards() {
 
         Log.d(TAG, "filterLibraryCards() called");
-        libraryCardsAdapter.getFilter().filter(filterModel.getNameFilterQuery() + filterModel.getLibraryFilterQuery() + filterModel.getOrderBy());
+        libraryCardsAdapter.getFilter().filter(FilterStateQueryConverter.getLibraryFilter(filterState));
 
     }
 
