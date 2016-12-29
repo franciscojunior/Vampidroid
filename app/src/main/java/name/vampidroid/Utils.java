@@ -57,6 +57,7 @@ public class Utils {
     }
 
     public static void setCardImagesPath(String cardImagesPath) {
+        Log.d(TAG, "setCardImagesPath: " + cardImagesPath);
         Utils.cardImagesPath = cardImagesPath;
     }
 
