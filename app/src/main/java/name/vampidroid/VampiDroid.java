@@ -417,6 +417,8 @@ public class VampiDroid extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
         } else if (persistentSearchBar.isSearchBarTextFocused()) {
             persistentSearchBar.clearSearchBarTextFocus();
         } else {
