@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="name.vampidroid">
 
+
+    <uses-sdk tools:overrideLibrary="com.jakewharton.rxbinding.support.design, com.jakewharton.rxbinding" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 

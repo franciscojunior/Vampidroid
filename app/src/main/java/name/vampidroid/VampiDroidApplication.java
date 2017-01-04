@@ -1,16 +1,32 @@
 package name.vampidroid;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
-import name.vampidroid.fragments.SettingsFragment;
+import com.f2prateek.rx.preferences.RxSharedPreferences;
 
-import static name.vampidroid.fragments.SettingsFragment.DEFAULT_IMAGES_FOLDER;
+import name.vampidroid.data.source.CardsRepository;
+import name.vampidroid.data.source.PreferenceRepository;
+import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 
 public class VampiDroidApplication extends Application {
 
     private static final String TAG = "VampiDroidApplication";
+    private CardsRepository cardsRepository;
+
+    private PreferenceRepository preferenceRepository;
+
+
+    private CompositeSubscription subscriptions;
+
+    public VampiDroidApplication() {
+
+    }
 
     @Override
     public void onTerminate() {
@@ -18,20 +34,40 @@ public class VampiDroidApplication extends Application {
 
         Log.d(TAG, "finishing application");
         DatabaseHelper.closeDatabase();
+
+        subscriptions.unsubscribe();
     }
 
     @Override
     public void onCreate() {
         // TODO Auto-generated method stub
+        Log.d(TAG, "starting application");
+
         super.onCreate();
 
-        Log.d(TAG, "starting application");
+        cardsRepository = new CardsRepository();
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        RxSharedPreferences rxPreferences = RxSharedPreferences.create(preferences);
+
+        preferenceRepository = new PreferenceRepository(rxPreferences);
+
+
+        subscriptions = new CompositeSubscription();
+
+
         DatabaseHelper.setApplicationContext(getApplicationContext());
 
         Utils.setResources(getResources());
-        Utils.setCardImagesPath(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SettingsFragment.KEY_PREF_CARD_IMAGES_FOLDER, DEFAULT_IMAGES_FOLDER));
-        //new UpdateDatabaseOperation().execute();
 
+
+        subscriptions.add(getPreferenceRepository().getCardsImagesFolder().asObservable()
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String path) {
+                        Utils.setCardImagesPath(path);
+                    }
+                }));
 
 //		FilterModel.initFilterModel(
 //				Arrays.asList(getResources().getStringArray(R.array.clans)),
@@ -41,7 +77,33 @@ public class VampiDroidApplication extends Application {
 //
 
 
+
+
+
     }
+
+
+
+    public CardsRepository getCardsRepository() {
+        return cardsRepository;
+    }
+
+    public PreferenceRepository getPreferenceRepository() {
+        return preferenceRepository;
+    }
+
+    public CardsViewModel getCardsViewModel() {
+
+        return new CardsViewModel(getCardsRepository(), getPreferenceRepository());
+
+    }
+
+
+    public SettingsViewModel getSettingsViewModel() {
+        return new SettingsViewModel(getPreferenceRepository());
+    }
+
+
 
     @Override
     public void onLowMemory() {

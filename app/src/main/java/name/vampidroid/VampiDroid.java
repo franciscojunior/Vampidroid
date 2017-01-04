@@ -1,10 +1,8 @@
 package name.vampidroid;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,21 +13,24 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FilterQueryProvider;
 
-import name.vampidroid.fragments.SettingsFragment;
+import com.jakewharton.rxbinding.support.design.widget.RxTabLayout;
+import com.jakewharton.rxbinding.widget.RxTextView;
+
+import java.util.concurrent.TimeUnit;
+
 import name.vampidroid.ui.widget.CardFilters;
 import name.vampidroid.ui.widget.PersistentSearchBar;
-import name.vampidroid.utils.FilterStateQueryConverter;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 
 public class VampiDroid extends AppCompatActivity
@@ -40,7 +41,7 @@ public class VampiDroid extends AppCompatActivity
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
-    private PersistentSearchBar persistentSearchBar;
+    PersistentSearchBar persistentSearchBar;
     private Toolbar toolbar;
     DrawerLayout drawerLayout;
 
@@ -50,8 +51,13 @@ public class VampiDroid extends AppCompatActivity
     CardFilters cardFilters;
     private ViewPagerAdapter viewPagerAdapter;
 
-    CursorRecyclerAdapter cryptCardsAdapter;
-    CursorRecyclerAdapter libraryCardsAdapter;
+    private CardsViewModel cardsViewModel;
+
+    boolean refreshDataNeeded = false;
+    private boolean prefSearchCardTextWhenPaused;
+
+
+    private CompositeSubscription subscriptions = new CompositeSubscription();
 
 
     @Override
@@ -70,6 +76,7 @@ public class VampiDroid extends AppCompatActivity
 
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
 
+        cardsViewModel = ((VampiDroidApplication)getApplication()).getCardsViewModel();
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
@@ -106,7 +113,10 @@ public class VampiDroid extends AppCompatActivity
         getSupportActionBar().setCustomView(persistentSearchBar);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
 
-//		toolbar.setContentInsetsAbsolute(0, 0);
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            toolbar.setContentInsetsAbsolute(10, 10);
+//        }
+
 
         // Reference: http://stackoverflow.com/questions/26433409/android-lollipop-appcompat-actionbar-custom-view-doesnt-take-up-whole-screen-w
         ViewGroup.LayoutParams lp = persistentSearchBar.getLayoutParams();
@@ -121,39 +131,78 @@ public class VampiDroid extends AppCompatActivity
             filterState = savedInstanceState.getParcelable("filtermodel");
         } else {
             filterState = new FilterState();
+            filterState.searchInsideCardText = cardsViewModel.getSearchTextCardPreference().get();
         }
 
-        filterCryptCards();
-        filterLibraryCards();
+        bind();
+
     }
 
+    private void bind() {
+        viewPagerAdapter.bind();
+
+
+
+        subscriptions.add(cardsViewModel.getSearchTextCardObservable()
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean searchTextCard) {
+                        Log.d(TAG, "bind: searchTextcard");
+                        refreshDataNeeded = true;
+                        persistentSearchBar.setSearchBarTextHint(searchTextCard ? R.string.search_bar_filter_card_name_and_card_text : R.string.search_bar_filter_card_name);
+                        filterState.searchInsideCardText = searchTextCard;
+                    }
+                }));
+
+        subscriptions.add(cardsViewModel.getCardsImagesFolderObservable()
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String ignored) {
+                        Log.d(TAG, "bind: cardsImagesFolder");
+                        refreshDataNeeded = true;
+                    }
+                }));
+
+    }
+//
+//    private void updatePersistentSearchBarHint() {
+//        persistentSearchBar.setSearchBarTextHint(cardsViewModel.getSearchTextCardPreference().get() ? R.string.search_bar_filter_card_name_and_card_text : R.string.search_bar_filter_card_name);
+//    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        unbind();
+
+
+    }
+
+    private void unbind() {
+        viewPagerAdapter.unbind();
+        subscriptions.unsubscribe();
+
+    }
 
     private void setupSearchFilterNavigation() {
 
         cardFilters = (CardFilters) findViewById(R.id.cardFilters);
 
-		tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-			@Override
-			public void onTabSelected(TabLayout.Tab tab) {
-				if (tab.getPosition() == 0) {
-					cardFilters.showCryptFilters();
-				} else {
-					cardFilters.showLibraryFilters();
-				}
+        subscriptions.add(RxTabLayout.selections(tabLayout)
+                .skip(1) // Skip first emission on subscribe
+                .subscribe(new Action1<TabLayout.Tab>() {
+                    @Override
+                    public void call(TabLayout.Tab tab) {
+                        if (tab.getPosition() == 0) {
+                            cardFilters.showCryptFilters();
+                        } else {
+                            cardFilters.showLibraryFilters();
+                        }
 
-                updateSearchSettingsButtonState();
-			}
-
-			@Override
-			public void onTabUnselected(TabLayout.Tab tab) {
-
-			}
-
-			@Override
-			public void onTabReselected(TabLayout.Tab tab) {
-
-			}
-		});
+                        updateSearchSettingsButtonState();
+                    }
+                }));
 
 
         cardFilters.setOnCardFiltersChangeListener(new CardFilters.OnCardFiltersChangeListener() {
@@ -247,12 +296,9 @@ public class VampiDroid extends AppCompatActivity
 
         Log.d(TAG, "onRestoreInstanceState() called with: " + "savedInstanceState =");
 
+        // To avoid refreshing data because of the searchbar text change listener.
         restoring = true;
-
         super.onRestoreInstanceState(savedInstanceState);
-
-//        filterState = savedInstanceState.getParcelable("filtermodel");
-
         restoring = false;
 
     }
@@ -262,7 +308,6 @@ public class VampiDroid extends AppCompatActivity
         Log.d(TAG, "onSaveInstanceState() called with: " + "outState = ");
 
         super.onSaveInstanceState(outState);
-
 
         outState.putParcelable("filtermodel", filterState);
 
@@ -275,18 +320,12 @@ public class VampiDroid extends AppCompatActivity
 
         Log.d(TAG, "onResume: ");
 
-        // Update possible changes to preferences.
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-
-        boolean prefSearchCardText = sharedPref.getBoolean(SettingsFragment.KEY_PREF_SEARCH_CARD_TEXT, false);
-
-        persistentSearchBar.setSearchBarTextHint(prefSearchCardText ? R.string.search_bar_filter_card_name_and_card_text : R.string.search_bar_filter_card_name);
-        if (prefSearchCardText != filterState.searchInsideCardText) {
-            filterState.setSearchInsideCardText(prefSearchCardText);
+        if (refreshDataNeeded) {
+            Log.d(TAG, "onResume: refreshDataNeeded");
             filterCryptCards();
             filterLibraryCards();
+            refreshDataNeeded = false;
         }
-
 
         // Sync navigation drawer selected item.
         // Reference: http://stackoverflow.com/questions/34502848/how-to-change-selected-item-in-the-navigation-drawer-depending-on-the-activity-v?rq=1
@@ -300,44 +339,29 @@ public class VampiDroid extends AppCompatActivity
 
     private void setupPersistentSearchBar() {
 
-        final Handler cardNameUpdateFiltersHandler = new Handler();
+        subscriptions.add(RxTextView.textChanges(persistentSearchBar.getSearchBarTextView())
+                .observeOn(Schedulers.computation())
+                .skip(1) // Skip first emission when subscribing...
+                .filter(new Func1<CharSequence, Boolean>() {
+                    @Override
+                    public Boolean call(CharSequence s) {
+                        return !restoring;
+                    }
+                })
+                .debounce(200, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<CharSequence>() {
+                    @Override
+                    public void call(CharSequence charSequence) {
+                        filterState.setName(charSequence);
+                        filterCryptCards();
+                        filterLibraryCards();
 
-        final Runnable cardNameUpdateFilters = new Runnable() {
-            @Override
-            public void run() {
+                    }
+                })
 
-                filterCryptCards();
-                filterLibraryCards();
 
-            }
-        };
+        );
 
-        persistentSearchBar.addSearchBarTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if (!restoring) {
-
-                    filterState.setName(s);
-
-                    // This delay gives time to the user to finish typing before filtering.
-                    // So we don't need to filter after every letter.
-                    cardNameUpdateFiltersHandler.removeCallbacks(cardNameUpdateFilters);
-                    cardNameUpdateFiltersHandler.postDelayed(cardNameUpdateFilters, 250);
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
 
 
         persistentSearchBar.setSearchSettingsClickListener(new View.OnClickListener() {
@@ -368,62 +392,23 @@ public class VampiDroid extends AppCompatActivity
     void filterCryptCards() {
 
         Log.d(TAG, "filterCryptCards() called");
-        cryptCardsAdapter.getFilter().filter(FilterStateQueryConverter.getCryptFilter(filterState));
+        cardsViewModel.filterCryptCards(filterState);
     }
 
     void filterLibraryCards() {
 
         Log.d(TAG, "filterLibraryCards() called");
-        libraryCardsAdapter.getFilter().filter(FilterStateQueryConverter.getLibraryFilter(filterState));
+        cardsViewModel.filterLibraryCards(filterState);
 
     }
 
 
     private void setupViewPager(ViewPager viewPager) {
 
-        cryptCardsAdapter = setupCardsAdapter(0);
-        libraryCardsAdapter = setupCardsAdapter(1);
-
-        viewPagerAdapter = new ViewPagerAdapter(this, cryptCardsAdapter, libraryCardsAdapter);
+        viewPagerAdapter = new ViewPagerAdapter(this, cardsViewModel);
         viewPager.setAdapter(viewPagerAdapter);
 
     }
-
-
-    private CursorRecyclerAdapter setupCardsAdapter(int cardType) {
-
-        CursorRecyclerAdapter cardsAdapter;
-        final String initialQuery;
-
-        if (cardType == 0) {
-            cardsAdapter = new CryptCardsListViewAdapter(this, null);
-            initialQuery = DatabaseHelper.ALL_FROM_CRYPT_QUERY;
-        } else {
-            cardsAdapter = new LibraryCardsListViewAdapter(this, null);
-            initialQuery = DatabaseHelper.ALL_FROM_LIBRARY_QUERY;
-
-        }
-
-
-        cardsAdapter.setFilterQueryProvider(new FilterQueryProvider() {
-            private static final String TAG = "CardsListFragment";
-
-            @Override
-            public Cursor runQuery(CharSequence constraint) {
-                Log.d(TAG, "runQuery: Thread Id: " + Thread.currentThread().getId());
-                return DatabaseHelper.getDatabase().rawQuery(initialQuery + constraint, null);
-
-            }
-
-        });
-
-
-//        cardsAdapter.getFilter().filter("");
-
-        return cardsAdapter;
-    }
-
-
 
 
 
@@ -522,6 +507,8 @@ public class VampiDroid extends AppCompatActivity
         cardFilters.clearFilters();
 
     }
+
 }
+
 
 

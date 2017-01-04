@@ -1,16 +1,16 @@
 package name.vampidroid.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import name.vampidroid.R;
+import name.vampidroid.SettingsViewModel;
 import name.vampidroid.Utils;
+import name.vampidroid.VampiDroidApplication;
 
 /**
  * Created by fxjr on 09/07/16.
@@ -30,11 +30,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
     public static final String DEFAULT_IMAGES_FOLDER = Environment.getExternalStorageDirectory().getAbsolutePath();
 
     public static final String DIRECTORY_CHOOSER_FRAGMENT_TAG = "directorychooser";
+    private SettingsViewModel settingsViewModel;
 
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.preferences);
+
+        settingsViewModel = ((VampiDroidApplication) getActivity().getApplication()).getSettingsViewModel();
 
 
         Preference imagesFolderButton = findPreference(getString(R.string.pref_card_images_folder));
@@ -82,13 +85,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
     @Override
     public void onDirectorySelected(String directoryPath) {
 
+
         Log.d(TAG, "onDirectorySelected() called with: directoryPath = [" + directoryPath + "]");
 
-        Utils.setCardImagesPath(directoryPath);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(KEY_PREF_CARD_IMAGES_FOLDER, directoryPath);
-        editor.apply();
+        settingsViewModel.getCardsImagesFolderPreference().set(directoryPath);
 
         // Update settings UI to reflect the new selected directory.
 

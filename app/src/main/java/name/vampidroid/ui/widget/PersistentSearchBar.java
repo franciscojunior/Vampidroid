@@ -171,6 +171,10 @@ public class PersistentSearchBar extends FrameLayout {
 
     }
 
+    public TextView getSearchBarTextView() {
+        return search_bar_text_view;
+    }
+
     public void addSearchBarTextChangedListener(TextWatcher listener) {
         search_bar_text_view.addTextChangedListener(listener);
     }

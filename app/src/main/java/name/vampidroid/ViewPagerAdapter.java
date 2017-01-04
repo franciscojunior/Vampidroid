@@ -1,6 +1,7 @@
 package name.vampidroid;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by fxjr on 27/02/16.
@@ -19,14 +25,16 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     private final RecyclerView[] recyclerViews = new RecyclerView[2];
     private final String[] recyclerViewTitles = new String[]{"Crypt", "Library"};
-    private final RecyclerView.Adapter[] recyclerViewsAdapters = new RecyclerView.Adapter[2];
+    final CursorRecyclerAdapter[] recyclerViewsAdapters = new CursorRecyclerAdapter[2];
+    private final CardsViewModel cardsViewModel;
+    private CompositeSubscription cardsObservables;
 
-    public ViewPagerAdapter(Context context, RecyclerView.Adapter cryptCardsAdapter, RecyclerView.Adapter libraryCardsAdapter) {
-
+    public ViewPagerAdapter(Context context, CardsViewModel cardsViewModel) {
         this.context = context;
-        recyclerViewsAdapters[0] = cryptCardsAdapter;
-        recyclerViewsAdapters[1] = libraryCardsAdapter;
+        this.cardsViewModel = cardsViewModel;
 
+        recyclerViewsAdapters[0] = new CryptCardsListViewAdapter(context, null);
+        recyclerViewsAdapters[1] = new LibraryCardsListViewAdapter(context, null);
     }
 
     @Override
@@ -43,7 +51,6 @@ public class ViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
 
         RecyclerView recyclerView = (RecyclerView) LayoutInflater.from(context).inflate(R.layout.fragment_cards_list, container, false);
-
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -75,4 +82,37 @@ public class ViewPagerAdapter extends PagerAdapter {
         return recyclerViewTitles[position];
     }
 
+
+    public void bind() {
+
+        cardsObservables = new CompositeSubscription();
+
+
+        Observable<Cursor> cryptCardsObservable = cardsViewModel.getCryptCards();
+        Observable<Cursor> libraryCardsObservable = cardsViewModel.getLibraryCards();
+
+
+        cardsObservables.add(cryptCardsObservable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Cursor>() {
+                    @Override
+                    public void call(Cursor cursor) {
+                        recyclerViewsAdapters[0].changeCursor(cursor);
+                    }
+                }));
+
+        cardsObservables.add(libraryCardsObservable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Cursor>() {
+                    @Override
+                    public void call(Cursor cursor) {
+                        recyclerViewsAdapters[1].changeCursor(cursor);
+                    }
+                }));
+
+    }
+
+    public void unbind() {
+        cardsObservables.unsubscribe();
+    }
 }
