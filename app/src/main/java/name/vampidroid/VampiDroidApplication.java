@@ -9,6 +9,8 @@ import android.util.Log;
 
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 
+import java.lang.reflect.Method;
+
 import name.vampidroid.data.source.CardsRepository;
 import name.vampidroid.data.source.PreferenceRepository;
 import rx.functions.Action1;
@@ -78,7 +80,17 @@ public class VampiDroidApplication extends Application {
 
 
 
-
+        // Workaround a leak bug in ClipboardUIManager.
+        // Reference: https://gist.github.com/cypressious/91c4fb1455470d803a602838dfcd5774
+        // Reference: https://github.com/square/leakcanary/issues/133
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            try {
+                Class<?> cls = Class.forName("android.sec.clipboard.ClipboardUIManager");
+                Method m = cls.getDeclaredMethod("getInstance", Context.class);
+                m.setAccessible(true);
+                Object o = m.invoke(null, this);
+            } catch (Exception ignored) { }
+        }
 
     }
 
