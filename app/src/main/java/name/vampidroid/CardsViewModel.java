@@ -68,6 +68,7 @@ public class CardsViewModel {
                     public Observable<Cursor> call(FilterState filterState) {
 //                        Log.d("test", "map2: Thread Id: " + Thread.currentThread().getId());
 //                        Log.d("test", "map2: Thread Name: " + Thread.currentThread().getName());
+                        filterState.setSearchInsideCardText(preferenceRepository.getSearchTextCard().get());
                         return cardsRepository.getCryptCards(FilterStateQueryConverter.getCryptFilter(filterState));
                     }
                 });
@@ -103,6 +104,7 @@ public class CardsViewModel {
                     public Observable<Cursor> call(FilterState filterState) {
 //                        Log.d("test", "map2: Thread Id: " + Thread.currentThread().getId());
 //                        Log.d("test", "map2: Thread Name: " + Thread.currentThread().getName());
+                        filterState.setSearchInsideCardText(preferenceRepository.getSearchTextCard().get());
                         return cardsRepository.getLibraryCards(FilterStateQueryConverter.getLibraryFilter(filterState));
                     }
                 });
@@ -126,10 +128,6 @@ public class CardsViewModel {
 
     public Observable<Boolean> getSearchTextCardObservable() {
         return preferenceRepository.getSearchTextCardObservable();
-    }
-
-    public Preference<Boolean> getSearchTextCardPreference() {
-        return preferenceRepository.getSearchTextCard();
     }
 
     public Observable<String> getCardsImagesFolderObservable() {

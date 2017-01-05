@@ -131,7 +131,7 @@ public class VampiDroid extends AppCompatActivity
             filterState = savedInstanceState.getParcelable("filtermodel");
         } else {
             filterState = new FilterState();
-            filterState.searchInsideCardText = cardsViewModel.getSearchTextCardPreference().get();
+//            filterState.searchInsideCardText = cardsViewModel.getSearchTextCardPreference().get();
         }
 
         bind();
@@ -150,7 +150,7 @@ public class VampiDroid extends AppCompatActivity
                         Log.d(TAG, "bind: searchTextcard");
                         refreshDataNeeded = true;
                         persistentSearchBar.setSearchBarTextHint(searchTextCard ? R.string.search_bar_filter_card_name_and_card_text : R.string.search_bar_filter_card_name);
-                        filterState.searchInsideCardText = searchTextCard;
+//                        filterState.searchInsideCardText = searchTextCard;
                     }
                 }));
 
