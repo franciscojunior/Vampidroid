@@ -28,6 +28,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
 
     public static final String KEY_PREF_SEARCH_CARD_TEXT = "pref_searchCardText";
     public static final String DEFAULT_IMAGES_FOLDER = Environment.getExternalStorageDirectory().getAbsolutePath();
+    public static final String KEY_PREF_SHOW_CARDS_COUNT = "pref_showCardsCountTabHeader";
 
     public static final String DIRECTORY_CHOOSER_FRAGMENT_TAG = "directorychooser";
     private SettingsViewModel settingsViewModel;

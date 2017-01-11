@@ -134,6 +134,10 @@ public class CardsViewModel {
         return preferenceRepository.getCardsImagesFolderObservable();
     }
 
+    public Preference<Boolean> getShowCardsCount() {
+        return preferenceRepository.getShowCardsCount();
+    }
+
 
 
 }

@@ -14,11 +14,13 @@ public class PreferenceRepository {
 
     private final Preference<Boolean> searchTextCard;
     private final Preference<String> cardImagesFolder;
+    private final Preference<Boolean> showCardsCount;
 
     public PreferenceRepository(RxSharedPreferences sharedPreferences) {
 
         searchTextCard = sharedPreferences.getBoolean(SettingsFragment.KEY_PREF_SEARCH_CARD_TEXT, false);
         cardImagesFolder = sharedPreferences.getString(SettingsFragment.KEY_PREF_CARD_IMAGES_FOLDER, SettingsFragment.DEFAULT_IMAGES_FOLDER);
+        showCardsCount = sharedPreferences.getBoolean(SettingsFragment.KEY_PREF_SHOW_CARDS_COUNT, false);
     }
 
     public Preference<Boolean> getSearchTextCard() {
@@ -37,5 +39,9 @@ public class PreferenceRepository {
 
     public Observable<String> getCardsImagesFolderObservable() {
         return cardImagesFolder.asObservable();
+    }
+
+    public Preference<Boolean> getShowCardsCount() {
+        return showCardsCount;
     }
 }

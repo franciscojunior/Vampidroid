@@ -24,4 +24,10 @@
                 android:data="https://code.google.com/archive/p/ardb/downloads"/>
         </Preference>
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="List Options">
+        <SwitchPreferenceCompat android:key="@string/pref_show_cards_count_tab_header" android:title="Show cards count in tab header?" android:summary="Set this to show the number of cards in the tab header">
+        </SwitchPreferenceCompat>
+
+    </PreferenceCategory>
 </PreferenceScreen>

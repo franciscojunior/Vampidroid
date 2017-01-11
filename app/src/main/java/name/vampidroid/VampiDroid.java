@@ -1,7 +1,6 @@
 package name.vampidroid;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -139,7 +138,7 @@ public class VampiDroid extends AppCompatActivity
     }
 
     private void bind() {
-        viewPagerAdapter.bind();
+        viewPagerAdapter.bind(cardsViewModel);
 
 
 
@@ -405,7 +404,7 @@ public class VampiDroid extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
 
-        viewPagerAdapter = new ViewPagerAdapter(this, cardsViewModel);
+        viewPagerAdapter = new ViewPagerAdapter(this);
         viewPager.setAdapter(viewPagerAdapter);
 
     }
