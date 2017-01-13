@@ -58,9 +58,9 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCa
 
         viewHolder.txtCardCost.setText(cardCost);
 
-//        viewHolder.txtCardClan.setText(cursor.getString(3));
+//        viewHolder.txtCardClan.setText(cursor.getTabTitle(3));
 
-//        viewHolder.txtCardDiscipline.setText(cursor.getString(4));
+//        viewHolder.txtCardDiscipline.setText(cursor.getTabTitle(4));
 
         Utils.loadCardImageThumbnail(viewHolder.imageViewCardImage, Utils.getCardFileName(cardName), R.drawable.green_back);
 

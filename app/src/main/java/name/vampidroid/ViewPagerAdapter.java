@@ -89,6 +89,11 @@ public class ViewPagerAdapter extends PagerAdapter {
         Observable<Cursor> cryptCardsObservable = cardsViewModel.getCryptCards();
         Observable<Cursor> libraryCardsObservable = cardsViewModel.getLibraryCards();
 
+        Observable<String> cryptTabTitle = cardsViewModel.getCryptTabTitle();
+        Observable<String> libraryTabTitle = cardsViewModel.getLibraryTabTitle();
+
+
+
 
         subscriptions.add(cryptCardsObservable
                 .observeOn(AndroidSchedulers.mainThread())
@@ -96,7 +101,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                     @Override
                     public void call(Cursor cursor) {
                         recyclerViewsAdapters[0].changeCursor(cursor);
-                        updateTabTitle(0, cardsViewModel.getShowCardsCount().get(), cursor.getCount());
+//                        updateTabTitle(0, cardsViewModel.getShowCardsCount().get(), cursor.getCount());
                     }
                 }));
 
@@ -106,38 +111,62 @@ public class ViewPagerAdapter extends PagerAdapter {
                     @Override
                     public void call(Cursor cursor) {
                         recyclerViewsAdapters[1].changeCursor(cursor);
-                        updateTabTitle(1, cardsViewModel.getShowCardsCount().get(), cursor.getCount());
+//                        updateTabTitle(1, cardsViewModel.getShowCardsCount().get(), cursor.getCount());
 
                     }
                 }));
 
-        subscriptions.add(cardsViewModel.getShowCardsCount().asObservable()
-                .skip(1) // skip first emission on subscribe, we don't have the cursors yet.
+//        subscriptions.add(cardsViewModel.getShowCardsCount().asObservable()
+//                .skip(1) // skip first emission on subscribe, we don't have the cursors yet.
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Action1<Boolean>() {
+//                    @Override
+//                    public void call(Boolean showCount) {
+//                        // TODO: 12/01/17 Is it better to keep the state in the observable itself, for example, calling the getShowCardsCount.get as above,
+//                        // or should I keep this showCount state in a private field?
+//                        Log.d(TAG, "bind: showCardsCount");
+//                        updateTabTitle(0, showCount, recyclerViewsAdapters[0].getCursor().getCount());
+//                        updateTabTitle(1, showCount, recyclerViewsAdapters[1].getCursor().getCount());
+//                    }
+//
+//                }));
+
+
+        subscriptions.add(cryptTabTitle
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Boolean>() {
+                .subscribe(new Action1<String>() {
                     @Override
-                    public void call(Boolean showCount) {
-                        // TODO: 12/01/17 Is it better to keep the state in the observable itself, for example, calling the getShowCardsCount.get as above,
-                        // or should I keep this showCount state in a private field?
-                        Log.d(TAG, "bind: showCardsCount");
-                        updateTabTitle(0, showCount, recyclerViewsAdapters[0].getCursor().getCount());
-                        updateTabTitle(1, showCount, recyclerViewsAdapters[1].getCursor().getCount());
+                    public void call(String s) {
+                        Log.d(TAG, "call: cryptTabTitle updated: " + s);
+                        if (!recyclerViewTitles[0].equals(s)) {
+                            recyclerViewTitles[0] = s;
+                            notifyDataSetChanged();
+                        }
+
                     }
+                })
 
-                }));
+        );
+
+        subscriptions.add(libraryTabTitle
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        Log.d(TAG, "call: libraryTabTitle updated: " + s);
+                        if (!recyclerViewTitles[1].equals(s)) {
+                            recyclerViewTitles[1] = s;
+                            notifyDataSetChanged();
+                        }
+
+                    }
+                })
+
+        );
+
 
     }
 
-
-    private void updateTabTitle(int tabPosition, boolean showCount, int count) {
-        if (showCount) {
-            recyclerViewTitles[tabPosition] = String.format("%s (%d)", noCountTitles[tabPosition], count);
-            notifyDataSetChanged();
-        } else if (!recyclerViewTitles[tabPosition].equals(noCountTitles[tabPosition])) { // Only reset the title if it isn't reset already
-            recyclerViewTitles[tabPosition] = noCountTitles[tabPosition];
-            notifyDataSetChanged();
-        }
-    }
     public void unbind() {
         subscriptions.unsubscribe();
     }
