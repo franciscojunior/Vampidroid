@@ -63,7 +63,7 @@ public class FilterState implements Parcelable{
     public void setName(CharSequence name) {
 
         if (!name.equals(this.name))
-            this.name = name;
+            this.name = name.toString();
 
     }
 
