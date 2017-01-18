@@ -66,12 +66,6 @@ public class CardsViewModel {
 
     }
 
-    private String getTabTitle(String tabTitlePrefix, boolean includeCount, int count) {
-
-        return (includeCount ? String.format("%s (%d)", tabTitlePrefix, count) : tabTitlePrefix);
-
-    }
-
     public Observable<Cursor> getLibraryCards() {
 
         return filterLibraryCards
@@ -106,8 +100,6 @@ public class CardsViewModel {
         filterLibraryCards.onNext(filterState);
     }
 
-
-
     public Observable<Boolean> getSearchTextCardObservable() {
         return preferenceRepository.getSearchTextCardObservable();
     }
@@ -118,6 +110,9 @@ public class CardsViewModel {
 
     public Observable<String> getCryptTabTitle() {
 
+        // The crypt tab title will need to be changed when either a new data set is loaded
+        // (and the preference is set to show the card count) or when the preference itself
+        // is changed. Here we merge the two source observables to create a single observable.
         return cryptTabTitle
                 .mergeWith(showCardsCountPreferenceObservable
                         .skip(1) // Skip first emission on subscribe
@@ -140,5 +135,11 @@ public class CardsViewModel {
                                 return getTabTitle("Library", showCards, libraryCardsCount);
                             }
                         }));
+    }
+
+    private String getTabTitle(String tabTitlePrefix, boolean includeCount, int count) {
+
+        return (includeCount ? String.format("%s (%d)", tabTitlePrefix, count) : tabTitlePrefix);
+
     }
 }

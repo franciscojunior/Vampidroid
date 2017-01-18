@@ -196,6 +196,8 @@ public class VampiDroid extends AppCompatActivity
                 .filter(new Func1<String, Boolean>() {
                     @Override
                     public Boolean call(String s) {
+                        // Only go forward if the title is different.
+                        // We avoid bothering Android main thread if it is not.
                         return !tabLayout.getTabAt(0).getText().equals(s);
                     }
                 })
