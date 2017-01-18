@@ -1,8 +1,7 @@
 package name.vampidroid;
 
-import com.f2prateek.rx.preferences.Preference;
-
 import name.vampidroid.data.source.PreferenceRepository;
+import rx.Observable;
 
 /**
  * Created by FranciscoJunior on 16/12/2016.
@@ -19,5 +18,9 @@ public class SettingsViewModel {
 
     public void setCardsImagesFolder(String directoryPath) {
         preferenceRepository.setCardsImagesFolder(directoryPath);
+    }
+
+    public Observable<String> getCardsImagesFolderObservable() {
+        return preferenceRepository.getCardsImagesFolderObservable();
     }
 }

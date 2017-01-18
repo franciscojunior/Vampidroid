@@ -9,8 +9,9 @@ import android.util.Log;
 
 import name.vampidroid.R;
 import name.vampidroid.SettingsViewModel;
-import name.vampidroid.Utils;
 import name.vampidroid.VampiDroidApplication;
+import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by fxjr on 09/07/16.
@@ -33,6 +34,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
     public static final String DIRECTORY_CHOOSER_FRAGMENT_TAG = "directorychooser";
     private SettingsViewModel settingsViewModel;
 
+    private CompositeSubscription subscriptions = new CompositeSubscription();
+    private Preference imagesFolderButton;
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
@@ -41,9 +44,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
         settingsViewModel = ((VampiDroidApplication) getActivity().getApplication()).getSettingsViewModel();
 
 
-        Preference imagesFolderButton = findPreference(getString(R.string.pref_card_images_folder));
-
-        imagesFolderButton.setSummary(Utils.getCardImagesPath());
+        imagesFolderButton = findPreference(getString(R.string.pref_card_images_folder));
 
         imagesFolderButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -52,7 +53,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
                 Log.d(TAG, "onPreferenceClick: ");
 
 
-                DirectoryChooserFragment directoryChooserFragment = DirectoryChooserFragment.newInstance(Utils.getCardImagesPath());
+                DirectoryChooserFragment directoryChooserFragment = DirectoryChooserFragment.newInstance(imagesFolderButton.getSummary().toString());
                 directoryChooserFragment.setTargetFragment(SettingsFragment.this, 0);
                 directoryChooserFragment.show(getFragmentManager(), DIRECTORY_CHOOSER_FRAGMENT_TAG);
 
@@ -61,8 +62,32 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
             }
         });
 
+        bind();
+
     }
 
+    private void bind() {
+
+        subscriptions.add(settingsViewModel.getCardsImagesFolderObservable()
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String cardImagesFolderPath) {
+                        imagesFolderButton.setSummary(cardImagesFolderPath);
+
+                    }
+                }));
+
+    }
+
+    private void unbind() {
+        subscriptions.unsubscribe();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbind();
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -90,11 +115,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
         Log.d(TAG, "onDirectorySelected() called with: directoryPath = [" + directoryPath + "]");
 
         settingsViewModel.setCardsImagesFolder(directoryPath);
-
-        // Update settings UI to reflect the new selected directory.
-
-        Preference imagesFolderButton = findPreference(getString(R.string.pref_card_images_folder));
-        imagesFolderButton.setSummary(directoryPath);
 
     }
 
