@@ -1,6 +1,7 @@
 package name.vampidroid;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +27,8 @@ import java.util.concurrent.TimeUnit;
 
 import name.vampidroid.ui.widget.CardFilters;
 import name.vampidroid.ui.widget.PersistentSearchBar;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -138,9 +141,6 @@ public class VampiDroid extends AppCompatActivity
     }
 
     private void bind() {
-        viewPagerAdapter.bind(cardsViewModel);
-
-
 
         subscriptions.add(cardsViewModel.getSearchTextCardObservable()
                 .subscribe(new Action1<Boolean>() {
@@ -162,6 +162,74 @@ public class VampiDroid extends AppCompatActivity
                     }
                 }));
 
+
+
+        Observable<Cursor> cryptCardsObservable = cardsViewModel.getCryptCards();
+        Observable<Cursor> libraryCardsObservable = cardsViewModel.getLibraryCards();
+
+        Observable<String> cryptTabTitle = cardsViewModel.getCryptTabTitle();
+        Observable<String> libraryTabTitle = cardsViewModel.getLibraryTabTitle();
+
+
+
+
+        subscriptions.add(cryptCardsObservable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Cursor>() {
+                    @Override
+                    public void call(Cursor cursor) {
+                        viewPagerAdapter.setData(0, cursor);
+                    }
+                }));
+
+        subscriptions.add(libraryCardsObservable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Cursor>() {
+                    @Override
+                    public void call(Cursor cursor) {
+                        viewPagerAdapter.setData(1, cursor);
+                    }
+                }));
+
+
+        subscriptions.add(cryptTabTitle
+                .filter(new Func1<String, Boolean>() {
+                    @Override
+                    public Boolean call(String s) {
+                        return !tabLayout.getTabAt(0).getText().equals(s);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        Log.d(TAG, "call: cryptTabTitle updated: " + s);
+                        tabLayout.getTabAt(0).setText(s);
+                    }
+                })
+
+        );
+
+        subscriptions.add(libraryTabTitle
+                .filter(new Func1<String, Boolean>() {
+                    @Override
+                    public Boolean call(String s) {
+                        return !tabLayout.getTabAt(1).getText().equals(s);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        Log.d(TAG, "call: libraryTabTitle updated: " + s);
+                        tabLayout.getTabAt(1).setText(s);
+
+                    }
+                })
+
+        );
+
+
     }
 //
 //    private void updatePersistentSearchBarHint() {
@@ -179,7 +247,6 @@ public class VampiDroid extends AppCompatActivity
     }
 
     private void unbind() {
-        viewPagerAdapter.unbind();
         subscriptions.unsubscribe();
 
     }
