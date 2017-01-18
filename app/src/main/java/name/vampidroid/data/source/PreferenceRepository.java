@@ -23,8 +23,8 @@ public class PreferenceRepository {
         showCardsCount = sharedPreferences.getBoolean(SettingsFragment.KEY_PREF_SHOW_CARDS_COUNT, false);
     }
 
-    public Preference<Boolean> getSearchTextCard() {
-        return searchTextCard;
+    public boolean shouldSearchTextCard() {
+        return searchTextCard.get().booleanValue();
     }
 
     public Observable<Boolean> getSearchTextCardObservable() {
@@ -32,16 +32,19 @@ public class PreferenceRepository {
         return searchTextCard.asObservable();
     }
 
-
-    public Preference<String> getCardsImagesFolder() {
-        return cardImagesFolder;
-    }
-
     public Observable<String> getCardsImagesFolderObservable() {
         return cardImagesFolder.asObservable();
     }
 
-    public Preference<Boolean> getShowCardsCount() {
-        return showCardsCount;
+    public boolean shouldShowCardsCount() {
+        return showCardsCount.get().booleanValue();
+    }
+
+    public Observable<Boolean> getShowCardsCountObservable() {
+        return showCardsCount.asObservable();
+    }
+
+    public void setCardsImagesFolder(String directoryPath) {
+        cardImagesFolder.set(directoryPath);
     }
 }

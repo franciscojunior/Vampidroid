@@ -63,7 +63,7 @@ public class VampiDroidApplication extends Application {
         Utils.setResources(getResources());
 
 
-        subscriptions.add(getPreferenceRepository().getCardsImagesFolder().asObservable()
+        subscriptions.add(getPreferenceRepository().getCardsImagesFolderObservable()
                 .subscribe(new Action1<String>() {
                     @Override
                     public void call(String path) {

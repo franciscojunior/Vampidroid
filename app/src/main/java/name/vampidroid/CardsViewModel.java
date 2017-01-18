@@ -2,8 +2,6 @@ package name.vampidroid;
 
 import android.database.Cursor;
 
-import com.f2prateek.rx.preferences.Preference;
-
 import name.vampidroid.data.source.CardsRepository;
 import name.vampidroid.data.source.PreferenceRepository;
 import name.vampidroid.utils.FilterStateQueryConverter;
@@ -38,46 +36,23 @@ public class CardsViewModel {
 
     private int libraryCardsCount;
 
-
     public CardsViewModel(CardsRepository cardsRepository, PreferenceRepository preferenceRepository) {
 
         this.cardsRepository = cardsRepository;
         this.preferenceRepository = preferenceRepository;
-        showCardsCountPreferenceObservable = preferenceRepository.getShowCardsCount().asObservable();
+        showCardsCountPreferenceObservable = preferenceRepository.getShowCardsCountObservable();
 
     }
 
     public Observable<Cursor> getCryptCards() {
 
-//        return cardsRepository.getCryptCards();
 
         return filterCryptCards
-//                .observeOn(Schedulers.computation())
-//                .map(new Func1<FilterState, String>() {
-//                    @Override
-//                    public String call(FilterState filterState) {
-//                        Log.d("test", "map1: Thread Id: " + Thread.currentThread().getId());
-//                        Log.d("test", "map1: Thread Name: " + Thread.currentThread().getName());
-//                        return FilterStateTranslator.getCryptFilter(filterState);
-//                    }
-//                })
-//                .observeOn(Schedulers.io())
-//                .flatMap(new Func1<String, Observable<Cursor>>() {
-//                    @Override
-//                    public Observable<Cursor> call(String filter) {
-//                        Log.d("test", "map2: Thread Id: " + Thread.currentThread().getId());
-//                        Log.d("test", "map2: Thread Name: " + Thread.currentThread().getName());
-//                        return cardsRepository.getCryptCards(filter);
-//                    }
-//                });
-
                 .observeOn(Schedulers.computation())
                 .flatMap(new Func1<FilterState, Observable<Cursor>>() {
                     @Override
                     public Observable<Cursor> call(FilterState filterState) {
-                        //                        Log.d("test", "map2: Thread Id: " + Thread.currentThread().getId());
-                        //                        Log.d("test", "map2: Thread Name: " + Thread.currentThread().getName());
-                        filterState.setSearchInsideCardText(preferenceRepository.getSearchTextCard().get());
+                        filterState.setSearchInsideCardText(preferenceRepository.shouldSearchTextCard());
                         return cardsRepository.getCryptCards(FilterStateQueryConverter.getCryptFilter(filterState));
                     }
                 })
@@ -85,7 +60,7 @@ public class CardsViewModel {
                     @Override
                     public void call(Cursor cursor) {
                         cryptCardsCount = cursor.getCount();
-                        cryptTabTitle.onNext(getTabTitle("Crypt", getShowCardsCount().get(), cryptCardsCount));
+                        cryptTabTitle.onNext(getTabTitle("Crypt", preferenceRepository.shouldShowCardsCount(), cryptCardsCount));
                     }
                 });
 
@@ -100,32 +75,11 @@ public class CardsViewModel {
     public Observable<Cursor> getLibraryCards() {
 
         return filterLibraryCards
-//                .observeOn(Schedulers.computation())
-//                .map(new Func1<FilterState, String>() {
-//                    @Override
-//                    public String call(FilterState filterState) {
-//                        Log.d("test", "map1: Thread Id: " + Thread.currentThread().getId());
-//                        Log.d("test", "map1: Thread Name: " + Thread.currentThread().getName());
-//                        return FilterStateTranslator.getLibraryFilter(filterState);
-//                    }
-//                })
-//                .observeOn(Schedulers.io())
-//                .flatMap(new Func1<String, Observable<Cursor>>() {
-//                    @Override
-//                    public Observable<Cursor> call(String filter) {
-//                        Log.d("test", "map2: Thread Id: " + Thread.currentThread().getId());
-//                        Log.d("test", "map2: Thread Name: " + Thread.currentThread().getName());
-//                        return cardsRepository.getLibraryCards(filter);
-//                    }
-//                });
-
                 .observeOn(Schedulers.computation())
                 .flatMap(new Func1<FilterState, Observable<Cursor>>() {
                     @Override
                     public Observable<Cursor> call(FilterState filterState) {
-//                        Log.d("test", "map2: Thread Id: " + Thread.currentThread().getId());
-//                        Log.d("test", "map2: Thread Name: " + Thread.currentThread().getName());
-                        filterState.setSearchInsideCardText(preferenceRepository.getSearchTextCard().get());
+                        filterState.setSearchInsideCardText(preferenceRepository.shouldSearchTextCard());
                         return cardsRepository.getLibraryCards(FilterStateQueryConverter.getLibraryFilter(filterState));
                     }
                 })
@@ -133,7 +87,7 @@ public class CardsViewModel {
                     @Override
                     public void call(Cursor cursor) {
                         libraryCardsCount = cursor.getCount();
-                        libraryTabTitle.onNext(getTabTitle("Library", getShowCardsCount().get(), libraryCardsCount));
+                        libraryTabTitle.onNext(getTabTitle("Library", preferenceRepository.shouldShowCardsCount(), libraryCardsCount));
                     }
                 });
     }
@@ -161,11 +115,6 @@ public class CardsViewModel {
     public Observable<String> getCardsImagesFolderObservable() {
         return preferenceRepository.getCardsImagesFolderObservable();
     }
-
-    public Preference<Boolean> getShowCardsCount() {
-        return preferenceRepository.getShowCardsCount();
-    }
-
 
     public Observable<String> getCryptTabTitle() {
 

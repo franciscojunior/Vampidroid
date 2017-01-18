@@ -89,7 +89,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
 
         Log.d(TAG, "onDirectorySelected() called with: directoryPath = [" + directoryPath + "]");
 
-        settingsViewModel.getCardsImagesFolderPreference().set(directoryPath);
+        settingsViewModel.setCardsImagesFolder(directoryPath);
 
         // Update settings UI to reflect the new selected directory.
 

@@ -17,10 +17,7 @@ public class SettingsViewModel {
 
     }
 
-
-    public Preference<String> getCardsImagesFolderPreference() {
-        return preferenceRepository.getCardsImagesFolder();
+    public void setCardsImagesFolder(String directoryPath) {
+        preferenceRepository.setCardsImagesFolder(directoryPath);
     }
-
-
 }
