@@ -8,6 +8,7 @@ import name.vampidroid.utils.FilterStateQueryConverter;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
@@ -100,14 +101,6 @@ public class CardsViewModel {
         filterLibraryCards.onNext(filterState);
     }
 
-    public Observable<Boolean> getSearchTextCardObservable() {
-        return preferenceRepository.getSearchTextCardObservable();
-    }
-
-    public Observable<String> getCardsImagesFolderObservable() {
-        return preferenceRepository.getCardsImagesFolderObservable();
-    }
-
     public Observable<String> getCryptTabTitle() {
 
         // The crypt tab title will need to be changed when either a new data set is loaded
@@ -136,6 +129,46 @@ public class CardsViewModel {
                             }
                         }));
     }
+
+
+    /**
+     * Get an observable which emits the text hint that should be used in the search text field.
+     * This text hint changes according to the settings if the search should be done only in the card name
+     * or in the card text too.
+     * @return An observable which emits the resourceId of the string to be used as a text hint.
+     */
+    public Observable<Integer> getSearchTextHintObservable() {
+
+        return preferenceRepository.getSearchTextCardObservable()
+                .map(new Func1<Boolean, Integer>() {
+                    @Override
+                    public Integer call(Boolean searchTextCard) {
+                        return searchTextCard ? R.string.search_bar_filter_card_name_and_card_text : R.string.search_bar_filter_card_name;
+                    }
+                });
+
+    }
+
+    /**
+     * This observable will emit an item (not used) to indicate that the data refresh is needed.
+     * @return An observable which emits an String used only to indicate that a refresh is needed.
+     */
+    public Observable<String> getNeedRefreshFlag() {
+
+
+        return Observable
+                .combineLatest(
+                        preferenceRepository.getSearchTextCardObservable(),
+                        preferenceRepository.getCardsImagesFolderObservable(),
+                        new Func2<Boolean, String, String>() {
+                            @Override
+                            public String call(Boolean aBoolean, String s) {
+                                return "";
+                            }
+                        });
+
+    }
+
 
     private String getTabTitle(String tabTitlePrefix, boolean includeCount, int count) {
 

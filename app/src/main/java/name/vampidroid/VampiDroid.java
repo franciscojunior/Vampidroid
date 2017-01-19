@@ -56,8 +56,6 @@ public class VampiDroid extends AppCompatActivity
     private CardsViewModel cardsViewModel;
 
     boolean refreshDataNeeded = false;
-    private boolean prefSearchCardTextWhenPaused;
-
 
     private CompositeSubscription subscriptions = new CompositeSubscription();
 
@@ -133,7 +131,6 @@ public class VampiDroid extends AppCompatActivity
             filterState = savedInstanceState.getParcelable("filtermodel");
         } else {
             filterState = new FilterState();
-//            filterState.searchInsideCardText = cardsViewModel.getSearchTextCardPreference().get();
         }
 
         bind();
@@ -142,38 +139,25 @@ public class VampiDroid extends AppCompatActivity
 
     private void bind() {
 
-        subscriptions.add(cardsViewModel.getSearchTextCardObservable()
-                .subscribe(new Action1<Boolean>() {
+        subscriptions.add(cardsViewModel.getSearchTextHintObservable()
+                .subscribe(new Action1<Integer>() {
                     @Override
-                    public void call(Boolean searchTextCard) {
-                        Log.d(TAG, "bind: searchTextcard");
-                        refreshDataNeeded = true;
-                        persistentSearchBar.setSearchBarTextHint(searchTextCard ? R.string.search_bar_filter_card_name_and_card_text : R.string.search_bar_filter_card_name);
-//                        filterState.searchInsideCardText = searchTextCard;
+                    public void call(Integer textHintResId) {
+                        persistentSearchBar.setSearchBarTextHint(textHintResId);
                     }
                 }));
 
-        subscriptions.add(cardsViewModel.getCardsImagesFolderObservable()
+        subscriptions.add(cardsViewModel.getNeedRefreshFlag()
                 .subscribe(new Action1<String>() {
                     @Override
                     public void call(String ignored) {
-                        Log.d(TAG, "bind: cardsImagesFolder");
                         refreshDataNeeded = true;
                     }
-                }));
+                })
+        );
 
 
-
-        Observable<Cursor> cryptCardsObservable = cardsViewModel.getCryptCards();
-        Observable<Cursor> libraryCardsObservable = cardsViewModel.getLibraryCards();
-
-        Observable<String> cryptTabTitle = cardsViewModel.getCryptTabTitle();
-        Observable<String> libraryTabTitle = cardsViewModel.getLibraryTabTitle();
-
-
-
-
-        subscriptions.add(cryptCardsObservable
+        subscriptions.add(cardsViewModel.getCryptCards()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Cursor>() {
                     @Override
@@ -182,7 +166,7 @@ public class VampiDroid extends AppCompatActivity
                     }
                 }));
 
-        subscriptions.add(libraryCardsObservable
+        subscriptions.add(cardsViewModel.getLibraryCards()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Cursor>() {
                     @Override
@@ -192,7 +176,7 @@ public class VampiDroid extends AppCompatActivity
                 }));
 
 
-        subscriptions.add(cryptTabTitle
+        subscriptions.add(cardsViewModel.getCryptTabTitle()
                 .filter(new Func1<String, Boolean>() {
                     @Override
                     public Boolean call(String s) {
@@ -212,7 +196,7 @@ public class VampiDroid extends AppCompatActivity
 
         );
 
-        subscriptions.add(libraryTabTitle
+        subscriptions.add(cardsViewModel.getLibraryTabTitle()
                 .filter(new Func1<String, Boolean>() {
                     @Override
                     public Boolean call(String s) {
@@ -233,11 +217,6 @@ public class VampiDroid extends AppCompatActivity
 
 
     }
-//
-//    private void updatePersistentSearchBarHint() {
-//        persistentSearchBar.setSearchBarTextHint(cardsViewModel.getSearchTextCardPreference().get() ? R.string.search_bar_filter_card_name_and_card_text : R.string.search_bar_filter_card_name);
-//    }
-
 
     @Override
     protected void onDestroy() {
