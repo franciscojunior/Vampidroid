@@ -75,7 +75,7 @@
             android:name=".CryptCardDetailsActivity"
             android:label="@string/title_activity_card_details"
             android:parentActivityName=".VampiDroid"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar.CardDetails">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="name.vampidroid.VampiDroid" />
@@ -84,7 +84,7 @@
             android:name=".LibraryCardDetailsActivity"
             android:label="@string/title_activity_card_details"
             android:parentActivityName=".VampiDroid"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar.CardDetails">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="name.vampidroid.VampiDroid" />

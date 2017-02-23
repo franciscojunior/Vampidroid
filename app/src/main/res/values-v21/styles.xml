@@ -9,6 +9,13 @@
     </style>
 
 
+    <style name="AppTheme.NoActionBar.CardDetails">
+        <!-- specify enter and exit transitions -->
+        <item name="android:windowEnterTransition">@transition/card_details_enter</item>
+        <!--<item name="android:windowExitTransition">@transition/explode</item>-->
+        <item name="android:windowReturnTransition">@transition/card_details_return</item>
+
+    </style>
 
     <style name="AppTheme.NoActionBar.BlackStatusBarColor">
         <item name="windowActionBar">false</item>
