@@ -115,17 +115,7 @@ public class VampiDroidApplication extends Application {
         return new SettingsViewModel(getPreferenceRepository());
     }
 
-
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        Utils.disciplineDrawablesCache.evictAll();
-    }
-
-    @Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-        Utils.disciplineDrawablesCache.evictAll();
+    public CardDetailsViewModel getCardDetailsViewModel(long cardId) {
+        return new CardDetailsViewModel(cardId, cardsRepository);
     }
 }

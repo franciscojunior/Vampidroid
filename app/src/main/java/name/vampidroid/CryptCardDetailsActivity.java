@@ -1,16 +1,17 @@
 package name.vampidroid;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +21,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.functions.Func2;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
+
 /**
  * Created by fxjr on 06/07/16.
  */
@@ -27,7 +36,6 @@ import android.widget.TextView;
 public class CryptCardDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "CryptCardDetailsActivit";
-    private static String QUERY_CRYPT = "select Name, Type, Clan, Disciplines, CardText, Capacity, Artist, _Set, _Group, Adv from crypt where _id = ?";
     private ImageView cardImage;
     private String cardName;
 
@@ -38,6 +46,11 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private String cardDisciplines;
 
+    private CardDetailsViewModel cardDetailsViewModel;
+    private String cardText;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private CompositeSubscription subscriptions;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +58,8 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crypt_card_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
 
         //        Reference: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
         supportPostponeEnterTransition();
@@ -84,8 +99,16 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
         setupDisciplineImagesArray();
 
+        subscriptions = new CompositeSubscription();
+
         setupCardData();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        subscriptions.unsubscribe();
     }
 
     //    Reference: https://github.com/codepath/android_guides/wiki/Shared-Element-Activity-Transition
@@ -142,62 +165,98 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
     private void setupCardData() {
 
-        TextView txtCardText = (TextView) findViewById(R.id.cardText);
+        final TextView txtCardText = (TextView) findViewById(R.id.cardText);
+
+        cardDetailsViewModel = ((VampiDroidApplication)getApplication()).getCardDetailsViewModel(getIntent().getExtras().getLong("cardId"));
+
+        subscriptions.add(
+                cardDetailsViewModel.getCryptCard()
+                        .flatMap(new Func1<Cursor, Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>>() {
+                            @Override
+                            public Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>> call(Cursor c) {
+                                cardName = c.getString(0);
+                                String cardType = c.getString(1);
+                                String cardClan = c.getString(2);
+                                cardDisciplines = c.getString(3);
+                                cardText = c.getString(4);
+                                String cardCapacity = c.getString(5);
+                                String cardArtist = c.getString(6);
+                                String cardSetRarity = c.getString(7);
+                                String cardGroup = c.getString(8);
+                                cardAdvanced = c.getString(9);
+                                c.close();
+
+                                return Observable.zip(
+                                        Utils.loadCryptCardImageWithPalette(cardName, cardAdvanced.length() > 0).subscribeOn(Schedulers.io()),
+
+                                        Utils.getDisciplinesArrayObservable(CryptCardDetailsActivity.this, cardDisciplines).subscribeOn(Schedulers.io()),
+
+                                        new Func2<Pair<BitmapDrawable, Palette>, Drawable[], Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>() {
+                                            @Override
+                                            public Pair<Pair<BitmapDrawable, Palette>, Drawable[]> call(Pair<BitmapDrawable, Palette> bitmapDrawablePalettePair, Drawable[] drawables) {
+                                                return Pair.create(bitmapDrawablePalettePair, drawables);
+                                            }
+                                        }
+
+                                );
+                            }
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Action1<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>() {
+                            @Override
+                            public void call(Pair<Pair<BitmapDrawable, Palette>, Drawable[]> data) {
 
 
-        long cardId = getIntent().getExtras().getLong("cardId");
+                                Pair<BitmapDrawable, Palette> bitmapDrawablePalettePair = data.first;
 
-        String query;
+                                BitmapDrawable imageDrawable = bitmapDrawablePalettePair.first;
+                                Palette palette = bitmapDrawablePalettePair.second;
 
-        query = QUERY_CRYPT;
-
-        SQLiteDatabase db = DatabaseHelper.getDatabase();
-        Cursor c = db.rawQuery(query, new String[]{String.valueOf(cardId)});
-        c.moveToFirst();
-
-        cardName = c.getString(0);
-        String cardType = c.getString(1);
-        String cardClan = c.getString(2);
-        cardDisciplines = c.getString(3);
-        String cardText = c.getString(4);
-        String cardCapacity = c.getString(5);
-        String cardArtist = c.getString(6);
-        String cardSetRarity = c.getString(7);
-        String cardGroup = c.getString(8);
-        cardAdvanced = c.getString(9);
-
-        c.close();
+                                collapsingToolbarLayout.setTitle(cardName);
+                                txtCardText.setText(cardText);
 
 
-        getSupportActionBar().setTitle(cardName);
-        txtCardText.setText(cardText);
+                                cardImage.setImageDrawable(imageDrawable);
 
-        Utils.loadCardImage(cardImage, Utils.getCardFileName(cardName, cardAdvanced.length() > 0), R.drawable.gold_back, new Utils.EmptyLoadCardImageAsync() {
-            @Override
-            public void onImageLoaded(BitmapDrawable image, Palette palette) {
-
-                final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.textCardDisciplines);
-                final TextView txtTextLabel = (TextView) findViewById(R.id.textCardText);
-
-                supportStartPostponedEnterTransition();
-
-                final int defaultColor = ContextCompat.getColor(CryptCardDetailsActivity.this, R.color.colorAccent);
-
-                txtDisciplinesLabel.setTextColor(palette.getVibrantColor(defaultColor));
-                txtTextLabel.setTextColor(palette.getVibrantColor(defaultColor));
+                                final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.textCardDisciplines);
+                                final TextView txtTextLabel = (TextView) findViewById(R.id.textCardText);
 
 
-                // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
-                fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(defaultColor)));
+                                final int paletteColor = palette.getVibrantColor(ContextCompat.getColor(CryptCardDetailsActivity.this, R.color.colorAccent));
 
-            }
-        });
+
+                                txtDisciplinesLabel.setTextColor(paletteColor);
+                                txtTextLabel.setTextColor(paletteColor);
+
+
+                                // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
+//                        fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(defaultColor)));
+
+
+                                //Utils.updateDisciplineImages(CryptCardDetailsActivity.this, disciplineImageViews, cardDisciplines);
+
+                                Drawable[] drawables = data.second;
+
+                                for (int disIndex = 0; disIndex < drawables.length; disIndex++) {
+                                    disciplineImageViews[disIndex].setImageDrawable(drawables[disIndex]);
+                                    disciplineImageViews[disIndex].setVisibility(View.VISIBLE);
+                                }
+
+                                supportStartPostponedEnterTransition();
+
+
+                            }
+                        }));
+
+
     }
+
+
 
     @Override
     protected void onResume() {
         super.onResume();
-        Utils.updateDisciplineImages(this, disciplineImageViews, cardDisciplines);
+
 
     }
 }

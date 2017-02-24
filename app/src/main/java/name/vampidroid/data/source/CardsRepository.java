@@ -1,8 +1,6 @@
 package name.vampidroid.data.source;
 
 import android.database.Cursor;
-import android.util.Log;
-
 import java.util.concurrent.Callable;
 
 import name.vampidroid.DatabaseHelper;
@@ -49,4 +47,43 @@ public class CardsRepository {
                 .subscribeOn(Schedulers.io()); // We want this call to go through the io.
     }
 
+    public Observable<Cursor> getCryptCard(final long cardId) {
+
+        return Observable
+                .fromCallable(new Callable<Cursor>() {
+                    @Override
+                    public Cursor call() throws Exception {
+                        String query;
+
+                        query = "select Name, Type, Clan, Disciplines, CardText, Capacity, Artist, _Set, _Group, Adv from crypt where _id = ?";;
+
+                        Cursor c = DatabaseHelper.getDatabase().rawQuery(query, new String[]{String.valueOf(cardId)});
+                        c.moveToFirst();
+                        return c;
+
+                    }
+                })
+                .subscribeOn(Schedulers.io()); // We want this call to go through the io.
+
+
+    }
+
+    public Observable<Cursor> getLibraryCard(final long cardId) {
+        return Observable
+                .fromCallable(new Callable<Cursor>() {
+                    @Override
+                    public Cursor call() throws Exception {
+                        String query;
+
+                        query = "select Name, Type, Clan, Discipline, CardText, PoolCost, BloodCost, Artist, _Set from library where _id = ?";
+
+                        Cursor c = DatabaseHelper.getDatabase().rawQuery(query, new String[]{String.valueOf(cardId)});
+                        c.moveToFirst();
+                        return c;
+
+                    }
+                })
+                .subscribeOn(Schedulers.io()); // We want this call to go through the io.
+
+    }
 }

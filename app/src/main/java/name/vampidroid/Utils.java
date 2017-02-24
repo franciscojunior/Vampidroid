@@ -12,16 +12,19 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.util.LruCache;
+import android.support.v4.util.Pair;
 import android.support.v4.util.SimpleArrayMap;
 import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.util.Log;
-import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
 import java.io.File;
 import java.text.Normalizer;
+import java.util.concurrent.Callable;
+
+import rx.Observable;
 
 
 /**
@@ -61,8 +64,49 @@ public class Utils {
         Utils.cardImagesPath = cardImagesPath;
     }
 
-    public static String getCardImagesPath() {
-        return cardImagesPath;
+
+    public static Observable<Pair<BitmapDrawable, Palette>> loadCryptCardImageWithPalette(final String cardName, final boolean advanced) {
+        return Observable.fromCallable(new Callable<Pair<BitmapDrawable, Palette>>() {
+            @Override
+            public Pair<BitmapDrawable, Palette> call() throws Exception {
+
+                BitmapDrawable bitmapDrawable = Utils.loadCardImage2(Utils.getCardFileName(cardName, advanced), R.drawable.gold_back);
+                return Pair.create(bitmapDrawable, Palette.from(bitmapDrawable.getBitmap()).generate());
+            }
+        });
+    }
+
+    public static Observable<Pair<BitmapDrawable, Palette>> loadLibraryCardImageWithPalette(final String cardName) {
+        return Observable.fromCallable(new Callable<Pair<BitmapDrawable, Palette>>() {
+            @Override
+            public Pair<BitmapDrawable, Palette> call() throws Exception {
+
+                BitmapDrawable bitmapDrawable = Utils.loadCardImage2(Utils.getCardFileName(cardName), R.drawable.green_back);
+                return Pair.create(bitmapDrawable, Palette.from(bitmapDrawable.getBitmap()).generate());
+            }
+        });
+    }
+
+
+    public static BitmapDrawable loadCardImage2(final String cardImageFileName, final int resIdFallbackCardImage) {
+
+        int bitmapSampleSize = 1;
+
+        File imageFile = new File(cardImagesPath + "/" + cardImageFileName);
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = bitmapSampleSize;
+
+        Bitmap image;
+
+        if (imageFile.exists()) {
+            image = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
+        } else {
+            image = BitmapFactory.decodeResource(resources, resIdFallbackCardImage, options);
+        }
+
+        return new BitmapDrawable(resources, image);
+
     }
 
 
@@ -79,34 +123,6 @@ public class Utils {
 
     static void loadCardImage(ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage, LoadCardImageAsync callback) {
         new LoadImageOperation(cardImageView, cardImageFileName, resIdFallbackCardImage, callback).execute();
-    }
-
-    static void loadCardImage(ImageView cardImageView, final String cardImageFileName, final int resIdFallbackCardImage) {
-
-
-//        Resources res = activity.getResources();
-//
-//        String cardImagesPath = PreferenceManager.getDefaultSharedPreferences(activity).getString(SettingsFragment.KEY_PREF_CARD_IMAGES_FOLDER, DEFAULT_IMAGES_FOLDER);
-//        String cardFileName = cardImageFileName == null ? "" : getCardFileName(cardImageFileName) + ".jpg";
-//
-//        File imageFile = new File(cardImagesPath + "/" + cardFileName);
-//
-//        Bitmap image;
-//
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        options.inSampleSize = 1;
-//
-//        if (imageFile.exists()) {
-//            image = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
-//        } else {
-//            options.inSampleSize = 2; // When loading the default image, downsampling it because it is very big.
-//            image = BitmapFactory.decodeResource(res, R.drawable.gold_back, options);
-//        }
-//
-//        cardImageView.setImageDrawable(new BitmapDrawable(res, image));
-
-        new LoadImageOperation(cardImageView, cardImageFileName, resIdFallbackCardImage).execute();
-
     }
 
     static String getCardFileName(String cardName) {
@@ -254,10 +270,45 @@ public class Utils {
         disciplinesDrawableResourceIdsMap.put("VIS", R.drawable.ic_dis_visceratika_sup);
     }
 
+    static Observable<Drawable[]> getDisciplinesArrayObservable(final Context context, final String cardDisciplines) {
 
-    static void updateDisciplineImages(Context context, ImageView[] disciplineImageViews, String cardDisciplines) {
-        new Utils.UpdateDisciplineImagesOperation(context, disciplineImageViews).execute(cardDisciplines);
+
+
+        return Observable.fromCallable(new Callable<Drawable[]>() {
+            @Override
+            public Drawable[] call() throws Exception {
+
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 4;
+
+
+                String[] disciplines = cardDisciplines.split("[^a-zA-Z]+");
+
+
+                Drawable[] result = new Drawable[disciplines.length];
+
+                int disIndex = 0;
+                for (String disciplineKey : disciplines) {
+                    addImageToCache(disciplineKey, context.getResources(), options);
+                    result[disIndex++] = disciplineDrawablesCache.get(disciplineKey);
+                }
+
+
+                return result;
+            }
+        });
     }
+
+    private static void addImageToCache(String disciplineKey, Resources res, BitmapFactory.Options options) {
+        if (disciplineDrawablesCache.get(disciplineKey) == null) {
+            Integer resourceId = disciplinesDrawableResourceIdsMap.get(disciplineKey);
+            if (resourceId != null) {
+                disciplineDrawablesCache.put(disciplineKey, new BitmapDrawable(res, BitmapFactory.decodeResource(res, resourceId, options)));
+            }
+        }
+
+    }
+
 
 
     private static class LoadImageOperation extends AsyncTask<Void, Void, Void> {
@@ -342,75 +393,6 @@ public class Utils {
 
     }
 
-
-    static class UpdateDisciplineImagesOperation extends AsyncTask<String, Void, String[]> {
-
-
-        private static BitmapFactory.Options options = new BitmapFactory.Options();
-
-        private Resources res;
-
-        private ImageView[] imageViewsToUpdate;
-
-        static {
-
-            options.inSampleSize = 4;
-        }
-
-        UpdateDisciplineImagesOperation(Context context, ImageView[] imageViews) {
-
-            res = context.getResources();
-            imageViewsToUpdate = imageViews;
-
-
-            // If the cache was cleared (maybe because of a low memory situation) those imageviews will have references to BitmapDrawables which
-            // have references to recycled bitmaps. This happened when those BitmapDrawables were evicted from the cache.
-            // In this case, clear the imageViews drawables (BitmapDrawable) references.
-            // This is needed because we are loading the bitmap drawables using asynctask in a backgrond thread. This means the UI thread may try to
-            // draw the imageViews (which have the recycled bitmap reference) before we can load the new BitmapDrawables crashing the application.
-            // Then, we clear them here.
-            if (disciplineDrawablesCache.size() == 0) {
-                for (int i = 0; i < imageViewsToUpdate.length; i++) {
-                    imageViewsToUpdate[i].setImageDrawable(null);
-                }
-            }
-        }
-
-        @Override
-        protected String[] doInBackground(String... strings) {
-
-            String[] disciplines = strings[0].split("[^a-zA-Z]+");
-            for (String disciplineKey : disciplines) {
-                addImageToCache(disciplineKey);
-            }
-
-            return disciplines;
-        }
-
-        private void addImageToCache(String disciplineKey) {
-            if (disciplineDrawablesCache.get(disciplineKey) == null) {
-                Integer resourceId = disciplinesDrawableResourceIdsMap.get(disciplineKey);
-                if (resourceId != null) {
-                    disciplineDrawablesCache.put(disciplineKey, new BitmapDrawable(res, BitmapFactory.decodeResource(res, resourceId, options)));
-                }
-            }
-
-        }
-
-        @Override
-        protected void onPostExecute(String[] disciplines) {
-
-            int disIndex = 0;
-            for (String discipline : disciplines) {
-                imageViewsToUpdate[disIndex].setImageDrawable(disciplineDrawablesCache.get(discipline));
-                //viewHolder.disciplineImageViews[disIndex].setImageBitmap(disciplineDrawablesCache.get(discipline));
-                imageViewsToUpdate[disIndex].setVisibility(View.VISIBLE);
-                disIndex++;
-
-            }
-
-        }
-    }
 
     //    Reference: http://stackoverflow.com/questions/8276634/android-get-hosting-activity-from-a-view
     static Activity getActivity(Context fromContext) {

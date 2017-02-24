@@ -1,16 +1,17 @@
 package name.vampidroid;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +19,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.functions.Func2;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 
 /**
@@ -27,7 +36,6 @@ import android.widget.TextView;
 public class LibraryCardDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "LibraryCardDetailsActiv";
-    private static String QUERY_LIBRARY = "select Name, Type, Clan, Discipline, CardText, PoolCost, BloodCost, Artist, _Set from library where _id = ?";
     private ImageView cardImage;
     private String cardName;
 
@@ -37,6 +45,11 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private String cardDisciplines;
 
+    private CardDetailsViewModel cardDetailsViewModel;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private CompositeSubscription subscriptions;
+    private String cardText;
+    private String cardType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +57,8 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_library_card_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
 
         //        Reference: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
         supportPostponeEnterTransition();
@@ -83,8 +98,16 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
         setupDisciplineImagesArray();
 
+        subscriptions = new CompositeSubscription();
+
         setupCardData();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        subscriptions.unsubscribe();
     }
 
     //    Reference: https://github.com/codepath/android_guides/wiki/Shared-Element-Activity-Transition
@@ -135,71 +158,99 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
     private void setupCardData() {
 
-        TextView txtCardText = (TextView) findViewById(R.id.cardText);
-        TextView txtCardType = (TextView) findViewById(R.id.cardType);
+        final TextView txtCardText = (TextView) findViewById(R.id.cardText);
+        final TextView txtCardType = (TextView) findViewById(R.id.cardType);
 
 
-        long cardId = getIntent().getExtras().getLong("cardId");
-
-        String query;
-
-        query = QUERY_LIBRARY;
-
-        SQLiteDatabase db = DatabaseHelper.getDatabase();
-        Cursor c = db.rawQuery(query, new String[]{String.valueOf(cardId)});
-        c.moveToFirst();
-
-        cardName = c.getString(0);
-        String cardType = c.getString(1);
-        String cardClan = c.getString(2);
-        cardDisciplines = c.getString(3);
-        String cardText = c.getString(4);
-        String cardPoolCost = c.getString(5);
-        String cardBloodCost = c.getString(5);
-        String cardArtist = c.getString(6);
-        String cardSetRarity = c.getString(7);
-
-        c.close();
+        cardDetailsViewModel = ((VampiDroidApplication)getApplication()).getCardDetailsViewModel(getIntent().getExtras().getLong("cardId"));
 
 
-        getSupportActionBar().setTitle(cardName);
+        subscriptions.add(
+                cardDetailsViewModel.getLibraryCard()
+                        .flatMap(new Func1<Cursor, Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>>() {
+                            @Override
+                            public Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>> call(Cursor c) {
+                                cardName = c.getString(0);
+                                cardType = c.getString(1);
+                                String cardClan = c.getString(2);
+                                cardDisciplines = c.getString(3);
+                                cardText = c.getString(4);
+                                String cardPoolCost = c.getString(5);
+                                String cardBloodCost = c.getString(5);
+                                String cardArtist = c.getString(6);
+                                String cardSetRarity = c.getString(7);
+
+                                c.close();
+
+                                return Observable.zip(
+                                        Utils.loadLibraryCardImageWithPalette(cardName).subscribeOn(Schedulers.io()),
+
+                                        Utils.getDisciplinesArrayObservable(LibraryCardDetailsActivity.this, cardDisciplines).subscribeOn(Schedulers.io()),
+
+                                        new Func2<Pair<BitmapDrawable, Palette>, Drawable[], Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>() {
+                                            @Override
+                                            public Pair<Pair<BitmapDrawable, Palette>, Drawable[]> call(Pair<BitmapDrawable, Palette> bitmapDrawablePalettePair, Drawable[] drawables) {
+                                                return Pair.create(bitmapDrawablePalettePair, drawables);
+                                            }
+                                        }
+
+                                );
+                            }
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Action1<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>() {
+                            @Override
+                            public void call(Pair<Pair<BitmapDrawable, Palette>, Drawable[]> data) {
 
 
-        txtCardText.setText(cardText);
-        txtCardType.setText(cardType);
+                                Pair<BitmapDrawable, Palette> bitmapDrawablePalettePair = data.first;
 
-        Utils.loadCardImage(cardImage, Utils.getCardFileName(cardName), R.drawable.green_back, new Utils.EmptyLoadCardImageAsync() {
-            @Override
-            public void onImageLoaded(BitmapDrawable image, Palette palette) {
+                                BitmapDrawable imageDrawable = bitmapDrawablePalettePair.first;
+                                Palette palette = bitmapDrawablePalettePair.second;
 
-                final TextView txtCardTypeLabel = (TextView) findViewById(R.id.txtCardTypeLabel);
-                final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.txtCardDisciplinesLabel);
-                final TextView txtCardTextLabel = (TextView) findViewById(R.id.txtCardTextLabel);
-
-                supportStartPostponedEnterTransition();
-
-                final int defaultColor = ContextCompat.getColor(LibraryCardDetailsActivity.this, R.color.colorAccent);
-
-                txtCardTypeLabel.setTextColor(palette.getVibrantColor(defaultColor));
-                txtDisciplinesLabel.setTextColor(palette.getVibrantColor(defaultColor));
-                txtCardTextLabel.setTextColor(palette.getVibrantColor(defaultColor));
+                                collapsingToolbarLayout.setTitle(cardName);
+                                txtCardText.setText(cardText);
+                                txtCardType.setText(cardType);
 
 
-                // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
-                fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(defaultColor)));
+                                cardImage.setImageDrawable(imageDrawable);
 
-            }
-        });
+                                final TextView txtCardTypeLabel = (TextView) findViewById(R.id.txtCardTypeLabel);
+                                final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.txtCardDisciplinesLabel);
+                                final TextView txtCardTextLabel = (TextView) findViewById(R.id.txtCardTextLabel);
+
+                                final int defaultColor = ContextCompat.getColor(LibraryCardDetailsActivity.this, R.color.colorAccent);
+
+                                txtCardTypeLabel.setTextColor(palette.getVibrantColor(defaultColor));
+                                txtDisciplinesLabel.setTextColor(palette.getVibrantColor(defaultColor));
+                                txtCardTextLabel.setTextColor(palette.getVibrantColor(defaultColor));
+
+
+                                // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
+//                                fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(defaultColor)));
+
+                                Drawable[] drawables = data.second;
+
+                                if (cardDisciplines.length() > 0) {
+                                    findViewById(R.id.cardViewDisciplines).setVisibility(View.VISIBLE);
+                                    for (int disIndex = 0; disIndex < drawables.length; disIndex++) {
+                                        disciplineImageViews[disIndex].setImageDrawable(drawables[disIndex]);
+                                        disciplineImageViews[disIndex].setVisibility(View.VISIBLE);
+                                    }
+                                }
+
+                                supportStartPostponedEnterTransition();
+
+
+                            }
+                        }));
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        if (cardDisciplines.length() > 0) {
-            findViewById(R.id.cardViewDisciplines).setVisibility(View.VISIBLE);
-            Utils.updateDisciplineImages(this, disciplineImageViews, cardDisciplines);
-        }
 
     }
 
