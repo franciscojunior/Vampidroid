@@ -15,6 +15,8 @@ import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -50,6 +52,8 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
     private CompositeSubscription subscriptions;
     private String cardText;
     private String cardType;
+    private String shareSubject;
+    private String shareBody;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +114,16 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         subscriptions.unsubscribe();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.library_details_menu, menu);
+
+        return true;
+
+    }
+
     //    Reference: https://github.com/codepath/android_guides/wiki/Shared-Element-Activity-Transition
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -117,6 +131,14 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 supportFinishAfterTransition();
+                return true;
+            case R.id.action_share:
+                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, shareSubject);
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+
+                startActivity(Intent.createChooser(shareIntent, getString(R.string.share_library_card_text)));
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -182,6 +204,10 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
                                 c.close();
 
+
+                                setupShareInfo(cardPoolCost, cardBloodCost);
+
+
                                 return Observable.zip(
                                         Utils.loadLibraryCardImageWithPalette(cardName).subscribeOn(Schedulers.io()),
 
@@ -244,6 +270,19 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
                             }
                         }));
+
+    }
+
+    private void setupShareInfo(String cardPoolCost, String cardBloodCost) {
+
+        shareSubject = cardName;
+
+        shareBody =  "Name: " + cardName + "\n" +
+                "Type: " + cardType + "\n" +
+                "PoolCost: " + cardPoolCost + "\n" +
+                "BloodCost: " + cardBloodCost + "\n" +
+                "CardText: " + cardText + "\n";
+
 
     }
 

@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -50,6 +52,8 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
     private String cardText;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private CompositeSubscription subscriptions;
+    private String shareSubject;
+    private String shareBody;
 
 
     @Override
@@ -111,6 +115,16 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         subscriptions.unsubscribe();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.crypt_details_menu, menu);
+
+        return true;
+
+    }
+
     //    Reference: https://github.com/codepath/android_guides/wiki/Shared-Element-Activity-Transition
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -119,6 +133,15 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
             case android.R.id.home:
                 supportFinishAfterTransition();
                 return true;
+            case R.id.action_share:
+                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, shareSubject);
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+
+                startActivity(Intent.createChooser(shareIntent, getString(R.string.share_crypt_card_text)));
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -186,6 +209,8 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
                                 cardAdvanced = c.getString(9);
                                 c.close();
 
+                                setupShareInfo(cardType, cardClan, cardCapacity, cardArtist, cardSetRarity, cardGroup);
+
                                 return Observable.zip(
                                         Utils.loadCryptCardImageWithPalette(cardName, cardAdvanced.length() > 0).subscribeOn(Schedulers.io()),
 
@@ -251,6 +276,22 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
     }
 
+    private void setupShareInfo(String cardType, String cardClan, String cardCapacity, String cardArtist, String cardSetRarity, String cardGroup) {
+        shareSubject = cardName;
+
+        shareBody =  "Name: " + cardName + "\n" +
+                "Capacity: " + cardCapacity + "\n" +
+                "Type: " + cardType + "\n" +
+                "Group: " + cardGroup + "\n" +
+                "Clan: " + cardClan + "\n" +
+                "Disciplines: " + cardDisciplines + "\n" +
+                "Set/Rarity: " + cardSetRarity + "\n" +
+                "Artist: " + cardArtist + "\n" +
+                "CardText: " + cardText + "\n";
+
+
+
+    }
 
 
     @Override
