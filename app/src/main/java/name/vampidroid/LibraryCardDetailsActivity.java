@@ -198,9 +198,9 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                                 cardDisciplines = c.getString(3);
                                 cardText = c.getString(4);
                                 String cardPoolCost = c.getString(5);
-                                String cardBloodCost = c.getString(5);
-                                String cardArtist = c.getString(6);
-                                String cardSetRarity = c.getString(7);
+                                String cardBloodCost = c.getString(6);
+                                String cardArtist = c.getString(7);
+                                String cardSetRarity = c.getString(8);
 
                                 c.close();
 
