@@ -288,17 +288,20 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
     private void setupShareInfo(String cardType, String cardClan, String cardCapacity, String cardArtist, String cardSetRarity, String cardGroup) {
         shareSubject = cardName;
 
-        shareBody =  "Name: " + cardName + "\n" +
-                "Capacity: " + cardCapacity + "\n" +
-                "Type: " + cardType + "\n" +
-                "Group: " + cardGroup + "\n" +
-                "Clan: " + cardClan + "\n" +
-                "Disciplines: " + cardDisciplines + "\n" +
-                "Set/Rarity: " + cardSetRarity + "\n" +
-                "Artist: " + cardArtist + "\n" +
-                "CardText: " + cardText + "\n";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("Name: %s %n", cardName));
+        sb.append(String.format("Capacity: %s %n", cardCapacity));
+        sb.append(String.format("Type: %s %n", cardType));
+        sb.append(String.format("Group: %s %n", cardGroup));
+        sb.append(String.format("Clan: %s %n", cardClan));
+        sb.append(String.format("Disciplines: %s %n", cardDisciplines));
+        sb.append(String.format("Set/Rarity: %s %n", cardSetRarity));
+        sb.append(String.format("Artist: %s %n", cardArtist));
+        sb.append(String.format("CardText: %s %n", cardText));
 
 
+        shareBody = sb.toString();
 
     }
 
