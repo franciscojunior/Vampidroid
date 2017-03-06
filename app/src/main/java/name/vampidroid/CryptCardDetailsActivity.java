@@ -54,6 +54,8 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
     private CompositeSubscription subscriptions;
     private String shareSubject;
     private String shareBody;
+    private String cardSetRarity;
+    private String cardCapacity;
 
 
     @Override
@@ -189,6 +191,8 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
     private void setupCardData() {
 
         final TextView txtCardText = (TextView) findViewById(R.id.cardText);
+        final TextView txtCardCapacity = (TextView) findViewById(R.id.txtCardCapacity);
+        final TextView txtCardSetRarity = (TextView) findViewById(R.id.txtCardSetRarity);
 
         cardDetailsViewModel = ((VampiDroidApplication)getApplication()).getCardDetailsViewModel(getIntent().getExtras().getLong("cardId"));
 
@@ -202,9 +206,9 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
                                 String cardClan = c.getString(2);
                                 cardDisciplines = c.getString(3);
                                 cardText = c.getString(4);
-                                String cardCapacity = c.getString(5);
+                                cardCapacity = c.getString(5);
                                 String cardArtist = c.getString(6);
-                                String cardSetRarity = c.getString(7);
+                                cardSetRarity = c.getString(7);
                                 String cardGroup = c.getString(8);
                                 cardAdvanced = c.getString(9);
                                 c.close();
@@ -239,12 +243,16 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
                                 collapsingToolbarLayout.setTitle(cardName);
                                 txtCardText.setText(cardText);
+                                txtCardCapacity.setText(cardCapacity);
+                                txtCardSetRarity.setText(cardSetRarity);
 
 
                                 cardImage.setImageDrawable(imageDrawable);
 
                                 final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.textCardDisciplines);
                                 final TextView txtTextLabel = (TextView) findViewById(R.id.textCardText);
+                                final TextView txtCapacityLabel = (TextView) findViewById(R.id.txtCapacityLabel);
+                                final TextView txtSetRarityLabel = (TextView) findViewById(R.id.txtSetRarityLabel);
 
 
                                 final int paletteColor = palette.getVibrantColor(ContextCompat.getColor(CryptCardDetailsActivity.this, R.color.colorAccent));
@@ -252,7 +260,8 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
                                 txtDisciplinesLabel.setTextColor(paletteColor);
                                 txtTextLabel.setTextColor(paletteColor);
-
+                                txtCapacityLabel.setTextColor(paletteColor);
+                                txtSetRarityLabel.setTextColor(paletteColor);
 
                                 // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
 //                        fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(defaultColor)));
@@ -279,17 +288,20 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
     private void setupShareInfo(String cardType, String cardClan, String cardCapacity, String cardArtist, String cardSetRarity, String cardGroup) {
         shareSubject = cardName;
 
-        shareBody =  "Name: " + cardName + "\n" +
-                "Capacity: " + cardCapacity + "\n" +
-                "Type: " + cardType + "\n" +
-                "Group: " + cardGroup + "\n" +
-                "Clan: " + cardClan + "\n" +
-                "Disciplines: " + cardDisciplines + "\n" +
-                "Set/Rarity: " + cardSetRarity + "\n" +
-                "Artist: " + cardArtist + "\n" +
-                "CardText: " + cardText + "\n";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("Name: %s %n", cardName));
+        sb.append(String.format("Capacity: %s %n", cardCapacity));
+        sb.append(String.format("Type: %s %n", cardType));
+        sb.append(String.format("Group: %s %n", cardGroup));
+        sb.append(String.format("Clan: %s %n", cardClan));
+        sb.append(String.format("Disciplines: %s %n", cardDisciplines));
+        sb.append(String.format("Set/Rarity: %s %n", cardSetRarity));
+        sb.append(String.format("Artist: %s %n", cardArtist));
+        sb.append(String.format("CardText: %s %n", cardText));
 
 
+        shareBody = sb.toString();
 
     }
 

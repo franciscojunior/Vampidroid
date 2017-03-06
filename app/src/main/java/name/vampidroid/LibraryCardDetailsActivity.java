@@ -198,14 +198,14 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                                 cardDisciplines = c.getString(3);
                                 cardText = c.getString(4);
                                 String cardPoolCost = c.getString(5);
-                                String cardBloodCost = c.getString(5);
-                                String cardArtist = c.getString(6);
-                                String cardSetRarity = c.getString(7);
+                                String cardBloodCost = c.getString(6);
+                                String cardArtist = c.getString(7);
+                                String cardSetRarity = c.getString(8);
 
                                 c.close();
 
 
-                                setupShareInfo(cardPoolCost, cardBloodCost);
+                                setupShareInfo(cardType, cardClan, cardPoolCost, cardBloodCost, cardArtist, cardSetRarity);
 
 
                                 return Observable.zip(
@@ -273,16 +273,23 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void setupShareInfo(String cardPoolCost, String cardBloodCost) {
+    private void setupShareInfo(String cardType, String cardClan, String cardPoolCost, String cardBloodCost, String cardArtist, String cardSetRarity) {
 
         shareSubject = cardName;
 
-        shareBody =  "Name: " + cardName + "\n" +
-                "Type: " + cardType + "\n" +
-                "PoolCost: " + cardPoolCost + "\n" +
-                "BloodCost: " + cardBloodCost + "\n" +
-                "CardText: " + cardText + "\n";
+        StringBuilder sb = new StringBuilder();
 
+        sb.append(String.format("Name: %s %n", cardName));
+        sb.append(String.format("Type: %s %n", cardType));
+        sb.append(String.format("Clan: %s %n", cardClan));
+        sb.append(String.format("PoolCost: %s %n", cardPoolCost));
+        sb.append(String.format("BloodCost: %s %n", cardBloodCost));
+        sb.append(String.format("Disciplines: %s %n", cardDisciplines));
+        sb.append(String.format("Set/Rarity: %s %n", cardSetRarity));
+        sb.append(String.format("Artist: %s %n", cardArtist));
+        sb.append(String.format("CardText: %s %n", cardText));
+
+        shareBody = sb.toString();
 
     }
 
