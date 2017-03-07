@@ -6,6 +6,9 @@
             <target android:targetId="@id/cardViewCardText" />
             <target android:targetId="@id/cardViewDisciplines" />
             <target android:targetId="@id/cardviewCartType" />
+            <target android:targetId="@id/cardViewCardCost" />
+            <target android:targetId="@id/cardViewCardSetRarity" />
+            <target android:targetId="@id/cardViewCardCapacity" />
             <target android:targetId="@id/app_bar"/>
             <target android:excludeId="@android:id/statusBarBackground"/>
             <target android:excludeId="@android:id/navigationBarBackground"/>
