@@ -54,6 +54,9 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
     private String cardType;
     private String shareSubject;
     private String shareBody;
+    private String cardPoolCost;
+    private String cardBloodCost;
+    private String cardSetRarity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,6 +185,8 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
         final TextView txtCardText = (TextView) findViewById(R.id.cardText);
         final TextView txtCardType = (TextView) findViewById(R.id.cardType);
+        final TextView txtCardCost = (TextView) findViewById(R.id.txtCardCost);
+        final TextView txtCardSetRarity = (TextView) findViewById(R.id.txtCardSetRarity);
 
 
         cardDetailsViewModel = ((VampiDroidApplication)getApplication()).getCardDetailsViewModel(getIntent().getExtras().getLong("cardId"));
@@ -197,10 +202,10 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                                 String cardClan = c.getString(2);
                                 cardDisciplines = c.getString(3);
                                 cardText = c.getString(4);
-                                String cardPoolCost = c.getString(5);
-                                String cardBloodCost = c.getString(6);
+                                cardPoolCost = c.getString(5);
+                                cardBloodCost = c.getString(6);
                                 String cardArtist = c.getString(7);
-                                String cardSetRarity = c.getString(8);
+                                cardSetRarity = c.getString(8);
 
                                 c.close();
 
@@ -237,6 +242,7 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                                 collapsingToolbarLayout.setTitle(cardName);
                                 txtCardText.setText(cardText);
                                 txtCardType.setText(cardType);
+                                txtCardSetRarity.setText(cardSetRarity);
 
 
                                 cardImage.setImageDrawable(imageDrawable);
@@ -244,12 +250,28 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                                 final TextView txtCardTypeLabel = (TextView) findViewById(R.id.txtCardTypeLabel);
                                 final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.txtCardDisciplinesLabel);
                                 final TextView txtCardTextLabel = (TextView) findViewById(R.id.txtCardTextLabel);
+                                final TextView txtCardCostLabel = (TextView) findViewById(R.id.txtCardCostLabel);
+                                final TextView txtCardSetRarityLabel = (TextView) findViewById(R.id.txtSetRarityLabel);
 
                                 final int defaultColor = ContextCompat.getColor(LibraryCardDetailsActivity.this, R.color.colorAccent);
 
                                 txtCardTypeLabel.setTextColor(palette.getVibrantColor(defaultColor));
                                 txtDisciplinesLabel.setTextColor(palette.getVibrantColor(defaultColor));
                                 txtCardTextLabel.setTextColor(palette.getVibrantColor(defaultColor));
+                                txtCardCostLabel.setTextColor(palette.getVibrantColor(defaultColor));
+                                txtCardSetRarityLabel.setTextColor(palette.getVibrantColor(defaultColor));
+
+
+                                if (!cardBloodCost.isEmpty()) {
+                                    txtCardCostLabel.setText("Blood Cost");
+                                    txtCardCost.setText(cardBloodCost);
+                                } else if (!cardPoolCost.isEmpty()) {
+                                    txtCardCostLabel.setText("Pool Cost");
+                                    txtCardCost.setText(cardPoolCost);
+                                }
+
+
+
 
 
                                 // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically

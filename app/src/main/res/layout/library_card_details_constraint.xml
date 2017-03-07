@@ -172,6 +172,29 @@
 
     </android.support.v7.widget.CardView>
 
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:id="@+id/cardViewCardCost"
+        card_view:cardUseCompatPadding="true"
+        android:layout_below="@id/cardViewDisciplines">
+
+        <include layout="@layout/library_card_details_cost" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:id="@+id/cardViewCardSetRarity"
+        card_view:cardUseCompatPadding="true"
+        android:layout_below="@id/cardViewCardCost">
+
+        <include layout="@layout/card_details_set_rarity" />
+
+    </android.support.v7.widget.CardView>
 
 
 
