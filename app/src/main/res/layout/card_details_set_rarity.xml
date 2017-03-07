@@ -30,6 +30,8 @@
         app:layout_constraintTop_toBottomOf="@+id/txtSetRarityLabel"
         android:layout_marginLeft="16dp"
         app:layout_constraintLeft_toLeftOf="@+id/txtSetRarityLabel"
-        android:layout_marginStart="16dp" />
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>
