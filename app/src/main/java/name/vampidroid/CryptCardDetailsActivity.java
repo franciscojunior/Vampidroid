@@ -23,13 +23,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.functions.Func2;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * Created by fxjr on 06/07/16.
@@ -51,7 +52,7 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
     private CardDetailsViewModel cardDetailsViewModel;
     private String cardText;
     private CollapsingToolbarLayout collapsingToolbarLayout;
-    private CompositeSubscription subscriptions;
+    private CompositeDisposable subscriptions;
     private String shareSubject;
     private String shareBody;
     private String cardSetRarity;
@@ -105,7 +106,7 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
         setupDisciplineImagesArray();
 
-        subscriptions = new CompositeSubscription();
+        subscriptions = new CompositeDisposable();
 
         setupCardData();
 
@@ -114,7 +115,7 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        subscriptions.unsubscribe();
+        subscriptions.dispose();
     }
 
     @Override
@@ -198,9 +199,9 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
         subscriptions.add(
                 cardDetailsViewModel.getCryptCard()
-                        .flatMap(new Func1<Cursor, Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>>() {
+                        .flatMap(new Function<Cursor, Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>>() {
                             @Override
-                            public Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>> call(Cursor c) {
+                            public Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>> apply(Cursor c) throws Exception {
                                 cardName = c.getString(0);
                                 String cardType = c.getString(1);
                                 String cardClan = c.getString(2);
@@ -220,9 +221,9 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
                                         Utils.getDisciplinesArrayObservable(CryptCardDetailsActivity.this, cardDisciplines).subscribeOn(Schedulers.io()),
 
-                                        new Func2<Pair<BitmapDrawable, Palette>, Drawable[], Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>() {
+                                        new BiFunction<Pair<BitmapDrawable, Palette>, Drawable[], Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>() {
                                             @Override
-                                            public Pair<Pair<BitmapDrawable, Palette>, Drawable[]> call(Pair<BitmapDrawable, Palette> bitmapDrawablePalettePair, Drawable[] drawables) {
+                                            public Pair<Pair<BitmapDrawable, Palette>, Drawable[]> apply(Pair<BitmapDrawable, Palette> bitmapDrawablePalettePair, Drawable[] drawables) throws Exception {
                                                 return Pair.create(bitmapDrawablePalettePair, drawables);
                                             }
                                         }
@@ -231,10 +232,9 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
                             }
                         })
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>() {
+                        .subscribe(new Consumer<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>() {
                             @Override
-                            public void call(Pair<Pair<BitmapDrawable, Palette>, Drawable[]> data) {
-
+                            public void accept(Pair<Pair<BitmapDrawable, Palette>, Drawable[]> data) throws Exception {
 
                                 Pair<BitmapDrawable, Palette> bitmapDrawablePalettePair = data.first;
 

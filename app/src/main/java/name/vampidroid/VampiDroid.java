@@ -20,20 +20,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jakewharton.rxbinding.support.design.widget.RxTabLayout;
-import com.jakewharton.rxbinding.widget.RxTextView;
+
+import com.jakewharton.rxbinding2.support.design.widget.RxTabLayout;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
 import name.vampidroid.ui.widget.CardFilters;
 import name.vampidroid.ui.widget.PersistentSearchBar;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
-
 
 public class VampiDroid extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -57,7 +57,7 @@ public class VampiDroid extends AppCompatActivity
 
     boolean refreshDataNeeded = false;
 
-    private CompositeSubscription subscriptions = new CompositeSubscription();
+    private CompositeDisposable subscriptions = new CompositeDisposable();
 
 
     @Override
@@ -140,55 +140,54 @@ public class VampiDroid extends AppCompatActivity
     private void bind() {
 
         subscriptions.add(cardsViewModel.getSearchTextHintObservable()
-                .subscribe(new Action1<Integer>() {
+                .subscribe(new Consumer<Integer>() {
                     @Override
-                    public void call(Integer textHintResId) {
+                    public void accept(Integer textHintResId) throws Exception {
                         persistentSearchBar.setSearchBarTextHint(textHintResId);
                     }
                 }));
 
         subscriptions.add(cardsViewModel.getNeedRefreshFlag()
-                .subscribe(new Action1<String>() {
+                .subscribe(new Consumer<String>() {
                     @Override
-                    public void call(String ignored) {
+                    public void accept(String s) throws Exception {
                         refreshDataNeeded = true;
                     }
-                })
-        );
+                }));
 
 
         subscriptions.add(cardsViewModel.getCryptCards()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Cursor>() {
+                .subscribe(new Consumer<Cursor>() {
                     @Override
-                    public void call(Cursor cursor) {
+                    public void accept(Cursor cursor) {
                         viewPagerAdapter.setData(0, cursor);
                     }
                 }));
 
         subscriptions.add(cardsViewModel.getLibraryCards()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Cursor>() {
+                .subscribe(new Consumer<Cursor>() {
                     @Override
-                    public void call(Cursor cursor) {
+                    public void accept(Cursor cursor) {
                         viewPagerAdapter.setData(1, cursor);
                     }
                 }));
 
 
         subscriptions.add(cardsViewModel.getCryptTabTitle()
-                .filter(new Func1<String, Boolean>() {
+                .filter(new Predicate<String>() {
                     @Override
-                    public Boolean call(String s) {
+                    public boolean test(String s) throws Exception {
                         // Only go forward if the title is different.
                         // We avoid bothering Android main thread if it is not.
                         return !tabLayout.getTabAt(0).getText().equals(s);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<String>() {
+                .subscribe(new Consumer<String>() {
                     @Override
-                    public void call(String s) {
+                    public void accept(String s) throws Exception {
                         Log.d(TAG, "call: cryptTabTitle updated: " + s);
                         tabLayout.getTabAt(0).setText(s);
                     }
@@ -197,16 +196,16 @@ public class VampiDroid extends AppCompatActivity
         );
 
         subscriptions.add(cardsViewModel.getLibraryTabTitle()
-                .filter(new Func1<String, Boolean>() {
+                .filter(new Predicate<String>() {
                     @Override
-                    public Boolean call(String s) {
+                    public boolean test(String s) {
                         return !tabLayout.getTabAt(1).getText().equals(s);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<String>() {
+                .subscribe(new Consumer<String>() {
                     @Override
-                    public void call(String s) {
+                    public void accept(String s) {
                         Log.d(TAG, "call: libraryTabTitle updated: " + s);
                         tabLayout.getTabAt(1).setText(s);
 
@@ -228,7 +227,7 @@ public class VampiDroid extends AppCompatActivity
     }
 
     private void unbind() {
-        subscriptions.unsubscribe();
+        subscriptions.dispose();
 
     }
 
@@ -238,9 +237,9 @@ public class VampiDroid extends AppCompatActivity
 
         subscriptions.add(RxTabLayout.selections(tabLayout)
                 .skip(1) // Skip first emission on subscribe
-                .subscribe(new Action1<TabLayout.Tab>() {
+                .subscribe(new Consumer<TabLayout.Tab>() {
                     @Override
-                    public void call(TabLayout.Tab tab) {
+                    public void accept(TabLayout.Tab tab) throws Exception {
                         if (tab.getPosition() == 0) {
                             cardFilters.showCryptFilters();
                         } else {
@@ -389,16 +388,16 @@ public class VampiDroid extends AppCompatActivity
         subscriptions.add(RxTextView.textChanges(persistentSearchBar.getSearchBarTextView())
                 .observeOn(Schedulers.computation())
                 .skip(1) // Skip first emission when subscribing...
-                .filter(new Func1<CharSequence, Boolean>() {
+                .filter(new Predicate<CharSequence>() {
                     @Override
-                    public Boolean call(CharSequence s) {
+                    public boolean test(CharSequence charSequence) throws Exception {
                         return !restoring;
                     }
                 })
                 .debounce(200, TimeUnit.MILLISECONDS)
-                .subscribe(new Action1<CharSequence>() {
+                .subscribe(new Consumer<CharSequence>() {
                     @Override
-                    public void call(CharSequence charSequence) {
+                    public void accept(CharSequence charSequence) {
                         filterState.setName(charSequence);
                         filterCryptCards();
                         filterLibraryCards();

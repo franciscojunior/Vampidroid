@@ -3,9 +3,9 @@ package name.vampidroid.data.source;
 import android.database.Cursor;
 import java.util.concurrent.Callable;
 
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import name.vampidroid.DatabaseHelper;
-import rx.Observable;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by fxjr on 03/01/17.

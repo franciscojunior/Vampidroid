@@ -7,14 +7,15 @@ import android.os.Build;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
-import com.f2prateek.rx.preferences.RxSharedPreferences;
+
+import com.f2prateek.rx.preferences2.RxSharedPreferences;
 
 import java.lang.reflect.Method;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 import name.vampidroid.data.source.CardsRepository;
 import name.vampidroid.data.source.PreferenceRepository;
-import rx.functions.Action1;
-import rx.subscriptions.CompositeSubscription;
 
 public class VampiDroidApplication extends Application {
 
@@ -24,7 +25,7 @@ public class VampiDroidApplication extends Application {
     private PreferenceRepository preferenceRepository;
 
 
-    private CompositeSubscription subscriptions;
+    private CompositeDisposable subscriptions;
 
     public VampiDroidApplication() {
 
@@ -37,7 +38,7 @@ public class VampiDroidApplication extends Application {
         Log.d(TAG, "finishing application");
         DatabaseHelper.closeDatabase();
 
-        subscriptions.unsubscribe();
+        subscriptions.dispose();
     }
 
     @Override
@@ -55,7 +56,7 @@ public class VampiDroidApplication extends Application {
         preferenceRepository = new PreferenceRepository(rxPreferences);
 
 
-        subscriptions = new CompositeSubscription();
+        subscriptions = new CompositeDisposable();
 
 
         DatabaseHelper.setApplicationContext(getApplicationContext());
@@ -64,11 +65,12 @@ public class VampiDroidApplication extends Application {
 
 
         subscriptions.add(getPreferenceRepository().getCardsImagesFolderObservable()
-                .subscribe(new Action1<String>() {
+                .subscribe(new Consumer<String>() {
                     @Override
-                    public void call(String path) {
+                    public void accept(String path) throws Exception {
                         Utils.setCardImagesPath(path);
                     }
+
                 }));
 
 //		FilterModel.initFilterModel(

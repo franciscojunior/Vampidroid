@@ -2,8 +2,8 @@ package name.vampidroid;
 
 import android.database.Cursor;
 
+import io.reactivex.Observable;
 import name.vampidroid.data.source.CardsRepository;
-import rx.Observable;
 
 /**
  * Created by FranciscoJunior on 24/01/2017.

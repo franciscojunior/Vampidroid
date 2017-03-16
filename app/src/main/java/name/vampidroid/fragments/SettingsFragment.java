@@ -7,11 +7,11 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 import name.vampidroid.R;
 import name.vampidroid.SettingsViewModel;
 import name.vampidroid.VampiDroidApplication;
-import rx.functions.Action1;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by fxjr on 09/07/16.
@@ -34,7 +34,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
     public static final String DIRECTORY_CHOOSER_FRAGMENT_TAG = "directorychooser";
     private SettingsViewModel settingsViewModel;
 
-    private CompositeSubscription subscriptions = new CompositeSubscription();
+    private CompositeDisposable subscriptions = new CompositeDisposable();
     private Preference imagesFolderButton;
 
     @Override
@@ -69,9 +69,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
     private void bind() {
 
         subscriptions.add(settingsViewModel.getCardsImagesFolderObservable()
-                .subscribe(new Action1<String>() {
+                .subscribe(new Consumer<String>() {
                     @Override
-                    public void call(String cardImagesFolderPath) {
+                    public void accept(String cardImagesFolderPath) throws Exception {
                         imagesFolderButton.setSummary(cardImagesFolderPath);
 
                     }
@@ -80,7 +80,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
     }
 
     private void unbind() {
-        subscriptions.unsubscribe();
+        subscriptions.dispose();
     }
 
     @Override

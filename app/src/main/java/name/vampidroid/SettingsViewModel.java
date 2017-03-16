@@ -1,7 +1,7 @@
 package name.vampidroid;
 
+import io.reactivex.Observable;
 import name.vampidroid.data.source.PreferenceRepository;
-import rx.Observable;
 
 /**
  * Created by FranciscoJunior on 16/12/2016.

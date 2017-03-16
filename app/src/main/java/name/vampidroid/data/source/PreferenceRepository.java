@@ -1,10 +1,11 @@
 package name.vampidroid.data.source;
 
-import com.f2prateek.rx.preferences.Preference;
-import com.f2prateek.rx.preferences.RxSharedPreferences;
 
+import com.f2prateek.rx.preferences2.Preference;
+import com.f2prateek.rx.preferences2.RxSharedPreferences;
+
+import io.reactivex.Observable;
 import name.vampidroid.fragments.SettingsFragment;
-import rx.Observable;
 
 /**
  * Created by fxjr on 03/01/17.

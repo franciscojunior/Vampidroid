@@ -2,15 +2,15 @@ package name.vampidroid;
 
 import android.database.Cursor;
 
+import io.reactivex.Observable;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 import name.vampidroid.data.source.CardsRepository;
 import name.vampidroid.data.source.PreferenceRepository;
 import name.vampidroid.utils.FilterStateQueryConverter;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.functions.Func2;
-import rx.schedulers.Schedulers;
-import rx.subjects.PublishSubject;
 
 
 /**
@@ -50,16 +50,16 @@ public class CardsViewModel {
 
         return filterCryptCards
                 .observeOn(Schedulers.computation())
-                .flatMap(new Func1<FilterState, Observable<Cursor>>() {
+                .flatMap(new Function<FilterState, Observable<Cursor>>() {
                     @Override
-                    public Observable<Cursor> call(FilterState filterState) {
+                    public Observable<Cursor> apply(FilterState filterState) throws Exception {
                         filterState.setSearchInsideCardText(preferenceRepository.shouldSearchTextCard());
                         return cardsRepository.getCryptCards(FilterStateQueryConverter.getCryptFilter(filterState));
                     }
                 })
-                .doOnNext(new Action1<Cursor>() {
+                .doOnNext(new Consumer<Cursor>() {
                     @Override
-                    public void call(Cursor cursor) {
+                    public void accept(Cursor cursor) throws Exception {
                         cryptCardsCount = cursor.getCount();
                         cryptTabTitle.onNext(getTabTitle("Crypt", preferenceRepository.shouldShowCardsCount(), cryptCardsCount));
                     }
@@ -71,16 +71,16 @@ public class CardsViewModel {
 
         return filterLibraryCards
                 .observeOn(Schedulers.computation())
-                .flatMap(new Func1<FilterState, Observable<Cursor>>() {
+                .flatMap(new Function<FilterState, Observable<Cursor>>() {
                     @Override
-                    public Observable<Cursor> call(FilterState filterState) {
+                    public Observable<Cursor> apply(FilterState filterState) throws Exception {
                         filterState.setSearchInsideCardText(preferenceRepository.shouldSearchTextCard());
                         return cardsRepository.getLibraryCards(FilterStateQueryConverter.getLibraryFilter(filterState));
                     }
                 })
-                .doOnNext(new Action1<Cursor>() {
+                .doOnNext(new Consumer<Cursor>() {
                     @Override
-                    public void call(Cursor cursor) {
+                    public void accept(Cursor cursor) throws Exception {
                         libraryCardsCount = cursor.getCount();
                         libraryTabTitle.onNext(getTabTitle("Library", preferenceRepository.shouldShowCardsCount(), libraryCardsCount));
                     }
@@ -109,9 +109,9 @@ public class CardsViewModel {
         return cryptTabTitle
                 .mergeWith(showCardsCountPreferenceObservable
                         .skip(1) // Skip first emission on subscribe
-                        .map(new Func1<Boolean, String>() {
+                        .map(new Function<Boolean, String>() {
                             @Override
-                            public String call(Boolean showCards) {
+                            public String apply(Boolean showCards) throws Exception {
                                 return getTabTitle("Crypt", showCards, cryptCardsCount);
                             }
                         }));
@@ -122,9 +122,9 @@ public class CardsViewModel {
         return libraryTabTitle
                 .mergeWith(showCardsCountPreferenceObservable
                         .skip(1) // Skip first emission on subscribe
-                        .map(new Func1<Boolean, String>() {
+                        .map(new Function<Boolean, String>() {
                             @Override
-                            public String call(Boolean showCards) {
+                            public String apply(Boolean showCards) throws Exception {
                                 return getTabTitle("Library", showCards, libraryCardsCount);
                             }
                         }));
@@ -140,9 +140,9 @@ public class CardsViewModel {
     public Observable<Integer> getSearchTextHintObservable() {
 
         return preferenceRepository.getSearchTextCardObservable()
-                .map(new Func1<Boolean, Integer>() {
+                .map(new Function<Boolean, Integer>() {
                     @Override
-                    public Integer call(Boolean searchTextCard) {
+                    public Integer apply(Boolean searchTextCard) throws Exception {
                         return searchTextCard ? R.string.search_bar_filter_card_name_and_card_text : R.string.search_bar_filter_card_name;
                     }
                 });
@@ -160,9 +160,9 @@ public class CardsViewModel {
                 .combineLatest(
                         preferenceRepository.getSearchTextCardObservable(),
                         preferenceRepository.getCardsImagesFolderObservable(),
-                        new Func2<Boolean, String, String>() {
+                        new BiFunction<Boolean, String, String>() {
                             @Override
-                            public String call(Boolean aBoolean, String s) {
+                            public String apply(Boolean aBoolean, String s) throws Exception {
                                 return "";
                             }
                         });

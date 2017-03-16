@@ -4,7 +4,7 @@
     package="name.vampidroid">
 
 
-    <uses-sdk tools:overrideLibrary="com.jakewharton.rxbinding.support.design, com.jakewharton.rxbinding" />
+    <uses-sdk tools:overrideLibrary="com.jakewharton.rxbinding2.support.design, com.jakewharton.rxbinding2" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
