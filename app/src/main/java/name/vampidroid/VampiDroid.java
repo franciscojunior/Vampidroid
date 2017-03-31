@@ -28,8 +28,8 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 import name.vampidroid.ui.widget.CardFilters;
@@ -157,6 +157,12 @@ public class VampiDroid extends AppCompatActivity
 
 
         subscriptions.add(cardsViewModel.getCryptCards()
+                .doOnDispose(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        viewPagerAdapter.setData(0, null);
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Cursor>() {
                     @Override
@@ -166,6 +172,12 @@ public class VampiDroid extends AppCompatActivity
                 }));
 
         subscriptions.add(cardsViewModel.getLibraryCards()
+                .doOnDispose(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        viewPagerAdapter.setData(1, null);
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Cursor>() {
                     @Override
@@ -222,7 +234,6 @@ public class VampiDroid extends AppCompatActivity
         super.onDestroy();
 
         unbind();
-
 
     }
 
