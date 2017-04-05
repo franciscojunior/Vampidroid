@@ -30,6 +30,7 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import name.vampidroid.data.CryptCard;
 
 
 /**
@@ -40,23 +41,18 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "CryptCardDetailsActivit";
     private ImageView cardImage;
-    private String cardName;
 
     // Discipline images
 
     private ImageView[] disciplineImageViews = new ImageView[7];
-    private String cardAdvanced;
     private FloatingActionButton fab;
-    private String cardDisciplines;
 
     private CardDetailsViewModel cardDetailsViewModel;
-    private String cardText;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private CompositeDisposable subscriptions;
     private String shareSubject;
     private String shareBody;
-    private String cardSetRarity;
-    private String cardCapacity;
+    private CryptCard cryptCard;
 
 
     @Override
@@ -91,7 +87,7 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
                 Intent showCardImage = new Intent(view.getContext(), CardImageActivity.class);
                 showCardImage.putExtra("cardId", getIntent().getExtras().getLong("cardId"));
-                showCardImage.putExtra("cardImageFileName", Utils.getCardFileName(cardName, cardAdvanced.length() > 0));
+                showCardImage.putExtra("cardImageFileName", Utils.getCardFileName(cryptCard.getName(), cryptCard.isAdvanced()));
                 showCardImage.putExtra("resIdFallbackCardImage", R.drawable.gold_back);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
@@ -199,27 +195,17 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
         subscriptions.add(
                 cardDetailsViewModel.getCryptCard()
-                        .flatMap(new Function<Cursor, Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>>() {
+                        .flatMap(new Function<CryptCard, Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>>() {
                             @Override
-                            public Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>> apply(Cursor c) throws Exception {
-                                cardName = c.getString(0);
-                                String cardType = c.getString(1);
-                                String cardClan = c.getString(2);
-                                cardDisciplines = c.getString(3);
-                                cardText = c.getString(4);
-                                cardCapacity = c.getString(5);
-                                String cardArtist = c.getString(6);
-                                cardSetRarity = c.getString(7);
-                                String cardGroup = c.getString(8);
-                                cardAdvanced = c.getString(9);
-                                c.close();
+                            public Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>> apply(CryptCard cryptCard) throws Exception {
+                                CryptCardDetailsActivity.this.cryptCard = cryptCard;
 
-                                setupShareInfo(cardType, cardClan, cardCapacity, cardArtist, cardSetRarity, cardGroup);
+                                setupShareInfo();
 
                                 return Observable.zip(
-                                        Utils.loadCryptCardImageWithPalette(cardName, cardAdvanced.length() > 0).subscribeOn(Schedulers.io()),
+                                        Utils.loadCryptCardImageWithPalette(cryptCard.getName(), cryptCard.isAdvanced()).subscribeOn(Schedulers.io()),
 
-                                        Utils.getDisciplinesArrayObservable(CryptCardDetailsActivity.this, cardDisciplines).subscribeOn(Schedulers.io()),
+                                        Utils.getDisciplinesArrayObservable(CryptCardDetailsActivity.this, cryptCard.getDisciplines()).subscribeOn(Schedulers.io()),
 
                                         new BiFunction<Pair<BitmapDrawable, Palette>, Drawable[], Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>() {
                                             @Override
@@ -241,10 +227,10 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
                                 BitmapDrawable imageDrawable = bitmapDrawablePalettePair.first;
                                 Palette palette = bitmapDrawablePalettePair.second;
 
-                                collapsingToolbarLayout.setTitle(cardName);
-                                txtCardText.setText(cardText);
-                                txtCardCapacity.setText(cardCapacity);
-                                txtCardSetRarity.setText(cardSetRarity);
+                                collapsingToolbarLayout.setTitle(cryptCard.getName());
+                                txtCardText.setText(cryptCard.getText());
+                                txtCardCapacity.setText(cryptCard.getCapacity());
+                                txtCardSetRarity.setText(cryptCard.getSetRarity());
 
 
                                 cardImage.setImageDrawable(imageDrawable);
@@ -266,14 +252,12 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
                                 // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
 //                        fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(defaultColor)));
 
+                                Drawable[] disciplineDrawables = data.second;
 
-                                //Utils.updateDisciplineImages(CryptCardDetailsActivity.this, disciplineImageViews, cardDisciplines);
-
-                                Drawable[] drawables = data.second;
-
-                                for (int disIndex = 0; disIndex < drawables.length; disIndex++) {
-                                    disciplineImageViews[disIndex].setImageDrawable(drawables[disIndex]);
-                                    disciplineImageViews[disIndex].setVisibility(View.VISIBLE);
+                                int disciplineIndex;
+                                for (disciplineIndex = 0; disciplineIndex < disciplineDrawables.length; disciplineIndex++) {
+                                    disciplineImageViews[disciplineIndex].setImageDrawable(disciplineDrawables[disciplineIndex]);
+                                    disciplineImageViews[disciplineIndex].setVisibility(View.VISIBLE);
                                 }
 
                                 supportStartPostponedEnterTransition();
@@ -285,20 +269,20 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void setupShareInfo(String cardType, String cardClan, String cardCapacity, String cardArtist, String cardSetRarity, String cardGroup) {
-        shareSubject = cardName;
+    private void setupShareInfo() {
+        shareSubject = cryptCard.getName();
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append(String.format("Name: %s %n", cardName));
-        sb.append(String.format("Capacity: %s %n", cardCapacity));
-        sb.append(String.format("Type: %s %n", cardType));
-        sb.append(String.format("Group: %s %n", cardGroup));
-        sb.append(String.format("Clan: %s %n", cardClan));
-        sb.append(String.format("Disciplines: %s %n", cardDisciplines));
-        sb.append(String.format("Set/Rarity: %s %n", cardSetRarity));
-        sb.append(String.format("Artist: %s %n", cardArtist));
-        sb.append(String.format("CardText: %s %n", cardText));
+        sb.append(String.format("Name: %s %n", cryptCard.getName()));
+        sb.append(String.format("Capacity: %s %n", cryptCard.getCapacity()));
+        sb.append(String.format("Type: %s %n", cryptCard.getType()));
+        sb.append(String.format("Group: %s %n", cryptCard.getGroup()));
+        sb.append(String.format("Clan: %s %n", cryptCard.getClan()));
+        sb.append(String.format("Disciplines: %s %n", cryptCard.getDisciplines()));
+        sb.append(String.format("Set/Rarity: %s %n", cryptCard.getSetRarity()));
+        sb.append(String.format("Artist: %s %n", cryptCard.getArtist()));
+        sb.append(String.format("CardText: %s %n", cryptCard.getText()));
 
 
         shareBody = sb.toString();

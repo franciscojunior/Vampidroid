@@ -3,6 +3,7 @@ package name.vampidroid;
 import android.database.Cursor;
 
 import io.reactivex.Observable;
+import name.vampidroid.data.CryptCard;
 import name.vampidroid.data.source.CardsRepository;
 
 /**
@@ -22,7 +23,7 @@ class CardDetailsViewModel {
     }
 
 
-    public Observable<Cursor> getCryptCard() {
+    public Observable<CryptCard> getCryptCard() {
 
         return cardsRepository.getCryptCard(cardId);
     }
