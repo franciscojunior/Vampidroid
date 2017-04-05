@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cardViewCardText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:id="@+id/cardViewCardText"
-        card_view:cardUseCompatPadding="true">
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,13 +21,13 @@
 
             <TextView
                 android:id="@+id/textCardText"
+                style="@style/TextAppearance.AppCompat.Subhead"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Card Text"
-                style="@style/TextAppearance.AppCompat.Title"
                 android:textColor="@color/colorAccent"/>
 
             <TextView
@@ -46,149 +47,175 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-condensed"
                 android:text="A long card text"
-                android:transitionName="cardTextTransition" />
+                android:transitionName="cardTextTransition"/>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
-
 
     <!--Reference: http://stackoverflow.com/questions/27599603/cardview-not-showing-shadow-in-android-l-->
     <android.support.v7.widget.CardView
         android:id="@+id/cardViewDisciplines"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        card_view:cardUseCompatPadding="true"
         android:layout_below="@id/cardViewCardText"
+        android:layout_marginTop="16dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
 
-        >
-
-        <RelativeLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingBottom="16dp">
 
             <TextView
                 android:id="@+id/textCardDisciplines"
+                style="@style/TextAppearance.AppCompat.Subhead"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Disciplines"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/colorAccent"/>
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.33"
+                tools:layout_editor_absoluteX="127dp"
+                tools:layout_editor_absoluteY="0dp"/>
 
             <ImageView
                 android:id="@+id/img_card_details_discipline1"
-                tools:src="@drawable/ic_dis_protean_sup"
-                android:layout_width="@dimen/card_details_image_size"
-                android:layout_height="@dimen/card_details_image_size"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_below="@+id/textCardDisciplines"
-                android:layout_alignLeft="@+id/textCardDisciplines"
-                android:layout_alignStart="@+id/textCardDisciplines"
-                android:layout_marginTop="8dp"
-                />
+                android:layout_marginTop="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textCardDisciplines"
+                tools:src="@drawable/ic_dis_animalism"/>
 
             <ImageView
                 android:id="@+id/img_card_details_discipline2"
-                tools:src="@drawable/ic_dis_quietus_sup"
-                android:layout_width="@dimen/card_details_image_size"
-                android:layout_height="@dimen/card_details_image_size"
-                android:layout_alignTop="@+id/img_card_details_discipline1"
-                android:layout_toRightOf="@+id/img_card_details_discipline1"
-                android:layout_toEndOf="@+id/img_card_details_discipline1"
-                android:layout_marginLeft="8dp" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintLeft_toRightOf="@+id/img_card_details_discipline1"
+                app:layout_constraintTop_toTopOf="@+id/img_card_details_discipline1"
+                tools:src="@drawable/ic_dis_abombwe"/>
 
             <ImageView
                 android:id="@+id/img_card_details_discipline3"
-                tools:src="@drawable/ic_dis_quietus"
-                android:layout_width="@dimen/card_details_image_size"
-                android:layout_height="@dimen/card_details_image_size"
-                android:layout_marginLeft="8dp"
-                android:layout_alignTop="@+id/img_card_details_discipline2"
-                android:layout_toRightOf="@+id/img_card_details_discipline2"
-                android:layout_toEndOf="@+id/img_card_details_discipline2"
-                android:layout_marginStart="8dp" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/img_card_details_discipline1"
+                app:layout_constraintTop_toBottomOf="@+id/img_card_details_discipline1"
+                tools:src="@drawable/ic_dis_abombwe"
+                />
 
             <ImageView
                 android:id="@+id/img_card_details_discipline4"
-                tools:src="@drawable/ic_dis_protean"
-                android:layout_width="@dimen/card_details_image_size"
-                android:layout_height="@dimen/card_details_image_size"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_alignTop="@+id/img_card_details_discipline3"
-                android:layout_toRightOf="@+id/img_card_details_discipline3"
-                android:layout_toEndOf="@+id/img_card_details_discipline3" />
-
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:layout_constraintLeft_toRightOf="@+id/img_card_details_discipline3"
+                app:layout_constraintTop_toBottomOf="@+id/img_card_details_discipline2"
+                tools:src="@drawable/ic_dis_abombwe"
+                />
 
             <ImageView
                 android:id="@+id/img_card_details_discipline5"
-                tools:src="@drawable/ic_dis_protean_sup"
-                android:layout_width="@dimen/card_details_image_size"
-                android:layout_height="@dimen/card_details_image_size"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_alignTop="@+id/img_card_details_discipline4"
-                android:layout_toRightOf="@+id/img_card_details_discipline4"
-                android:layout_toEndOf="@+id/img_card_details_discipline4" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/img_card_details_discipline3"
+                app:layout_constraintTop_toBottomOf="@+id/img_card_details_discipline3"
+                tools:src="@drawable/ic_dis_animalism"
+                />
 
             <ImageView
                 android:id="@+id/img_card_details_discipline6"
-                tools:src="@drawable/ic_dis_protean_sup"
-                android:layout_width="@dimen/card_details_image_size"
-                android:layout_height="@dimen/card_details_image_size"
-                android:layout_alignTop="@+id/img_card_details_discipline5"
-                android:layout_toRightOf="@+id/img_card_details_discipline5"
-                android:layout_toEndOf="@+id/img_card_details_discipline5"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:layout_constraintLeft_toRightOf="@+id/img_card_details_discipline5"
+                app:layout_constraintTop_toBottomOf="@+id/img_card_details_discipline4"
+                tools:src="@drawable/ic_dis_abombwe"
                 />
 
             <ImageView
                 android:id="@+id/img_card_details_discipline7"
-                android:layout_width="@dimen/card_details_image_size"
-                android:layout_height="@dimen/card_details_image_size"
-                android:layout_below="@+id/img_card_details_discipline1"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_alignLeft="@+id/textCardDisciplines"
-                android:layout_alignStart="@+id/textCardDisciplines"
-                tools:src="@drawable/ic_dis_protean_sup"
-                android:visibility="gone"/>
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/img_card_details_discipline1"
+                app:layout_constraintTop_toBottomOf="@+id/img_card_details_discipline5"
+                tools:src="@drawable/ic_dis_abombwe"
+                />
 
-        </RelativeLayout>
+            <TextView
+                android:id="@+id/txtCapacityLabel"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:text="Capacity:"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textCardDisciplines"
+                app:layout_constraintLeft_toLeftOf="@+id/guideline2"/>
+
+            <TextView
+                android:id="@+id/txtCardCapacity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:text="4"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtCapacityLabel"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <TextView
+                android:id="@+id/txtSetRarityLabel"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Set/Rarity:"
+                app:layout_constraintLeft_toLeftOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/txtCapacityLabel"/>
+
+            <TextView
+                android:id="@+id/txtCardSetRarity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="-1dp"
+                android:gravity="right"
+                android:text="FN:U2"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtSetRarityLabel"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintLeft_toRightOf="@+id/txtSetRarityLabel"
+                app:layout_constraintRight_toRightOf="@+id/txtCardCapacity"/>
+
+        </android.support.constraint.ConstraintLayout>
+
     </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:id="@+id/cardViewCardCapacity"
-        card_view:cardUseCompatPadding="true"
-        android:layout_below="@id/cardViewDisciplines">
-
-        <include layout="@layout/card_details_capacity" />
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:id="@+id/cardViewCardSetRarity"
-        card_view:cardUseCompatPadding="true"
-        android:layout_below="@id/cardViewCardCapacity">
-
-        <include layout="@layout/card_details_set_rarity" />
-
-    </android.support.v7.widget.CardView>
-
 
 </RelativeLayout>
 
