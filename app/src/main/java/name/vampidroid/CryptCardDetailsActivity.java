@@ -50,8 +50,6 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
     private CardDetailsViewModel cardDetailsViewModel;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private CompositeDisposable subscriptions;
-    private String shareSubject;
-    private String shareBody;
     private CryptCard cryptCard;
 
 
@@ -135,8 +133,22 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
             case R.id.action_share:
                 Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, shareSubject);
-                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+
+                shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, cryptCard.getName());
+
+                StringBuilder sb = new StringBuilder();
+
+                sb.append(String.format("Name: %s %n", cryptCard.getName()));
+                sb.append(String.format("Capacity: %s %n", cryptCard.getCapacity()));
+                sb.append(String.format("Type: %s %n", cryptCard.getType()));
+                sb.append(String.format("Group: %s %n", cryptCard.getGroup()));
+                sb.append(String.format("Clan: %s %n", cryptCard.getClan()));
+                sb.append(String.format("Disciplines: %s %n", cryptCard.getDisciplines()));
+                sb.append(String.format("Set/Rarity: %s %n", cryptCard.getSetRarity()));
+                sb.append(String.format("Artist: %s %n", cryptCard.getArtist()));
+                sb.append(String.format("CardText: %s %n", cryptCard.getText()));
+
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, sb.toString());
 
                 startActivity(Intent.createChooser(shareIntent, getString(R.string.share_crypt_card_text)));
                 return true;
@@ -199,8 +211,6 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
                             @Override
                             public Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>> apply(CryptCard cryptCard) throws Exception {
                                 CryptCardDetailsActivity.this.cryptCard = cryptCard;
-
-                                setupShareInfo();
 
                                 return Observable.zip(
                                         Utils.loadCryptCardImageWithPalette(cryptCard.getName(), cryptCard.isAdvanced()).subscribeOn(Schedulers.io()),
@@ -268,27 +278,6 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
 
     }
-
-    private void setupShareInfo() {
-        shareSubject = cryptCard.getName();
-
-        StringBuilder sb = new StringBuilder();
-
-        sb.append(String.format("Name: %s %n", cryptCard.getName()));
-        sb.append(String.format("Capacity: %s %n", cryptCard.getCapacity()));
-        sb.append(String.format("Type: %s %n", cryptCard.getType()));
-        sb.append(String.format("Group: %s %n", cryptCard.getGroup()));
-        sb.append(String.format("Clan: %s %n", cryptCard.getClan()));
-        sb.append(String.format("Disciplines: %s %n", cryptCard.getDisciplines()));
-        sb.append(String.format("Set/Rarity: %s %n", cryptCard.getSetRarity()));
-        sb.append(String.format("Artist: %s %n", cryptCard.getArtist()));
-        sb.append(String.format("CardText: %s %n", cryptCard.getText()));
-
-
-        shareBody = sb.toString();
-
-    }
-
 
     @Override
     protected void onResume() {
