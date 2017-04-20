@@ -58,4 +58,6 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
     compile 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0-RC1'
+
+    compile 'com.jsibbold:zoomage:1.0.0'
 }
