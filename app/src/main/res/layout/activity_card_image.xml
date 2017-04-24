@@ -1,33 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Reference: http://stackoverflow.com/questions/16135984/full-screen-background-image-in-an-activity/16139059#16139059-->
-<LinearLayout
+<!--Reference: http://stackoverflow.com/questions/27532167/android-transparent-overlay-toolbar-->
+
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_card_image"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
-    android:clipToPadding="false"
-    tools:context="name.vampidroid.CardImageActivity"
+    android:layout_height="match_parent"
     android:background="@android:color/black"
-    android:orientation="vertical"
+
     >
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:background="@android:color/transparent"
-        >
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-
-            />
-    </android.support.design.widget.AppBarLayout>
 
 
     <com.jsibbold.zoomage.ZoomageView
@@ -36,6 +19,95 @@
         android:layout_height="match_parent"
         android:transitionName="cardImageTransition"
 
-
         />
-</LinearLayout>
+
+
+    <LinearLayout
+
+        android:id="@+id/content_card_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="name.vampidroid.CardImageActivity"
+        android:fitsSystemWindows="true"
+        >
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#70000000"
+            android:theme="@style/AppTheme.AppBarOverlay"
+
+            >
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+
+                />
+        </android.support.design.widget.AppBarLayout>
+
+
+
+    </LinearLayout>
+
+
+</FrameLayout>
+
+<!--<FrameLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@android:color/black"-->
+    <!--android:clipToPadding="false"-->
+
+    <!--&gt;-->
+
+
+
+    <!--<com.jsibbold.zoomage.ZoomageView-->
+        <!--android:id="@+id/cardImage"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:transitionName="cardImageTransition"-->
+
+
+        <!--/>-->
+
+
+    <!--<LinearLayout-->
+
+        <!--android:id="@+id/content_card_image"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="vertical"-->
+        <!--tools:context="name.vampidroid.CardImageActivity"-->
+        <!--android:fitsSystemWindows="true"-->
+
+        <!--&gt;-->
+
+        <!--<android.support.design.widget.AppBarLayout-->
+            <!--android:id="@+id/appbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:theme="@style/AppTheme.AppBarOverlay"-->
+            <!--&gt;-->
+
+            <!--<android.support.v7.widget.Toolbar-->
+                <!--android:id="@+id/toolbar"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="?attr/actionBarSize"-->
+
+                <!--/>-->
+        <!--</android.support.design.widget.AppBarLayout>-->
+
+
+
+    <!--</LinearLayout>-->
+
+
+<!--</FrameLayout>-->
