@@ -17,7 +17,7 @@
 
     </style>
 
-    <style name="AppTheme.NoActionBar.BlackStatusBarColor">
+    <style name="AppTheme.NoActionBar.CardImage">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>

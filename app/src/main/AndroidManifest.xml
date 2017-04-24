@@ -92,7 +92,7 @@
         <activity
             android:name=".CardImageActivity"
             android:label="@string/title_activity_card_image"
-            android:theme="@style/AppTheme.NoActionBar.BlackStatusBarColor"></activity>
+            android:theme="@style/AppTheme.NoActionBar.CardImage"></activity>
     </application>
 
 
