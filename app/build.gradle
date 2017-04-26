@@ -60,4 +60,6 @@ dependencies {
     compile 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0-RC1'
 
     compile 'com.jsibbold:zoomage:1.0.0'
+
+    compile 'net.opacapp:multiline-collapsingtoolbar:1.3.1'
 }
