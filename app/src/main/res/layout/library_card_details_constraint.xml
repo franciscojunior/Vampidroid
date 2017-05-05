@@ -13,7 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        card_view:cardUseCompatPadding="true">
+        card_view:cardUseCompatPadding="true"
+        app:cardElevation="4dp"
+        >
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -57,132 +59,7 @@
 
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardviewCartType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        card_view:cardUseCompatPadding="true"
-        android:layout_marginTop="16dp"
-        >
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="16dp"
-            >
 
-            <TextView
-                android:id="@+id/txtCardTypeLabel"
-                android:text="Card Type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/colorAccent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp" />
-
-            <TextView
-                android:id="@+id/cardType"
-                android:text="Master"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/TextAppearance.AppCompat.Subhead"
-                android:fontFamily="sans-serif-condensed"
-                app:layout_constraintTop_toBottomOf="@+id/txtCardTypeLabel"
-                android:layout_marginTop="8dp"
-                app:layout_constraintLeft_toLeftOf="@+id/txtCardTypeLabel"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp" />
-
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardViewDisciplines"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"
-        tools:visibility="visible"
-        card_view:cardUseCompatPadding="true">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/constraintLayout"
-            android:paddingBottom="16dp"
-            >
-
-            <TextView
-                android:id="@+id/txtCardDisciplinesLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:text="Disciplines"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/colorAccent"
-                android:layout_marginStart="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginLeft="16dp"
-
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="16dp" />
-
-            <ImageView
-                android:id="@+id/img_card_details_discipline1"
-                tools:src="@drawable/ic_dis_celerity_sup"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:visibility="visible"
-                app:layout_constraintLeft_toLeftOf="@+id/txtCardDisciplinesLabel"
-                app:layout_constraintTop_toBottomOf="@+id/txtCardDisciplinesLabel"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp" />
-
-
-            <ImageView
-                android:id="@+id/img_card_details_discipline2"
-                tools:src="@drawable/ic_dis_celerity_sup"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:visibility="visible"
-                app:layout_constraintLeft_toRightOf="@+id/img_card_details_discipline1"
-                app:layout_constraintTop_toBottomOf="@+id/txtCardDisciplinesLabel"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp" />
-
-
-            <ImageView
-                android:id="@+id/img_card_details_discipline3"
-                tools:src="@drawable/ic_dis_celerity_sup"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:visibility="visible"
-                app:layout_constraintLeft_toRightOf="@+id/img_card_details_discipline2"
-                app:layout_constraintTop_toBottomOf="@+id/txtCardDisciplinesLabel"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp" />
-
-        </android.support.constraint.ConstraintLayout>
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:id="@+id/cardViewCardCost"
-        card_view:cardUseCompatPadding="true"
-        android:layout_below="@id/cardViewDisciplines">
-
-        <include layout="@layout/library_card_details_cost" />
-
-    </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -190,9 +67,10 @@
         android:layout_marginTop="16dp"
         android:id="@+id/cardViewCardSetRarity"
         card_view:cardUseCompatPadding="true"
-        android:layout_below="@id/cardViewCardCost">
+        app:cardElevation="4dp"
+        >
 
-        <include layout="@layout/card_details_set_rarity" />
+        <include layout="@layout/library_card_details_other_information" />
 
     </android.support.v7.widget.CardView>
 

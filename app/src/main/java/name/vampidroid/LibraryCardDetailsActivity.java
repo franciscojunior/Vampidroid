@@ -185,7 +185,7 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
     private void setupCardData() {
 
         final TextView txtCardText = (TextView) findViewById(R.id.cardText);
-        final TextView txtCardType = (TextView) findViewById(R.id.cardType);
+        final TextView txtCardType = (TextView) findViewById(R.id.txtCardType);
         final TextView txtCardCost = (TextView) findViewById(R.id.txtCardCost);
         final TextView txtCardSetRarity = (TextView) findViewById(R.id.txtCardSetRarity);
 
@@ -251,7 +251,7 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                                 final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.txtCardDisciplinesLabel);
                                 final TextView txtCardTextLabel = (TextView) findViewById(R.id.txtCardTextLabel);
                                 final TextView txtCardCostLabel = (TextView) findViewById(R.id.txtCardCostLabel);
-                                final TextView txtCardSetRarityLabel = (TextView) findViewById(R.id.txtSetRarityLabel);
+                                final TextView txtCardSetRarityLabel = (TextView) findViewById(R.id.txtCardSetRarityLabel);
 
                                 final int defaultColor = ContextCompat.getColor(LibraryCardDetailsActivity.this, R.color.colorAccent);
 
@@ -263,11 +263,14 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
 
                                 if (!cardBloodCost.isEmpty()) {
-                                    txtCardCostLabel.setText("Blood Cost");
+                                    txtCardCostLabel.setText("Blood Cost:");
                                     txtCardCost.setText(cardBloodCost);
                                 } else if (!cardPoolCost.isEmpty()) {
-                                    txtCardCostLabel.setText("Pool Cost");
+                                    txtCardCostLabel.setText("Pool Cost:");
                                     txtCardCost.setText(cardPoolCost);
+                                } else {
+                                    txtCardCostLabel.setVisibility(View.GONE);
+                                    txtCardCost.setVisibility(View.GONE);
                                 }
 
 
@@ -280,7 +283,7 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                                 Drawable[] drawables = data.second;
 
                                 if (cardDisciplines.length() > 0) {
-                                    findViewById(R.id.cardViewDisciplines).setVisibility(View.VISIBLE);
+                                    txtDisciplinesLabel.setVisibility(View.VISIBLE);
                                     for (int disIndex = 0; disIndex < drawables.length; disIndex++) {
                                         disciplineImageViews[disIndex].setImageDrawable(drawables[disIndex]);
                                         disciplineImageViews[disIndex].setVisibility(View.VISIBLE);

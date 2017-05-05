@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="16dp">
+
+    <TextView
+        android:id="@+id/txtCardDisciplinesLabel"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Disciplines:"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/img_card_details_discipline1"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/txtCardDisciplinesLabel"
+        tools:src="@drawable/ic_dis_animalism"
+        app:layout_constraintStart_toStartOf="@+id/txtCardDisciplinesLabel"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"/>
+
+    <ImageView
+        android:id="@+id/img_card_details_discipline2"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintLeft_toRightOf="@id/img_card_details_discipline1"
+        app:layout_constraintTop_toTopOf="@id/img_card_details_discipline1"
+        tools:src="@drawable/ic_dis_abombwe"/>
+
+    <ImageView
+        android:id="@+id/img_card_details_discipline3"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="@id/img_card_details_discipline1"
+        app:layout_constraintTop_toBottomOf="@id/img_card_details_discipline1"
+        tools:src="@drawable/ic_dis_abombwe"
+        />
+
+
+    <TextView
+        android:id="@+id/txtCardTypeLabel"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Card Type:"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/txtCardDisciplinesLabel"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"/>
+
+    <TextView
+        android:id="@+id/txtCardCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4"
+        app:layout_constraintBaseline_toBaselineOf="@id/txtCardCostLabel"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"/>
+
+    <TextView
+        android:id="@+id/txtCardCostLabel"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cost:"
+        app:layout_constraintStart_toStartOf="@id/txtCardTypeLabel"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/txtCardTypeLabel"
+        android:layout_marginLeft="0dp"/>
+
+    <TextView
+        android:id="@+id/txtCardType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="Master"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/txtCardTypeLabel"
+        app:layout_constraintStart_toEndOf="@+id/txtCardTypeLabel"
+        android:layout_marginStart="8dp"/>
+
+    <TextView
+        android:id="@+id/txtCardSetRarityLabel"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Set/Rarity:"
+        app:layout_constraintTop_toBottomOf="@id/txtCardCostLabel"
+        app:layout_constraintStart_toStartOf="@id/txtCardCostLabel"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"/>
+
+    <TextView
+        android:id="@+id/txtCardSetRarity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="right"
+        android:text="LotN:R"
+        app:layout_constraintBaseline_toBaselineOf="@id/txtCardSetRarityLabel"
+        app:layout_constraintStart_toEndOf="@+id/txtCardSetRarityLabel"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        android:layout_marginEnd="8dp"/>
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95"/>
+
+</android.support.constraint.ConstraintLayout>
