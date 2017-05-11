@@ -21,24 +21,36 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:expandedTitleMarginStart="8dp"
-            app:expandedTitleMarginEnd="8dp"
-            app:expandedTitleTextAppearance="@style/CardDetailsExpandedText"
+            app:expandedTitleMarginBottom="8dp"
             >
 
             <!--Reference: https://github.com/chrisbanes/cheesesquare/blob/master/app/src/main/res/layout/activity_detail.xml-->
             <!--Reference: https://github.com/codepath/android_guides/wiki/Handling-Scrolls-with-CoordinatorLayout-->
-            <ImageView
-                android:id="@+id/cardImage"
-                tools:src="@drawable/gold_back"
-                android:transitionName="cardImageTransition"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/app_bar_height"
-                android:scaleType="centerCrop"
-                android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax"
-                />
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true">
+
+                <ImageView
+                    android:id="@+id/cardImage"
+                    tools:src="@drawable/gold_back"
+                    android:transitionName="cardImageTransition"
+                    app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/app_bar_height"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/card_details_image_gradient_view_height"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/card_details_image_gradient"/>
+
+            </FrameLayout>
+
+
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -47,7 +59,7 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 />
-                <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
+            <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
 
 
         </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>

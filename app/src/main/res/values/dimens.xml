@@ -24,6 +24,8 @@
 
     <dimen name="app_bar_height">280dp</dimen>
 
+    <dimen name="card_details_image_gradient_view_height">120dp</dimen>
+
     <dimen name="card_details_image_size">45dp</dimen>
 
     <dimen name="card_details_margin">100dp</dimen>
