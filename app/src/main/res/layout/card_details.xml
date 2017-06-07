@@ -74,7 +74,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Disciplines"
+                android:text="Disciplines:"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
@@ -93,6 +93,7 @@
                 android:layout_height="48dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="16dp"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textCardDisciplines"
                 tools:src="@drawable/ic_dis_animalism"/>
@@ -103,6 +104,7 @@
                 android:layout_height="48dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="0dp"
+                android:visibility="gone"
                 app:layout_constraintLeft_toRightOf="@+id/img_card_details_discipline1"
                 app:layout_constraintTop_toTopOf="@+id/img_card_details_discipline1"
                 tools:src="@drawable/ic_dis_abombwe"/>
@@ -184,6 +186,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
                 android:layout_marginRight="32dp"
+                android:fontFamily="sans-serif-condensed"
                 android:text="4"
                 app:layout_constraintBaseline_toBaselineOf="@+id/txtCapacityLabel"
                 app:layout_constraintRight_toRightOf="parent"/>
@@ -205,7 +208,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="-1dp"
+                android:fontFamily="sans-serif-condensed"
                 android:gravity="right"
                 android:text="FN:U2"
                 app:layout_constraintBaseline_toBaselineOf="@+id/txtSetRarityLabel"
