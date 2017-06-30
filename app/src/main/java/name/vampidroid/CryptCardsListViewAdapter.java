@@ -15,11 +15,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.l4digital.fastscroll.FastScroller;
+
 /**
  * Created by fxjr on 17/03/16.
  */
 
-public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsListViewAdapter.ViewHolder> {
+public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsListViewAdapter.ViewHolder>
+    implements FastScroller.SectionIndexer
+{
 
 
     View.OnClickListener editDeckListener = new View.OnClickListener() {
@@ -64,6 +68,11 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
         viewHolder.txtCardAdv = cursor.getString(6);
 
         Utils.loadCardImageThumbnail(viewHolder.imageViewCardImage, Utils.getCardFileName(cardName, viewHolder.txtCardAdv.length() > 0), R.drawable.gold_back);
+    }
+
+    @Override
+    public String getSectionText(int position) {
+        return getCursor().getString(1).substring(0, 1);
     }
 
     // Provide a reference to the views for each data item

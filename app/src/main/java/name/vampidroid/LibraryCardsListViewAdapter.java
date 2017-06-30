@@ -13,10 +13,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.l4digital.fastscroll.FastScroller;
+
 /**
  * Created by fxjr on 17/03/16.
  */
-public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCardsListViewAdapter.ViewHolder> {
+public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCardsListViewAdapter.ViewHolder>
+        implements FastScroller.SectionIndexer
+{
 
 
     public LibraryCardsListViewAdapter(Context context, Cursor cursor) {
@@ -64,6 +68,11 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCa
 
         Utils.loadCardImageThumbnail(viewHolder.imageViewCardImage, Utils.getCardFileName(cardName), R.drawable.green_back);
 
+    }
+
+    @Override
+    public String getSectionText(int position) {
+        return getCursor().getString(1).substring(0, 1);
     }
 
     // Provide a reference to the views for each data item

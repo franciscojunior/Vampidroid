@@ -43,7 +43,11 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
 
-        RecyclerView recyclerView = (RecyclerView) LayoutInflater.from(context).inflate(R.layout.fragment_cards_list, container, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.fragment_cards_list, container, false);
+
+
+        RecyclerView recyclerView = v.findViewById(R.id.my_recycler_view);
+
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -56,9 +60,9 @@ public class ViewPagerAdapter extends PagerAdapter {
 
         recyclerView.setAdapter(recyclerViewsAdapters[position]);
 
-        container.addView(recyclerView);
+        container.addView(v);
 
-        return recyclerView;
+        return v;
 
     }
 

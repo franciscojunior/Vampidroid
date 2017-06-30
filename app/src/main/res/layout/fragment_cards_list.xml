@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/my_recycler_view"
-    android:scrollbars="vertical"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent">
+
+    <com.l4digital.fastscroll.FastScrollRecyclerView
+        android:id="@+id/my_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:bubbleColor="@color/colorAccent"
+        app:bubbleTextColor="#ffffff"
+        app:handleColor="@color/colorAccent"
+        app:trackColor="#bbbbbb"
+        app:hideScrollbar="true"
+        app:showTrack="true"
+        android:paddingEnd="10dp"
+        android:paddingRight="10dp" />
+
+</FrameLayout>
