@@ -7,6 +7,7 @@ import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import name.vampidroid.DatabaseHelper;
 import name.vampidroid.data.CryptCard;
+import name.vampidroid.data.LibraryCard;
 
 /**
  * Created by fxjr on 03/01/17.
@@ -84,18 +85,32 @@ public class CardsRepository {
 
     }
 
-    public Observable<Cursor> getLibraryCard(final long cardId) {
+    public Observable<LibraryCard> getLibraryCard(final long cardId) {
         return Observable
-                .fromCallable(new Callable<Cursor>() {
+                .fromCallable(new Callable<LibraryCard>() {
                     @Override
-                    public Cursor call() throws Exception {
+                    public LibraryCard call() throws Exception {
                         String query;
 
                         query = "select Name, Type, Clan, Discipline, CardText, PoolCost, BloodCost, Artist, _Set from library where _id = ?";
 
                         Cursor c = DatabaseHelper.getDatabase().rawQuery(query, new String[]{String.valueOf(cardId)});
                         c.moveToFirst();
-                        return c;
+
+                        LibraryCard libraryCard = new LibraryCard(
+                                c.getString(0),
+                                c.getString(1),
+                                c.getString(2),
+                                c.getString(3),
+                                c.getString(4),
+                                c.getString(5),
+                                c.getString(6),
+                                c.getString(7),
+                                c.getString(8)
+                        );
+
+                        c.close();
+                        return libraryCard;
 
                     }
                 })

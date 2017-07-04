@@ -1,10 +1,9 @@
 package name.vampidroid;
 
-import android.database.Cursor;
-
 import io.reactivex.Observable;
 import name.vampidroid.data.CryptCard;
 import name.vampidroid.data.source.CardsRepository;
+import name.vampidroid.data.LibraryCard;
 
 /**
  * Created by FranciscoJunior on 24/01/2017.
@@ -28,7 +27,7 @@ class CardDetailsViewModel {
         return cardsRepository.getCryptCard(cardId);
     }
 
-    public Observable<Cursor> getLibraryCard() {
+    public Observable<LibraryCard> getLibraryCard() {
 
         return cardsRepository.getLibraryCard(cardId);
     }

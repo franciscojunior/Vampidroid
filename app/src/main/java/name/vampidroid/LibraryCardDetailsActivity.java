@@ -1,7 +1,6 @@
 package name.vampidroid;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -30,6 +29,7 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import name.vampidroid.data.LibraryCard;
 
 
 /**
@@ -40,24 +40,17 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "LibraryCardDetailsActiv";
     private ImageView cardImage;
-    private String cardName;
 
     // Discipline images
-
     private ImageView[] disciplineImageViews = new ImageView[3];
     private FloatingActionButton fab;
-    private String cardDisciplines;
 
     private CardDetailsViewModel cardDetailsViewModel;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private CompositeDisposable subscriptions;
-    private String cardText;
-    private String cardType;
     private String shareSubject;
     private String shareBody;
-    private String cardPoolCost;
-    private String cardBloodCost;
-    private String cardSetRarity;
+    private LibraryCard libraryCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +84,7 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
                 Intent showCardImage = new Intent(view.getContext(), CardImageActivity.class);
                 showCardImage.putExtra("cardId", getIntent().getExtras().getLong("cardId"));
-                showCardImage.putExtra("cardImageFileName", Utils.getCardFileName(cardName, false));
+                showCardImage.putExtra("cardImageFileName", Utils.getCardFileName(libraryCard.getName(), false));
                 showCardImage.putExtra("resIdFallbackCardImage", R.drawable.green_back);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
@@ -195,29 +188,24 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
         subscriptions.add(
                 cardDetailsViewModel.getLibraryCard()
-                        .flatMap(new Function<Cursor, Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>>() {
+                        .flatMap(new Function<LibraryCard, Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>>() {
                             @Override
-                            public Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>> apply(Cursor c) throws Exception {
-                                cardName = c.getString(0);
-                                cardType = c.getString(1);
-                                String cardClan = c.getString(2);
-                                cardDisciplines = c.getString(3);
-                                cardText = c.getString(4);
-                                cardPoolCost = c.getString(5);
-                                cardBloodCost = c.getString(6);
-                                String cardArtist = c.getString(7);
-                                cardSetRarity = c.getString(8);
+                            public Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>> apply(LibraryCard libraryCard) throws Exception {
 
-                                c.close();
+                                LibraryCardDetailsActivity.this.libraryCard = libraryCard;
 
-
-                                setupShareInfo(cardType, cardClan, cardPoolCost, cardBloodCost, cardArtist, cardSetRarity);
+                                setupShareInfo(libraryCard.getType(),
+                                        libraryCard.getClan(),
+                                        libraryCard.getPoolCost(),
+                                        libraryCard.getBloodCost(),
+                                        libraryCard.getArtist(),
+                                        libraryCard.getSetRarity());
 
 
                                 return Observable.zip(
-                                        Utils.loadLibraryCardImageWithPalette(cardName).subscribeOn(Schedulers.io()),
+                                        Utils.loadLibraryCardImageWithPalette(libraryCard.getName()).subscribeOn(Schedulers.io()),
 
-                                        Utils.getDisciplinesArrayObservable(LibraryCardDetailsActivity.this, cardDisciplines).subscribeOn(Schedulers.io()),
+                                        Utils.getDisciplinesArrayObservable(LibraryCardDetailsActivity.this, libraryCard.getDisciplines()).subscribeOn(Schedulers.io()),
 
                                         new BiFunction<Pair<BitmapDrawable, Palette>, Drawable[], Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>() {
                                             @Override
@@ -239,10 +227,10 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                                 BitmapDrawable imageDrawable = bitmapDrawablePalettePair.first;
                                 Palette palette = bitmapDrawablePalettePair.second;
 
-                                collapsingToolbarLayout.setTitle(cardName);
-                                txtCardText.setText(cardText);
-                                txtCardType.setText(cardType);
-                                txtCardSetRarity.setText(cardSetRarity);
+                                collapsingToolbarLayout.setTitle(libraryCard.getName());
+                                txtCardText.setText(libraryCard.getText());
+                                txtCardType.setText(libraryCard.getType());
+                                txtCardSetRarity.setText(libraryCard.getSetRarity());
 
 
                                 cardImage.setImageDrawable(imageDrawable);
@@ -262,12 +250,12 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                                 txtCardSetRarityLabel.setTextColor(palette.getVibrantColor(defaultColor));
 
 
-                                if (!cardBloodCost.isEmpty()) {
+                                if (!libraryCard.getBloodCost().isEmpty()) {
                                     txtCardCostLabel.setText("Blood Cost:");
-                                    txtCardCost.setText(cardBloodCost);
-                                } else if (!cardPoolCost.isEmpty()) {
+                                    txtCardCost.setText(libraryCard.getBloodCost());
+                                } else if (!libraryCard.getPoolCost().isEmpty()) {
                                     txtCardCostLabel.setText("Pool Cost:");
-                                    txtCardCost.setText(cardPoolCost);
+                                    txtCardCost.setText(libraryCard.getPoolCost());
                                 } else {
                                     txtCardCostLabel.setVisibility(View.GONE);
                                     txtCardCost.setVisibility(View.GONE);
@@ -282,7 +270,7 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
                                 Drawable[] drawables = data.second;
 
-                                if (cardDisciplines.length() > 0) {
+                                if (libraryCard.getDisciplines().length() > 0) {
                                     txtDisciplinesLabel.setVisibility(View.VISIBLE);
                                     for (int disIndex = 0; disIndex < drawables.length; disIndex++) {
                                         disciplineImageViews[disIndex].setImageDrawable(drawables[disIndex]);
@@ -300,19 +288,19 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
     private void setupShareInfo(String cardType, String cardClan, String cardPoolCost, String cardBloodCost, String cardArtist, String cardSetRarity) {
 
-        shareSubject = cardName;
+        shareSubject = libraryCard.getName();
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append(String.format("Name: %s %n", cardName));
+        sb.append(String.format("Name: %s %n", libraryCard.getName()));
         sb.append(String.format("Type: %s %n", cardType));
         sb.append(String.format("Clan: %s %n", cardClan));
         sb.append(String.format("PoolCost: %s %n", cardPoolCost));
         sb.append(String.format("BloodCost: %s %n", cardBloodCost));
-        sb.append(String.format("Disciplines: %s %n", cardDisciplines));
+        sb.append(String.format("Disciplines: %s %n", libraryCard.getDisciplines()));
         sb.append(String.format("Set/Rarity: %s %n", cardSetRarity));
         sb.append(String.format("Artist: %s %n", cardArtist));
-        sb.append(String.format("CardText: %s %n", cardText));
+        sb.append(String.format("CardText: %s %n", libraryCard.getText()));
 
         shareBody = sb.toString();
 
