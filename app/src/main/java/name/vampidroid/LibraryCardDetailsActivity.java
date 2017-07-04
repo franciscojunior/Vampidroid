@@ -48,8 +48,6 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
     private CardDetailsViewModel cardDetailsViewModel;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private CompositeDisposable subscriptions;
-    private String shareSubject;
-    private String shareBody;
     private LibraryCard libraryCard;
 
     @Override
