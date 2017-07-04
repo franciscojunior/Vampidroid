@@ -73,14 +73,6 @@ public class VampiDroidApplication extends Application {
 
                 }));
 
-//		FilterModel.initFilterModel(
-//				Arrays.asList(getResources().getStringArray(R.array.clans)),
-//				Arrays.asList(getResources().getStringArray(R.array.types)),
-//				Arrays.asList(getResources().getStringArray(R.array.disciplineslibrary)),
-//				Arrays.asList(getResources().getStringArray(R.array.disciplinescrypt)));
-//
-
-
 
         // Workaround a leak bug in ClipboardUIManager.
         // Reference: https://gist.github.com/cypressious/91c4fb1455470d803a602838dfcd5774
