@@ -132,11 +132,26 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
             case R.id.action_share:
                 Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, shareSubject);
-                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+
+                shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, libraryCard.getName());
+
+                StringBuilder sb = new StringBuilder();
+
+                sb.append(String.format("Name: %s %n", libraryCard.getName()));
+                sb.append(String.format("Type: %s %n", libraryCard.getType()));
+                sb.append(String.format("Clan: %s %n", libraryCard.getClan()));
+                sb.append(String.format("PoolCost: %s %n", libraryCard.getPoolCost()));
+                sb.append(String.format("BloodCost: %s %n", libraryCard.getBloodCost()));
+                sb.append(String.format("Disciplines: %s %n", libraryCard.getDisciplines()));
+                sb.append(String.format("Set/Rarity: %s %n", libraryCard.getSetRarity()));
+                sb.append(String.format("Artist: %s %n", libraryCard.getArtist()));
+                sb.append(String.format("CardText: %s %n", libraryCard.getText()));
+
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, sb.toString());
 
                 startActivity(Intent.createChooser(shareIntent, getString(R.string.share_library_card_text)));
                 return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -193,14 +208,6 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                             public Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>> apply(LibraryCard libraryCard) throws Exception {
 
                                 LibraryCardDetailsActivity.this.libraryCard = libraryCard;
-
-                                setupShareInfo(libraryCard.getType(),
-                                        libraryCard.getClan(),
-                                        libraryCard.getPoolCost(),
-                                        libraryCard.getBloodCost(),
-                                        libraryCard.getArtist(),
-                                        libraryCard.getSetRarity());
-
 
                                 return Observable.zip(
                                         Utils.loadLibraryCardImageWithPalette(libraryCard.getName()).subscribeOn(Schedulers.io()),
@@ -283,26 +290,6 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
                             }
                         }));
-
-    }
-
-    private void setupShareInfo(String cardType, String cardClan, String cardPoolCost, String cardBloodCost, String cardArtist, String cardSetRarity) {
-
-        shareSubject = libraryCard.getName();
-
-        StringBuilder sb = new StringBuilder();
-
-        sb.append(String.format("Name: %s %n", libraryCard.getName()));
-        sb.append(String.format("Type: %s %n", cardType));
-        sb.append(String.format("Clan: %s %n", cardClan));
-        sb.append(String.format("PoolCost: %s %n", cardPoolCost));
-        sb.append(String.format("BloodCost: %s %n", cardBloodCost));
-        sb.append(String.format("Disciplines: %s %n", libraryCard.getDisciplines()));
-        sb.append(String.format("Set/Rarity: %s %n", cardSetRarity));
-        sb.append(String.format("Artist: %s %n", cardArtist));
-        sb.append(String.format("CardText: %s %n", libraryCard.getText()));
-
-        shareBody = sb.toString();
 
     }
 
