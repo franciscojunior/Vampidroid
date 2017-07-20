@@ -118,9 +118,9 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCa
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
                 Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(Utils.getActivity(context), imageViewCardImage, "cardImageTransition").toBundle();
-                v.getContext().startActivity(launch, bundle);
+                context.startActivity(launch, bundle);
             } else {
-                v.getContext().startActivity(launch);
+                context.startActivity(launch);
             }
 
         }

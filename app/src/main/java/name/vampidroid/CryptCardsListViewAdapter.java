@@ -123,9 +123,9 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
                 Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(Utils.getActivity(context), imageViewCardImage, "cardImageTransition").toBundle();
-                view.getContext().startActivity(launch, bundle);
+                context.startActivity(launch, bundle);
             } else {
-                view.getContext().startActivity(launch);
+                context.startActivity(launch);
             }
         }
     }
