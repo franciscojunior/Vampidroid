@@ -1,7 +1,7 @@
 package name.vampidroid;
 
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,15 +20,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 import name.vampidroid.data.LibraryCard;
 
 
@@ -82,7 +82,7 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
                 Intent showCardImage = new Intent(view.getContext(), CardImageActivity.class);
                 showCardImage.putExtra("cardId", getIntent().getExtras().getLong("cardId"));
-                showCardImage.putExtra("cardImageFileName", Utils.getCardFileName(libraryCard.getName(), false));
+                showCardImage.putExtra("cardImageFileName", Utils.getFullCardFileName(libraryCard.getName()));
                 showCardImage.putExtra("resIdFallbackCardImage", R.drawable.green_back);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
@@ -201,36 +201,12 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
         subscriptions.add(
                 cardDetailsViewModel.getLibraryCard()
-                        .flatMap(new Function<LibraryCard, Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>>() {
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<LibraryCard>() {
                             @Override
-                            public Observable<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>> apply(LibraryCard libraryCard) throws Exception {
+                            public void accept(LibraryCard libraryCard) throws Exception {
 
                                 LibraryCardDetailsActivity.this.libraryCard = libraryCard;
-
-                                return Observable.zip(
-                                        Utils.loadLibraryCardImageWithPalette(libraryCard.getName()).subscribeOn(Schedulers.io()),
-
-                                        Utils.getDisciplinesArrayObservable(LibraryCardDetailsActivity.this, libraryCard.getDisciplines()).subscribeOn(Schedulers.io()),
-
-                                        new BiFunction<Pair<BitmapDrawable, Palette>, Drawable[], Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>() {
-                                            @Override
-                                            public Pair<Pair<BitmapDrawable, Palette>, Drawable[]> apply(Pair<BitmapDrawable, Palette> bitmapDrawablePalettePair, Drawable[] drawables) throws Exception {
-                                                return Pair.create(bitmapDrawablePalettePair, drawables);
-                                            }
-                                        }
-
-                                );
-                            }
-                        })
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<Pair<Pair<BitmapDrawable, Palette>, Drawable[]>>() {
-                            @Override
-                            public void accept(Pair<Pair<BitmapDrawable, Palette>, Drawable[]> data) throws Exception {
-
-                                Pair<BitmapDrawable, Palette> bitmapDrawablePalettePair = data.first;
-
-                                BitmapDrawable imageDrawable = bitmapDrawablePalettePair.first;
-                                Palette palette = bitmapDrawablePalettePair.second;
 
                                 collapsingToolbarLayout.setTitle(libraryCard.getName());
                                 txtCardText.setText(libraryCard.getText());
@@ -238,22 +214,11 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                                 txtCardSetRarity.setText(libraryCard.getSetRarity());
 
 
-                                cardImage.setImageDrawable(imageDrawable);
-
                                 final TextView txtCardTypeLabel = (TextView) findViewById(R.id.txtCardTypeLabel);
                                 final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.txtCardDisciplinesLabel);
                                 final TextView txtCardTextLabel = (TextView) findViewById(R.id.txtCardTextLabel);
                                 final TextView txtCardCostLabel = (TextView) findViewById(R.id.txtCardCostLabel);
                                 final TextView txtCardSetRarityLabel = (TextView) findViewById(R.id.txtCardSetRarityLabel);
-
-                                final int defaultColor = ContextCompat.getColor(LibraryCardDetailsActivity.this, R.color.colorAccent);
-
-                                txtCardTypeLabel.setTextColor(palette.getVibrantColor(defaultColor));
-                                txtDisciplinesLabel.setTextColor(palette.getVibrantColor(defaultColor));
-                                txtCardTextLabel.setTextColor(palette.getVibrantColor(defaultColor));
-                                txtCardCostLabel.setTextColor(palette.getVibrantColor(defaultColor));
-                                txtCardSetRarityLabel.setTextColor(palette.getVibrantColor(defaultColor));
-
 
                                 if (!libraryCard.getBloodCost().isEmpty()) {
                                     txtCardCostLabel.setText("Blood Cost:");
@@ -266,6 +231,66 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                                     txtCardCost.setVisibility(View.GONE);
                                 }
 
+                                Glide.with(LibraryCardDetailsActivity.this)
+                                        .load(Utils.getFullCardFileName(libraryCard.getName()))
+                                        .asBitmap()
+                                        .error(R.drawable.green_back)
+//                                        .fitCenter()
+                                        .dontAnimate()
+                                        .into(new BitmapImageViewTarget(cardImage) {
+                                            @Override
+                                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                                super.onLoadFailed(e, errorDrawable);
+                                                supportStartPostponedEnterTransition();
+                                            }
+
+                                            @Override
+                                            public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                                                super.onResourceReady(bitmap, glideAnimation);
+                                                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                                                    @Override
+                                                    public void onGenerated(Palette palette) {
+                                                        // Here's your generated palette
+                                                        final int paletteColor = palette.getVibrantColor(ContextCompat.getColor(LibraryCardDetailsActivity.this, R.color.colorAccent));
+//
+
+                                                        txtCardTypeLabel.setTextColor(palette.getVibrantColor(paletteColor));
+                                                        txtDisciplinesLabel.setTextColor(palette.getVibrantColor(paletteColor));
+                                                        txtCardTextLabel.setTextColor(palette.getVibrantColor(paletteColor));
+                                                        txtCardCostLabel.setTextColor(palette.getVibrantColor(paletteColor));
+                                                        txtCardSetRarityLabel.setTextColor(palette.getVibrantColor(paletteColor));
+//
+//                                                      // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
+//                                                      // fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(defaultColor)));
+//
+                                                        supportStartPostponedEnterTransition();
+                                                    }
+                                                });
+                                            }
+                                        });
+
+
+                                String disciplinesText = libraryCard.getDisciplines().trim();
+
+                                if (disciplinesText.length() > 0) {
+                                    txtDisciplinesLabel.setVisibility(View.VISIBLE);
+
+                                    String[] disciplines = disciplinesText.split("[^a-zA-Z]+");
+                                    for (int disciplineIndex = 0; disciplineIndex < disciplines.length; disciplineIndex++) {
+
+                                        Integer disciplineDrawableID = Utils.getDisciplinesDrawableResourceIdsMap().get(disciplines[disciplineIndex]);
+
+                                        if (disciplineDrawableID != null) {
+                                            Glide.with(LibraryCardDetailsActivity.this)
+                                                    .load(disciplineDrawableID)
+                                                    .fitCenter()
+                                                    .into(disciplineImageViews[disciplineIndex]);
+                                            disciplineImageViews[disciplineIndex].setVisibility(View.VISIBLE);
+                                        }
+
+                                    }
+                                }
+
 
 
 
@@ -273,15 +298,6 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                                 // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
 //                                fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(defaultColor)));
 
-                                Drawable[] drawables = data.second;
-
-                                if (libraryCard.getDisciplines().length() > 0) {
-                                    txtDisciplinesLabel.setVisibility(View.VISIBLE);
-                                    for (int disIndex = 0; disIndex < drawables.length; disIndex++) {
-                                        disciplineImageViews[disIndex].setImageDrawable(drawables[disIndex]);
-                                        disciplineImageViews[disIndex].setVisibility(View.VISIBLE);
-                                    }
-                                }
 
                                 supportStartPostponedEnterTransition();
 

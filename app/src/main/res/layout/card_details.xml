@@ -76,7 +76,8 @@
                 android:layout_marginTop="16dp"
                 android:text="Disciplines:"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/colorAccent"/>
 
             <android.support.constraint.Guideline
                 android:id="@+id/guideline2"
@@ -177,6 +178,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:text="Capacity:"
+                android:textColor="@color/colorAccent"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textCardDisciplines"
                 app:layout_constraintLeft_toLeftOf="@+id/guideline2"/>
 
@@ -200,6 +202,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Set/Rarity:"
+                android:textColor="@color/colorAccent"
                 app:layout_constraintLeft_toLeftOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/txtCapacityLabel"/>
 

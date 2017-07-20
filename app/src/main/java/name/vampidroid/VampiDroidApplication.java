@@ -61,9 +61,6 @@ public class VampiDroidApplication extends Application {
 
         DatabaseHelper.setApplicationContext(getApplicationContext());
 
-        Utils.setResources(getResources());
-
-
         subscriptions.add(getPreferenceRepository().getCardsImagesFolderObservable()
                 .subscribe(new Consumer<String>() {
                     @Override

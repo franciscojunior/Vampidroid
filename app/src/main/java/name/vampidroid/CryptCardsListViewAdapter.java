@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.l4digital.fastscroll.FastScroller;
 
 /**
@@ -67,7 +68,12 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
         viewHolder.txtCardGroup.setText(cursor.getString(5));
         viewHolder.txtCardAdv = cursor.getString(6);
 
-        Utils.loadCardImageThumbnail(viewHolder.imageViewCardImage, Utils.getCardFileName(cardName, viewHolder.txtCardAdv.length() > 0), R.drawable.gold_back);
+        Glide
+                .with(viewHolder.imageViewCardImage.getContext())
+                .load(Utils.getFullCardFileName(cardName, viewHolder.txtCardAdv.length() > 0))
+                .fitCenter()
+                .placeholder(R.drawable.gold_back)
+                .into(viewHolder.imageViewCardImage);
     }
 
     @Override

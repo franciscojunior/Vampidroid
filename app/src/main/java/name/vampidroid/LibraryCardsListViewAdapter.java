@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.l4digital.fastscroll.FastScroller;
 
 /**
@@ -66,8 +67,12 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCa
 
 //        viewHolder.txtCardDiscipline.setText(cursor.getTabTitle(4));
 
-        Utils.loadCardImageThumbnail(viewHolder.imageViewCardImage, Utils.getCardFileName(cardName), R.drawable.green_back);
-
+        Glide
+                .with(viewHolder.imageViewCardImage.getContext())
+                .load(Utils.getFullCardFileName(cardName))
+                .fitCenter()
+                .placeholder(R.drawable.green_back)
+                .into(viewHolder.imageViewCardImage);
     }
 
     @Override

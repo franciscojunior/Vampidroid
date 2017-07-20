@@ -1,15 +1,19 @@
 package name.vampidroid;
 
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 /**
  * Created by fxjr on 06/07/16.
@@ -46,15 +50,26 @@ public class CardImageActivity extends AppCompatActivity {
         // Reference: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
         supportPostponeEnterTransition();
 
-        Utils.loadCardImage(imageView, parameters.getString("cardImageFileName"), parameters.getInt("resIdFallbackCardImage"), new Utils.EmptyLoadCardImageAsync() {
-            @Override
-            public void onImageLoaded(BitmapDrawable image, Palette palette) {
+        Glide
+                .with(this)
+                .load(parameters.getString("cardImageFileName"))
+                .error(parameters.getInt("resIdFallbackCardImage"))
+                .into(new GlideDrawableImageViewTarget(imageView) {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
+                        super.onResourceReady(resource, animation);
+                        supportStartPostponedEnterTransition();
 
-                supportStartPostponedEnterTransition();
-            }
-        });
+                    }
 
-//
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                        supportStartPostponedEnterTransition();
+
+                    }
+                });
+////
 //        imageView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
