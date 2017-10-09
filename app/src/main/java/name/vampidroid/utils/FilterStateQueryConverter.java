@@ -12,7 +12,7 @@ public class FilterStateQueryConverter {
 
     private static final String TAG = "FilterStateTranslator";
 
-    private static final String GROUP_CRYPT_FILTER = "(_group in (?))";
+    private static final String GROUP_CRYPT_FILTER = "(`group` in (?))";
 
     private static final String CAPACITY_CRYPT_FILTER = "Cast(capacity as integer) between ";
     private static final String CLAN_FILTER = "Clan = '?'";
@@ -26,7 +26,7 @@ public class FilterStateQueryConverter {
 
 
 
-    private static final String DISCIPLINE_LIBRARY_FILTER = "Discipline like '%?%'";
+    private static final String DISCIPLINE_LIBRARY_FILTER = "Disciplines like '%?%'";
 
     public static String getCryptFilter(FilterState filterState) {
 
@@ -54,7 +54,7 @@ public class FilterStateQueryConverter {
         String nameFilter = sbNameFilter.toString();
 
         if (filterState.isSearchInsideCardText()) {
-            return " and (lower(Name) like " + nameFilter + " or lower(CardText) like " + nameFilter + ")";
+            return " and (lower(Name) like " + nameFilter + " or lower(Text) like " + nameFilter + ")";
         } else {
             return " and (lower(Name) like " + nameFilter + ")";
         }
@@ -157,7 +157,7 @@ public class FilterStateQueryConverter {
         return result.toString();
     }
 
-    static String getGroupsQuery(FilterState filterState) {
+    public static String getGroupsQuery(FilterState filterState) {
 
         StringBuilder result = new StringBuilder();
 

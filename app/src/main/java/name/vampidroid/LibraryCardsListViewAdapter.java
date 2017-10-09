@@ -2,7 +2,6 @@ package name.vampidroid;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -16,18 +15,22 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.l4digital.fastscroll.FastScroller;
 
+import java.util.List;
+
+import name.vampidroid.data.LibraryCard;
+
 /**
  * Created by fxjr on 17/03/16.
  */
-public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCardsListViewAdapter.ViewHolder>
+public class LibraryCardsListViewAdapter extends CardsListViewAdapter<LibraryCardsListViewAdapter.ViewHolder, LibraryCard>
         implements FastScroller.SectionIndexer
 {
 
 
-    public LibraryCardsListViewAdapter(Context context, Cursor cursor) {
-        super(cursor);
-    }
+    public LibraryCardsListViewAdapter(List<LibraryCard> cardList) {
 
+        setCardList(cardList);
+    }
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -41,27 +44,29 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCa
     }
 
     @Override
-    public void onBindViewHolderCursor(ViewHolder viewHolder, Cursor cursor) {
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
-        String cardName = cursor.getString(1);
+        LibraryCard libraryCard = getCardList().get(position);
 
-        viewHolder.cardId = cursor.getLong(0);
-        viewHolder.txtCardType.setText(cursor.getString(2));
+        String cardName = libraryCard.getName();
+
+        viewHolder.cardId = libraryCard.getUid();
+        viewHolder.txtCardType.setText(libraryCard.getType());
         viewHolder.txtCardName.setText(cardName);
 
-        // // TODO: 24/08/16 Move this logic to a future LibraryCard model class
-        // Check card cost. It can be PoolCost, BloodCost or ConvictionCost.
-        String cardCost = "0";
+//        // // TODO: 24/08/16 Move this logic to a future LibraryCard model class
+//        // Check card cost. It can be PoolCost, BloodCost or ConvictionCost.
+//        String cardCost = "0";
+//
+//        if (cursor.getString(3).length() > 0) {
+//            cardCost = cursor.getString(3);
+//        } else if (cursor.getString(4).length() > 0) {
+//            cardCost = cursor.getString(4);
+//        } else if (cursor.getString(5).length() > 0) {
+//            cardCost = cursor.getString(5);
+//        }
 
-        if (cursor.getString(3).length() > 0) {
-            cardCost = cursor.getString(3);
-        } else if (cursor.getString(4).length() > 0) {
-            cardCost = cursor.getString(4);
-        } else if (cursor.getString(5).length() > 0) {
-            cardCost = cursor.getString(5);
-        }
-
-        viewHolder.txtCardCost.setText(cardCost);
+        viewHolder.txtCardCost.setText(libraryCard.getCost());
 
 //        viewHolder.txtCardClan.setText(cursor.getTabTitle(3));
 
@@ -77,7 +82,7 @@ public class LibraryCardsListViewAdapter extends CursorRecyclerAdapter<LibraryCa
 
     @Override
     public String getSectionText(int position) {
-        return getCursor().getString(1).substring(0, 1);
+        return getCardList().get(position).getName().substring(0, 1);
     }
 
     // Provide a reference to the views for each data item

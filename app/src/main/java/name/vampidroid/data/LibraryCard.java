@@ -1,60 +1,25 @@
 package name.vampidroid.data;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+
 /**
  * Created by francisco on 04/07/17.
  */
-
-public class LibraryCard {
-
-    private String name;
-
-    private String type;
-
-    private String clan;
-
-    private String disciplines;
-
-    private String text;
+@Entity
+public class LibraryCard extends Card {
 
     private String poolCost;
 
     private String bloodCost;
 
-    private String artist;
+    private String convictionCost;
 
-    private String setRarity;
-
-
-    public LibraryCard(String name, String type, String clan, String disciplines, String text, String poolCost, String bloodCost, String artist, String setRarity) {
-        this.name = name;
-        this.type = type;
-        this.clan = clan;
-        this.disciplines = disciplines;
-        this.text = text;
+    public LibraryCard(String name, String type, String clan, String disciplines, String text, String poolCost, String bloodCost, String convictionCost, String artist, String setRarity) {
+        super(name, text, type, clan, disciplines, setRarity, artist );
         this.poolCost = poolCost;
         this.bloodCost = bloodCost;
-        this.artist = artist;
-        this.setRarity = setRarity;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getClan() {
-        return clan;
-    }
-
-    public String getDisciplines() {
-        return disciplines;
-    }
-
-    public String getText() {
-        return text;
+        this.convictionCost = convictionCost;
     }
 
     public String getPoolCost() {
@@ -65,12 +30,23 @@ public class LibraryCard {
         return bloodCost;
     }
 
-    public String getArtist() {
-        return artist;
+    public String getCost() {
+        if (poolCost.length() > 0) {
+            return poolCost;
+        } else if (bloodCost.length() > 0) {
+            return bloodCost;
+        } else if (convictionCost.length() > 0) {
+            return convictionCost;
+        } else {
+            return "0";
+        }
     }
 
-    public String getSetRarity() {
-        return setRarity;
+    public String getConvictionCost() {
+        return convictionCost;
     }
 
+    public void setConvictionCost(String convictionCost) {
+        this.convictionCost = convictionCost;
+    }
 }

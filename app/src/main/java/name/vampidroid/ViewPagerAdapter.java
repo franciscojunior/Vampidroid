@@ -2,13 +2,21 @@ package name.vampidroid;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.v4.util.Pair;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.List;
+
+import name.vampidroid.data.Card;
+import name.vampidroid.data.CryptCard;
+import name.vampidroid.data.LibraryCard;
 
 /**
  * Created by fxjr on 27/02/16.
@@ -20,14 +28,14 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     private final String[] recyclerViewTitles = new String[] {"Crypt", "Library"};
 
-    private final CursorRecyclerAdapter[] recyclerViewsAdapters = new CursorRecyclerAdapter[2];
-
+    private final CardsListViewAdapter[] recyclerViewsAdapters = new CardsListViewAdapter[2];
 
     public ViewPagerAdapter(Context context) {
         this.context = context;
 
-        recyclerViewsAdapters[0] = new CryptCardsListViewAdapter(context, null);
-        recyclerViewsAdapters[1] = new LibraryCardsListViewAdapter(context, null);
+        recyclerViewsAdapters[0] = new CryptCardsListViewAdapter(null);
+        recyclerViewsAdapters[1] = new LibraryCardsListViewAdapter(null);
+
     }
 
     @Override
@@ -77,8 +85,14 @@ public class ViewPagerAdapter extends PagerAdapter {
         return recyclerViewTitles[position];
     }
 
-    public void setData(int position, Cursor data) {
-        recyclerViewsAdapters[position].changeCursor(data);
+    public void setCryptData(int position, Pair<List<CryptCard>, DiffUtil.DiffResult> dataPair) {
+        recyclerViewsAdapters[position].setCardList(dataPair.first);
+        dataPair.second.dispatchUpdatesTo(recyclerViewsAdapters[position]);
+    }
+
+    public void setLibraryData(int position, Pair<List<LibraryCard>, DiffUtil.DiffResult> dataPair) {
+        recyclerViewsAdapters[position].setCardList(dataPair.first);
+        dataPair.second.dispatchUpdatesTo(recyclerViewsAdapters[position]);
     }
 
 

@@ -60,6 +60,7 @@ public class VampiDroidApplication extends Application {
 
 
         DatabaseHelper.setApplicationContext(getApplicationContext());
+//        DatabaseHelper.getRoomDatabase();
 
         subscriptions.add(getPreferenceRepository().getCardsImagesFolderObservable()
                 .subscribe(new Consumer<String>() {

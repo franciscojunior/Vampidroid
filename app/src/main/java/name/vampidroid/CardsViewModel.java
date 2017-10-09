@@ -1,13 +1,17 @@
 package name.vampidroid;
 
-import android.database.Cursor;
+import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.processors.PublishProcessor;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
+import name.vampidroid.data.CryptCard;
+import name.vampidroid.data.LibraryCard;
 import name.vampidroid.data.source.CardsRepository;
 import name.vampidroid.data.source.PreferenceRepository;
 import name.vampidroid.utils.FilterStateQueryConverter;
@@ -21,9 +25,9 @@ public class CardsViewModel {
 
     private final CardsRepository cardsRepository;
 
-    private final PublishSubject<FilterState> filterCryptCards = PublishSubject.create();
+    private final PublishProcessor<FilterState> filterCryptCards = PublishProcessor.create();
 
-    private final PublishSubject<FilterState> filterLibraryCards = PublishSubject.create();
+    private final PublishProcessor<FilterState> filterLibraryCards = PublishProcessor.create();
 
     private final PublishSubject<String> cryptTabTitle = PublishSubject.create();
 
@@ -45,53 +49,54 @@ public class CardsViewModel {
 
     }
 
-    public Observable<Cursor> getCryptCards() {
+    public Flowable<List<CryptCard>> getCryptCards() {
 
 
         return filterCryptCards
                 .observeOn(Schedulers.computation())
-                .flatMap(new Function<FilterState, Observable<Cursor>>() {
+                .flatMap(new Function<FilterState, Flowable<List<CryptCard>>>() {
                     @Override
-                    public Observable<Cursor> apply(FilterState filterState) throws Exception {
+                    public Flowable<List<CryptCard>> apply(FilterState filterState) throws Exception {
                         filterState.setSearchInsideCardText(preferenceRepository.shouldSearchTextCard());
                         return cardsRepository.getCryptCards(FilterStateQueryConverter.getCryptFilter(filterState));
                     }
                 })
-                .doOnNext(new Consumer<Cursor>() {
+                .doOnNext(new Consumer<List<CryptCard>>() {
                     @Override
-                    public void accept(Cursor cursor) throws Exception {
-                        cryptCardsCount = cursor.getCount();
+                    public void accept(List<CryptCard> cryptCards) throws Exception {
+                        cryptCardsCount = cryptCards.size();
                         cryptTabTitle.onNext(getTabTitle("Crypt", preferenceRepository.shouldShowCardsCount(), cryptCardsCount));
                     }
                 });
 
     }
 
-    public Observable<Cursor> getLibraryCards() {
+    public Flowable<List<LibraryCard>> getLibraryCards() {
 
         return filterLibraryCards
                 .observeOn(Schedulers.computation())
-                .flatMap(new Function<FilterState, Observable<Cursor>>() {
+                .flatMap(new Function<FilterState, Flowable<List<LibraryCard>>>() {
                     @Override
-                    public Observable<Cursor> apply(FilterState filterState) throws Exception {
+                    public Flowable<List<LibraryCard>> apply(FilterState filterState) throws Exception {
                         filterState.setSearchInsideCardText(preferenceRepository.shouldSearchTextCard());
                         return cardsRepository.getLibraryCards(FilterStateQueryConverter.getLibraryFilter(filterState));
                     }
                 })
-                .doOnNext(new Consumer<Cursor>() {
+                .doOnNext(new Consumer<List<LibraryCard>>() {
                     @Override
-                    public void accept(Cursor cursor) throws Exception {
-                        libraryCardsCount = cursor.getCount();
+                    public void accept(List<LibraryCard> libraryCards) throws Exception {
+                        libraryCardsCount = libraryCards.size();
                         libraryTabTitle.onNext(getTabTitle("Library", preferenceRepository.shouldShowCardsCount(), libraryCardsCount));
                     }
                 });
-    }
-
-
-    public Observable<Cursor> getCards(int cardType) {
-        return cardType == 0 ? getCryptCards() : getLibraryCards();
 
     }
+
+
+//    public Observable<Cursor> getCards(int cardType) {
+//        return cardType == 0 ? getCryptCards() : getLibraryCards();
+//
+//    }
 
     public void filterCryptCards(FilterState filterState) {
         filterCryptCards.onNext(filterState);

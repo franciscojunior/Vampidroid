@@ -24,11 +24,12 @@ class CardDetailsViewModel {
 
     public Observable<CryptCard> getCryptCard() {
 
-        return cardsRepository.getCryptCard(cardId);
+        return cardsRepository.getCryptCard(cardId).toObservable();
     }
 
     public Observable<LibraryCard> getLibraryCard() {
 
-        return cardsRepository.getLibraryCard(cardId);
+        return cardsRepository.getLibraryCard(cardId).toObservable();
     }
+
 }

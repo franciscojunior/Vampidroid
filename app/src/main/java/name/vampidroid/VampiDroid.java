@@ -1,18 +1,19 @@
 package name.vampidroid;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -24,14 +25,18 @@ import android.view.ViewGroup;
 import com.jakewharton.rxbinding2.support.design.widget.RxTabLayout;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
+import name.vampidroid.data.CryptCard;
+import name.vampidroid.data.LibraryCard;
 import name.vampidroid.ui.widget.CardFilters;
 import name.vampidroid.ui.widget.PersistentSearchBar;
 
@@ -156,33 +161,67 @@ public class VampiDroid extends AppCompatActivity
                 }));
 
 
+        // Implement DiffUtil calculation off the main thread as per Erik Hellman's excellent article.
+        // https://hellsoft.se/a-nice-combination-of-rxjava-and-diffutil-fe3807186012
+        Pair<List<CryptCard>, DiffUtil.DiffResult> cryptCardsDiffResultInitialPair = Pair.create(null, null);
+
         subscriptions.add(cardsViewModel.getCryptCards()
-                .doOnDispose(new Action() {
+                .doOnTerminate(new Action() {
                     @Override
                     public void run() throws Exception {
-                        viewPagerAdapter.setData(0, null);
+                        viewPagerAdapter.setCryptData(0, null);
                     }
                 })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Cursor>() {
+                .observeOn(Schedulers.computation())
+                .scan(cryptCardsDiffResultInitialPair, new BiFunction<Pair<List<CryptCard>, DiffUtil.DiffResult>, List<CryptCard>, Pair<List<CryptCard>, DiffUtil.DiffResult>>() {
                     @Override
-                    public void accept(Cursor cursor) {
-                        viewPagerAdapter.setData(0, cursor);
+                    public Pair<List<CryptCard>, DiffUtil.DiffResult> apply(Pair<List<CryptCard>, DiffUtil.DiffResult> listDiffResultPair, List<CryptCard> next) throws Exception {
+
+                        CardsListViewAdapter.CardsListViewAdapterDiffCallback<CryptCard> diffCallback = new CardsListViewAdapter.CardsListViewAdapterDiffCallback<>(listDiffResultPair.first, next);
+                        DiffUtil.DiffResult result = DiffUtil.calculateDiff(diffCallback, false);
+
+                        return new Pair<>(next, result);
+                    }
+                })
+                .skip(1)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Pair<List<CryptCard>, DiffUtil.DiffResult>>() {
+
+                    @Override
+                    public void accept(Pair<List<CryptCard>, DiffUtil.DiffResult> resultPair) throws Exception {
+                        viewPagerAdapter.setCryptData(0, resultPair);
+
                     }
                 }));
 
+        Pair<List<LibraryCard>, DiffUtil.DiffResult> libraryCardsDiffResultInitialPair = Pair.create(null, null);
+
         subscriptions.add(cardsViewModel.getLibraryCards()
-                .doOnDispose(new Action() {
+                .doOnTerminate(new Action() {
                     @Override
                     public void run() throws Exception {
-                        viewPagerAdapter.setData(1, null);
+                        viewPagerAdapter.setLibraryData(1, null);
                     }
                 })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Cursor>() {
+                .observeOn(Schedulers.computation())
+                .scan(libraryCardsDiffResultInitialPair, new BiFunction<Pair<List<LibraryCard>, DiffUtil.DiffResult>, List<LibraryCard>, Pair<List<LibraryCard>, DiffUtil.DiffResult>>() {
                     @Override
-                    public void accept(Cursor cursor) {
-                        viewPagerAdapter.setData(1, cursor);
+                    public Pair<List<LibraryCard>, DiffUtil.DiffResult> apply(Pair<List<LibraryCard>, DiffUtil.DiffResult> listDiffResultPair, List<LibraryCard> next) throws Exception {
+
+                        CardsListViewAdapter.CardsListViewAdapterDiffCallback<LibraryCard> diffCallback = new CardsListViewAdapter.CardsListViewAdapterDiffCallback<>(listDiffResultPair.first, next);
+                        DiffUtil.DiffResult result = DiffUtil.calculateDiff(diffCallback, false);
+
+                        return new Pair<>(next, result);
+                    }
+                })
+                .skip(1)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Pair<List<LibraryCard>, DiffUtil.DiffResult>>() {
+
+                    @Override
+                    public void accept(Pair<List<LibraryCard>, DiffUtil.DiffResult> resultPair) throws Exception {
+                        viewPagerAdapter.setLibraryData(1, resultPair);
+
                     }
                 }));
 

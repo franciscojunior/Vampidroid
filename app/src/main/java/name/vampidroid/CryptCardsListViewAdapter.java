@@ -1,9 +1,7 @@
 package name.vampidroid;
 
-
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -18,13 +16,21 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.l4digital.fastscroll.FastScroller;
 
+import java.util.List;
+
+import name.vampidroid.data.CryptCard;
+
 /**
- * Created by fxjr on 17/03/16.
+ * Created by francisco on 06/09/17.
  */
 
-public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsListViewAdapter.ViewHolder>
-    implements FastScroller.SectionIndexer
-{
+public class CryptCardsListViewAdapter extends CardsListViewAdapter<CryptCardsListViewAdapter.ViewHolder, CryptCard>
+        implements FastScroller.SectionIndexer {
+
+
+    public CryptCardsListViewAdapter(List<CryptCard> cardList) {
+        setCardList(cardList);
+    }
 
 
     View.OnClickListener editDeckListener = new View.OnClickListener() {
@@ -35,38 +41,32 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
         }
     };
 
-//    public CryptCardsListViewAdapter(Context context, Cursor cursor) {
-//        super(context, cursor);
-//    }
-
-    public CryptCardsListViewAdapter(Context context, Cursor cursor) {
-        super(cursor);
-    }
-
-
     // Create new views (invoked by the layout manager)
     @Override
-    public CryptCardsListViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                   int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent,
+                                         int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.crypt_list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
-        ViewHolder vh = new ViewHolder(v);
+        CryptCardsListViewAdapter.ViewHolder vh = new CryptCardsListViewAdapter.ViewHolder(v);
         return vh;
     }
 
     @Override
-    public void onBindViewHolderCursor(ViewHolder viewHolder, Cursor cursor) {
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
-        String cardName = cursor.getString(1);
 
-        viewHolder.cardId = cursor.getLong(0);
-        viewHolder.txtCardClan.setText(cursor.getString(4));
+        CryptCard cryptCard = cardList.get(position);
+
+        String cardName = cryptCard.getName();
+
+        viewHolder.cardId = cryptCard.getUid();
+        viewHolder.txtCardClan.setText(cryptCard.getClan());
         viewHolder.txtCardName.setText(cardName);
-        viewHolder.txtCardCost.setText(cursor.getString(3));
-        viewHolder.txtCardExtraInformation.setText(cursor.getString(2));
-        viewHolder.txtCardGroup.setText(cursor.getString(5));
-        viewHolder.txtCardAdv = cursor.getString(6);
+        viewHolder.txtCardCost.setText(cryptCard.getCapacity());
+        viewHolder.txtCardExtraInformation.setText(cryptCard.getDisciplines());
+        viewHolder.txtCardGroup.setText(cryptCard.getGroup());
+        viewHolder.txtCardAdv = cryptCard.getAdvanced();
 
         Glide
                 .with(viewHolder.imageViewCardImage.getContext())
@@ -78,7 +78,7 @@ public class CryptCardsListViewAdapter extends CursorRecyclerAdapter<CryptCardsL
 
     @Override
     public String getSectionText(int position) {
-        return getCursor().getString(1).substring(0, 1);
+        return cardList.get(position).getName().substring(0, 1);
     }
 
     // Provide a reference to the views for each data item

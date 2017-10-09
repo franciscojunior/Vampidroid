@@ -3,11 +3,14 @@ package name.vampidroid;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v4.util.SimpleArrayMap;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by FranciscoJunior on 13/12/2016.
@@ -17,7 +20,7 @@ public class FilterState implements Parcelable{
 
     private static final String TAG = "FilterState";
 
-    private CharSequence name = "";
+    private String name = "";
 
     boolean searchInsideCardText = false;
 
@@ -57,6 +60,7 @@ public class FilterState implements Parcelable{
 
     public void setGroup(int group, boolean isSet) {
         groups[group] = isSet;
+
     }
 
 
@@ -199,7 +203,7 @@ public class FilterState implements Parcelable{
         }
     };
 
-    public CharSequence getName() {
+    public String getName() {
         return name;
     }
 

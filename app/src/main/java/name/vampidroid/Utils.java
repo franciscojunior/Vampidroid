@@ -4,34 +4,13 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.util.LruCache;
-import android.support.v4.util.Pair;
 import android.support.v4.util.SimpleArrayMap;
-import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.util.Log;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.Resource;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.transcode.ResourceTranscoder;
-import com.bumptech.glide.util.Util;
-
-import java.io.File;
 import java.text.Normalizer;
-import java.util.concurrent.Callable;
-
-import io.reactivex.Observable;
 
 
 /**
