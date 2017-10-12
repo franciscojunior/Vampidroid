@@ -37,6 +37,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
 }
 
 dependencies {
@@ -71,4 +76,10 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha9-1"
 
     implementation "android.arch.persistence.room:rxjava2:1.0.0-alpha9-1"
+
+    testCompile 'junit:junit:4.12'
+
+    // Optional -- Mockito framework
+    testCompile 'org.mockito:mockito-core:2.6.2'
+
 }
