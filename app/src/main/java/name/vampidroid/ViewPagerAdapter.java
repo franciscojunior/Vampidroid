@@ -85,15 +85,23 @@ public class ViewPagerAdapter extends PagerAdapter {
         return recyclerViewTitles[position];
     }
 
-    public void setCryptData(int position, Pair<List<CryptCard>, DiffUtil.DiffResult> dataPair) {
-        recyclerViewsAdapters[position].setCardList(dataPair.first);
-        dataPair.second.dispatchUpdatesTo(recyclerViewsAdapters[position]);
+    public void setCryptData(Pair<List<CryptCard>, DiffUtil.DiffResult> dataPair) {
+        recyclerViewsAdapters[0].setCardList(dataPair.first);
+        dataPair.second.dispatchUpdatesTo(recyclerViewsAdapters[0]);
     }
 
-    public void setLibraryData(int position, Pair<List<LibraryCard>, DiffUtil.DiffResult> dataPair) {
-        recyclerViewsAdapters[position].setCardList(dataPair.first);
-        dataPair.second.dispatchUpdatesTo(recyclerViewsAdapters[position]);
+    public void setLibraryData(Pair<List<LibraryCard>, DiffUtil.DiffResult> dataPair) {
+        recyclerViewsAdapters[1].setCardList(dataPair.first);
+        dataPair.second.dispatchUpdatesTo(recyclerViewsAdapters[1]);
     }
 
+    /**
+     * This method is used to reload the data inside the pages (in this case, recyclerviews) when
+     * the images need to be reloaded. This is done by forcing the recyclerview to repopulate the data from the adapter.
+     */
+    public void refreshCardImages() {
+        recyclerViewsAdapters[0].notifyDataSetChanged();
+        recyclerViewsAdapters[1].notifyDataSetChanged();
+    }
 
 }

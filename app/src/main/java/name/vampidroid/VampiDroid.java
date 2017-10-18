@@ -60,7 +60,8 @@ public class VampiDroid extends AppCompatActivity
 
     private CardsViewModel cardsViewModel;
 
-    boolean refreshDataNeeded = false;
+    boolean refreshCardsListingNeeded = false;
+    boolean refreshCardImagesNeeded = false;
 
     private CompositeDisposable subscriptions = new CompositeDisposable();
 
@@ -152,11 +153,19 @@ public class VampiDroid extends AppCompatActivity
                     }
                 }));
 
-        subscriptions.add(cardsViewModel.getNeedRefreshFlag()
+        subscriptions.add(cardsViewModel.getNeedRefreshCardsListing()
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        refreshDataNeeded = true;
+                        refreshCardsListingNeeded = true;
+                    }
+                }));
+
+        subscriptions.add(cardsViewModel.getNeedRefreshCardImages()
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        refreshCardImagesNeeded = true;
                     }
                 }));
 
@@ -169,7 +178,7 @@ public class VampiDroid extends AppCompatActivity
                 .doOnTerminate(new Action() {
                     @Override
                     public void run() throws Exception {
-                        viewPagerAdapter.setCryptData(0, null);
+                        viewPagerAdapter.setCryptData(null);
                     }
                 })
                 .observeOn(Schedulers.computation())
@@ -189,7 +198,7 @@ public class VampiDroid extends AppCompatActivity
 
                     @Override
                     public void accept(Pair<List<CryptCard>, DiffUtil.DiffResult> resultPair) throws Exception {
-                        viewPagerAdapter.setCryptData(0, resultPair);
+                        viewPagerAdapter.setCryptData(resultPair);
 
                     }
                 }));
@@ -200,7 +209,7 @@ public class VampiDroid extends AppCompatActivity
                 .doOnTerminate(new Action() {
                     @Override
                     public void run() throws Exception {
-                        viewPagerAdapter.setLibraryData(1, null);
+                        viewPagerAdapter.setLibraryData(null);
                     }
                 })
                 .observeOn(Schedulers.computation())
@@ -220,7 +229,7 @@ public class VampiDroid extends AppCompatActivity
 
                     @Override
                     public void accept(Pair<List<LibraryCard>, DiffUtil.DiffResult> resultPair) throws Exception {
-                        viewPagerAdapter.setLibraryData(1, resultPair);
+                        viewPagerAdapter.setLibraryData(resultPair);
 
                     }
                 }));
@@ -416,11 +425,16 @@ public class VampiDroid extends AppCompatActivity
 
         Log.d(TAG, "onResume: ");
 
-        if (refreshDataNeeded) {
-            Log.d(TAG, "onResume: refreshDataNeeded");
+        if (refreshCardsListingNeeded) {
+            Log.d(TAG, "onResume: refreshCardsListingNeeded");
             filterCryptCards();
             filterLibraryCards();
-            refreshDataNeeded = false;
+            refreshCardsListingNeeded = false;
+        }
+
+        if (refreshCardImagesNeeded) {
+            viewPagerAdapter.refreshCardImages();
+            refreshCardImagesNeeded = false;
         }
 
         // Sync navigation drawer selected item.

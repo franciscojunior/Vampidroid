@@ -4,7 +4,6 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.processors.PublishProcessor;
@@ -155,23 +154,41 @@ public class CardsViewModel {
     }
 
     /**
-     * This observable will emit an item (not used) to indicate that the data refresh is needed.
+     * This observable will emit an item (not used) to indicate that the cards listing needs to be refreshed.
+     * This means a preference has changed which reflects how cards are searched, for example when changing
+     * the preference of searching to include the card text besides the card name.
      * @return An observable which emits an String used only to indicate that a refresh is needed.
      */
-    public Observable<String> getNeedRefreshFlag() {
+    public Observable<String> getNeedRefreshCardsListing() {
 
 
-        return Observable
-                .combineLatest(
-                        preferenceRepository.getSearchTextCardObservable(),
-                        preferenceRepository.getCardsImagesFolderObservable(),
-                        new BiFunction<Boolean, String, String>() {
-                            @Override
-                            public String apply(Boolean aBoolean, String s) throws Exception {
-                                return "";
-                            }
-                        });
+        return preferenceRepository
+                .getSearchTextCardObservable()
+                .map(new Function<Boolean, String>() {
+                    @Override
+                    public String apply(Boolean aBoolean) throws Exception {
+                        return "";
+                    }
+                });
+    }
 
+
+    /**
+     * Whenever the card images folder is changed, the cards images need to be refreshed as well.
+     *
+     * @return an Observable which emits an empty string whenever the image folder is changed which indicated
+     * that the images need to be refreshed.
+     */
+    public Observable<String> getNeedRefreshCardImages() {
+
+        return preferenceRepository
+                .getCardsImagesFolderObservable()
+                .map(new Function<String, String>() {
+                    @Override
+                    public String apply(String s) throws Exception {
+                        return "";
+                    }
+                });
     }
 
 

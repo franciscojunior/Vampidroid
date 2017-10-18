@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
  * Created by fxjr on 12/10/17.
  */
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.StrictStubs.class)
 public class CardsViewModelTests {
 
     // References:
@@ -274,38 +274,52 @@ public class CardsViewModelTests {
     }
 
     @Test
-    public void getNeedRefreshFlag() {
+    public void getNeedRefreshCardsListing() {
 
-        PublishSubject<Boolean> preferenceSearchTextHint = PublishSubject.create();
-        PublishSubject<String> preferenceCardsImageFolder = PublishSubject.create();
+        PublishSubject<Boolean> preferenceSearchTextCard = PublishSubject.create();
+
+        // First, test get the library tab with show cards count preference set to false
+        when(mockPreferenceRepository.getSearchTextCardObservable()).thenReturn(preferenceSearchTextCard);
+
+        CardsViewModel viewModel = new CardsViewModel(mockCardsRepository, mockPreferenceRepository);
+
+        TestObserver<String> testObserver = viewModel.getNeedRefreshCardsListing().test();
+
+        preferenceSearchTextCard.onNext(false);
+
+
+        // Change the searchTextHint preference.
+        preferenceSearchTextCard.onNext(true);
+
+        testObserver.assertValueCount(2);
+        testObserver.assertValues("", "");
+
+    }
+
+    @Test
+    public void getNeedRefreshCardImages() {
+
+        final PublishSubject<String> preferenceCardsImageFolder = PublishSubject.create();
 
 
         // First, test get the library tab with show cards count preference set to false
-        when(mockPreferenceRepository.getSearchTextCardObservable()).thenReturn(preferenceSearchTextHint);
         when(mockPreferenceRepository.getCardsImagesFolderObservable()).thenReturn(preferenceCardsImageFolder);
 
         CardsViewModel viewModel = new CardsViewModel(mockCardsRepository, mockPreferenceRepository);
 
-        TestObserver<String> testObserver = viewModel.getNeedRefreshFlag().test();
 
-        // CardsViewModel.getNeedRefreshFlag() uses combineLastest in order to merge
-        // searchTextCardObservable and cardsImagesFolderObservable into a single one.
-        // So, we need to emit at least one item on each one in order to get an emission in the
-        // resulting observable.
+        TestObserver<String> testObserver = viewModel.getNeedRefreshCardImages().test();
 
-        preferenceSearchTextHint.onNext(false);
         preferenceCardsImageFolder.onNext("");
-
-
-        // Change the searchTextHint preference.
-        preferenceSearchTextHint.onNext(true);
 
         // Change the cards image folder preference.
         preferenceCardsImageFolder.onNext("some/path");
 
-        testObserver.assertValueCount(3);
+        testObserver.assertValueCount(2);
+        testObserver.assertValues("", "");
 
     }
+
 
     static List<CryptCard> getCryptCards() {
 
