@@ -192,7 +192,7 @@ public class VampiDroid extends AppCompatActivity
                         return new Pair<>(next, result);
                     }
                 })
-                .skip(1)
+                .skip(1) // first emission of the scan will use the initial pair with null values. We don't need them.
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Pair<List<CryptCard>, DiffUtil.DiffResult>>() {
 
@@ -223,7 +223,7 @@ public class VampiDroid extends AppCompatActivity
                         return new Pair<>(next, result);
                     }
                 })
-                .skip(1)
+                .skip(1) // first emission of the scan will use the initial pair with null values. We don't need them.
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Pair<List<LibraryCard>, DiffUtil.DiffResult>>() {
 
