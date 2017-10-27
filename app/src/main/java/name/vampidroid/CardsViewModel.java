@@ -183,6 +183,7 @@ public class CardsViewModel {
 
         return preferenceRepository
                 .getCardsImagesFolderObservable()
+                .skip(1) // Skip first emission on subscribe
                 .map(new Function<String, String>() {
                     @Override
                     public String apply(String s) throws Exception {
