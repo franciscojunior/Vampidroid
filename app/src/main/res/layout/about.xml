@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="For more information about VTES, checkout these sites:"
+                android:text="For more information about VTES, checkout this site:"
                 android:padding="8dp" />
 
             <TextView
@@ -36,14 +36,6 @@
                 android:layout_gravity="center_vertical"
                 android:autoLink="web"
                 android:text="http://www.vekn.net/"
-                android:padding="8dp" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:autoLink="web"
-                android:text="http://www.thelasombra.com/"
                 android:padding="8dp" />
 
             <TextView
