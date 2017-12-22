@@ -285,14 +285,15 @@ public class CardsViewModelTests {
 
         TestObserver<String> testObserver = viewModel.getNeedRefreshCardsListing().test();
 
+        // Needs to be called twice because internally, the viewModel ignores the first emission.
         preferenceSearchTextCard.onNext(false);
 
 
         // Change the searchTextHint preference.
         preferenceSearchTextCard.onNext(true);
 
-        testObserver.assertValueCount(2);
-        testObserver.assertValues("", "");
+        testObserver.assertValueCount(1);
+        testObserver.assertValues("");
 
     }
 
@@ -310,13 +311,14 @@ public class CardsViewModelTests {
 
         TestObserver<String> testObserver = viewModel.getNeedRefreshCardImages().test();
 
+        // Needs to be called twice because internally, the viewModel ignores the first emission.
         preferenceCardsImageFolder.onNext("");
 
         // Change the cards image folder preference.
         preferenceCardsImageFolder.onNext("some/path");
 
-        testObserver.assertValueCount(2);
-        testObserver.assertValues("", "");
+        testObserver.assertValueCount(1);
+        testObserver.assertValues("");
 
     }
 

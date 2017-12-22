@@ -161,9 +161,12 @@ public class CardsViewModel {
      */
     public Observable<String> getNeedRefreshCardsListing() {
 
+        // The reasons to need a refresh of the cards are:
+        // 1. getSearchTextCardObservable. This observable indicates the changed preference to search inside the card text.
 
         return preferenceRepository
                 .getSearchTextCardObservable()
+                .skip(1) // Skip first emission the preference library does on subscribe.
                 .map(new Function<Boolean, String>() {
                     @Override
                     public String apply(Boolean aBoolean) throws Exception {
@@ -183,7 +186,7 @@ public class CardsViewModel {
 
         return preferenceRepository
                 .getCardsImagesFolderObservable()
-                .skip(1) // Skip first emission on subscribe
+                .skip(1) // Skip first emission the preference library does on subscribe.
                 .map(new Function<String, String>() {
                     @Override
                     public String apply(String s) throws Exception {

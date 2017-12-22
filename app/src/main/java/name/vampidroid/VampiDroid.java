@@ -60,7 +60,7 @@ public class VampiDroid extends AppCompatActivity
 
     private CardsViewModel cardsViewModel;
 
-    boolean refreshCardsListingNeeded = false;
+    boolean refreshCardsListingNeeded = true;
     boolean refreshCardImagesNeeded = false;
 
     private CompositeDisposable subscriptions = new CompositeDisposable();
