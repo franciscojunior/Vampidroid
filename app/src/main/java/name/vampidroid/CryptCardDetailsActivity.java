@@ -60,15 +60,15 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crypt_card_details);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
 
         //        Reference: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
         supportPostponeEnterTransition();
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,7 +79,7 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        cardImage = (ImageView) findViewById(R.id.cardImage);
+        cardImage = findViewById(R.id.cardImage);
 
 
         cardImage.setOnClickListener(new View.OnClickListener() {
@@ -188,13 +188,13 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
     private void setupDisciplineImagesArray() {
 
-        disciplineImageViews[0] = (ImageView) findViewById(R.id.img_card_details_discipline1);
-        disciplineImageViews[1] = (ImageView) findViewById(R.id.img_card_details_discipline2);
-        disciplineImageViews[2] = (ImageView) findViewById(R.id.img_card_details_discipline3);
-        disciplineImageViews[3] = (ImageView) findViewById(R.id.img_card_details_discipline4);
-        disciplineImageViews[4] = (ImageView) findViewById(R.id.img_card_details_discipline5);
-        disciplineImageViews[5] = (ImageView) findViewById(R.id.img_card_details_discipline6);
-        disciplineImageViews[6] = (ImageView) findViewById(R.id.img_card_details_discipline7);
+        disciplineImageViews[0] = findViewById(R.id.img_card_details_discipline1);
+        disciplineImageViews[1] = findViewById(R.id.img_card_details_discipline2);
+        disciplineImageViews[2] = findViewById(R.id.img_card_details_discipline3);
+        disciplineImageViews[3] = findViewById(R.id.img_card_details_discipline4);
+        disciplineImageViews[4] = findViewById(R.id.img_card_details_discipline5);
+        disciplineImageViews[5] = findViewById(R.id.img_card_details_discipline6);
+        disciplineImageViews[6] = findViewById(R.id.img_card_details_discipline7);
 
 
     }
@@ -202,9 +202,9 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
     private void setupCardData() {
 
-        final TextView txtCardText = (TextView) findViewById(R.id.cardText);
-        final TextView txtCardCapacity = (TextView) findViewById(R.id.txtCardCapacity);
-        final TextView txtCardSetRarity = (TextView) findViewById(R.id.txtCardSetRarity);
+        final TextView txtCardText = findViewById(R.id.cardText);
+        final TextView txtCardCapacity = findViewById(R.id.txtCardCapacity);
+        final TextView txtCardSetRarity = findViewById(R.id.txtCardSetRarity);
 
         cardDetailsViewModel = ((VampiDroidApplication)getApplication()).getCardDetailsViewModel(getIntent().getExtras().getLong("cardId"));
 
@@ -222,10 +222,10 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
                                 txtCardCapacity.setText(cryptCard.getCapacity());
                                 txtCardSetRarity.setText(cryptCard.getSetRarity());
 
-                                final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.textCardDisciplines);
-                                final TextView txtTextLabel = (TextView) findViewById(R.id.textCardText);
-                                final TextView txtCapacityLabel = (TextView) findViewById(R.id.txtCapacityLabel);
-                                final TextView txtSetRarityLabel = (TextView) findViewById(R.id.txtSetRarityLabel);
+                                final TextView txtDisciplinesLabel = findViewById(R.id.textCardDisciplines);
+                                final TextView txtTextLabel = findViewById(R.id.textCardText);
+                                final TextView txtCapacityLabel = findViewById(R.id.txtCapacityLabel);
+                                final TextView txtSetRarityLabel = findViewById(R.id.txtSetRarityLabel);
 
 
                                 String[] disciplines = cryptCard.getDisciplines().split("[^a-zA-Z]+");

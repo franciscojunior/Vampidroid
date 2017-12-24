@@ -68,7 +68,7 @@ public class DirectoryChooserFragment extends DialogFragment {
         View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_directory_chooser, null);
 
 
-        textviewSelectedDirectory = (TextView) dialogView.findViewById(R.id.selectedDirectory);
+        textviewSelectedDirectory = dialogView.findViewById(R.id.selectedDirectory);
 
         if (savedInstanceState != null) {
             selectedDirectory = savedInstanceState.getString(CURRENT_DIRECTORY);
@@ -79,7 +79,7 @@ public class DirectoryChooserFragment extends DialogFragment {
         textviewSelectedDirectory.setText(selectedDirectory);
 
 
-        listviewDirectories = (ListView) dialogView.findViewById(R.id.listDirectories);
+        listviewDirectories = dialogView.findViewById(R.id.listDirectories);
 
 
         listviewDirectories.setOnItemClickListener(new AdapterView.OnItemClickListener() {

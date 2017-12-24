@@ -50,26 +50,8 @@
         </activity>
 
         <activity
-            android:name=".EditPreferences"
-            android:label="Preferences" />
-
-        <activity
             android:name=".SettingsActivity"
             android:label="Preferences" />
-
-        <activity
-            android:name=".NewDeck"
-            android:label="New Deck"
-            android:theme="@android:style/Theme.Dialog" />
-
-        <activity
-            android:name=".AddRemoveDeckCard"
-            android:label="Edit deck card"
-            android:theme="@android:style/Theme.Dialog" />
-
-        <activity
-            android:name=".Tutorial"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
 
         <activity
             android:name=".CryptCardDetailsActivity"

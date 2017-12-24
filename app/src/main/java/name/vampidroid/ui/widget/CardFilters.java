@@ -163,7 +163,7 @@ public class CardFilters extends LinearLayout {
     }
 
     private void setupCapacitiesHandler() {
-        cryptCapacitySeekBars = (CryptCapacitySeekBars) findViewById(R.id.crypt_capacity_seekbars);
+        cryptCapacitySeekBars = findViewById(R.id.crypt_capacity_seekbars);
 
         SeekBar.OnSeekBarChangeListener cryptSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
 
@@ -287,7 +287,7 @@ public class CardFilters extends LinearLayout {
             }
         };
 
-        ViewGroup groupsContainer = (ViewGroup) findViewById(R.id.relativeLayoutGroups);
+        ViewGroup groupsContainer = findViewById(R.id.relativeLayoutGroups);
 
         for (int i = 0; i < groupsContainer.getChildCount(); i++) {
             if (groupsContainer.getChildAt(i) instanceof CheckBox) {
@@ -322,7 +322,7 @@ public class CardFilters extends LinearLayout {
     private void setupCryptDisciplineHandlerHelper(CheckBox cryptDisciplineCheckBox, final boolean isBasic) {
 
 
-        final TextView cryptHeaderText = (TextView) findViewById(R.id.textDisciplines);
+        final TextView cryptHeaderText = findViewById(R.id.textDisciplines);
 
         CompoundButton.OnCheckedChangeListener cryptDisciplineHandler = new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -348,7 +348,7 @@ public class CardFilters extends LinearLayout {
 
     private void setupCardTypesHandler() {
 
-        final TextView cardTypesHeaderText = (TextView) findViewById(R.id.textCardTypes);
+        final TextView cardTypesHeaderText = findViewById(R.id.textCardTypes);
 
         setupTextCheckBoxRowHandler((ViewGroup) cardTypesLayout, new OnTextCheckBoxRowHandlerClickListener() {
             @Override
@@ -368,7 +368,7 @@ public class CardFilters extends LinearLayout {
 
     private void setupClansHandler() {
 
-        final TextView clansHeaderText = (TextView) findViewById(R.id.textClans);
+        final TextView clansHeaderText = findViewById(R.id.textClans);
 
         setupTextCheckBoxRowHandler((ViewGroup) clansLayout, new OnTextCheckBoxRowHandlerClickListener() {
             @Override
@@ -390,7 +390,7 @@ public class CardFilters extends LinearLayout {
     private void setupLibraryDisciplinesHandler() {
 
 
-        final TextView libraryDisciplinesHeaderText = (TextView) findViewById(R.id.textLibraryDisciplines);
+        final TextView libraryDisciplinesHeaderText = findViewById(R.id.textLibraryDisciplines);
 
         setupTextCheckBoxRowHandler((ViewGroup) libraryDisciplinesLayout, new OnTextCheckBoxRowHandlerClickListener() {
             @Override

@@ -75,12 +75,12 @@ public class VampiDroid extends AppCompatActivity
 
 
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.viewpager);
 
-        tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        tabLayout = findViewById(R.id.tablayout);
 
         cardsViewModel = ((VampiDroidApplication)getApplication()).getCardsViewModel();
 
@@ -88,13 +88,13 @@ public class VampiDroid extends AppCompatActivity
         tabLayout.setupWithViewPager(viewPager);
 
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
-                AppBarLayout appbar = (AppBarLayout) findViewById(R.id.appbar);
+                AppBarLayout appbar = findViewById(R.id.appbar);
                 appbar.setExpanded(true);
 
                 persistentSearchBar.editSearchBarText();
@@ -102,10 +102,10 @@ public class VampiDroid extends AppCompatActivity
             }
         });
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
 
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -292,7 +292,7 @@ public class VampiDroid extends AppCompatActivity
 
     private void setupSearchFilterNavigation() {
 
-        cardFilters = (CardFilters) findViewById(R.id.cardFilters);
+        cardFilters = findViewById(R.id.cardFilters);
 
         subscriptions.add(RxTabLayout.selections(tabLayout)
                 .skip(1) // Skip first emission on subscribe
@@ -440,7 +440,7 @@ public class VampiDroid extends AppCompatActivity
         // Sync navigation drawer selected item.
         // Reference: http://stackoverflow.com/questions/34502848/how-to-change-selected-item-in-the-navigation-drawer-depending-on-the-activity-v?rq=1
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.nav_cards);
 
         updateSearchSettingsButtonState();
@@ -524,7 +524,7 @@ public class VampiDroid extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (drawer.isDrawerOpen(GravityCompat.END)) {
@@ -606,7 +606,7 @@ public class VampiDroid extends AppCompatActivity
 
 
         if (closeDrawer) {
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            DrawerLayout drawer = findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
         }
 

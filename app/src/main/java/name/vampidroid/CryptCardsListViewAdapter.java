@@ -99,12 +99,12 @@ public class CryptCardsListViewAdapter extends CardsListViewAdapter<CryptCardsLi
         public ViewHolder(View v) {
             super(v);
 
-            txtCardClan = (TextView) v.findViewById(R.id.txtCardClan);
-            txtCardName = (TextView) v.findViewById(R.id.txtCardName);
-            txtCardExtraInformation = (TextView) v.findViewById(R.id.txtCardExtraInformation);
-            txtCardCost = (TextView) v.findViewById(R.id.txtCardCost);
-            txtCardGroup = (TextView) v.findViewById(R.id.txtCardGroup);
-            imageViewCardImage = (ImageView) v.findViewById(R.id.imageViewCardImage);
+            txtCardClan = v.findViewById(R.id.txtCardClan);
+            txtCardName = v.findViewById(R.id.txtCardName);
+            txtCardExtraInformation = v.findViewById(R.id.txtCardExtraInformation);
+            txtCardCost = v.findViewById(R.id.txtCardCost);
+            txtCardGroup = v.findViewById(R.id.txtCardGroup);
+            imageViewCardImage = v.findViewById(R.id.imageViewCardImage);
 
             v.setOnClickListener(this);
 

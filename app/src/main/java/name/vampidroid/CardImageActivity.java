@@ -36,13 +36,13 @@ public class CardImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_image);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        ImageView imageView = (ImageView) findViewById(R.id.cardImage);
+        ImageView imageView = findViewById(R.id.cardImage);
 
 
         Bundle parameters = getIntent().getExtras();

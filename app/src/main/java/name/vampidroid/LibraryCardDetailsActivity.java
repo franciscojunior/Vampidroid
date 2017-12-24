@@ -54,15 +54,15 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_library_card_details);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
 
         //        Reference: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
         supportPostponeEnterTransition();
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,7 +73,7 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        cardImage = (ImageView) findViewById(R.id.cardImage);
+        cardImage = findViewById(R.id.cardImage);
 
 
         cardImage.setOnClickListener(new View.OnClickListener() {
@@ -180,9 +180,9 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
     private void setupDisciplineImagesArray() {
 
-        disciplineImageViews[0] = (ImageView) findViewById(R.id.img_card_details_discipline1);
-        disciplineImageViews[1] = (ImageView) findViewById(R.id.img_card_details_discipline2);
-        disciplineImageViews[2] = (ImageView) findViewById(R.id.img_card_details_discipline3);
+        disciplineImageViews[0] = findViewById(R.id.img_card_details_discipline1);
+        disciplineImageViews[1] = findViewById(R.id.img_card_details_discipline2);
+        disciplineImageViews[2] = findViewById(R.id.img_card_details_discipline3);
 
 
     }
@@ -190,10 +190,10 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
     private void setupCardData() {
 
-        final TextView txtCardText = (TextView) findViewById(R.id.cardText);
-        final TextView txtCardType = (TextView) findViewById(R.id.txtCardType);
-        final TextView txtCardCost = (TextView) findViewById(R.id.txtCardCost);
-        final TextView txtCardSetRarity = (TextView) findViewById(R.id.txtCardSetRarity);
+        final TextView txtCardText = findViewById(R.id.cardText);
+        final TextView txtCardType = findViewById(R.id.txtCardType);
+        final TextView txtCardCost = findViewById(R.id.txtCardCost);
+        final TextView txtCardSetRarity = findViewById(R.id.txtCardSetRarity);
 
 
         cardDetailsViewModel = ((VampiDroidApplication)getApplication()).getCardDetailsViewModel(getIntent().getExtras().getLong("cardId"));
@@ -214,11 +214,11 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                                 txtCardSetRarity.setText(libraryCard.getSetRarity());
 
 
-                                final TextView txtCardTypeLabel = (TextView) findViewById(R.id.txtCardTypeLabel);
-                                final TextView txtDisciplinesLabel = (TextView) findViewById(R.id.txtCardDisciplinesLabel);
-                                final TextView txtCardTextLabel = (TextView) findViewById(R.id.txtCardTextLabel);
-                                final TextView txtCardCostLabel = (TextView) findViewById(R.id.txtCardCostLabel);
-                                final TextView txtCardSetRarityLabel = (TextView) findViewById(R.id.txtCardSetRarityLabel);
+                                final TextView txtCardTypeLabel = findViewById(R.id.txtCardTypeLabel);
+                                final TextView txtDisciplinesLabel = findViewById(R.id.txtCardDisciplinesLabel);
+                                final TextView txtCardTextLabel = findViewById(R.id.txtCardTextLabel);
+                                final TextView txtCardCostLabel = findViewById(R.id.txtCardCostLabel);
+                                final TextView txtCardSetRarityLabel = findViewById(R.id.txtCardSetRarityLabel);
 
                                 if (!libraryCard.getBloodCost().isEmpty()) {
                                     txtCardCostLabel.setText("Blood Cost:");

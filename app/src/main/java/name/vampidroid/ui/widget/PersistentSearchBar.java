@@ -68,10 +68,10 @@ public class PersistentSearchBar extends FrameLayout {
 
     private void setupSearchContainter() {
 
-        final ImageView imageViewLeftAction = (ImageView) findViewById(R.id.left_action);
-        search_bar_text_view = (TextView) findViewById(R.id.search_bar_text);
-        final ImageView imageViewCloseButton = (ImageView) findViewById(R.id.clear_btn);
-        imageViewSearchSettingsButton = (ImageView) findViewById(R.id.search_settings);
+        final ImageView imageViewLeftAction = findViewById(R.id.left_action);
+        search_bar_text_view = findViewById(R.id.search_bar_text);
+        final ImageView imageViewCloseButton = findViewById(R.id.clear_btn);
+        imageViewSearchSettingsButton = findViewById(R.id.search_settings);
 
         imageViewLeftAction.setImageDrawable(drawerArrowDrawable);
 

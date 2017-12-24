@@ -54,8 +54,8 @@ public class CryptCapacitySeekBars extends LinearLayout {
 
         CryptCapacitySeekBars seekBars = (CryptCapacitySeekBars) inflater.inflate(R.layout.widget_crypt_capacity_seek_bars, this);
 
-        seekBarMin = (SeekBar) seekBars.findViewById(R.id.seekBarCapacityMin);
-        seekBarMax = (SeekBar) seekBars.findViewById(R.id.seekBarCapacityMax);
+        seekBarMin = seekBars.findViewById(R.id.seekBarCapacityMin);
+        seekBarMax = seekBars.findViewById(R.id.seekBarCapacityMax);
 
         //        Reference: http://stackoverflow.com/questions/18400910/seekbar-in-a-navigationdrawer
 
@@ -148,8 +148,8 @@ public class CryptCapacitySeekBars extends LinearLayout {
         seekBarMax.setOnSeekBarChangeListener(internalSeekBarChangeListenerMax);
 
 
-        textMinValue = (TextView) findViewById(R.id.textSeekBarMinValue);
-        textMaxValue = (TextView) findViewById(R.id.textSeekBarMaxValue);
+        textMinValue = findViewById(R.id.textSeekBarMinValue);
+        textMaxValue = findViewById(R.id.textSeekBarMaxValue);
 
     }
 

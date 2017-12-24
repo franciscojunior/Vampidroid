@@ -102,12 +102,12 @@ public class LibraryCardsListViewAdapter extends CardsListViewAdapter<LibraryCar
         public ViewHolder(View v) {
             super(v);
 
-            txtCardType = (TextView) v.findViewById(R.id.txtCardType);
-            txtCardName = (TextView) v.findViewById(R.id.txtCardName);
+            txtCardType = v.findViewById(R.id.txtCardType);
+            txtCardName = v.findViewById(R.id.txtCardName);
 //            txtCardClan = (TextView) v.findViewById(R.id.txtCardClan);
 //            txtCardDiscipline = (TextView) v.findViewById(R.id.txtCardDiscipline);
-            txtCardCost = (TextView) v.findViewById(R.id.txtCardCost);
-            imageViewCardImage = (ImageView) v.findViewById(R.id.imageViewCardImage);
+            txtCardCost = v.findViewById(R.id.txtCardCost);
+            imageViewCardImage = v.findViewById(R.id.imageViewCardImage);
 
             v.setOnClickListener(this);
 
