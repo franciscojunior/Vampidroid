@@ -590,17 +590,19 @@ public class VampiDroid extends AppCompatActivity
             closeDrawer = false;
         } else if (id == R.id.nav_about) {
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//            // Inflate and set the layout for the dialog
+//            // Pass null as the parent view because its going in the dialog layout
+//            View dialogView = getLayoutInflater().inflate(R.layout.about, null);
+//
+//            builder.setTitle("About")
+//                    .setView(dialogView)
+//                    .setPositiveButton("Close", null);
+//
+//            builder.show();
 
-            // Inflate and set the layout for the dialog
-            // Pass null as the parent view because its going in the dialog layout
-            View dialogView = getLayoutInflater().inflate(R.layout.about, null);
-
-            builder.setTitle("About")
-                    .setView(dialogView)
-                    .setPositiveButton("Close", null);
-
-            builder.show();
+            startActivity(new Intent(this, About.class));
 
         }
 
