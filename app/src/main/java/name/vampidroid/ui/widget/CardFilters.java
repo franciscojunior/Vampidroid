@@ -12,12 +12,16 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
 
 import name.vampidroid.R;
 
@@ -29,14 +33,6 @@ import name.vampidroid.R;
 public class CardFilters extends LinearLayout {
 
     private static final String TAG = "CardFilters";
-    private View cryptDisciplinesHeader;
-    private View cryptDisciplinesLayout;
-    private View clansHeader;
-    private View clansLayout;
-    private View cardTypesHeader;
-    private View cardTypesLayout;
-    private View libraryDisciplinesHeader;
-    private View libraryDisciplinesLayout;
 
     private View cryptFiltersLayoutGroup;
     private View libraryFiltersLayoutGroup;
@@ -127,18 +123,6 @@ public class CardFilters extends LinearLayout {
         cryptFiltersLayoutGroup = findViewById(R.id.cryptFiltersLayoutGroup);
         libraryFiltersLayoutGroup = findViewById(R.id.libraryFiltersLayoutGroup);
 
-        cryptDisciplinesHeader = findViewById(R.id.disciplinesHeader);
-        cryptDisciplinesLayout = findViewById(R.id.disciplinesLayout);
-
-        clansHeader = findViewById(R.id.clansHeader);
-        clansLayout = findViewById(R.id.clansLayout);
-
-        cardTypesHeader = findViewById(R.id.cardTypesHeader);
-        cardTypesLayout = findViewById(R.id.cardTypesLayout);
-
-        libraryDisciplinesHeader = findViewById(R.id.libraryDisciplinesHeader);
-        libraryDisciplinesLayout = findViewById(R.id.libraryDisciplinesLayout);
-
         setupGroupsHandler();
 
 
@@ -151,14 +135,6 @@ public class CardFilters extends LinearLayout {
         setupLibraryDisciplinesHandler();
 
         setupCapacitiesHandler();
-
-        setupExpandLayout(cryptDisciplinesHeader, cryptDisciplinesLayout, (ImageView) findViewById(R.id.imgDisciplinesLayoutArrow));
-
-        setupExpandLayout(clansHeader, clansLayout, (ImageView) findViewById(R.id.imgClansLayoutArrow));
-
-        setupExpandLayout(cardTypesHeader, cardTypesLayout, (ImageView) findViewById(R.id.imgCardTypesLayoutArrow));
-
-        setupExpandLayout(libraryDisciplinesHeader, libraryDisciplinesLayout, (ImageView) findViewById(R.id.imgLibraryDisciplinesLayoutArrow));
 
     }
 
@@ -302,8 +278,7 @@ public class CardFilters extends LinearLayout {
 
     private void setupCryptDisciplinesHandler() {
 
-
-        ViewGroup cryptDisciplinesContainer = (ViewGroup) cryptDisciplinesLayout;
+        ViewGroup cryptDisciplinesContainer = findViewById(R.id.disciplinesLayout);
 
         // The first child viewgroup are just labels for the basic and advanced checkboxes columns. Skip it.
         for (int i = 1; i < cryptDisciplinesContainer.getChildCount(); i++) {
@@ -350,7 +325,9 @@ public class CardFilters extends LinearLayout {
 
         final TextView cardTypesHeaderText = findViewById(R.id.textCardTypes);
 
-        setupTextCheckBoxRowHandler((ViewGroup) cardTypesLayout, new OnTextCheckBoxRowHandlerClickListener() {
+        ViewGroup cardTypesLayout = findViewById(R.id.cardTypesLayout);
+
+        setupTextCheckBoxRowHandler(cardTypesLayout, new OnTextCheckBoxRowHandlerClickListener() {
             @Override
             public void onClick(TextView rowText, CheckBox rowCheckBox) {
                 rowCheckBox.toggle();
@@ -370,7 +347,8 @@ public class CardFilters extends LinearLayout {
 
         final TextView clansHeaderText = findViewById(R.id.textClans);
 
-        setupTextCheckBoxRowHandler((ViewGroup) clansLayout, new OnTextCheckBoxRowHandlerClickListener() {
+        ViewGroup clansLayout = findViewById(R.id.clansLayout);
+        setupTextCheckBoxRowHandler(clansLayout, new OnTextCheckBoxRowHandlerClickListener() {
             @Override
             public void onClick(TextView rowText, CheckBox rowCheckBox) {
                 rowCheckBox.toggle();
@@ -392,7 +370,9 @@ public class CardFilters extends LinearLayout {
 
         final TextView libraryDisciplinesHeaderText = findViewById(R.id.textLibraryDisciplines);
 
-        setupTextCheckBoxRowHandler((ViewGroup) libraryDisciplinesLayout, new OnTextCheckBoxRowHandlerClickListener() {
+        ViewGroup libraryDisciplinesLayout = findViewById(R.id.libraryDisciplinesLayout);
+
+        setupTextCheckBoxRowHandler(libraryDisciplinesLayout, new OnTextCheckBoxRowHandlerClickListener() {
             @Override
             public void onClick(TextView rowText, CheckBox rowCheckBox) {
                 rowCheckBox.toggle();
@@ -432,39 +412,6 @@ public class CardFilters extends LinearLayout {
 
         }
     }
-
-
-    private void setupExpandLayout(final View header, final View layoutToExpand, final ImageView imgArrow) {
-        header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (layoutToExpand.isShown()) {
-                    layoutToExpand.setVisibility(View.GONE);
-                    imgArrow.setImageResource(R.drawable.ic_expand_more_black_24dp);
-                } else {
-
-                    imgArrow.setImageResource(R.drawable.ic_expand_less_black_24dp);
-
-
-//                    Reference: http://stackoverflow.com/questions/19765938/show-and-hide-a-view-with-a-slide-up-down-animation
-                    // Prepare the View for the animation
-                    layoutToExpand.setVisibility(View.VISIBLE);
-//					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-//						layoutToExpand.setAlpha(0.0f);
-//
-//						// Start the animation
-//						layoutToExpand.animate()
-//								.alpha(1.0f);
-//					}
-                }
-
-            }
-        });
-
-
-    }
-
 
     public void setOnCardFiltersChangeListener(OnCardFiltersChangeListener listener) {
         cardFiltersChangeListener = listener;

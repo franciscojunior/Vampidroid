@@ -3,1439 +3,1395 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/clansHeader"
+    <com.github.florent37.expansionpanel.ExpansionHeader
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:paddingBottom="16dp"
-        android:paddingLeft="8dp"
-        android:paddingTop="16dp">
+        app:expansion_headerIndicator="@id/headerIndicator"
+        app:expansion_layout="@id/expansionClansLayout"
+        app:expansion_toggleOnClick="true">
 
-        <TextView
-            android:id="@+id/textClans"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:text="Clans:"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            tools:layout_constraintBottom_creator="1"
-            tools:layout_constraintLeft_creator="1" />
+        <RelativeLayout
+            android:id="@+id/clansHeader"
+            android:layout_height="48dp"
+            android:layout_width="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
-        <ImageView
-            android:id="@+id/imgClansLayoutArrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:src="@drawable/ic_expand_more_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:layout_constraintBottom_creator="1"
-            tools:layout_constraintRight_creator="1" />
+            <TextView
+                android:id="@+id/textClans"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Clans:"
+                android:textColor="#DF000000"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
+            <android.support.v7.widget.AppCompatImageView
+                android:adjustViewBounds="true"
+                android:id="@+id/headerIndicator"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_width="wrap_content"
+                app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp" />
 
-    </android.support.constraint.ConstraintLayout>
+        </RelativeLayout>
 
+    </com.github.florent37.expansionpanel.ExpansionHeader>
 
-    <LinearLayout
-        android:id="@+id/clansLayout"
+    <com.github.florent37.expansionpanel.ExpansionLayout
+        android:id="@+id/expansionClansLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        tools:visibility="visible"
+        android:layout_height="wrap_content">
 
-        >
-
-        <android.support.percent.PercentRelativeLayout
+        <LinearLayout
+            android:id="@+id/clansLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true">
-
-
-            <TextView
-                android:id="@+id/textClanAbomination"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Abomination"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <!--Remove the ripple effect from the checkbox by setting a transparent background-->
-            <!--Reference: http://stackoverflow.com/questions/35625620/listview-item-with-checkbox-how-to-remove-checkbox-ripple-effect-->
-            <CheckBox
-                android:id="@+id/checkBoxClanAbomination"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanAbomination"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
+            android:orientation="vertical"
             >
 
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanAbomination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Abomination"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <!--Remove the ripple effect from the checkbox by setting a transparent background-->
+                <!--Reference: http://stackoverflow.com/questions/35625620/listview-item-with-checkbox-how-to-remove-checkbox-ripple-effect-->
+                <CheckBox
+                    android:id="@+id/checkBoxClanAbomination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanAbomination"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
 
-            <TextView
-                android:id="@+id/textClanAhrimane"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Ahrimane"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanAhrimane"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanAhrimane"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanAkunanse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Akunanse"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanAkunanse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanAkunanse"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanAssamite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Assamite"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanAssamite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanAssamite"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanAvenger"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Avenger"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanAvenger"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanAvenger"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanBaali"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Baali"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanBaali"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanBaali"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanBloodBrother"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Blood Brother"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanBloodBrother"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanBloodBrother"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanBrujah"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Brujah"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanBrujah"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanBrujah"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanBrujahantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Brujah antitribu"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanBrujahantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanBrujahantitribu"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanCaitiff"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Caitiff"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanCaitiff"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanCaitiff"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanDaughterofCacophony"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Daughter of Cacophony"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanDaughterofCacophony"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanDaughterofCacophony"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanDefender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Defender"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanDefender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanDefender"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanFollowerofSet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Follower of Set"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanFollowerofSet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanFollowerofSet"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanGangrel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Gangrel"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanGangrel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanGangrel"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanGangrelantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Gangrel antitribu"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanGangrelantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanGangrelantitribu"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanGargoyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Gargoyle"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanGargoyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanGargoyle"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanGiovanni"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Giovanni"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanGiovanni"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanGiovanni"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanGuruhi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Guruhi"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanGuruhi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanGuruhi"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanHarbingerofSkulls"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Harbinger of Skulls"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanHarbingerofSkulls"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanHarbingerofSkulls"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanInnocent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Innocent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanInnocent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanInnocent"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanIshtarri"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Ishtarri"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanIshtarri"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanIshtarri"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanJudge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Judge"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanJudge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanJudge"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanKiasyd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Kiasyd"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanKiasyd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanKiasyd"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanLasombra"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Lasombra"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanLasombra"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanLasombra"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanMalkavian"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Malkavian"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanMalkavian"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanMalkavian"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanMalkavianantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Malkavian antitribu"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanMalkavianantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanMalkavianantitribu"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanMartyr"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Martyr"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanMartyr"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanMartyr"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanNagaraja"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Nagaraja"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanNagaraja"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanNagaraja"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanNosferatu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Nosferatu"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanNosferatu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanNosferatu"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanNosferatuantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Nosferatu antitribu"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanNosferatuantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanNosferatuantitribu"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanOsebo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Osebo"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanOsebo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanOsebo"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanPander"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Pander"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanPander"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanPander"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanRavnos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Ravnos"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanRavnos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanRavnos"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanRedeemer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Redeemer"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanRedeemer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanRedeemer"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanSalubri"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Salubri"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanSalubri"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanSalubri"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanSalubriantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Salubri antitribu"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanSalubriantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanSalubriantitribu"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanSamedi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Samedi"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanSamedi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanSamedi"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanToreador"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Toreador"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanToreador"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanToreador"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanToreadorantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Toreador antitribu"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanToreadorantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanToreadorantitribu"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanTremere"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Tremere"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanTremere"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanTremere"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanTremereantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Tremere antitribu"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanTremereantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanTremereantitribu"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanTrueBrujah"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="True Brujah"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanTrueBrujah"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanTrueBrujah"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanTzimisce"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Tzimisce"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanTzimisce"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanTzimisce"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanVentrue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Ventrue"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanVentrue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanVentrue"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanVentrueantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Ventrue antitribu"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanVentrueantitribu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanVentrueantitribu"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="11dp"
-            android:background="?attr/selectableItemBackground"
-            >
-
-
-            <TextView
-                android:id="@+id/textClanVisionary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Visionary"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="85%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxClanVisionary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textClanVisionary"
-                android:background="@android:color/transparent"
-                android:checked="false"
-                android:clickable="false"
-                app:layout_widthPercent="15%" />
-
-
-        </android.support.percent.PercentRelativeLayout>
-
-
-    </LinearLayout>
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanAhrimane"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Ahrimane"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanAhrimane"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanAhrimane"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanAkunanse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Akunanse"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanAkunanse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanAkunanse"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanAssamite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Assamite"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanAssamite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanAssamite"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanAvenger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Avenger"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanAvenger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanAvenger"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanBaali"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Baali"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanBaali"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanBaali"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanBloodBrother"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Blood Brother"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanBloodBrother"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanBloodBrother"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanBrujah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Brujah"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanBrujah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanBrujah"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanBrujahantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Brujah antitribu"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanBrujahantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanBrujahantitribu"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanCaitiff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Caitiff"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanCaitiff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanCaitiff"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanDaughterofCacophony"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Daughter of Cacophony"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanDaughterofCacophony"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanDaughterofCacophony"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanDefender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Defender"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanDefender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanDefender"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanFollowerofSet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Follower of Set"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanFollowerofSet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanFollowerofSet"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanGangrel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Gangrel"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanGangrel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanGangrel"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanGangrelantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Gangrel antitribu"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanGangrelantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanGangrelantitribu"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanGargoyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Gargoyle"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanGargoyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanGargoyle"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanGiovanni"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Giovanni"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanGiovanni"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanGiovanni"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanGuruhi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Guruhi"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanGuruhi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanGuruhi"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanHarbingerofSkulls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Harbinger of Skulls"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanHarbingerofSkulls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanHarbingerofSkulls"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanInnocent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Innocent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanInnocent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanInnocent"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanIshtarri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Ishtarri"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanIshtarri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanIshtarri"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanJudge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Judge"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanJudge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanJudge"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanKiasyd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Kiasyd"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanKiasyd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanKiasyd"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanLasombra"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Lasombra"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanLasombra"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanLasombra"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanMalkavian"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Malkavian"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanMalkavian"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanMalkavian"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanMalkavianantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Malkavian antitribu"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanMalkavianantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanMalkavianantitribu"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanMartyr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Martyr"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanMartyr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanMartyr"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanNagaraja"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Nagaraja"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanNagaraja"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanNagaraja"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanNosferatu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Nosferatu"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanNosferatu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanNosferatu"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanNosferatuantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Nosferatu antitribu"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanNosferatuantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanNosferatuantitribu"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanOsebo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Osebo"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanOsebo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanOsebo"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanPander"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Pander"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanPander"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanPander"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanRavnos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Ravnos"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanRavnos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanRavnos"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanRedeemer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Redeemer"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanRedeemer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanRedeemer"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanSalubri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Salubri"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanSalubri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanSalubri"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanSalubriantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Salubri antitribu"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanSalubriantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanSalubriantitribu"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanSamedi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Samedi"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanSamedi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanSamedi"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanToreador"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Toreador"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanToreador"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanToreador"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanToreadorantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Toreador antitribu"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanToreadorantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanToreadorantitribu"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanTremere"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Tremere"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanTremere"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanTremere"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanTremereantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Tremere antitribu"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanTremereantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanTremereantitribu"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanTrueBrujah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="True Brujah"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanTrueBrujah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanTrueBrujah"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanTzimisce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Tzimisce"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanTzimisce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanTzimisce"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanVentrue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Ventrue"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanVentrue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanVentrue"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanVentrueantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Ventrue antitribu"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanVentrueantitribu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanVentrueantitribu"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textClanVisionary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Visionary"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="85%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxClanVisionary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textClanVisionary"
+                    android:background="@android:color/transparent"
+                    android:checked="false"
+                    android:clickable="false"
+                    app:layout_widthPercent="15%" />
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+
+        </LinearLayout>
+    </com.github.florent37.expansionpanel.ExpansionLayout>
 </merge>

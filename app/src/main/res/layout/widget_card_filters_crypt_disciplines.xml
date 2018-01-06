@@ -3,1025 +3,1029 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/disciplinesHeader"
+    <com.github.florent37.expansionpanel.ExpansionHeader
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:paddingBottom="16dp"
-        android:paddingLeft="8dp"
-        android:paddingTop="16dp">
+        app:expansion_headerIndicator="@id/headerIndicator"
+        app:expansion_layout="@id/expansionDisciplinesLayout"
+        app:expansion_toggleOnClick="true">
 
-        <TextView
-            android:id="@+id/textDisciplines"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:text="Crypt Disciplines:"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            tools:layout_constraintBottom_creator="1"
-            tools:layout_constraintLeft_creator="1" />
+        <RelativeLayout
+            android:id="@+id/disciplinesHeader"
+            android:layout_height="48dp"
+            android:layout_width="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
-        <ImageView
-            android:id="@+id/imgDisciplinesLayoutArrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:src="@drawable/ic_expand_more_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:layout_constraintBottom_creator="1"
-            tools:layout_constraintRight_creator="1" />
+            <TextView
+                android:id="@+id/textDisciplines"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Crypt Disciplines:"
+                android:textColor="#DF000000"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
-    </android.support.constraint.ConstraintLayout>
+            <android.support.v7.widget.AppCompatImageView
+                android:adjustViewBounds="true"
+                android:id="@+id/headerIndicator"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_width="wrap_content"
+                app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp" />
+
+        </RelativeLayout>
+
+    </com.github.florent37.expansionpanel.ExpansionHeader>
 
 
-    <LinearLayout
-        android:id="@+id/disciplinesLayout"
+    <com.github.florent37.expansionpanel.ExpansionLayout
+        android:id="@+id/expansionDisciplinesLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        tools:visibility="visible"
+        android:layout_height="wrap_content">
 
-        >
-
-        <android.support.percent.PercentRelativeLayout
+        <LinearLayout
+            android:id="@+id/disciplinesLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textDisciplinesPlaceholder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text=""
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <TextView
-                android:id="@+id/textBas"
-                android:text="Basic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textDisciplinesPlaceholder"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-
-            <TextView
-                android:id="@+id/textAdv"
-                android:text="Adv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textBas"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineABO"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="ABO"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicABO"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineABO"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedABO"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicABO"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-            <TextView
-                android:id="@+id/textViewDisciplineANI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="ANI"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicANI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineANI"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedANI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicANI"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineAUS"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="AUS"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicAUS"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineAUS"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedAUS"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicAUS"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineCEL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="CEL"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicCEL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineCEL"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedCEL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicCEL"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineCHI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="CHI"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicCHI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineCHI"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedCHI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicCHI"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineDAI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="DAI"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicDAI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineDAI"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedDAI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicDAI"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineDEM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="DEM"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicDEM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineDEM"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedDEM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicDEM"
-                android:checked="false"
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineDOM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="DOM"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicDOM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineDOM"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedDOM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicDOM"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineFOR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="FOR"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicFOR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineFOR"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedFOR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicFOR"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineMEL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="MEL"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicMEL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineMEL"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedMEL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicMEL"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineMYT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="MYT"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicMYT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineMYT"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedMYT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicMYT"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineNEC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="NEC"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicNEC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineNEC"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedNEC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicNEC"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineOBE"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="OBE"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicOBE"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineOBE"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedOBE"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicOBE"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineOBF"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="OBF"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicOBF"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineOBF"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedOBF"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicOBF"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineOBT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="OBT"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicOBT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineOBT"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedOBT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicOBT"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplinePOT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="POT"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicPOT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplinePOT"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedPOT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicPOT"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplinePRE"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="PRE"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicPRE"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplinePRE"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedPRE"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicPRE"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplinePRO"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="PRO"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicPRO"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplinePRO"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedPRO"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicPRO"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineQUI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="QUI"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicQUI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineQUI"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedQUI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicQUI"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineSAN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="SAN"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicSAN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineSAN"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedSAN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicSAN"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineSER"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="SER"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicSER"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineSER"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedSER"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicSER"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineSPI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="SPI"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicSPI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineSPI"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedSPI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicSPI"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineTEM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="TEM"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicTEM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineTEM"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedTEM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicTEM"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineTHA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="THA"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicTHA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineTHA"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedTHA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicTHA"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineTHN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="THN"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicTHN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineTHN"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedTHN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicTHN"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineVAL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="VAL"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicVAL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineVAL"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedVAL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicVAL"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineVIC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="VIC"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicVIC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineVIC"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedVIC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicVIC"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-        <android.support.percent.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp">
-
-
-            <TextView
-                android:id="@+id/textViewDisciplineVIS"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="VIS"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                app:layout_widthPercent="70%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineBasicVIS"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textViewDisciplineVIS"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-
-            <CheckBox
-                android:id="@+id/checkBoxDisciplineAdvancedVIS"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBoxDisciplineBasicVIS"
-                android:checked="false"
-                
-                app:layout_widthPercent="15%" />
-        </android.support.percent.PercentRelativeLayout>
-
-    </LinearLayout>
+            android:orientation="vertical"
+
+            >
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textDisciplinesPlaceholder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <TextView
+                    android:id="@+id/textBas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textDisciplinesPlaceholder"
+                    android:checked="false"
+                    android:text="Basic"
+                    app:layout_widthPercent="15%" />
+
+                <TextView
+                    android:id="@+id/textAdv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textBas"
+                    android:checked="false"
+                    android:text="Adv"
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineABO"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="ABO"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicABO"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineABO"
+                    android:checked="false"
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedABO"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicABO"
+                    android:checked="false"
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+                <TextView
+                    android:id="@+id/textViewDisciplineANI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="ANI"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicANI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineANI"
+                    android:checked="false"
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedANI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicANI"
+                    android:checked="false"
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineAUS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="AUS"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicAUS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineAUS"
+                    android:checked="false"
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedAUS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicAUS"
+                    android:checked="false"
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineCEL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="CEL"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicCEL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineCEL"
+                    android:checked="false"
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedCEL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicCEL"
+                    android:checked="false"
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineCHI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="CHI"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicCHI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineCHI"
+                    android:checked="false"
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedCHI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicCHI"
+                    android:checked="false"
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineDAI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="DAI"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicDAI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineDAI"
+                    android:checked="false"
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedDAI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicDAI"
+                    android:checked="false"
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineDEM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="DEM"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicDEM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineDEM"
+                    android:checked="false"
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedDEM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicDEM"
+                    android:checked="false"
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineDOM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="DOM"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicDOM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineDOM"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedDOM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicDOM"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineFOR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="FOR"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicFOR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineFOR"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedFOR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicFOR"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineMEL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="MEL"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicMEL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineMEL"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedMEL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicMEL"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineMYT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="MYT"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicMYT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineMYT"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedMYT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicMYT"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineNEC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="NEC"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicNEC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineNEC"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedNEC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicNEC"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineOBE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="OBE"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicOBE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineOBE"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedOBE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicOBE"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineOBF"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="OBF"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicOBF"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineOBF"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedOBF"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicOBF"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineOBT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="OBT"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicOBT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineOBT"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedOBT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicOBT"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplinePOT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="POT"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicPOT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplinePOT"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedPOT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicPOT"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplinePRE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="PRE"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicPRE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplinePRE"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedPRE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicPRE"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplinePRO"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="PRO"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicPRO"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplinePRO"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedPRO"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicPRO"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineQUI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="QUI"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicQUI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineQUI"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedQUI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicQUI"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineSAN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="SAN"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicSAN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineSAN"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedSAN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicSAN"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineSER"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="SER"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicSER"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineSER"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedSER"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicSER"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineSPI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="SPI"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicSPI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineSPI"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedSPI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicSPI"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineTEM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="TEM"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicTEM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineTEM"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedTEM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicTEM"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineTHA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="THA"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicTHA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineTHA"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedTHA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicTHA"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineTHN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="THN"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicTHN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineTHN"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedTHN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicTHN"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineVAL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="VAL"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicVAL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineVAL"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedVAL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicVAL"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineVIC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="VIC"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicVIC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineVIC"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedVIC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicVIC"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp">
+
+
+                <TextView
+                    android:id="@+id/textViewDisciplineVIS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="VIS"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    app:layout_widthPercent="70%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineBasicVIS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/textViewDisciplineVIS"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxDisciplineAdvancedVIS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/checkBoxDisciplineBasicVIS"
+                    android:checked="false"
+
+                    app:layout_widthPercent="15%" />
+            </android.support.percent.PercentRelativeLayout>
+
+        </LinearLayout>
+    </com.github.florent37.expansionpanel.ExpansionLayout>
 </merge>
