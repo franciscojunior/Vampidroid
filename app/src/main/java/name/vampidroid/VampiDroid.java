@@ -1,5 +1,6 @@
 package name.vampidroid;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -11,7 +12,6 @@ import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.Toolbar;
@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.jakewharton.rxbinding2.support.design.widget.RxTabLayout;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
@@ -30,8 +29,6 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
@@ -82,7 +79,7 @@ public class VampiDroid extends AppCompatActivity
 
         tabLayout = findViewById(R.id.tablayout);
 
-        cardsViewModel = ((VampiDroidApplication)getApplication()).getCardsViewModel();
+        cardsViewModel = ViewModelProviders.of(this).get(CardsViewModel.class);
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
@@ -170,32 +167,9 @@ public class VampiDroid extends AppCompatActivity
                 }));
 
 
-        // Implement DiffUtil calculation off the main thread as per Erik Hellman's excellent article.
-        // https://hellsoft.se/a-nice-combination-of-rxjava-and-diffutil-fe3807186012
-        Pair<List<CryptCard>, DiffUtil.DiffResult> cryptCardsDiffResultInitialPair = Pair.create(null, null);
-
-        subscriptions.add(cardsViewModel.getCryptCards()
-                .doOnTerminate(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        viewPagerAdapter.setCryptData(null);
-                    }
-                })
-                .observeOn(Schedulers.computation())
-                .scan(cryptCardsDiffResultInitialPair, new BiFunction<Pair<List<CryptCard>, DiffUtil.DiffResult>, List<CryptCard>, Pair<List<CryptCard>, DiffUtil.DiffResult>>() {
-                    @Override
-                    public Pair<List<CryptCard>, DiffUtil.DiffResult> apply(Pair<List<CryptCard>, DiffUtil.DiffResult> listDiffResultPair, List<CryptCard> next) throws Exception {
-
-                        CardsListViewAdapter.CardsListViewAdapterDiffCallback<CryptCard> diffCallback = new CardsListViewAdapter.CardsListViewAdapterDiffCallback<>(listDiffResultPair.first, next);
-                        DiffUtil.DiffResult result = DiffUtil.calculateDiff(diffCallback, false);
-
-                        return new Pair<>(next, result);
-                    }
-                })
-                .skip(1) // first emission of the scan will use the initial pair with null values. We don't need them.
+        subscriptions.add(cardsViewModel.getCryptCardsWithDiff()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Pair<List<CryptCard>, DiffUtil.DiffResult>>() {
-
                     @Override
                     public void accept(Pair<List<CryptCard>, DiffUtil.DiffResult> resultPair) throws Exception {
                         viewPagerAdapter.setCryptData(resultPair);
@@ -203,30 +177,10 @@ public class VampiDroid extends AppCompatActivity
                     }
                 }));
 
-        Pair<List<LibraryCard>, DiffUtil.DiffResult> libraryCardsDiffResultInitialPair = Pair.create(null, null);
 
-        subscriptions.add(cardsViewModel.getLibraryCards()
-                .doOnTerminate(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        viewPagerAdapter.setLibraryData(null);
-                    }
-                })
-                .observeOn(Schedulers.computation())
-                .scan(libraryCardsDiffResultInitialPair, new BiFunction<Pair<List<LibraryCard>, DiffUtil.DiffResult>, List<LibraryCard>, Pair<List<LibraryCard>, DiffUtil.DiffResult>>() {
-                    @Override
-                    public Pair<List<LibraryCard>, DiffUtil.DiffResult> apply(Pair<List<LibraryCard>, DiffUtil.DiffResult> listDiffResultPair, List<LibraryCard> next) throws Exception {
-
-                        CardsListViewAdapter.CardsListViewAdapterDiffCallback<LibraryCard> diffCallback = new CardsListViewAdapter.CardsListViewAdapterDiffCallback<>(listDiffResultPair.first, next);
-                        DiffUtil.DiffResult result = DiffUtil.calculateDiff(diffCallback, false);
-
-                        return new Pair<>(next, result);
-                    }
-                })
-                .skip(1) // first emission of the scan will use the initial pair with null values. We don't need them.
+        subscriptions.add(cardsViewModel.getLibraryCardsWithDiff()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Pair<List<LibraryCard>, DiffUtil.DiffResult>>() {
-
                     @Override
                     public void accept(Pair<List<LibraryCard>, DiffUtil.DiffResult> resultPair) throws Exception {
                         viewPagerAdapter.setLibraryData(resultPair);
@@ -236,14 +190,6 @@ public class VampiDroid extends AppCompatActivity
 
 
         subscriptions.add(cardsViewModel.getCryptTabTitle()
-                .filter(new Predicate<String>() {
-                    @Override
-                    public boolean test(String s) throws Exception {
-                        // Only go forward if the title is different.
-                        // We avoid bothering Android main thread if it is not.
-                        return !tabLayout.getTabAt(0).getText().equals(s);
-                    }
-                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
@@ -255,13 +201,8 @@ public class VampiDroid extends AppCompatActivity
 
         );
 
+
         subscriptions.add(cardsViewModel.getLibraryTabTitle()
-                .filter(new Predicate<String>() {
-                    @Override
-                    public boolean test(String s) {
-                        return !tabLayout.getTabAt(1).getText().equals(s);
-                    }
-                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override

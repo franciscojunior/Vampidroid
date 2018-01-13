@@ -1,9 +1,19 @@
 package name.vampidroid;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
+import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
+import android.support.v7.util.DiffUtil;
+import android.util.Log;
+
+
 import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.processors.PublishProcessor;
@@ -20,9 +30,9 @@ import name.vampidroid.utils.FilterStateQueryConverter;
  * Created by fxjr on 14/11/2016.
  */
 
-public class CardsViewModel {
+public class CardsViewModel extends AndroidViewModel {
 
-    private final CardsRepository cardsRepository;
+    private CardsRepository cardsRepository;
 
     private final PublishProcessor<FilterState> filterCryptCards = PublishProcessor.create();
 
@@ -32,62 +42,146 @@ public class CardsViewModel {
 
     private final PublishSubject<String> libraryTabTitle = PublishSubject.create();
 
-    private final Observable<Boolean> showCardsCountPreferenceObservable;
+    private Observable<Boolean> showCardsCountPreferenceObservable = null;
 
-    private final PreferenceRepository preferenceRepository;
+    private PreferenceRepository preferenceRepository = null;
 
     private int cryptCardsCount;
 
     private int libraryCardsCount;
 
-    public CardsViewModel(CardsRepository cardsRepository, PreferenceRepository preferenceRepository) {
+    private Flowable<Pair<List<CryptCard>, DiffUtil.DiffResult>> cryptCards;
 
-        this.cardsRepository = cardsRepository;
-        this.preferenceRepository = preferenceRepository;
+
+    private Flowable<Pair<List<LibraryCard>, DiffUtil.DiffResult>> libraryCards;
+
+
+    private CompositeDisposable subscriptions = new CompositeDisposable();
+
+    private boolean shouldSearchTextCard;
+    private boolean shouldShowCardsCount;
+
+
+    public CardsViewModel(@NonNull Application application) {
+        super(application);
+
+        VampiDroidApplication vampiDroidApplication = (VampiDroidApplication) application;
+        this.cardsRepository = vampiDroidApplication.getCardsRepository();
+        this.preferenceRepository = vampiDroidApplication.getPreferenceRepository();
         showCardsCountPreferenceObservable = preferenceRepository.getShowCardsCountObservable();
 
-    }
-
-    public Flowable<List<CryptCard>> getCryptCards() {
-
-
-        return filterCryptCards
-                .observeOn(Schedulers.computation())
-                .flatMap(new Function<FilterState, Flowable<List<CryptCard>>>() {
+        subscriptions.add(preferenceRepository
+                .getSearchTextCardObservable()
+                .subscribe(new Consumer<Boolean>() {
                     @Override
-                    public Flowable<List<CryptCard>> apply(FilterState filterState) throws Exception {
-                        filterState.setSearchInsideCardText(preferenceRepository.shouldSearchTextCard());
-                        return cardsRepository.getCryptCards(FilterStateQueryConverter.getCryptFilter(filterState));
+                    public void accept(Boolean searchTextCard) throws Exception {
+                        shouldSearchTextCard = searchTextCard;
                     }
                 })
-                .doOnNext(new Consumer<List<CryptCard>>() {
+
+        );
+
+
+        subscriptions.add(preferenceRepository
+                .getShowCardsCountObservable()
+                .subscribe(new Consumer<Boolean>() {
                     @Override
-                    public void accept(List<CryptCard> cryptCards) throws Exception {
-                        cryptCardsCount = cryptCards.size();
-                        cryptTabTitle.onNext(getTabTitle("Crypt", preferenceRepository.shouldShowCardsCount(), cryptCardsCount));
+                    public void accept(Boolean showCardsCount) throws Exception {
+                        shouldShowCardsCount = showCardsCount;
                     }
-                });
+                })
+        );
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+
+        subscriptions.dispose();
+    }
+
+    public Flowable<Pair<List<CryptCard>, DiffUtil.DiffResult>> getCryptCardsWithDiff() {
+
+
+        if (cryptCards == null) {
+
+            Pair<List<CryptCard>, DiffUtil.DiffResult> cryptCardsDiffResultInitialPair = Pair.create(null, null);
+
+            cryptCards = filterCryptCards
+                    .observeOn(Schedulers.computation())
+                    .flatMap(new Function<FilterState, Flowable<List<CryptCard>>>() {
+                        @Override
+                        public Flowable<List<CryptCard>> apply(FilterState filterState) throws Exception {
+                            filterState.setSearchInsideCardText(shouldSearchTextCard);
+                            return cardsRepository.getCryptCards(FilterStateQueryConverter.getCryptFilter(filterState));
+                        }
+                    })
+                    .doOnNext(new Consumer<List<CryptCard>>() {
+                        @Override
+                        public void accept(List<CryptCard> cryptCards) throws Exception {
+                            cryptCardsCount = cryptCards.size();
+                            cryptTabTitle.onNext(getTabTitle("Crypt", shouldShowCardsCount, cryptCardsCount));
+                        }
+                    })
+                    // Implement DiffUtil calculation off the main thread as per Erik Hellman's excellent article.
+                    // https://hellsoft.se/a-nice-combination-of-rxjava-and-diffutil-fe3807186012
+                    .scan(cryptCardsDiffResultInitialPair, new BiFunction<Pair<List<CryptCard>, DiffUtil.DiffResult>, List<CryptCard>, Pair<List<CryptCard>, DiffUtil.DiffResult>>() {
+                        @Override
+                        public Pair<List<CryptCard>, DiffUtil.DiffResult> apply(Pair<List<CryptCard>, DiffUtil.DiffResult> listDiffResultPair, List<CryptCard> next) throws Exception {
+                            CardsListViewAdapter.CardsListViewAdapterDiffCallback<CryptCard> diffCallback = new CardsListViewAdapter.CardsListViewAdapterDiffCallback<>(listDiffResultPair.first, next);
+                            DiffUtil.DiffResult result = DiffUtil.calculateDiff(diffCallback, false);
+
+                            return new Pair<>(next, result);
+                        }
+                    })
+                    .skip(1); // first emission of the scan will use the initial pair with null values. We don't need them.
+
+
+        }
+
+
+        return cryptCards;
 
     }
 
-    public Flowable<List<LibraryCard>> getLibraryCards() {
+    public Flowable<Pair<List<LibraryCard>, DiffUtil.DiffResult>> getLibraryCardsWithDiff() {
 
-        return filterLibraryCards
-                .observeOn(Schedulers.computation())
-                .flatMap(new Function<FilterState, Flowable<List<LibraryCard>>>() {
-                    @Override
-                    public Flowable<List<LibraryCard>> apply(FilterState filterState) throws Exception {
-                        filterState.setSearchInsideCardText(preferenceRepository.shouldSearchTextCard());
-                        return cardsRepository.getLibraryCards(FilterStateQueryConverter.getLibraryFilter(filterState));
-                    }
-                })
-                .doOnNext(new Consumer<List<LibraryCard>>() {
-                    @Override
-                    public void accept(List<LibraryCard> libraryCards) throws Exception {
-                        libraryCardsCount = libraryCards.size();
-                        libraryTabTitle.onNext(getTabTitle("Library", preferenceRepository.shouldShowCardsCount(), libraryCardsCount));
-                    }
-                });
+        if (libraryCards == null) {
+
+            Pair<List<LibraryCard>, DiffUtil.DiffResult> libraryCardsDiffResultInitialPair = Pair.create(null, null);
+
+            libraryCards = filterLibraryCards
+                    .observeOn(Schedulers.computation())
+                    .flatMap(new Function<FilterState, Flowable<List<LibraryCard>>>() {
+                        @Override
+                        public Flowable<List<LibraryCard>> apply(FilterState filterState) throws Exception {
+                            filterState.setSearchInsideCardText(shouldSearchTextCard);
+                            return cardsRepository.getLibraryCards(FilterStateQueryConverter.getLibraryFilter(filterState));
+                        }
+                    })
+                    .doOnNext(new Consumer<List<LibraryCard>>() {
+                        @Override
+                        public void accept(List<LibraryCard> libraryCards) throws Exception {
+                            libraryCardsCount = libraryCards.size();
+                            libraryTabTitle.onNext(getTabTitle("Library", shouldShowCardsCount, libraryCardsCount));
+                        }
+                    })
+                    // Implement DiffUtil calculation off the main thread as per Erik Hellman's excellent article.
+                    // https://hellsoft.se/a-nice-combination-of-rxjava-and-diffutil-fe3807186012
+                    .scan(libraryCardsDiffResultInitialPair, new BiFunction<Pair<List<LibraryCard>, DiffUtil.DiffResult>, List<LibraryCard>, Pair<List<LibraryCard>, DiffUtil.DiffResult>>() {
+                        @Override
+                        public Pair<List<LibraryCard>, DiffUtil.DiffResult> apply(Pair<List<LibraryCard>, DiffUtil.DiffResult> listDiffResultPair, List<LibraryCard> next) throws Exception {
+                            CardsListViewAdapter.CardsListViewAdapterDiffCallback<LibraryCard> diffCallback = new CardsListViewAdapter.CardsListViewAdapterDiffCallback<>(listDiffResultPair.first, next);
+                            DiffUtil.DiffResult result = DiffUtil.calculateDiff(diffCallback, false);
+
+                            return new Pair<>(next, result);
+                        }
+                    })
+                    .skip(1); // first emission of the scan will use the initial pair with null values. We don't need them.
+
+        }
+
+        return libraryCards;
 
     }
 
@@ -118,7 +212,8 @@ public class CardsViewModel {
                             public String apply(Boolean showCards) throws Exception {
                                 return getTabTitle("Crypt", showCards, cryptCardsCount);
                             }
-                        }));
+                        }))
+                .distinctUntilChanged();
     }
 
 
@@ -131,7 +226,8 @@ public class CardsViewModel {
                             public String apply(Boolean showCards) throws Exception {
                                 return getTabTitle("Library", showCards, libraryCardsCount);
                             }
-                        }));
+                        }))
+                .distinctUntilChanged();
     }
 
 

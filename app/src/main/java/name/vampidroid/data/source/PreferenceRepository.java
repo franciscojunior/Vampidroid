@@ -1,11 +1,12 @@
 package name.vampidroid.data.source;
 
 
+import android.os.Environment;
+
 import com.f2prateek.rx.preferences2.Preference;
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
 
 import io.reactivex.Observable;
-import name.vampidroid.fragments.SettingsFragment;
 
 /**
  * Created by fxjr on 03/01/17.
@@ -13,19 +14,22 @@ import name.vampidroid.fragments.SettingsFragment;
 
 public class PreferenceRepository {
 
+    public static final String KEY_PREF_CARD_IMAGES_FOLDER = "pref_cardImagesFolder";
+
+    public static final String KEY_PREF_SEARCH_CARD_TEXT = "pref_searchCardText";
+    public static final String DEFAULT_IMAGES_FOLDER = Environment.getExternalStorageDirectory().getAbsolutePath();
+    public static final String KEY_PREF_SHOW_CARDS_COUNT = "pref_showCardsCountTabHeader";
+
+
     private final Preference<Boolean> searchTextCard;
     private final Preference<String> cardImagesFolder;
     private final Preference<Boolean> showCardsCount;
 
     public PreferenceRepository(RxSharedPreferences sharedPreferences) {
 
-        searchTextCard = sharedPreferences.getBoolean(SettingsFragment.KEY_PREF_SEARCH_CARD_TEXT, false);
-        cardImagesFolder = sharedPreferences.getString(SettingsFragment.KEY_PREF_CARD_IMAGES_FOLDER, SettingsFragment.DEFAULT_IMAGES_FOLDER);
-        showCardsCount = sharedPreferences.getBoolean(SettingsFragment.KEY_PREF_SHOW_CARDS_COUNT, false);
-    }
-
-    public boolean shouldSearchTextCard() {
-        return searchTextCard.get().booleanValue();
+        searchTextCard = sharedPreferences.getBoolean(KEY_PREF_SEARCH_CARD_TEXT, false);
+        cardImagesFolder = sharedPreferences.getString(KEY_PREF_CARD_IMAGES_FOLDER, DEFAULT_IMAGES_FOLDER);
+        showCardsCount = sharedPreferences.getBoolean(KEY_PREF_SHOW_CARDS_COUNT, false);
     }
 
     public Observable<Boolean> getSearchTextCardObservable() {
@@ -33,12 +37,9 @@ public class PreferenceRepository {
         return searchTextCard.asObservable();
     }
 
+
     public Observable<String> getCardsImagesFolderObservable() {
         return cardImagesFolder.asObservable();
-    }
-
-    public boolean shouldShowCardsCount() {
-        return showCardsCount.get().booleanValue();
     }
 
     public Observable<Boolean> getShowCardsCountObservable() {

@@ -2,6 +2,7 @@ package name.vampidroid.fragments;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import name.vampidroid.R;
+import name.vampidroid.SettingsViewModel;
 
 /**
  * Created by fxjr on 22/07/16.
@@ -34,11 +36,6 @@ public class DirectoryChooserFragment extends DialogFragment {
     public static final String CURRENT_DIRECTORY = "CURRENT_DIRECTORY";
 
     public static final int GRANT_STORAGE_ACCESS_REQUEST_CODE = 1;
-
-    public interface DirectoryChooserFragmentListener {
-        void onDirectorySelected(String directoryPath);
-    }
-
 
     private TextView textviewSelectedDirectory;
     private ListView listviewDirectories;
@@ -129,13 +126,8 @@ public class DirectoryChooserFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                Fragment parent = getTargetFragment();
-
-                if (parent instanceof DirectoryChooserFragmentListener) {
-                    DirectoryChooserFragmentListener listener = (DirectoryChooserFragmentListener) parent;
-                    listener.onDirectorySelected(selectedDirectory);
-
-                }
+                SettingsViewModel settingsViewModel = ViewModelProviders.of(DirectoryChooserFragment.this).get(SettingsViewModel.class);
+                settingsViewModel.setCardsImagesFolder(selectedDirectory);
 
             }
         });
@@ -181,6 +173,7 @@ public class DirectoryChooserFragment extends DialogFragment {
             File[] directoriesList = dir.listFiles(new FileFilter() {
                 @Override
                 public boolean accept(File file) {
+                    Log.d(TAG, "accept: directory list " + file.getAbsolutePath());
                     // Only accept directories.
                     return file.isDirectory();
 

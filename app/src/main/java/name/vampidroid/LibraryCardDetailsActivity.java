@@ -1,5 +1,6 @@
 package name.vampidroid;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -196,11 +197,10 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         final TextView txtCardSetRarity = findViewById(R.id.txtCardSetRarity);
 
 
-        cardDetailsViewModel = ((VampiDroidApplication)getApplication()).getCardDetailsViewModel(getIntent().getExtras().getLong("cardId"));
-
+        cardDetailsViewModel = ViewModelProviders.of(this).get(CardDetailsViewModel.class);
 
         subscriptions.add(
-                cardDetailsViewModel.getLibraryCard()
+                cardDetailsViewModel.getLibraryCard(getIntent().getExtras().getLong("cardId"))
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Consumer<LibraryCard>() {
                             @Override

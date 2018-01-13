@@ -1,5 +1,6 @@
 package name.vampidroid;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -23,12 +24,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.ImageViewTarget;
-import com.bumptech.glide.request.target.Target;
 
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
-
-import java.io.File;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -206,11 +203,13 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         final TextView txtCardCapacity = findViewById(R.id.txtCardCapacity);
         final TextView txtCardSetRarity = findViewById(R.id.txtCardSetRarity);
 
-        cardDetailsViewModel = ((VampiDroidApplication)getApplication()).getCardDetailsViewModel(getIntent().getExtras().getLong("cardId"));
+        cardDetailsViewModel = ViewModelProviders.of(this).get(CardDetailsViewModel.class);
+
 
         subscriptions.add(
-                cardDetailsViewModel.getCryptCard()
+                cardDetailsViewModel.getCryptCard(getIntent().getExtras().getLong("cardId"))
                         .observeOn(AndroidSchedulers.mainThread())
+
                         .subscribe(new Consumer<CryptCard>() {
                             @Override
                             public void accept(CryptCard cryptCard) throws Exception {
@@ -281,6 +280,7 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
                                         });
                             }
                         }));
+
 
 
     }

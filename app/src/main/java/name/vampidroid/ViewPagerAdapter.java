@@ -123,5 +123,4 @@ public class ViewPagerAdapter extends PagerAdapter {
         recyclerViewsAdapters[1].notifyDataSetChanged();
 
     }
-
 }

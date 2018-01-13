@@ -1,9 +1,11 @@
 package name.vampidroid;
 
 import android.app.Application;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
@@ -96,18 +98,4 @@ public class VampiDroidApplication extends Application {
         return preferenceRepository;
     }
 
-    public CardsViewModel getCardsViewModel() {
-
-        return new CardsViewModel(getCardsRepository(), getPreferenceRepository());
-
-    }
-
-
-    public SettingsViewModel getSettingsViewModel() {
-        return new SettingsViewModel(getPreferenceRepository());
-    }
-
-    public CardDetailsViewModel getCardDetailsViewModel(long cardId) {
-        return new CardDetailsViewModel(cardId, cardsRepository);
-    }
 }

@@ -1,8 +1,7 @@
 package name.vampidroid.fragments;
 
-import android.content.Context;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
@@ -22,14 +21,9 @@ import name.vampidroid.VampiDroidApplication;
 //Reference: https://github.com/codepath/android_guides/wiki/Using-DialogFragment
 //Reference: https://github.com/codepath/android_guides/wiki/Settings-with-PreferenceFragment
 
-public class SettingsFragment extends PreferenceFragmentCompat implements DirectoryChooserFragment.DirectoryChooserFragmentListener {
+public class SettingsFragment extends PreferenceFragmentCompat {
 
     private static final String TAG = "SettingsFragment";
-    public static final String KEY_PREF_CARD_IMAGES_FOLDER = "pref_cardImagesFolder";
-
-    public static final String KEY_PREF_SEARCH_CARD_TEXT = "pref_searchCardText";
-    public static final String DEFAULT_IMAGES_FOLDER = Environment.getExternalStorageDirectory().getAbsolutePath();
-    public static final String KEY_PREF_SHOW_CARDS_COUNT = "pref_showCardsCountTabHeader";
 
     public static final String DIRECTORY_CHOOSER_FRAGMENT_TAG = "directorychooser";
     private SettingsViewModel settingsViewModel;
@@ -41,8 +35,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.preferences);
 
-        settingsViewModel = ((VampiDroidApplication) getActivity().getApplication()).getSettingsViewModel();
-
+        settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
 
         imagesFolderButton = findPreference(getString(R.string.pref_card_images_folder));
 
@@ -88,34 +81,4 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Direct
         super.onDestroy();
         unbind();
     }
-
-    @Override
-    public void onAttach(Context context) {
-
-        // When rotating the device, if the DirectoryChooserFragment is being shown, it will have a reference to a previous, non valid, parent fragment.
-        // This gives problem of leaks and exceptions in saveInstanceState.
-        // So, refresh this reference if the DirectoryChooserFragment is being shown.
-
-        super.onAttach(context);
-
-        DirectoryChooserFragment fragment = (DirectoryChooserFragment) getFragmentManager().findFragmentByTag(DIRECTORY_CHOOSER_FRAGMENT_TAG);
-
-        if (fragment != null) {
-            fragment.setTargetFragment(this, 0);
-        }
-
-
-    }
-
-
-    @Override
-    public void onDirectorySelected(String directoryPath) {
-
-
-        Log.d(TAG, "onDirectorySelected() called with: directoryPath = [" + directoryPath + "]");
-
-        settingsViewModel.setCardsImagesFolder(directoryPath);
-
-    }
-
 }
