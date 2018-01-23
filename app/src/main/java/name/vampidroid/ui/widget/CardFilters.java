@@ -6,22 +6,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.AsyncLayoutInflater;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+
+import com.github.florent37.expansionpanel.ExpansionLayout;
 
 import name.vampidroid.R;
 
@@ -50,6 +48,17 @@ public class CardFilters extends LinearLayout {
 
 
     boolean isResetting = false;
+    private SparseArray<Parcelable> restoreInstanceStateData;
+
+    private boolean clanExpansionLayoutExpanded;
+    private boolean cryptDisciplinesExpansionLayoutExpanded;
+    private boolean cardTypesExpansionLayoutExpanded;
+    private boolean libraryDisciplinesExpansionLayoutExpanded;
+
+    private boolean isInflateFinished;
+    private boolean showCryptFiltersAfterLayoutInflated = false;
+    private boolean showLibraryFiltersAfterLayoutInflated = false;
+
 
     public interface OnCardFiltersChangeListener {
 
@@ -92,39 +101,68 @@ public class CardFilters extends LinearLayout {
 
     private void init() {
 
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        isInflateFinished = false;
+        AsyncLayoutInflater asyncLayoutInflater = new AsyncLayoutInflater(getContext());
+        asyncLayoutInflater.inflate(R.layout.widget_card_filters_layout, this, new AsyncLayoutInflater.OnInflateFinishedListener() {
+            @Override
+            public void onInflateFinished(View view, int resid, ViewGroup parent) {
 
-        View inflated = inflater.inflate(R.layout.widget_card_filters_layout, this, false);
+                addView(view);
 
-        addView(inflated);
-        initViews();
+                isInflateFinished = true;
 
-//        AsyncLayoutInflater asyncLayoutInflater = new AsyncLayoutInflater(getContext());
-//        asyncLayoutInflater.inflate(R.layout.widget_card_filters_layout, this, new AsyncLayoutInflater.OnInflateFinishedListener() {
-//            @Override
-//            public void onInflateFinished(View view, int resid, ViewGroup parent) {
-//
-//                if (container != null) {
-//                    CardFilters.super.dispatchRestoreInstanceState(container);
-//                    container = null;
-//                }
-//
-//                addView(view);
-//                initViews();
-//
-//            }
-//        });
+                if (restoreInstanceStateData != null) {
+
+                    // Only update header status when the layout has been inflated.
+                    updateFilterHeaderStatus((TextView) findViewById(R.id.textClans), numberOfClansFiltersApplied);
+                    updateFilterHeaderStatus((TextView) findViewById(R.id.textCardTypes), numberOfCardTypesFiltersApplied);
+                    updateFilterHeaderStatus((TextView) findViewById(R.id.textLibraryDisciplines), numberOfLibraryDisciplineFiltersApplied);
+                    updateFilterHeaderStatus((TextView) findViewById(R.id.textDisciplines), numberOfCryptDisciplineFiltersApplied);
+
+
+                    // Update expanded state of the expansion layouts
+                    updateExpansionLayoutExpanded((ExpansionLayout) findViewById(R.id.expansionDisciplinesLayout), cryptDisciplinesExpansionLayoutExpanded);
+                    updateExpansionLayoutExpanded((ExpansionLayout) findViewById(R.id.expansionClansLayout), clanExpansionLayoutExpanded);
+                    updateExpansionLayoutExpanded((ExpansionLayout) findViewById(R.id.expansionLibraryTypesLayout), cardTypesExpansionLayoutExpanded);
+                    updateExpansionLayoutExpanded((ExpansionLayout) findViewById(R.id.expansionLibraryDisciplinesLayout), libraryDisciplinesExpansionLayoutExpanded);
+
+                    // Restore state from the view which was just inflated.
+                    // Here we use the state given by the dispatchRestoreState method. As at the time dispatchRestoreIntanceState method
+                    // was called the view hasn't been inflated yet, we just stored that state to be used here when the view finishes being
+                    // inflated.
+                    view.restoreHierarchyState(restoreInstanceStateData);
+
+                    restoreInstanceStateData = null;
+                }
+
+                cryptFiltersLayoutGroup = findViewById(R.id.cryptFiltersLayoutGroup);
+                libraryFiltersLayoutGroup = findViewById(R.id.libraryFiltersLayoutGroup);
+
+                setupViewHandlers();
+
+                // Check if it was requested to show a group of filters before layout inflated.
+                if (showCryptFiltersAfterLayoutInflated) {
+                    showCryptFilters();
+                } else if (showLibraryFiltersAfterLayoutInflated) {
+                    showLibraryFilters();
+                }
+
+
+            }
+        });
 
 
     }
 
-    void initViews() {
+    void updateExpansionLayoutExpanded(ExpansionLayout expansionLayout, boolean expanded) {
+        if (expanded) {
+            expansionLayout.expand(false);
+        }
+    }
 
-        cryptFiltersLayoutGroup = findViewById(R.id.cryptFiltersLayoutGroup);
-        libraryFiltersLayoutGroup = findViewById(R.id.libraryFiltersLayoutGroup);
+    void setupViewHandlers() {
 
         setupGroupsHandler();
-
 
         setupCryptDisciplinesHandler();
 
@@ -186,11 +224,11 @@ public class CardFilters extends LinearLayout {
 
     @Override
     protected void dispatchRestoreInstanceState(SparseArray<Parcelable> container) {
-        Log.d(TAG, "dispatchRestoreInstanceState() called with: container = [" + container + "]");
-        super.dispatchRestoreInstanceState(container);
-        // Doesn't restore child states yet because they may not have been inflated yet.
+        // Don't restore child states yet because they may not have been inflated yet.
         // Keep the state to be used later.
-//        this.container = container;
+        this.restoreInstanceStateData = container;
+
+        super.dispatchRestoreInstanceState(container);
     }
 
     @Override
@@ -201,19 +239,30 @@ public class CardFilters extends LinearLayout {
         Parcelable superState = super.onSaveInstanceState();
         state.putParcelable("superState", superState);
 
-        // Only save numberOf*FiltersApplied state which can't be reproduced. The filters which have a handler for the checkbox click will
-        // restore the values when restoring checkbox state.
-
+        state.putInt("numberOfGroupFiltersApplied", numberOfGroupFiltersApplied);
+        state.putInt("numberOfCapacityFiltersApplied", numberOfCapacityFiltersApplied);
+        state.putInt("numberOfCryptDisciplineFiltersApplied", numberOfCryptDisciplineFiltersApplied);
+        state.putInt("numberOfLibraryDisciplineFiltersApplied", numberOfLibraryDisciplineFiltersApplied);
         state.putInt("numberOfClansFiltersApplied", numberOfClansFiltersApplied);
         state.putInt("numberOfCardTypesFiltersApplied", numberOfCardTypesFiltersApplied);
-        state.putInt("numberOfLibraryDisciplineFiltersApplied", numberOfLibraryDisciplineFiltersApplied);
+
+        ExpansionLayout expansionDisciplinesLayout = findViewById(R.id.expansionDisciplinesLayout);
+        state.putBoolean("cryptDisciplinesExpansionLayoutExpanded", expansionDisciplinesLayout.isExpanded());
+
+        ExpansionLayout expansionClansLayout = findViewById(R.id.expansionClansLayout);
+        state.putBoolean("clanExpansionLayoutExpanded", expansionClansLayout.isExpanded());
+
+        ExpansionLayout expansionLibraryTypesLayout = findViewById(R.id.expansionLibraryTypesLayout);
+        state.putBoolean("cardTypesExpansionLayoutExpanded", expansionLibraryTypesLayout.isExpanded());
+
+        ExpansionLayout expansionLibraryDisciplinesLayout = findViewById(R.id.expansionLibraryDisciplinesLayout);
+        state.putBoolean("libraryDisciplinesExpansionLayoutExpanded", expansionLibraryDisciplinesLayout.isExpanded());
 
         return state;
     }
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        Log.d(TAG, "onRestoreInstanceState() called with: state = [" + state + "]");
 
         if (state instanceof Bundle) {
             Log.d(TAG, "onRestoreInstanceState: Restoring from bundle");
@@ -221,13 +270,17 @@ public class CardFilters extends LinearLayout {
             super.onRestoreInstanceState(bundle.getParcelable("superState"));
 
 
+            numberOfGroupFiltersApplied = bundle.getInt("numberOfGroupFiltersApplied");
+            numberOfCapacityFiltersApplied = bundle.getInt("numberOfCapacityFiltersApplied");
+            numberOfCryptDisciplineFiltersApplied = bundle.getInt("numberOfCryptDisciplineFiltersApplied");
+            numberOfLibraryDisciplineFiltersApplied = bundle.getInt("numberOfLibraryDisciplineFiltersApplied");
             numberOfClansFiltersApplied = bundle.getInt("numberOfClansFiltersApplied");
             numberOfCardTypesFiltersApplied = bundle.getInt("numberOfCardTypesFiltersApplied");
-            numberOfLibraryDisciplineFiltersApplied = bundle.getInt("numberOfLibraryDisciplineFiltersApplied");
 
-            updateFilterHeaderStatus((TextView) findViewById(R.id.textClans), numberOfClansFiltersApplied);
-            updateFilterHeaderStatus((TextView) findViewById(R.id.textCardTypes), numberOfCardTypesFiltersApplied);
-            updateFilterHeaderStatus((TextView) findViewById(R.id.textLibraryDisciplines), numberOfLibraryDisciplineFiltersApplied);
+            cryptDisciplinesExpansionLayoutExpanded = bundle.getBoolean("cryptDisciplinesExpansionLayoutExpanded");
+            clanExpansionLayoutExpanded = bundle.getBoolean("clanExpansionLayoutExpanded");
+            cardTypesExpansionLayoutExpanded = bundle.getBoolean("cardTypesExpansionLayoutExpanded");
+            libraryDisciplinesExpansionLayoutExpanded = bundle.getBoolean("libraryDisciplinesExpansionLayoutExpanded");
 
         } else {
             super.onRestoreInstanceState(state);
@@ -419,16 +472,27 @@ public class CardFilters extends LinearLayout {
 
     public void showCryptFilters() {
 
-        cryptFiltersLayoutGroup.setVisibility(VISIBLE);
-        libraryFiltersLayoutGroup.setVisibility(GONE);
+        if (isInflateFinished) {
+            cryptFiltersLayoutGroup.setVisibility(VISIBLE);
+            libraryFiltersLayoutGroup.setVisibility(GONE);
+        } else {
+            showCryptFiltersAfterLayoutInflated = true;
+            showLibraryFiltersAfterLayoutInflated = false;
+        }
 
 
     }
 
     public void showLibraryFilters() {
 
-        libraryFiltersLayoutGroup.setVisibility(VISIBLE);
-        cryptFiltersLayoutGroup.setVisibility(GONE);
+
+        if (isInflateFinished) {
+            libraryFiltersLayoutGroup.setVisibility(VISIBLE);
+            cryptFiltersLayoutGroup.setVisibility(GONE);
+        } else {
+            showCryptFiltersAfterLayoutInflated = false;
+            showLibraryFiltersAfterLayoutInflated = true;
+        }
 
     }
 
