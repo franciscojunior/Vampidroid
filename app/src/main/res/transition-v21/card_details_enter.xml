@@ -2,19 +2,40 @@
 <transitionSet
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <transitionSet>
+        <targets>
+            <target android:targetId="@id/cardViewCardText" />
+            <target android:targetId="@id/cardViewDisciplines" />
+            <target android:targetId="@id/cardViewCardSetRarity" />
+            <target android:excludeId="@android:id/navigationBarBackground" />
+            <target android:excludeId="@android:id/statusBarBackground" />
+        </targets>
+        <transition
+            class="android.transition.Slide"
+            android:duration="650"
+            android:interpolator="@android:interpolator/linear_out_slow_in" />
+        <fade
+            android:startDelay="250"
+            android:duration="100"
+            android:interpolator="@android:interpolator/linear" />
+    </transitionSet>
+
+
     <!--Reference: http://stackoverflow.com/questions/26600263/how-do-i-prevent-the-status-bar-and-navigation-bar-from-animating-during-an-acti-->
     <transitionSet>
         <targets>
             <target android:excludeId="@android:id/navigationBarBackground" />
             <target android:excludeId="@android:id/statusBarBackground" />
+            <!--<target android:excludeId="@id/cardViewCardText" />-->
+            <!--<target android:excludeId="@id/cardViewDisciplines" />-->
+            <!--<target android:excludeId="@id/cardViewCardSetRarity" />-->
+            <target android:targetId="@id/app_bar" />
 
         </targets>
 
         <fade
-
             android:startDelay="200"
             android:interpolator="@android:interpolator/linear" />
     </transitionSet>
-
 
 </transitionSet>

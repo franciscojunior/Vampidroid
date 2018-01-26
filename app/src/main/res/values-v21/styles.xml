@@ -12,8 +12,10 @@
     <style name="AppTheme.NoActionBar.CardDetails">
         <!-- specify enter and exit transitions -->
         <item name="android:windowEnterTransition">@transition/card_details_enter</item>
+        <!--<item name="android:windowSharedElementEnterTransition">@transition/card_details_shared_enter</item>-->
         <!--<item name="android:windowExitTransition">@transition/explode</item>-->
         <item name="android:windowReturnTransition">@transition/card_details_return</item>
+        <!--<item name="android:windowSharedElementReturnTransition">@transition/card_details_shared_return</item>-->
 
     </style>
 
