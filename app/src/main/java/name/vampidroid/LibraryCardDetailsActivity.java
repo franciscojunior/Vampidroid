@@ -6,11 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
@@ -43,8 +40,12 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
     private ImageView cardImage;
 
     // Discipline images
-    private ImageView[] disciplineImageViews = new ImageView[3];
-    private FloatingActionButton fab;
+
+    private static int[] imageViewIds = {
+            R.id.img_card_details_discipline1,
+            R.id.img_card_details_discipline2,
+            R.id.img_card_details_discipline3
+    };
 
     private CardDetailsViewModel cardDetailsViewModel;
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -63,14 +64,6 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
         //        Reference: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
         supportPostponeEnterTransition();
 
-        fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -95,8 +88,6 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
             }
         });
-
-        setupDisciplineImagesArray();
 
         subscriptions = new CompositeDisposable();
 
@@ -153,39 +144,6 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        fab.hide();
-        super.onBackPressed();
-
-    }
-
-
-    //    Reference: http://stackoverflow.com/questions/19312109/execute-a-method-after-an-activity-is-visible-to-user
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-
-//        fab.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                fab.show();
-//            }
-//        }, 300);
-
-    }
-
-
-    private void setupDisciplineImagesArray() {
-
-        disciplineImageViews[0] = findViewById(R.id.img_card_details_discipline1);
-        disciplineImageViews[1] = findViewById(R.id.img_card_details_discipline2);
-        disciplineImageViews[2] = findViewById(R.id.img_card_details_discipline3);
-
-
     }
 
 
@@ -275,42 +233,29 @@ public class LibraryCardDetailsActivity extends AppCompatActivity {
                                 if (disciplinesText.length() > 0) {
                                     txtDisciplinesLabel.setVisibility(View.VISIBLE);
 
-                                    String[] disciplines = disciplinesText.split("[^a-zA-Z]+");
-                                    for (int disciplineIndex = 0; disciplineIndex < disciplines.length; disciplineIndex++) {
+                                    final Integer[] disciplinesDrawables = Utils.getDisciplinesDrawablesIDs(libraryCard.getDisciplines());
 
-                                        Integer disciplineDrawableID = Utils.getDisciplinesDrawableResourceIdsMap().get(disciplines[disciplineIndex]);
+                                    for (int disciplineIndex = 0; disciplineIndex < disciplinesDrawables.length; disciplineIndex++) {
+
+                                        Integer disciplineDrawableID = disciplinesDrawables[disciplineIndex];
 
                                         if (disciplineDrawableID != null) {
+                                            ImageView disciplineImageView = findViewById(imageViewIds[disciplineIndex]);
                                             Glide.with(LibraryCardDetailsActivity.this)
                                                     .load(disciplineDrawableID)
                                                     .fitCenter()
-                                                    .into(disciplineImageViews[disciplineIndex]);
-                                            disciplineImageViews[disciplineIndex].setVisibility(View.VISIBLE);
+                                                    .into(disciplineImageView);
+                                            disciplineImageView.setVisibility(View.VISIBLE);
                                         }
 
                                     }
                                 }
-
-
-
-
-
-                                // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
-//                                fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(defaultColor)));
-
 
                                 supportStartPostponedEnterTransition();
 
 
                             }
                         }));
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
 
     }
 

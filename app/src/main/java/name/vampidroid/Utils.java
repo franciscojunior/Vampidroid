@@ -188,5 +188,20 @@ public class Utils {
         return null;
     }
 
+    /**
+     * This method translates a disciplines string, like "for pot" into an array of corresponding drawables ids
+     * @param disciplines string in the form: "for pot"
+     * @return an array of drawables Ids. If a corresponding drawable is not found, its array value will be null.
+     */
+    public static Integer[] getDisciplinesDrawablesIDs(String disciplines) {
+        String[] disciplinesArray = disciplines.split("[^a-zA-Z]+");
+        Integer[] disciplinesDrawables = new Integer[disciplinesArray.length];
+        SimpleArrayMap<String, Integer> disciplinesDrawableResourceIdsMap = getDisciplinesDrawableResourceIdsMap();
+
+        for (int disciplineIndex = 0; disciplineIndex < disciplinesDrawables.length; disciplineIndex++) {
+            disciplinesDrawables[disciplineIndex] = disciplinesDrawableResourceIdsMap.get(disciplinesArray[disciplineIndex]);
+        }
+        return disciplinesDrawables;
+    }
 }
 

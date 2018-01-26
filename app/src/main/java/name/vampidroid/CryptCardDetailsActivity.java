@@ -6,14 +6,11 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,8 +41,15 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
     // Discipline images
 
-    private ImageView[] disciplineImageViews = new ImageView[7];
-    private FloatingActionButton fab;
+    private static int[] imageViewIds = {
+            R.id.img_card_details_discipline1,
+            R.id.img_card_details_discipline2,
+            R.id.img_card_details_discipline3,
+            R.id.img_card_details_discipline4,
+            R.id.img_card_details_discipline5,
+            R.id.img_card_details_discipline6,
+            R.id.img_card_details_discipline7
+    };
 
     private CardDetailsViewModel cardDetailsViewModel;
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -65,14 +69,6 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         //        Reference: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
         supportPostponeEnterTransition();
 
-        fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -97,8 +93,6 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
             }
         });
-
-        setupDisciplineImagesArray();
 
         subscriptions = new CompositeDisposable();
 
@@ -157,46 +151,6 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    public void onBackPressed() {
-        Log.d(TAG, "onBackPressed() called");
-        fab.hide();
-        super.onBackPressed();
-
-    }
-
-
-    //    Reference: http://stackoverflow.com/questions/19312109/execute-a-method-after-an-activity-is-visible-to-user
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-
-//        fab.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                fab.show();
-//            }
-//        }, 300);
-
-    }
-
-
-    private void setupDisciplineImagesArray() {
-
-        disciplineImageViews[0] = findViewById(R.id.img_card_details_discipline1);
-        disciplineImageViews[1] = findViewById(R.id.img_card_details_discipline2);
-        disciplineImageViews[2] = findViewById(R.id.img_card_details_discipline3);
-        disciplineImageViews[3] = findViewById(R.id.img_card_details_discipline4);
-        disciplineImageViews[4] = findViewById(R.id.img_card_details_discipline5);
-        disciplineImageViews[5] = findViewById(R.id.img_card_details_discipline6);
-        disciplineImageViews[6] = findViewById(R.id.img_card_details_discipline7);
-
-
-    }
-
-
     private void setupCardData() {
 
         final TextView txtCardText = findViewById(R.id.cardText);
@@ -227,18 +181,20 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
                                 final TextView txtSetRarityLabel = findViewById(R.id.txtSetRarityLabel);
 
 
-                                String[] disciplines = cryptCard.getDisciplines().split("[^a-zA-Z]+");
+                                final Integer[] disciplinesDrawables = Utils.getDisciplinesDrawablesIDs(cryptCard.getDisciplines());
 
                                 int disciplineIndex;
-                                for (disciplineIndex = 0; disciplineIndex < disciplines.length; disciplineIndex++) {
 
-                                    Integer disciplineDrawableID = Utils.getDisciplinesDrawableResourceIdsMap().get(disciplines[disciplineIndex]);
+                                for (disciplineIndex = 0; disciplineIndex < disciplinesDrawables.length; disciplineIndex++) {
+
+                                    Integer disciplineDrawableID = disciplinesDrawables[disciplineIndex];
                                     if (disciplineDrawableID != null) {
+                                        ImageView disciplineImageView = findViewById(imageViewIds[disciplineIndex]);
                                         Glide.with(CryptCardDetailsActivity.this)
                                                 .load(disciplineDrawableID)
                                                 .fitCenter()
-                                                .into(disciplineImageViews[disciplineIndex]);
-                                        disciplineImageViews[disciplineIndex].setVisibility(View.VISIBLE);
+                                                .into(disciplineImageView);
+                                        disciplineImageView.setVisibility(View.VISIBLE);
                                     }
                                 }
 
@@ -263,16 +219,13 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
                                                     public void onGenerated(Palette palette) {
                                                         // Here's your generated palette
                                                         final int paletteColor = palette.getVibrantColor(ContextCompat.getColor(CryptCardDetailsActivity.this, R.color.colorAccent));
-//
+
 
                                                         txtDisciplinesLabel.setTextColor(paletteColor);
                                                         txtTextLabel.setTextColor(paletteColor);
                                                         txtCapacityLabel.setTextColor(paletteColor);
                                                         txtSetRarityLabel.setTextColor(paletteColor);
-//
-//                                                // Reference: http://stackoverflow.com/questions/30966222/change-color-of-floating-action-button-from-appcompat-22-2-0-programmatically
-//                                                // fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(defaultColor)));
-//
+
                                                         supportStartPostponedEnterTransition();
                                                     }
                                                 });
@@ -285,10 +238,5 @@ public class CryptCardDetailsActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-
-    }
 }
+
