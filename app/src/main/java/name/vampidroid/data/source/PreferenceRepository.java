@@ -17,7 +17,6 @@ public class PreferenceRepository {
     public static final String KEY_PREF_CARD_IMAGES_FOLDER = "pref_cardImagesFolder";
 
     public static final String KEY_PREF_SEARCH_CARD_TEXT = "pref_searchCardText";
-    public static final String DEFAULT_IMAGES_FOLDER = Environment.getExternalStorageDirectory().getAbsolutePath();
     public static final String KEY_PREF_SHOW_CARDS_COUNT = "pref_showCardsCountTabHeader";
 
 
@@ -28,7 +27,7 @@ public class PreferenceRepository {
     public PreferenceRepository(RxSharedPreferences sharedPreferences) {
 
         searchTextCard = sharedPreferences.getBoolean(KEY_PREF_SEARCH_CARD_TEXT, false);
-        cardImagesFolder = sharedPreferences.getString(KEY_PREF_CARD_IMAGES_FOLDER, DEFAULT_IMAGES_FOLDER);
+        cardImagesFolder = sharedPreferences.getString(KEY_PREF_CARD_IMAGES_FOLDER, Environment.getExternalStorageDirectory().getAbsolutePath());
         showCardsCount = sharedPreferences.getBoolean(KEY_PREF_SHOW_CARDS_COUNT, false);
     }
 

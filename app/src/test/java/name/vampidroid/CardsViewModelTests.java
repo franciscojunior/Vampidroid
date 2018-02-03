@@ -1,5 +1,8 @@
 package name.vampidroid;
 
+import android.support.v4.util.Pair;
+import android.support.v7.util.DiffUtil;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,6 +43,9 @@ public class CardsViewModelTests {
     @Mock
     CardsRepository mockCardsRepository;
 
+    @Mock
+    VampiDroidApplication mockVampiDroidApplication;
+
     // With this rule, we can reset the schedulers used throughout the system
     // to use the trampoline scheduler, regardless the scheduler originally used.
     // This facilitates asynchronous code testing.
@@ -51,15 +57,21 @@ public class CardsViewModelTests {
 
         List<CryptCard> cryptCardsTestValues = getCryptCards();
         FilterState testFilterState = new FilterState();
+
+
         when(mockCardsRepository.getCryptCards(FilterStateQueryConverter.getCryptFilter(testFilterState))).thenReturn(Flowable.just(cryptCardsTestValues));
 
+        when(mockVampiDroidApplication.getCardsRepository()).thenReturn(mockCardsRepository);
+        when(mockVampiDroidApplication.getPreferenceRepository()).thenReturn(mockPreferenceRepository);
 
+        when(mockPreferenceRepository.getSearchTextCardObservable()).thenReturn(Observable.just(true));
+        when(mockPreferenceRepository.getShowCardsCountObservable()).thenReturn(Observable.just(true));
 
-        CardsViewModel viewModel = new CardsViewModel(mockCardsRepository, mockPreferenceRepository);
+        CardsViewModel viewModel = new CardsViewModel(mockVampiDroidApplication);
 
-        Flowable<List<CryptCard>> cryptCards = viewModel.getCryptCards();
+        Flowable<Pair<List<CryptCard>, DiffUtil.DiffResult>> cryptCards = viewModel.getCryptCardsWithDiff();
 
-        TestSubscriber<List<CryptCard>> testObserver = cryptCards.test();
+        TestSubscriber<Pair<List<CryptCard>, DiffUtil.DiffResult>> testObserver = cryptCards.test();
 
         testObserver.assertNoValues();
 
@@ -67,22 +79,20 @@ public class CardsViewModelTests {
 
         testObserver.assertValueCount(1);
 
-        testObserver.assertValue(cryptCardsTestValues);
-
-        testObserver.assertValue(new Predicate<List<CryptCard>>() {
+        testObserver.assertValue(new Predicate<Pair<List<CryptCard>, DiffUtil.DiffResult>>() {
             @Override
-            public boolean test(List<CryptCard> cryptCards) throws Exception {
+            public boolean test(Pair<List<CryptCard>, DiffUtil.DiffResult> data) throws Exception {
 
-                return cryptCards.size() == 3;
+                return data.first.size() == 3;
             }
         });
 
 
-        testObserver.assertValue(new Predicate<List<CryptCard>>() {
+        testObserver.assertValue(new Predicate<Pair<List<CryptCard>, DiffUtil.DiffResult>>() {
             @Override
-            public boolean test(List<CryptCard> cryptCards) throws Exception {
+            public boolean test(Pair<List<CryptCard>, DiffUtil.DiffResult> data) throws Exception {
 
-                return Observable.fromIterable(cryptCards)
+                return Observable.fromIterable(data.first)
                         .map(new Function<CryptCard, String>() {
                             @Override
                             public String apply(CryptCard cryptCard) throws Exception {
@@ -107,11 +117,17 @@ public class CardsViewModelTests {
 
 
 
-        CardsViewModel viewModel = new CardsViewModel(mockCardsRepository, mockPreferenceRepository);
+        when(mockVampiDroidApplication.getCardsRepository()).thenReturn(mockCardsRepository);
+        when(mockVampiDroidApplication.getPreferenceRepository()).thenReturn(mockPreferenceRepository);
 
-        Flowable<List<LibraryCard>> libraryCards = viewModel.getLibraryCards();
+        when(mockPreferenceRepository.getSearchTextCardObservable()).thenReturn(Observable.just(true));
+        when(mockPreferenceRepository.getShowCardsCountObservable()).thenReturn(Observable.just(true));
 
-        TestSubscriber<List<LibraryCard>> testObserver = libraryCards.test();
+        CardsViewModel viewModel = new CardsViewModel(mockVampiDroidApplication);
+
+        Flowable<Pair<List<LibraryCard>, DiffUtil.DiffResult>> libraryCards = viewModel.getLibraryCardsWithDiff();
+
+        TestSubscriber<Pair<List<LibraryCard>, DiffUtil.DiffResult>> testObserver = libraryCards.test();
 
         testObserver.assertNoValues();
 
@@ -119,23 +135,20 @@ public class CardsViewModelTests {
 
         testObserver.assertValueCount(1);
 
-        testObserver.assertValue(libraryCardsTestValues);
-
-        testObserver.assertValue(new Predicate<List<LibraryCard>>() {
+        testObserver.assertValue(new Predicate<Pair<List<LibraryCard>, DiffUtil.DiffResult>>() {
             @Override
-            public boolean test(List<LibraryCard> libraryCards) throws Exception {
+            public boolean test(Pair<List<LibraryCard>, DiffUtil.DiffResult> data) throws Exception {
 
-                return libraryCards.size() == 3;
+                return data.first.size() == 3;
             }
         });
 
 
-        testObserver.assertValue(new Predicate<List<LibraryCard>>() {
+        testObserver.assertValue(new Predicate<Pair<List<LibraryCard>, DiffUtil.DiffResult>>() {
             @Override
-            public boolean test(List<LibraryCard> libraryCards) throws Exception {
+            public boolean test(Pair<List<LibraryCard>, DiffUtil.DiffResult> data) throws Exception {
 
-                return
-                        Observable.fromIterable(libraryCards)
+                return Observable.fromIterable(data.first)
                         .map(new Function<LibraryCard, String>() {
                             @Override
                             public String apply(LibraryCard libraryCard) throws Exception {
@@ -149,12 +162,11 @@ public class CardsViewModelTests {
             }
         });
 
-        testObserver.assertValue(new Predicate<List<LibraryCard>>() {
+        testObserver.assertValue(new Predicate<Pair<List<LibraryCard>, DiffUtil.DiffResult>>() {
             @Override
-            public boolean test(List<LibraryCard> libraryCards) throws Exception {
-
+            public boolean test(Pair<List<LibraryCard>, DiffUtil.DiffResult> data) throws Exception {
                 return
-                        Observable.fromIterable(libraryCards)
+                        Observable.fromIterable(data.first)
                                 .map(new Function<LibraryCard, String>() {
                                     @Override
                                     public String apply(LibraryCard libraryCard) throws Exception {
@@ -178,15 +190,20 @@ public class CardsViewModelTests {
         PublishSubject<Boolean> preferenceShowCardCount = PublishSubject.create();
         // First, test get the crypt tab with show cards count preference set to false
         when(mockPreferenceRepository.getShowCardsCountObservable()).thenReturn(preferenceShowCardCount);
+        when(mockPreferenceRepository.getSearchTextCardObservable()).thenReturn(Observable.just(true));
+
         FilterState testFilterState = new FilterState();
         when(mockCardsRepository.getCryptCards(FilterStateQueryConverter.getCryptFilter(testFilterState))).thenReturn(Flowable.just(getCryptCards()));
 
+        when(mockVampiDroidApplication.getCardsRepository()).thenReturn(mockCardsRepository);
+        when(mockVampiDroidApplication.getPreferenceRepository()).thenReturn(mockPreferenceRepository);
 
 
-        CardsViewModel viewModel = new CardsViewModel(mockCardsRepository, mockPreferenceRepository);
+        CardsViewModel viewModel = new CardsViewModel(mockVampiDroidApplication);
+
 
         // Test card list request, although in this test we are only concerned about the title.
-        viewModel.getCryptCards().test();
+        viewModel.getCryptCardsWithDiff().test();
 
         TestObserver<String> testObserver = viewModel.getCryptTabTitle().test();
 
@@ -209,7 +226,6 @@ public class CardsViewModelTests {
         testObserver.assertValueCount(3);
 
         testObserver.assertValues("Crypt", "Crypt (3)", "Crypt");
-
     }
 
     @Test
@@ -219,16 +235,22 @@ public class CardsViewModelTests {
 
         // First, test get the library tab with show cards count preference set to false
         when(mockPreferenceRepository.getShowCardsCountObservable()).thenReturn(preferenceShowCardCount);
+        when(mockPreferenceRepository.getSearchTextCardObservable()).thenReturn(Observable.just(true));
 
         FilterState testFilterState = new FilterState();
 
         when(mockCardsRepository.getLibraryCards(FilterStateQueryConverter.getLibraryFilter(testFilterState))).thenReturn(Flowable.just(getLibraryCards()));
 
 
-        CardsViewModel viewModel = new CardsViewModel(mockCardsRepository, mockPreferenceRepository);
+        when(mockVampiDroidApplication.getCardsRepository()).thenReturn(mockCardsRepository);
+        when(mockVampiDroidApplication.getPreferenceRepository()).thenReturn(mockPreferenceRepository);
+
+
+        CardsViewModel viewModel = new CardsViewModel(mockVampiDroidApplication);
+
 
         // Test card list request, although in this test we are only concerned about the title.
-        viewModel.getLibraryCards().test();
+        viewModel.getLibraryCardsWithDiff().test();
 
         TestObserver<String> testObserver = viewModel.getLibraryTabTitle().test();
 
@@ -259,10 +281,17 @@ public class CardsViewModelTests {
 
         PublishSubject<Boolean> preferenceSearchTextHint = PublishSubject.create();
 
+        when(mockPreferenceRepository.getShowCardsCountObservable()).thenReturn(Observable.just(true));
+
         // First, test get the library tab with show cards count preference set to false
         when(mockPreferenceRepository.getSearchTextCardObservable()).thenReturn(preferenceSearchTextHint);
 
-        CardsViewModel viewModel = new CardsViewModel(mockCardsRepository, mockPreferenceRepository);
+        when(mockVampiDroidApplication.getCardsRepository()).thenReturn(mockCardsRepository);
+        when(mockVampiDroidApplication.getPreferenceRepository()).thenReturn(mockPreferenceRepository);
+
+
+        CardsViewModel viewModel = new CardsViewModel(mockVampiDroidApplication);
+
 
         TestObserver<Integer> testObserver = viewModel.getSearchTextHintObservable().test();
 
@@ -278,10 +307,17 @@ public class CardsViewModelTests {
 
         PublishSubject<Boolean> preferenceSearchTextCard = PublishSubject.create();
 
+        when(mockPreferenceRepository.getShowCardsCountObservable()).thenReturn(Observable.just(true));
+
         // First, test get the library tab with show cards count preference set to false
         when(mockPreferenceRepository.getSearchTextCardObservable()).thenReturn(preferenceSearchTextCard);
 
-        CardsViewModel viewModel = new CardsViewModel(mockCardsRepository, mockPreferenceRepository);
+        when(mockVampiDroidApplication.getCardsRepository()).thenReturn(mockCardsRepository);
+        when(mockVampiDroidApplication.getPreferenceRepository()).thenReturn(mockPreferenceRepository);
+
+
+        CardsViewModel viewModel = new CardsViewModel(mockVampiDroidApplication);
+
 
         TestObserver<String> testObserver = viewModel.getNeedRefreshCardsListing().test();
 
@@ -302,11 +338,17 @@ public class CardsViewModelTests {
 
         final PublishSubject<String> preferenceCardsImageFolder = PublishSubject.create();
 
+        when(mockPreferenceRepository.getShowCardsCountObservable()).thenReturn(Observable.just(true));
+        when(mockPreferenceRepository.getSearchTextCardObservable()).thenReturn(Observable.just(true));
+
 
         // First, test get the library tab with show cards count preference set to false
         when(mockPreferenceRepository.getCardsImagesFolderObservable()).thenReturn(preferenceCardsImageFolder);
 
-        CardsViewModel viewModel = new CardsViewModel(mockCardsRepository, mockPreferenceRepository);
+        when(mockVampiDroidApplication.getCardsRepository()).thenReturn(mockCardsRepository);
+        when(mockVampiDroidApplication.getPreferenceRepository()).thenReturn(mockPreferenceRepository);
+
+        CardsViewModel viewModel = new CardsViewModel(mockVampiDroidApplication);
 
 
         TestObserver<String> testObserver = viewModel.getNeedRefreshCardImages().test();
