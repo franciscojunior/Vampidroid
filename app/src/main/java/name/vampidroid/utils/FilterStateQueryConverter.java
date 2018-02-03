@@ -49,7 +49,7 @@ public class FilterStateQueryConverter {
         }
 
         StringBuilder sbNameFilter = new StringBuilder();
-        sbNameFilter.append("'%").append(filterState.getName().toString().trim().replace(' ' , '%').replace("'" , "''")).append("%'");
+        sbNameFilter.append("'%").append(filterState.getName().toLowerCase().trim().replace(' ' , '%').replace("'" , "''")).append("%'");
 
         String nameFilter = sbNameFilter.toString();
 

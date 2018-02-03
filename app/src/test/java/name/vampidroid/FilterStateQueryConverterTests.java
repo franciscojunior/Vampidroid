@@ -135,7 +135,7 @@ public class FilterStateQueryConverterTests {
 
         model.setName("Rich");
 
-        assertEquals(" and (lower(Name) like '%Rich%') and Cast(capacity as integer) between 1 AND 11 order by Name", FilterStateQueryConverter.getCryptFilter(model));
+        assertEquals(" and (lower(Name) like '%rich%') and Cast(capacity as integer) between 1 AND 11 order by Name", FilterStateQueryConverter.getCryptFilter(model));
 
     }
 
@@ -147,7 +147,7 @@ public class FilterStateQueryConverterTests {
         model.setName("Rich");
         model.setSearchInsideCardText(true);
 
-        assertEquals(" and (lower(Name) like '%Rich%' or lower(Text) like '%Rich%') and Cast(capacity as integer) between 1 AND 11 order by Name", FilterStateQueryConverter.getCryptFilter(model));
+        assertEquals(" and (lower(Name) like '%rich%' or lower(Text) like '%rich%') and Cast(capacity as integer) between 1 AND 11 order by Name", FilterStateQueryConverter.getCryptFilter(model));
 
     }
 
