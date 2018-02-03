@@ -42,7 +42,7 @@
                 android:layout_width="0dp"
                 android:transitionName="cardTextTransition"
                 style="@style/TextAppearance.AppCompat.Subhead"
-                android:fontFamily="sans-serif-condensed"
+                android:fontFamily="@font/roboto"
                 android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/txtCardTextLabel"
                 app:layout_constraintLeft_toLeftOf="@+id/txtCardTextLabel"

@@ -9,73 +9,69 @@
 
     <TextView
         android:id="@+id/txtCardClan"
+        style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
         android:ellipsize="end"
+        android:fontFamily="@font/roboto_condensed_regular"
         android:singleLine="true"
         tools:text="Card Clan"
-        style="@style/TextAppearance.AppCompat.Subhead"
-        android:fontFamily="sans-serif-condensed"
         android:transitionName="cardTextTransition"
-        app:layout_constraintLeft_toLeftOf="@+id/txtCardName"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintTop_toBottomOf="@+id/txtCardExtraInformation"
+        app:layout_constraintLeft_toLeftOf="@+id/txtCardName"
         app:layout_constraintRight_toLeftOf="@+id/textView18"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp">
+        app:layout_constraintTop_toBottomOf="@+id/txtCardExtraInformation">
 
     </TextView>
 
     <TextView
         android:id="@+id/textView18"
+        style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
         android:ellipsize="end"
+        android:fontFamily="@font/roboto_condensed_regular"
         android:singleLine="true"
         android:text="Capacity:"
-        style="@style/TextAppearance.AppCompat.Subhead"
-        android:fontFamily="sans-serif-condensed"
         android:transitionName="cardTextTransition"
         app:layout_constraintBottom_toBottomOf="@+id/txtCardClan"
-        app:layout_constraintRight_toLeftOf="@+id/txtCardCost"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp">
+        app:layout_constraintRight_toLeftOf="@+id/txtCardCost">
 
     </TextView>
 
     <TextView
         android:id="@+id/txtCardName"
+        style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         tools:text="A long card name to test layout"
-        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/amarante"
         android:includeFontPadding="true"
         android:singleLine="true"
         android:textStyle="bold"
-        android:fontFamily="sans-serif-condensed"
-        android:layout_marginStart="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/imageViewCardImage"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="16dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="16dp"
-        app:layout_constraintHorizontal_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
     </TextView>
 
     <TextView
         android:id="@+id/txtCardExtraInformation"
+        style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="for pre POT FOR CEL cel PRE"
         android:singleLine="true"
         android:cursorVisible="true"
-        style="@style/TextAppearance.AppCompat.Subhead"
-        android:fontFamily="sans-serif-condensed"
-        app:layout_constraintTop_toBottomOf="@+id/txtCardName"
-        app:layout_constraintLeft_toLeftOf="@+id/txtCardName">
+        android:fontFamily="@font/roboto_condensed_regular"
+        app:layout_constraintLeft_toLeftOf="@+id/txtCardName"
+        app:layout_constraintTop_toBottomOf="@+id/txtCardName">
 
     </TextView>
 
@@ -86,7 +82,7 @@
         android:gravity="center"
         tools:text="10"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:fontFamily="sans-serif-condensed"
+        app:fontFamily="@font/roboto_condensed_regular"
         app:layout_constraintBottom_toBottomOf="@+id/textView18"
         android:layout_marginEnd="16dp"
         app:layout_constraintRight_toRightOf="parent"
@@ -99,7 +95,7 @@
         android:gravity="center"
         tools:text="11"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:fontFamily="sans-serif-condensed"
+        app:fontFamily="@font/roboto_condensed_regular"
         android:layout_marginEnd="16dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="16dp"
@@ -107,15 +103,14 @@
 
     <TextView
         android:id="@+id/textView1"
+        style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Group:"
-        style="@style/TextAppearance.AppCompat.Subhead"
-        android:fontFamily="sans-serif-condensed"
-        app:layout_constraintRight_toLeftOf="@+id/txtCardGroup"
-        android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView18" />
+        android:fontFamily="@font/roboto_condensed_regular"
+        android:text="Group:"
+        app:layout_constraintBottom_toTopOf="@+id/textView18"
+        app:layout_constraintRight_toLeftOf="@+id/txtCardGroup" />
 
     <ImageView
         android:layout_width="45dp"
