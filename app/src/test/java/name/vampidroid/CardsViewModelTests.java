@@ -1,8 +1,5 @@
 package name.vampidroid;
 
-import android.support.v4.util.Pair;
-import android.support.v7.util.DiffUtil;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,9 +66,9 @@ public class CardsViewModelTests {
 
         CardsViewModel viewModel = new CardsViewModel(mockVampiDroidApplication);
 
-        Flowable<Pair<List<CryptCard>, DiffUtil.DiffResult>> cryptCards = viewModel.getCryptCardsWithDiff();
+        Flowable<List<CryptCard>> cryptCards = viewModel.getCryptCards();
 
-        TestSubscriber<Pair<List<CryptCard>, DiffUtil.DiffResult>> testObserver = cryptCards.test();
+        TestSubscriber<List<CryptCard>> testObserver = cryptCards.test();
 
         testObserver.assertNoValues();
 
@@ -79,20 +76,20 @@ public class CardsViewModelTests {
 
         testObserver.assertValueCount(1);
 
-        testObserver.assertValue(new Predicate<Pair<List<CryptCard>, DiffUtil.DiffResult>>() {
+        testObserver.assertValue(new Predicate<List<CryptCard>>() {
             @Override
-            public boolean test(Pair<List<CryptCard>, DiffUtil.DiffResult> data) throws Exception {
+            public boolean test(List<CryptCard> cryptCardList) throws Exception {
 
-                return data.first.size() == 3;
+                return cryptCardList.size() == 3;
             }
         });
 
 
-        testObserver.assertValue(new Predicate<Pair<List<CryptCard>, DiffUtil.DiffResult>>() {
+        testObserver.assertValue(new Predicate<List<CryptCard>>() {
             @Override
-            public boolean test(Pair<List<CryptCard>, DiffUtil.DiffResult> data) throws Exception {
+            public boolean test(List<CryptCard> cryptCardList) throws Exception {
 
-                return Observable.fromIterable(data.first)
+                return Observable.fromIterable(cryptCardList)
                         .map(new Function<CryptCard, String>() {
                             @Override
                             public String apply(CryptCard cryptCard) throws Exception {
@@ -125,9 +122,9 @@ public class CardsViewModelTests {
 
         CardsViewModel viewModel = new CardsViewModel(mockVampiDroidApplication);
 
-        Flowable<Pair<List<LibraryCard>, DiffUtil.DiffResult>> libraryCards = viewModel.getLibraryCardsWithDiff();
+        Flowable<List<LibraryCard>> libraryCards = viewModel.getLibraryCards();
 
-        TestSubscriber<Pair<List<LibraryCard>, DiffUtil.DiffResult>> testObserver = libraryCards.test();
+        TestSubscriber<List<LibraryCard>> testObserver = libraryCards.test();
 
         testObserver.assertNoValues();
 
@@ -135,20 +132,20 @@ public class CardsViewModelTests {
 
         testObserver.assertValueCount(1);
 
-        testObserver.assertValue(new Predicate<Pair<List<LibraryCard>, DiffUtil.DiffResult>>() {
+        testObserver.assertValue(new Predicate<List<LibraryCard>>() {
             @Override
-            public boolean test(Pair<List<LibraryCard>, DiffUtil.DiffResult> data) throws Exception {
+            public boolean test(List<LibraryCard> libraryCardList) throws Exception {
 
-                return data.first.size() == 3;
+                return libraryCardList.size() == 3;
             }
         });
 
 
-        testObserver.assertValue(new Predicate<Pair<List<LibraryCard>, DiffUtil.DiffResult>>() {
+        testObserver.assertValue(new Predicate<List<LibraryCard>>() {
             @Override
-            public boolean test(Pair<List<LibraryCard>, DiffUtil.DiffResult> data) throws Exception {
+            public boolean test(List<LibraryCard> libraryCardList) throws Exception {
 
-                return Observable.fromIterable(data.first)
+                return Observable.fromIterable(libraryCardList)
                         .map(new Function<LibraryCard, String>() {
                             @Override
                             public String apply(LibraryCard libraryCard) throws Exception {
@@ -162,20 +159,20 @@ public class CardsViewModelTests {
             }
         });
 
-        testObserver.assertValue(new Predicate<Pair<List<LibraryCard>, DiffUtil.DiffResult>>() {
+        testObserver.assertValue(new Predicate<List<LibraryCard>>() {
             @Override
-            public boolean test(Pair<List<LibraryCard>, DiffUtil.DiffResult> data) throws Exception {
-                return
-                        Observable.fromIterable(data.first)
-                                .map(new Function<LibraryCard, String>() {
-                                    @Override
-                                    public String apply(LibraryCard libraryCard) throws Exception {
-                                        return libraryCard.getType();
-                                    }
-                                })
-                                .toList()
-                                .blockingGet()
-                                .equals(Arrays.asList("Master", "Equipment", "Retainer"));
+            public boolean test(List<LibraryCard> libraryCardList) throws Exception {
+
+                return Observable.fromIterable(libraryCardList)
+                        .map(new Function<LibraryCard, String>() {
+                            @Override
+                            public String apply(LibraryCard libraryCard) throws Exception {
+                                return libraryCard.getType();
+                            }
+                        })
+                        .toList()
+                        .blockingGet()
+                        .equals(Arrays.asList("Master", "Equipment", "Retainer"));
 
             }
         });
@@ -203,7 +200,7 @@ public class CardsViewModelTests {
 
 
         // Test card list request, although in this test we are only concerned about the title.
-        viewModel.getCryptCardsWithDiff().test();
+        viewModel.getCryptCards().test();
 
         TestObserver<String> testObserver = viewModel.getCryptTabTitle().test();
 
@@ -250,7 +247,7 @@ public class CardsViewModelTests {
 
 
         // Test card list request, although in this test we are only concerned about the title.
-        viewModel.getLibraryCardsWithDiff().test();
+        viewModel.getLibraryCards().test();
 
         TestObserver<String> testObserver = viewModel.getLibraryTabTitle().test();
 

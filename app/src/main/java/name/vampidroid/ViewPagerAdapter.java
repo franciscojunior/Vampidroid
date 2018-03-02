@@ -1,10 +1,7 @@
 package name.vampidroid;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.support.v4.util.Pair;
 import android.support.v4.view.PagerAdapter;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +11,6 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import name.vampidroid.data.Card;
 import name.vampidroid.data.CryptCard;
 import name.vampidroid.data.LibraryCard;
 
@@ -28,13 +24,11 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     private final String[] recyclerViewTitles = new String[] {"Crypt", "Library"};
 
-    private final CardsListViewAdapter[] recyclerViewsAdapters = new CardsListViewAdapter[2];
+    private final CryptCardsListViewAdapter cryptCardsListViewAdapter = new CryptCardsListViewAdapter();
+    private final LibraryCardsListViewAdapter libraryCardsListViewAdapter = new LibraryCardsListViewAdapter();
 
     public ViewPagerAdapter(Context context) {
         this.context = context;
-
-        recyclerViewsAdapters[0] = new CryptCardsListViewAdapter(null);
-        recyclerViewsAdapters[1] = new LibraryCardsListViewAdapter(null);
 
     }
 
@@ -66,7 +60,11 @@ public class ViewPagerAdapter extends PagerAdapter {
 
         // specify an adapter (see also next example)
 
-        recyclerView.setAdapter(recyclerViewsAdapters[position]);
+        if (position == 0) {
+            recyclerView.setAdapter(cryptCardsListViewAdapter);
+        } else if (position == 1) {
+            recyclerView.setAdapter(libraryCardsListViewAdapter);
+        }
 
         container.addView(v);
 
@@ -85,14 +83,12 @@ public class ViewPagerAdapter extends PagerAdapter {
         return recyclerViewTitles[position];
     }
 
-    public void setCryptData(Pair<List<CryptCard>, DiffUtil.DiffResult> dataPair) {
-        recyclerViewsAdapters[0].setCardList(dataPair.first);
-        dataPair.second.dispatchUpdatesTo(recyclerViewsAdapters[0]);
-    }
 
-    public void setLibraryData(Pair<List<LibraryCard>, DiffUtil.DiffResult> dataPair) {
-        recyclerViewsAdapters[1].setCardList(dataPair.first);
-        dataPair.second.dispatchUpdatesTo(recyclerViewsAdapters[1]);
+    public void setCryptData(List<CryptCard> cryptCardList) {
+        cryptCardsListViewAdapter.submitList(cryptCardList);
+    }
+    public void setLibraryData(List<LibraryCard> libraryCardList) {
+        libraryCardsListViewAdapter.submitList(libraryCardList);
     }
 
     /**
@@ -119,8 +115,8 @@ public class ViewPagerAdapter extends PagerAdapter {
         // As the number of items in the list is not big, it is simpler to rebind all data
         // in order to reload the card image. Also, the code readability is better.
 
-        recyclerViewsAdapters[0].notifyDataSetChanged();
-        recyclerViewsAdapters[1].notifyDataSetChanged();
+        cryptCardsListViewAdapter.notifyDataSetChanged();
+        libraryCardsListViewAdapter.notifyDataSetChanged();
 
     }
 }

@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.recyclerview.extensions.ListAdapter;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,19 +20,23 @@ import com.bumptech.glide.Glide;
 import com.l4digital.fastscroll.FastScroller;
 
 import java.util.List;
+import java.util.Objects;
 
+import name.vampidroid.data.Card;
 import name.vampidroid.data.CryptCard;
 
 /**
  * Created by francisco on 06/09/17.
  */
 
-public class CryptCardsListViewAdapter extends CardsListViewAdapter<CryptCardsListViewAdapter.ViewHolder, CryptCard>
+public class CryptCardsListViewAdapter extends ListAdapter<CryptCard, CryptCardsListViewAdapter.ViewHolder>
         implements FastScroller.SectionIndexer {
 
 
-    public CryptCardsListViewAdapter(List<CryptCard> cardList) {
-        setCardList(cardList);
+
+
+    public CryptCardsListViewAdapter() {
+        super(DIFF_CALLBACK);
     }
 
 
@@ -40,6 +47,26 @@ public class CryptCardsListViewAdapter extends CardsListViewAdapter<CryptCardsLi
                     .setAction("Action", null).show();
         }
     };
+
+    public static final DiffUtil.ItemCallback<CryptCard> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<CryptCard>() {
+                @Override
+                public boolean areItemsTheSame(
+                        @NonNull CryptCard oldCard, @NonNull CryptCard newCard) {
+                    // User properties may have changed if reloaded from the DB, but ID is fixed
+                    return oldCard.getName().equals(newCard.getName());
+                }
+
+                @Override
+                public boolean areContentsTheSame(
+                        @NonNull CryptCard oldCard, @NonNull CryptCard newCard) {
+                    // NOTE: if you use equals, your object must properly override Object#equals()
+                    // Incorrectly returning false here will result in too many animations.
+                    return oldCard.getName().equals(newCard.getName());
+                }
+            };
+
+
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -56,7 +83,7 @@ public class CryptCardsListViewAdapter extends CardsListViewAdapter<CryptCardsLi
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
 
-        CryptCard cryptCard = cardList.get(position);
+        CryptCard cryptCard = getItem(position);
 
         String cardName = cryptCard.getName();
 
@@ -78,7 +105,7 @@ public class CryptCardsListViewAdapter extends CardsListViewAdapter<CryptCardsLi
 
     @Override
     public String getSectionText(int position) {
-        return cardList.get(position).getName().substring(0, 1);
+        return getItem(position).getName().substring(0, 1);
     }
 
     // Provide a reference to the views for each data item

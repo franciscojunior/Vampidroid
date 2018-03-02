@@ -167,23 +167,32 @@ public class VampiDroid extends AppCompatActivity
                 }));
 
 
-        subscriptions.add(cardsViewModel.getCryptCardsWithDiff()
+//        subscriptions.add(cardsViewModel.getCryptCardsWithDiff()
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Consumer<Pair<List<CryptCard>, DiffUtil.DiffResult>>() {
+//                    @Override
+//                    public void accept(Pair<List<CryptCard>, DiffUtil.DiffResult> resultPair) throws Exception {
+//                        viewPagerAdapter.setCryptData(resultPair);
+//
+//                    }
+//                }));
+
+        subscriptions.add(cardsViewModel.getCryptCards()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Pair<List<CryptCard>, DiffUtil.DiffResult>>() {
+                .subscribe(new Consumer<List<CryptCard>>() {
                     @Override
-                    public void accept(Pair<List<CryptCard>, DiffUtil.DiffResult> resultPair) throws Exception {
-                        viewPagerAdapter.setCryptData(resultPair);
+                    public void accept(List<CryptCard> cryptCardList) throws Exception {
+                        viewPagerAdapter.setCryptData(cryptCardList);
 
                     }
                 }));
 
-
-        subscriptions.add(cardsViewModel.getLibraryCardsWithDiff()
+        subscriptions.add(cardsViewModel.getLibraryCards()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Pair<List<LibraryCard>, DiffUtil.DiffResult>>() {
+                .subscribe(new Consumer<List<LibraryCard>>() {
                     @Override
-                    public void accept(Pair<List<LibraryCard>, DiffUtil.DiffResult> resultPair) throws Exception {
-                        viewPagerAdapter.setLibraryData(resultPair);
+                    public void accept(List<LibraryCard> libraryCardList) throws Exception {
+                        viewPagerAdapter.setLibraryData(libraryCardList);
 
                     }
                 }));

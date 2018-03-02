@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.recyclerview.extensions.ListAdapter;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,22 +18,37 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.l4digital.fastscroll.FastScroller;
 
-import java.util.List;
-
 import name.vampidroid.data.LibraryCard;
 
 /**
  * Created by fxjr on 17/03/16.
  */
-public class LibraryCardsListViewAdapter extends CardsListViewAdapter<LibraryCardsListViewAdapter.ViewHolder, LibraryCard>
+public class LibraryCardsListViewAdapter extends ListAdapter<LibraryCard, LibraryCardsListViewAdapter.ViewHolder>
         implements FastScroller.SectionIndexer
 {
 
 
-    public LibraryCardsListViewAdapter(List<LibraryCard> cardList) {
-
-        setCardList(cardList);
+    public LibraryCardsListViewAdapter()  {
+        super(DIFF_CALLBACK);
     }
+
+    public static final DiffUtil.ItemCallback<LibraryCard> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<LibraryCard>() {
+                @Override
+                public boolean areItemsTheSame(
+                        @NonNull LibraryCard oldCard, @NonNull LibraryCard newCard) {
+                    // User properties may have changed if reloaded from the DB, but ID is fixed
+                    return oldCard.getName().equals(newCard.getName());
+                }
+
+                @Override
+                public boolean areContentsTheSame(
+                        @NonNull LibraryCard oldCard, @NonNull LibraryCard newCard) {
+                    // NOTE: if you use equals, your object must properly override Object#equals()
+                    // Incorrectly returning false here will result in too many animations.
+                    return oldCard.getName().equals(newCard.getName());
+                }
+            };
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -46,7 +64,7 @@ public class LibraryCardsListViewAdapter extends CardsListViewAdapter<LibraryCar
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
-        LibraryCard libraryCard = getCardList().get(position);
+        LibraryCard libraryCard = getItem(position);
 
         String cardName = libraryCard.getName();
 
@@ -82,7 +100,7 @@ public class LibraryCardsListViewAdapter extends CardsListViewAdapter<LibraryCar
 
     @Override
     public String getSectionText(int position) {
-        return getCardList().get(position).getName().substring(0, 1);
+        return getItem(position).getName().substring(0, 1);
     }
 
     // Provide a reference to the views for each data item
