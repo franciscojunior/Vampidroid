@@ -17,6 +17,8 @@ android {
         versionName gitTag
 
         resValue "string", "version_name", gitTag
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -91,4 +93,7 @@ dependencies {
     // Optional -- Mockito framework
     testCompile 'org.mockito:mockito-core:2.6.2'
 
+    androidTestCompile 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
