@@ -50,11 +50,6 @@ public class CardFilters extends LinearLayout {
     boolean isResetting = false;
     private SparseArray<Parcelable> restoreInstanceStateData;
 
-    private boolean clanExpansionLayoutExpanded;
-    private boolean cryptDisciplinesExpansionLayoutExpanded;
-    private boolean cardTypesExpansionLayoutExpanded;
-    private boolean libraryDisciplinesExpansionLayoutExpanded;
-
     private boolean isInflateFinished;
     private boolean showCryptFiltersAfterLayoutInflated = false;
     private boolean showLibraryFiltersAfterLayoutInflated = false;
@@ -119,13 +114,6 @@ public class CardFilters extends LinearLayout {
                     updateFilterHeaderStatus((TextView) findViewById(R.id.textLibraryDisciplines), numberOfLibraryDisciplineFiltersApplied);
                     updateFilterHeaderStatus((TextView) findViewById(R.id.textDisciplines), numberOfCryptDisciplineFiltersApplied);
 
-
-                    // Update expanded state of the expansion layouts
-                    updateExpansionLayoutExpanded((ExpansionLayout) findViewById(R.id.expansionDisciplinesLayout), cryptDisciplinesExpansionLayoutExpanded);
-                    updateExpansionLayoutExpanded((ExpansionLayout) findViewById(R.id.expansionClansLayout), clanExpansionLayoutExpanded);
-                    updateExpansionLayoutExpanded((ExpansionLayout) findViewById(R.id.expansionLibraryTypesLayout), cardTypesExpansionLayoutExpanded);
-                    updateExpansionLayoutExpanded((ExpansionLayout) findViewById(R.id.expansionLibraryDisciplinesLayout), libraryDisciplinesExpansionLayoutExpanded);
-
                     // Restore state from the view which was just inflated.
                     // Here we use the state given by the dispatchRestoreState method. As at the time dispatchRestoreIntanceState method
                     // was called the view hasn't been inflated yet, we just stored that state to be used here when the view finishes being
@@ -152,12 +140,6 @@ public class CardFilters extends LinearLayout {
         });
 
 
-    }
-
-    void updateExpansionLayoutExpanded(ExpansionLayout expansionLayout, boolean expanded) {
-        if (expanded) {
-            expansionLayout.expand(false);
-        }
     }
 
     void setupViewHandlers() {
@@ -246,18 +228,6 @@ public class CardFilters extends LinearLayout {
         state.putInt("numberOfClansFiltersApplied", numberOfClansFiltersApplied);
         state.putInt("numberOfCardTypesFiltersApplied", numberOfCardTypesFiltersApplied);
 
-        ExpansionLayout expansionDisciplinesLayout = findViewById(R.id.expansionDisciplinesLayout);
-        state.putBoolean("cryptDisciplinesExpansionLayoutExpanded", expansionDisciplinesLayout.isExpanded());
-
-        ExpansionLayout expansionClansLayout = findViewById(R.id.expansionClansLayout);
-        state.putBoolean("clanExpansionLayoutExpanded", expansionClansLayout.isExpanded());
-
-        ExpansionLayout expansionLibraryTypesLayout = findViewById(R.id.expansionLibraryTypesLayout);
-        state.putBoolean("cardTypesExpansionLayoutExpanded", expansionLibraryTypesLayout.isExpanded());
-
-        ExpansionLayout expansionLibraryDisciplinesLayout = findViewById(R.id.expansionLibraryDisciplinesLayout);
-        state.putBoolean("libraryDisciplinesExpansionLayoutExpanded", expansionLibraryDisciplinesLayout.isExpanded());
-
         return state;
     }
 
@@ -276,11 +246,6 @@ public class CardFilters extends LinearLayout {
             numberOfLibraryDisciplineFiltersApplied = bundle.getInt("numberOfLibraryDisciplineFiltersApplied");
             numberOfClansFiltersApplied = bundle.getInt("numberOfClansFiltersApplied");
             numberOfCardTypesFiltersApplied = bundle.getInt("numberOfCardTypesFiltersApplied");
-
-            cryptDisciplinesExpansionLayoutExpanded = bundle.getBoolean("cryptDisciplinesExpansionLayoutExpanded");
-            clanExpansionLayoutExpanded = bundle.getBoolean("clanExpansionLayoutExpanded");
-            cardTypesExpansionLayoutExpanded = bundle.getBoolean("cardTypesExpansionLayoutExpanded");
-            libraryDisciplinesExpansionLayoutExpanded = bundle.getBoolean("libraryDisciplinesExpansionLayoutExpanded");
 
         } else {
             super.onRestoreInstanceState(state);

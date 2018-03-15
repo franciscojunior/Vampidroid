@@ -86,7 +86,7 @@ dependencies {
 
     implementation "android.arch.persistence.room:rxjava2:1.0.0"
 
-    implementation 'com.github.florent37:expansionpanel:1.0.5'
+    implementation 'com.github.florent37:expansionpanel:1.1.0'
 
     testCompile 'junit:junit:4.12'
 
