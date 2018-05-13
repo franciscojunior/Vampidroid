@@ -1,7 +1,8 @@
 package name.vampidroid.data.source;
 
+import android.arch.persistence.db.SimpleSQLiteQuery;
+
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import io.reactivex.Flowable;
 import name.vampidroid.DatabaseHelper;
@@ -21,31 +22,14 @@ public class CardsRepository {
 
     public Flowable<List<CryptCard>> getCryptCards(final String filter) {
 
-        return Flowable.fromCallable(new Callable<List<CryptCard>>() {
-            @Override
-            public List<CryptCard> call() throws Exception {
-//                Log.d(TAG, "call: Thread Id: " + Thread.currentThread().getId());
-//                Log.d(TAG, "call: Thread Name: " + Thread.currentThread().getName());
-//                return DatabaseHelper.getDatabase().rawQuery(DatabaseHelper.MAIN_LIST_CRYPT_QUERY + filter, null);
+        return DatabaseHelper.getRoomDatabase().cryptCardDao().getCardsByQuery(new SimpleSQLiteQuery(DatabaseHelper.MAIN_LIST_CRYPT_QUERY + filter));
 
-                return CryptCardDao.convertCursorToCryptCardList(DatabaseHelper.getRoomDatabase().query(DatabaseHelper.MAIN_LIST_CRYPT_QUERY + filter, null));
-            }
-        });
     }
-
 
     public Flowable<List<LibraryCard>> getLibraryCards(final String filter) {
 
-        return Flowable.fromCallable(new Callable<List<LibraryCard>>() {
-            @Override
-            public List<LibraryCard> call() throws Exception {
-//                Log.d(TAG, "call: Thread Id: " + Thread.currentThread().getId());
-//                Log.d(TAG, "call: Thread Name: " + Thread.currentThread().getName());
-//                return DatabaseHelper.getDatabase().rawQuery(DatabaseHelper.MAIN_LIST_CRYPT_QUERY + filter, null);
+        return DatabaseHelper.getRoomDatabase().libraryCardDao().getCardsByQuery(new SimpleSQLiteQuery(DatabaseHelper.MAIN_LIST_LIBRARY_QUERY + filter));
 
-                return LibraryCardDao.convertCursorToLibraryCardList(DatabaseHelper.getRoomDatabase().query(DatabaseHelper.MAIN_LIST_LIBRARY_QUERY + filter, null));
-            }
-        });
     }
 
     public Flowable<LibraryCard> getLibraryCard(final long cardId) {
@@ -54,6 +38,8 @@ public class CardsRepository {
     }
 
     public Flowable<CryptCard> getCryptCard(long cardId) {
+
         return DatabaseHelper.getRoomDatabase().cryptCardDao().getById(cardId);
+
     }
 }
