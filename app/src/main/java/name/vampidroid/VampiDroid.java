@@ -1,6 +1,7 @@
 package name.vampidroid;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -179,9 +180,9 @@ public class VampiDroid extends AppCompatActivity
 
         subscriptions.add(cardsViewModel.getCryptCards()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<CryptCard>>() {
+                .subscribe(new Consumer<PagedList<CryptCard>>() {
                     @Override
-                    public void accept(List<CryptCard> cryptCardList) throws Exception {
+                    public void accept(PagedList<CryptCard> cryptCardList) {
                         viewPagerAdapter.setCryptData(cryptCardList);
 
                     }
@@ -189,9 +190,9 @@ public class VampiDroid extends AppCompatActivity
 
         subscriptions.add(cardsViewModel.getLibraryCards()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<LibraryCard>>() {
+                .subscribe(new Consumer<PagedList<LibraryCard>>() {
                     @Override
-                    public void accept(List<LibraryCard> libraryCardList) throws Exception {
+                    public void accept(PagedList<LibraryCard> libraryCardList) {
                         viewPagerAdapter.setLibraryData(libraryCardList);
 
                     }

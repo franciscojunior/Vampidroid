@@ -1,5 +1,6 @@
 package name.vampidroid;
 
+import android.arch.paging.PagedList;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
@@ -84,10 +85,10 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
 
-    public void setCryptData(List<CryptCard> cryptCardList) {
+    public void setCryptData(PagedList<CryptCard> cryptCardList) {
         cryptCardsListViewAdapter.submitList(cryptCardList);
     }
-    public void setLibraryData(List<LibraryCard> libraryCardList) {
+    public void setLibraryData(PagedList<LibraryCard> libraryCardList) {
         libraryCardsListViewAdapter.submitList(libraryCardList);
     }
 

@@ -1,12 +1,12 @@
 package name.vampidroid;
 
+import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.recyclerview.extensions.ListAdapter;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +23,7 @@ import name.vampidroid.data.LibraryCard;
 /**
  * Created by fxjr on 17/03/16.
  */
-public class LibraryCardsListViewAdapter extends ListAdapter<LibraryCard, LibraryCardsListViewAdapter.ViewHolder>
+public class LibraryCardsListViewAdapter extends PagedListAdapter<LibraryCard, LibraryCardsListViewAdapter.ViewHolder>
         implements FastScroller.SectionIndexer
 {
 
@@ -66,41 +66,17 @@ public class LibraryCardsListViewAdapter extends ListAdapter<LibraryCard, Librar
 
         LibraryCard libraryCard = getItem(position);
 
-        String cardName = libraryCard.getName();
-
-        viewHolder.cardId = libraryCard.getUid();
-        viewHolder.txtCardType.setText(libraryCard.getType());
-        viewHolder.txtCardName.setText(cardName);
-
-//        // // TODO: 24/08/16 Move this logic to a future LibraryCard model class
-//        // Check card cost. It can be PoolCost, BloodCost or ConvictionCost.
-//        String cardCost = "0";
-//
-//        if (cursor.getString(3).length() > 0) {
-//            cardCost = cursor.getString(3);
-//        } else if (cursor.getString(4).length() > 0) {
-//            cardCost = cursor.getString(4);
-//        } else if (cursor.getString(5).length() > 0) {
-//            cardCost = cursor.getString(5);
-//        }
-
-        viewHolder.txtCardCost.setText(libraryCard.getCost());
-
-//        viewHolder.txtCardClan.setText(cursor.getTabTitle(3));
-
-//        viewHolder.txtCardDiscipline.setText(cursor.getTabTitle(4));
-
-        Glide
-                .with(viewHolder.imageViewCardImage.getContext())
-                .load(Utils.getFullCardFileName(cardName))
-                .fitCenter()
-                .placeholder(R.drawable.green_back)
-                .into(viewHolder.imageViewCardImage);
+        if (libraryCard != null) {
+            viewHolder.bindTo(libraryCard);
+        } else {
+            viewHolder.clear();
+        }
     }
 
     @Override
     public String getSectionText(int position) {
-        return getItem(position).getName().substring(0, 1);
+        LibraryCard card = getItem(position);
+        return (card == null) ? "" : card.getName().substring(0, 1);
     }
 
     // Provide a reference to the views for each data item
@@ -128,6 +104,34 @@ public class LibraryCardsListViewAdapter extends ListAdapter<LibraryCard, Librar
             imageViewCardImage = v.findViewById(R.id.imageViewCardImage);
 
             v.setOnClickListener(this);
+
+        }
+
+        public void bindTo(LibraryCard libraryCard) {
+
+            String cardName = libraryCard.getName();
+
+            cardId = libraryCard.getUid();
+            txtCardType.setText(libraryCard.getType());
+            txtCardName.setText(cardName);
+
+            txtCardCost.setText(libraryCard.getCost());
+
+            Glide
+                    .with(imageViewCardImage.getContext())
+                    .load(Utils.getFullCardFileName(cardName))
+                    .fitCenter()
+                    .placeholder(R.drawable.green_back)
+                    .into(imageViewCardImage);
+
+        }
+
+        public void clear() {
+
+            cardId = 0;
+            txtCardType.setText("");
+            txtCardName.setText("");
+            txtCardCost.setText("");
 
         }
 

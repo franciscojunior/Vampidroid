@@ -1,5 +1,6 @@
 package name.vampidroid;
 
+import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -29,7 +30,7 @@ import name.vampidroid.data.CryptCard;
  * Created by francisco on 06/09/17.
  */
 
-public class CryptCardsListViewAdapter extends ListAdapter<CryptCard, CryptCardsListViewAdapter.ViewHolder>
+public class CryptCardsListViewAdapter extends PagedListAdapter<CryptCard, CryptCardsListViewAdapter.ViewHolder>
         implements FastScroller.SectionIndexer {
 
 
@@ -82,30 +83,19 @@ public class CryptCardsListViewAdapter extends ListAdapter<CryptCard, CryptCards
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
-
         CryptCard cryptCard = getItem(position);
 
-        String cardName = cryptCard.getName();
-
-        viewHolder.cardId = cryptCard.getUid();
-        viewHolder.txtCardClan.setText(cryptCard.getClan());
-        viewHolder.txtCardName.setText(cardName);
-        viewHolder.txtCardCost.setText(cryptCard.getCapacity());
-        viewHolder.txtCardExtraInformation.setText(cryptCard.getDisciplines());
-        viewHolder.txtCardGroup.setText(cryptCard.getGroup());
-        viewHolder.txtCardAdv = cryptCard.getAdvanced();
-
-        Glide
-                .with(viewHolder.imageViewCardImage.getContext())
-                .load(Utils.getFullCardFileName(cardName, viewHolder.txtCardAdv.length() > 0))
-                .fitCenter()
-                .placeholder(R.drawable.gold_back)
-                .into(viewHolder.imageViewCardImage);
+        if (cryptCard != null) {
+            viewHolder.bindTo(cryptCard);
+        } else {
+            viewHolder.clear();
+        }
     }
 
     @Override
     public String getSectionText(int position) {
-        return getItem(position).getName().substring(0, 1);
+        CryptCard card = getItem(position);
+        return (card == null) ? "" : card.getName().substring(0, 1);
     }
 
     // Provide a reference to the views for each data item
@@ -136,6 +126,35 @@ public class CryptCardsListViewAdapter extends ListAdapter<CryptCard, CryptCards
             v.setOnClickListener(this);
 
             //imageViewCardImage.setOnClickListener(this);
+        }
+
+        public void bindTo(CryptCard cryptCard) {
+            String cardName = cryptCard.getName();
+
+            cardId = cryptCard.getUid();
+            txtCardClan.setText(cryptCard.getClan());
+            txtCardName.setText(cardName);
+            txtCardCost.setText(cryptCard.getCapacity());
+            txtCardExtraInformation.setText(cryptCard.getDisciplines());
+            txtCardGroup.setText(cryptCard.getGroup());
+            txtCardAdv = cryptCard.getAdvanced();
+
+            Glide
+                    .with(imageViewCardImage.getContext())
+                    .load(Utils.getFullCardFileName(cardName, txtCardAdv.length() > 0))
+                    .fitCenter()
+                    .placeholder(R.drawable.gold_back)
+                    .into(imageViewCardImage);
+        }
+
+        public void clear() {
+            cardId = 0;
+            txtCardClan.setText("");
+            txtCardName.setText("");
+            txtCardCost.setText("");
+            txtCardExtraInformation.setText("");
+            txtCardGroup.setText("");
+
         }
 
         @Override

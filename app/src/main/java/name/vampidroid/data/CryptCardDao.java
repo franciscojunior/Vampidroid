@@ -1,10 +1,10 @@
 package name.vampidroid.data;
 
+import android.arch.paging.DataSource;
 import android.arch.persistence.db.SupportSQLiteQuery;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.RawQuery;
-import java.util.List;
 
 import io.reactivex.Flowable;
 
@@ -19,6 +19,6 @@ public abstract class CryptCardDao {
     public abstract Flowable<CryptCard> getById(long id);
 
     @RawQuery(observedEntities = CryptCard.class)
-    public abstract Flowable<List<CryptCard>> getCardsByQuery(SupportSQLiteQuery query);
+    public abstract DataSource.Factory<Integer, CryptCard> getCardsByQuery(SupportSQLiteQuery query);
 
 }

@@ -2,10 +2,8 @@ package name.vampidroid;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.paging.PagedList;
 import android.support.annotation.NonNull;
-import android.support.v4.util.Pair;
-import android.support.v7.util.DiffUtil;
-import android.util.Log;
 
 
 import java.util.List;
@@ -13,7 +11,6 @@ import java.util.List;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.processors.PublishProcessor;
@@ -94,21 +91,22 @@ public class CardsViewModel extends AndroidViewModel {
         subscriptions.dispose();
     }
 
-    public Flowable<List<CryptCard>> getCryptCards() {
+    public Flowable<PagedList<CryptCard>> getCryptCards() {
+
 
 
         return filterCryptCards
                 .observeOn(Schedulers.computation())
-                .flatMap(new Function<FilterState, Flowable<List<CryptCard>>>() {
+                .flatMap(new Function<FilterState, Flowable<PagedList<CryptCard>>>() {
                     @Override
-                    public Flowable<List<CryptCard>> apply(FilterState filterState) throws Exception {
+                    public Flowable<PagedList<CryptCard>> apply(FilterState filterState) {
                         filterState.setSearchInsideCardText(shouldSearchTextCard);
                         return cardsRepository.getCryptCards(FilterStateQueryConverter.getCryptFilter(filterState));
                     }
                 })
                 .doOnNext(new Consumer<List<CryptCard>>() {
                     @Override
-                    public void accept(List<CryptCard> cryptCards) throws Exception {
+                    public void accept(List<CryptCard> cryptCards) {
                         cryptCardsCount = cryptCards.size();
                         cryptTabTitle.onNext(getTabTitle("Crypt", shouldShowCardsCount, cryptCardsCount));
                     }
@@ -117,20 +115,20 @@ public class CardsViewModel extends AndroidViewModel {
     }
 
 
-    public Flowable<List<LibraryCard>> getLibraryCards() {
+    public Flowable<PagedList<LibraryCard>> getLibraryCards() {
 
         return filterLibraryCards
                 .observeOn(Schedulers.computation())
-                .flatMap(new Function<FilterState, Flowable<List<LibraryCard>>>() {
+                .flatMap(new Function<FilterState, Flowable<PagedList<LibraryCard>>>() {
                     @Override
-                    public Flowable<List<LibraryCard>> apply(FilterState filterState) throws Exception {
+                    public Flowable<PagedList<LibraryCard>> apply(FilterState filterState) {
                         filterState.setSearchInsideCardText(shouldSearchTextCard);
                         return cardsRepository.getLibraryCards(FilterStateQueryConverter.getLibraryFilter(filterState));
                     }
                 })
                 .doOnNext(new Consumer<List<LibraryCard>>() {
                     @Override
-                    public void accept(List<LibraryCard> libraryCards) throws Exception {
+                    public void accept(List<LibraryCard> libraryCards) {
                         libraryCardsCount = libraryCards.size();
                         libraryTabTitle.onNext(getTabTitle("Library", shouldShowCardsCount, libraryCardsCount));
                     }

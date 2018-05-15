@@ -19,7 +19,7 @@
         android:ellipsize="end"
         android:fontFamily="sans-serif-condensed"
         android:singleLine="true"
-        android:text="A long card name to test layout"
+        tools:text="A long card name to test layout"
         android:textStyle="bold"
         app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintLeft_toRightOf="@+id/imageViewCardImage"
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
-        android:text="Card Type"
+        tools:text="Card Type"
         android:textAppearance="?android:attr/textAppearanceSmall"
         app:layout_constraintLeft_toLeftOf="@+id/txtCardName"
         android:layout_marginTop="0dp"
@@ -73,7 +73,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:fontFamily="sans-serif-condensed"
-        android:text="10"
+        tools:text="10"
         app:layout_constraintBottom_toBottomOf="@+id/textView19"
         app:layout_constraintRight_toRightOf="parent" />
 

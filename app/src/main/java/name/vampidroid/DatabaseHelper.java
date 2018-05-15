@@ -21,9 +21,9 @@ public class DatabaseHelper {
     public static final String VAMPIDROID_UPDATE_DB = "VampiDroid.update.db";
     public static final int DATABASE_VERSION = 6;
 
-    public static final String MAIN_LIST_CRYPT_QUERY = "select uid, Name, Clan, Advanced, Capacity, `group`, Disciplines from CryptCard where 1=1";
+    public static final String MAIN_LIST_CRYPT_QUERY = "select uid, name, clan, advanced, capacity, `group`, disciplines from CryptCard where 1=1";
 
-    public static final String MAIN_LIST_LIBRARY_QUERY = "select uid, Name, Type, Clan, Disciplines, PoolCost, BloodCost, ConvictionCost from LibraryCard where 1=1";
+    public static final String MAIN_LIST_LIBRARY_QUERY = "select uid, name, type, clan, disciplines, poolCost, bloodCost, convictionCost from LibraryCard where 1=1";
 
     private static Context APPLICATION_CONTEXT;
 
