@@ -105,6 +105,8 @@ public class LibraryCardsListViewAdapter extends PagedListAdapter<LibraryCard, L
 
             v.setOnClickListener(this);
 
+            imageViewCardImage.setOnClickListener(this);
+
         }
 
         public void bindTo(LibraryCard libraryCard) {
@@ -139,7 +141,17 @@ public class LibraryCardsListViewAdapter extends PagedListAdapter<LibraryCard, L
         public void onClick(View v) {
 
             Context context = v.getContext();
-            Intent launch = new Intent(context, LibraryCardDetailsActivity.class);
+            Intent launch;
+
+            if (v == imageViewCardImage) {
+                String cardName = txtCardName.getText().toString();
+                launch = new Intent(v.getContext(), CardImageActivity.class);
+                launch.putExtra("cardImageFileName", Utils.getFullCardFileName(cardName));
+                launch.putExtra("resIdFallbackCardImage", R.drawable.green_back);
+            } else {
+                launch = new Intent(context, LibraryCardDetailsActivity.class);
+            }
+
             launch.putExtra("cardId", cardId);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {

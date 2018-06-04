@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.recyclerview.extensions.ListAdapter;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -125,7 +124,7 @@ public class CryptCardsListViewAdapter extends PagedListAdapter<CryptCard, Crypt
 
             v.setOnClickListener(this);
 
-            //imageViewCardImage.setOnClickListener(this);
+            imageViewCardImage.setOnClickListener(this);
         }
 
         public void bindTo(CryptCard cryptCard) {
@@ -162,7 +161,16 @@ public class CryptCardsListViewAdapter extends PagedListAdapter<CryptCard, Crypt
 
             Context context = view.getContext();
 
-            Intent launch = new Intent(context, CryptCardDetailsActivity.class);
+            Intent launch;
+
+            if (view == imageViewCardImage) {
+                String cardName = txtCardName.getText().toString();
+                launch = new Intent(view.getContext(), CardImageActivity.class);
+                launch.putExtra("cardImageFileName", Utils.getFullCardFileName(cardName, !txtCardAdv.isEmpty()));
+                launch.putExtra("resIdFallbackCardImage", R.drawable.gold_back);
+            } else {
+                launch = new Intent(context, CryptCardDetailsActivity.class);
+            }
 
             launch.putExtra("cardId", cardId);
 
