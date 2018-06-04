@@ -9,12 +9,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -22,10 +20,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jakewharton.rxbinding2.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding2.support.design.widget.RxTabLayout;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -100,6 +98,8 @@ public class VampiDroid extends AppCompatActivity
             }
         });
 
+        setupLowProfile();
+
         drawerLayout = findViewById(R.id.drawer_layout);
 
 
@@ -140,6 +140,28 @@ public class VampiDroid extends AppCompatActivity
         bind();
 
     }
+
+    private void setupLowProfile() {
+
+        final AppBarLayout appbar = findViewById(R.id.appbar);
+
+        final View decorView = getWindow().getDecorView();
+
+        final int appBarOffsetToDim = getResources().getInteger(R.integer.app_bar_offset_to_dim);
+
+        subscriptions.add(RxAppBarLayout.offsetChanges(appbar)
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer verticalOffset) {
+                        if (verticalOffset < -appBarOffsetToDim) {
+                            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+                        } else if (verticalOffset > -appBarOffsetToDim) {
+                            decorView.setSystemUiVisibility(0);
+                        }
+                    }
+                }));
+    }
+
 
     private void bind() {
 
