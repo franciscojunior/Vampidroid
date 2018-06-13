@@ -20,11 +20,24 @@ public class SettingsViewModel extends AndroidViewModel {
 
     }
 
-    public void setCardsImagesFolder(String directoryPath) {
-        preferenceRepository.setCardsImagesFolder(directoryPath);
+    public void setLocalCardImagesFolder(String directoryPath) {
+        preferenceRepository.setLocalCardImagesFolder(directoryPath);
     }
 
-    public Observable<String> getCardsImagesFolderObservable() {
-        return preferenceRepository.getCardsImagesFolderObservable();
+    public Observable<String> getLocalCardImagesFolderObservable() {
+        return preferenceRepository.getLocalCardImagesFolderObservable();
+    }
+
+    public void setRemoteCardImagesFolder(String remoteServerPath) {
+        preferenceRepository.setRemoteCardImagesFolder(remoteServerPath);
+    }
+
+    public Observable<String> getRemoteCardImagesFolderObservable() {
+        return preferenceRepository.getRemoteCardImagesFolderObservable();
+
+    }
+
+    public Observable<Boolean> getUseLocalCardsSwitchObservable() {
+        return preferenceRepository.getUseLocalFolderFlagObservable();
     }
 }

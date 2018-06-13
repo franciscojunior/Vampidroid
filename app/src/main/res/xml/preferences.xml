@@ -12,10 +12,21 @@
 
     <PreferenceCategory android:title="Card images Options">
 
+        <SwitchPreferenceCompat
+            android:key="@string/pref_use_local_card_images_folder"
+            android:defaultValue="true"
+            android:title="Use local or remote folder?"
+            android:summaryOn="Using local folder for card images source"
+            android:summaryOff="Using remote folder for card images source"
+            >
+        </SwitchPreferenceCompat>
         <!--Reference: http://stackoverflow.com/questions/5298370/how-to-add-a-button-to-a-preferencescreen-android-->
-        <Preference android:title="Card images folder"
-            android:key="@string/pref_card_images_folder"
+        <Preference android:title="Local card images folder"
+            android:key="@string/pref_local_card_images_folder"
             android:summary="Default image folder"/>
+        <Preference android:title="Remote card images folder"
+            android:key="@string/pref_remote_card_images_folder"
+            android:summary="Card images folder located in a server"/>
         <Preference android:title="Images help"
             android:summary="Card images have to be in the format: cardname.jpg Find card images ready to be used in the ardb project. Click here to be redirected there."
             android:persistent="false"

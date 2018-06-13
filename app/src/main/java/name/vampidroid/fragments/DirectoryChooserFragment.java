@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -127,7 +126,7 @@ public class DirectoryChooserFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
 
                 SettingsViewModel settingsViewModel = ViewModelProviders.of(DirectoryChooserFragment.this).get(SettingsViewModel.class);
-                settingsViewModel.setCardsImagesFolder(selectedDirectory);
+                settingsViewModel.setLocalCardImagesFolder(selectedDirectory);
 
             }
         });

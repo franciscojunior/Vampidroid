@@ -237,7 +237,7 @@ public class CardsViewModel extends AndroidViewModel {
     public Observable<String> getNeedRefreshCardImages() {
 
         return preferenceRepository
-                .getCardsImagesFolderObservable()
+                .getCardImagesFolderObservable()
                 .skip(1) // Skip first emission the preference library does on subscribe.
                 .map(new Function<String, String>() {
                     @Override

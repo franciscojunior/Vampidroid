@@ -6,6 +6,7 @@
     <uses-sdk tools:overrideLibrary="com.jsibbold.zoomage" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- android:icon="@mipmap/ic_launcher" -->
     <application
