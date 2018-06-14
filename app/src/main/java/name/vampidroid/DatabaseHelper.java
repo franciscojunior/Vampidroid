@@ -19,13 +19,14 @@ public class DatabaseHelper {
 
     private final static String TAG = "DatabaseHelper";
     public static final String VAMPIDROID_UPDATE_DB = "VampiDroid.update.db";
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 7;
 
     public static final String MAIN_LIST_CRYPT_QUERY = "select uid, name, clan, advanced, capacity, `group`, disciplines from CryptCard where 1=1";
 
     public static final String MAIN_LIST_LIBRARY_QUERY = "select uid, name, type, clan, disciplines, poolCost, bloodCost, convictionCost from LibraryCard where 1=1";
 
     private static Context APPLICATION_CONTEXT;
+
 
     public static AppDatabase getRoomDatabase() {
 //        Reference: https://en.wikipedia.org/wiki/Initialization-on-demand_holder_idiom
@@ -64,12 +65,17 @@ public class DatabaseHelper {
 
                     }
                 })
+                .addMigrations(MIGRATION_6_7)
                 .build();
 
         return appDatabase;
 
     }
 
+    /**
+     * This migration class only replaces crypt and library card listings.
+     * It is used as a base template for migrations which only do that.
+     */
     static class ReplaceCryptLibraryCardsMigration extends Migration {
         /**
          * Creates a new migration between {@code startVersion} and {@code endVersion}.
@@ -93,6 +99,9 @@ public class DatabaseHelper {
 
         }
     }
+
+    // This is the migration to update card listings to Lost Kindred expansion
+    static Migration MIGRATION_6_7 = new ReplaceCryptLibraryCardsMigration(6, 7);
 
     public static void updateDatabaseCardsRoom(SupportSQLiteDatabase database) {
 
