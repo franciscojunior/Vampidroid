@@ -131,6 +131,8 @@ public class DatabaseHelper {
             database.endTransaction();
         }
 
+        // Delete update database file. It is not needed anymore.
+        APPLICATION_CONTEXT.deleteFile(VAMPIDROID_UPDATE_DB);
 
     }
 
