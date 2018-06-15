@@ -45,6 +45,7 @@
                 android:layout_marginRight="26dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:textIsSelectable="true"
                 app:fontFamily="@font/roboto"
                 android:text="A long card text"
                 android:transitionName="cardTextTransition" />
