@@ -97,7 +97,7 @@ public class CardsViewModel extends AndroidViewModel {
 
         return filterCryptCards
                 .observeOn(Schedulers.computation())
-                .flatMap(new Function<FilterState, Flowable<PagedList<CryptCard>>>() {
+                .switchMap(new Function<FilterState, Flowable<PagedList<CryptCard>>>() {
                     @Override
                     public Flowable<PagedList<CryptCard>> apply(FilterState filterState) {
                         filterState.setSearchInsideCardText(shouldSearchTextCard);
@@ -119,7 +119,7 @@ public class CardsViewModel extends AndroidViewModel {
 
         return filterLibraryCards
                 .observeOn(Schedulers.computation())
-                .flatMap(new Function<FilterState, Flowable<PagedList<LibraryCard>>>() {
+                .switchMap(new Function<FilterState, Flowable<PagedList<LibraryCard>>>() {
                     @Override
                     public Flowable<PagedList<LibraryCard>> apply(FilterState filterState) {
                         filterState.setSearchInsideCardText(shouldSearchTextCard);
