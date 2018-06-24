@@ -76,8 +76,8 @@ dependencies {
 
     compile 'com.github.bumptech.glide:glide:3.8.0'
 
-    compile "android.arch.persistence.room:runtime:1.1.0"
-    annotationProcessor "android.arch.persistence.room:compiler:1.1.0"
+    compile "android.arch.persistence.room:runtime:1.1.1"
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
 
     // ViewModel and LiveData
     implementation "android.arch.lifecycle:extensions:1.1.1"
@@ -86,7 +86,7 @@ dependencies {
     // ReactiveStreams support for LiveData
     implementation "android.arch.lifecycle:reactivestreams:1.1.1"
 
-    implementation "android.arch.persistence.room:rxjava2:1.1.0"
+    implementation "android.arch.persistence.room:rxjava2:1.1.1"
 
     implementation "android.arch.paging:runtime:$paging_version"
 
@@ -94,7 +94,7 @@ dependencies {
     testImplementation "android.arch.paging:common:$paging_version"
 
     // optional - RxJava support, currently in alpha
-    implementation "android.arch.paging:rxjava2:1.0.0-alpha1"
+    implementation "android.arch.paging:rxjava2:1.0.0-rc1"
 
 
     implementation 'com.github.florent37:expansionpanel:1.1.0'
