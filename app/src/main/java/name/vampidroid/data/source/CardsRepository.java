@@ -1,5 +1,7 @@
 package name.vampidroid.data.source;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.arch.paging.RxPagedListBuilder;
 import android.arch.persistence.db.SimpleSQLiteQuery;
@@ -23,18 +25,16 @@ public class CardsRepository {
             .setPrefetchDistance(30)
             .setEnablePlaceholders(true).build();
 
-    public Flowable<PagedList<CryptCard>> getCryptCards(final String filter) {
+    public LiveData<PagedList<CryptCard>> getCryptCardsLiveData(final String filter) {
 
-        return new RxPagedListBuilder<>(DatabaseHelper.getRoomDatabase().cryptCardDao().getCardsByQuery(new SimpleSQLiteQuery(DatabaseHelper.MAIN_LIST_CRYPT_QUERY + filter)),
-                defaultPagedListConfig).buildFlowable(BackpressureStrategy.LATEST);
-
+        return new LivePagedListBuilder<>(DatabaseHelper.getRoomDatabase().cryptCardDao().getCardsByQuery(new SimpleSQLiteQuery(DatabaseHelper.MAIN_LIST_CRYPT_QUERY + filter)),
+                defaultPagedListConfig).build();
     }
 
-    public Flowable<PagedList<LibraryCard>> getLibraryCards(final String filter) {
+    public LiveData<PagedList<LibraryCard>> getLibraryCardsLiveData(final String filter) {
 
-        return new RxPagedListBuilder<>(DatabaseHelper.getRoomDatabase().libraryCardDao().getCardsByQuery(new SimpleSQLiteQuery(DatabaseHelper.MAIN_LIST_LIBRARY_QUERY + filter)),
-                defaultPagedListConfig).buildFlowable(BackpressureStrategy.LATEST);
-
+        return new LivePagedListBuilder<>(DatabaseHelper.getRoomDatabase().libraryCardDao().getCardsByQuery(new SimpleSQLiteQuery(DatabaseHelper.MAIN_LIST_LIBRARY_QUERY + filter)),
+                defaultPagedListConfig).build();
     }
 
     public Flowable<LibraryCard> getLibraryCard(final long cardId) {

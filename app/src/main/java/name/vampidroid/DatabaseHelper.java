@@ -27,6 +27,11 @@ public class DatabaseHelper {
 
     private static Context APPLICATION_CONTEXT;
 
+    private static boolean TESTING = false;
+
+    public static void setTesting(boolean value) {
+        TESTING = value;
+    }
 
     public static AppDatabase getRoomDatabase() {
 //        Reference: https://en.wikipedia.org/wiki/Initialization-on-demand_holder_idiom
@@ -44,8 +49,15 @@ public class DatabaseHelper {
 
     private static AppDatabase initializeRoomDatabase() {
 
-        AppDatabase appDatabase = Room.databaseBuilder(APPLICATION_CONTEXT, AppDatabase.class, "vampidroid")
-                .addCallback(new RoomDatabase.Callback() {
+
+        RoomDatabase.Builder<AppDatabase> builder = Room.databaseBuilder(APPLICATION_CONTEXT, AppDatabase.class, "vampidroid");
+
+        if (TESTING) {
+            builder = builder
+                    .allowMainThreadQueries();
+        }
+
+        AppDatabase appDatabase = builder.addCallback(new RoomDatabase.Callback() {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         super.onCreate(db);

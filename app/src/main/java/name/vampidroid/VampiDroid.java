@@ -1,9 +1,10 @@
 package name.vampidroid;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.arch.paging.PagedList;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -26,15 +27,13 @@ import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
-import name.vampidroid.data.CryptCard;
-import name.vampidroid.data.LibraryCard;
 import name.vampidroid.ui.widget.CardFilters;
 import name.vampidroid.ui.widget.PersistentSearchBar;
+import name.vampidroid.utils.CardsEvent;
 
 public class VampiDroid extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -48,16 +47,13 @@ public class VampiDroid extends AppCompatActivity
     private Toolbar toolbar;
     DrawerLayout drawerLayout;
 
-    FilterState filterState = new FilterState();
+    FilterState filterState;
 
     boolean restoring = false;
     CardFilters cardFilters;
     private ViewPagerAdapter viewPagerAdapter;
 
     private CardsViewModel cardsViewModel;
-
-    boolean refreshCardsListingNeeded = true;
-    boolean refreshCardImagesNeeded = false;
 
     private CompositeDisposable subscriptions = new CompositeDisposable();
 
@@ -173,82 +169,42 @@ public class VampiDroid extends AppCompatActivity
                     }
                 }));
 
-        subscriptions.add(cardsViewModel.getNeedRefreshCardsListing()
-                .subscribe(new Consumer<String>() {
+        cardsViewModel.getCryptTabTitleLiveData()
+                .observe(this, new Observer<String>() {
                     @Override
-                    public void accept(String s) throws Exception {
-                        refreshCardsListingNeeded = true;
-                    }
-                }));
-
-        subscriptions.add(cardsViewModel.getNeedRefreshCardImages()
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String s) throws Exception {
-                        refreshCardImagesNeeded = true;
-                    }
-                }));
-
-
-//        subscriptions.add(cardsViewModel.getCryptCardsWithDiff()
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Consumer<Pair<List<CryptCard>, DiffUtil.DiffResult>>() {
-//                    @Override
-//                    public void accept(Pair<List<CryptCard>, DiffUtil.DiffResult> resultPair) throws Exception {
-//                        viewPagerAdapter.setCryptData(resultPair);
-//
-//                    }
-//                }));
-
-        subscriptions.add(cardsViewModel.getCryptCards()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<PagedList<CryptCard>>() {
-                    @Override
-                    public void accept(PagedList<CryptCard> cryptCardList) {
-                        viewPagerAdapter.setCryptData(cryptCardList);
-
-                    }
-                }));
-
-        subscriptions.add(cardsViewModel.getLibraryCards()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<PagedList<LibraryCard>>() {
-                    @Override
-                    public void accept(PagedList<LibraryCard> libraryCardList) {
-                        viewPagerAdapter.setLibraryData(libraryCardList);
-
-                    }
-                }));
-
-
-        subscriptions.add(cardsViewModel.getCryptTabTitle()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String s) throws Exception {
+                    public void onChanged(@Nullable String s) {
                         Log.d(TAG, "call: cryptTabTitle updated: " + s);
                         tabLayout.getTabAt(0).setText(s);
                     }
-                })
+                });
 
-        );
-
-
-        subscriptions.add(cardsViewModel.getLibraryTabTitle()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
+        cardsViewModel.getLibraryTabTitleLiveData()
+                .observe(this, new Observer<String>() {
                     @Override
-                    public void accept(String s) {
+                    public void onChanged(@Nullable String s) {
                         Log.d(TAG, "call: libraryTabTitle updated: " + s);
                         tabLayout.getTabAt(1).setText(s);
 
                     }
-                })
+                });
 
-        );
 
+        cardsViewModel.getNeedRefreshCardsListingLiveData().observe(this, new Observer<CardsEvent>() {
+            @Override
+            public void onChanged(@Nullable CardsEvent cardsEvent) {
+
+                if (cardsEvent.hasCryptEventToHandle()) {
+                    filterCryptCards();
+                }
+
+                if (cardsEvent.hasLibraryEventToHandle()) {
+                    filterLibraryCards();
+                }
+            }
+        });
 
     }
+
 
     @Override
     protected void onDestroy() {
@@ -398,18 +354,6 @@ public class VampiDroid extends AppCompatActivity
 
         Log.d(TAG, "onResume: ");
 
-        if (refreshCardsListingNeeded) {
-            Log.d(TAG, "onResume: refreshCardsListingNeeded");
-            filterCryptCards();
-            filterLibraryCards();
-            refreshCardsListingNeeded = false;
-        }
-
-        if (refreshCardImagesNeeded) {
-            viewPagerAdapter.refreshCardImages();
-            refreshCardImagesNeeded = false;
-        }
-
         // Sync navigation drawer selected item.
         // Reference: http://stackoverflow.com/questions/34502848/how-to-change-selected-item-in-the-navigation-drawer-depending-on-the-activity-v?rq=1
 
@@ -488,7 +432,7 @@ public class VampiDroid extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
 
-        viewPagerAdapter = new ViewPagerAdapter(this);
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
 
     }
