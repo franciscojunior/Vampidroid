@@ -147,12 +147,15 @@ public class VampiDroid extends AppCompatActivity
 
         subscriptions.add(RxAppBarLayout.offsetChanges(appbar)
                 .subscribe(new Consumer<Integer>() {
+                    boolean inLowProfileUI = false;
                     @Override
                     public void accept(Integer verticalOffset) {
-                        if (verticalOffset < -appBarOffsetToDim) {
+                        if (!inLowProfileUI && (verticalOffset < -appBarOffsetToDim)) {
                             decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-                        } else if (verticalOffset > -appBarOffsetToDim) {
+                            inLowProfileUI = true;
+                        } else if (inLowProfileUI && (verticalOffset > -appBarOffsetToDim)) {
                             decorView.setSystemUiVisibility(0);
+                            inLowProfileUI = false;
                         }
                     }
                 }));
