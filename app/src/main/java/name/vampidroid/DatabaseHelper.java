@@ -19,7 +19,7 @@ public class DatabaseHelper {
 
     private final static String TAG = "DatabaseHelper";
     public static final String VAMPIDROID_UPDATE_DB = "VampiDroid.update.db";
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 8;
 
     public static final String MAIN_LIST_CRYPT_QUERY = "select uid, name, clan, advanced, capacity, `group`, disciplines from CryptCard where 1=1";
 
@@ -127,16 +127,11 @@ public class DatabaseHelper {
         database.beginTransaction();
 
         try {
-
-            database.execSQL("update sqlite_sequence set seq = 0 where name = 'CryptCard'");
-            database.execSQL("update sqlite_sequence set seq = 0 where name = 'LibraryCard'");
-
             database.delete("CryptCard", null, null);
             database.delete("LibraryCard", null, null);
 
-            database.execSQL("insert into CryptCard(Name , Type , Clan , Advanced, `Group`, Capacity , Disciplines , Text , SetRarity , Artist)  select Name , Type , Clan , Adv , _Group , Capacity , Disciplines , CardText , _Set , Artist from updatedb.crypt");
-            database.execSQL("insert into LibraryCard(Name , Type , Clan , Disciplines , PoolCost , BloodCost, ConvictionCost, Text , SetRarity , Artist)  select Name , Type , Clan , Discipline , PoolCost , BloodCost, ConvictionCost, CardText , _Set, Artist from updatedb.library");
-
+            database.execSQL("insert into CryptCard(`uid`, `Name`, `Type`, `Clan`, `Advanced`, `Group`, `Capacity`, `Disciplines`, `Text`, `SetRarity`, `Artist`)  select `Id`, `Name`, `Type`, `Clan`, `Adv`, `Group`, `Capacity`, `Disciplines`, `CardText`, `Set`, `Artist` from updatedb.crypt");
+            database.execSQL("insert into LibraryCard(`uid`, `Name`, `Type`, `Clan`, `Disciplines`, `PoolCost`, `BloodCost`, `ConvictionCost`, `Text`, `SetRarity`, `Artist`)  select `Id`, `Name`, `Type`, `Clan`, `Discipline`, `PoolCost`, `BloodCost`, `ConvictionCost`, `CardText`, `Set`, `Artist` from updatedb.library");
 
             database.setTransactionSuccessful();
         } finally {
@@ -157,9 +152,7 @@ public class DatabaseHelper {
     }
 
     private static void createUpdateDatabaseFile() {
-
         createDatabaseFile("VampiDroid.mp3", VAMPIDROID_UPDATE_DB);
-
     }
 
 
@@ -193,7 +186,6 @@ public class DatabaseHelper {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-
         }
 
     }

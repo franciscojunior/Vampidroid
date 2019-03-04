@@ -8,7 +8,7 @@ import android.arch.persistence.room.PrimaryKey;
 
 public abstract class Card {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     private Long uid;
     private String name;
     private String text;
