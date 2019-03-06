@@ -78,6 +78,7 @@ public class DatabaseHelper {
                     }
                 })
                 .addMigrations(MIGRATION_6_7)
+                .addMigrations(MIGRATION_7_8)
                 .build();
 
         return appDatabase;
@@ -114,6 +115,9 @@ public class DatabaseHelper {
 
     // This is the migration to update card listings to Lost Kindred expansion
     static Migration MIGRATION_6_7 = new ReplaceCryptLibraryCardsMigration(6, 7);
+
+	// This is the migration to update card listings to Sabbat Sets expansion
+	static Migration MIGRATION_7_8 = new ReplaceCryptLibraryCardsMigration(7, 8);
 
     public static void updateDatabaseCardsRoom(SupportSQLiteDatabase database) {
 
