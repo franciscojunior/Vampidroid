@@ -134,8 +134,8 @@ public class DatabaseHelper {
             database.delete("CryptCard", null, null);
             database.delete("LibraryCard", null, null);
 
-            database.execSQL("insert into CryptCard(`uid`, `Name`, `Type`, `Clan`, `Advanced`, `Group`, `Capacity`, `Disciplines`, `Text`, `SetRarity`, `Artist`)  select `Id`, `Name`, `Type`, `Clan`, `Adv`, `Group`, `Capacity`, `Disciplines`, `CardText`, `Set`, `Artist` from updatedb.crypt");
-            database.execSQL("insert into LibraryCard(`uid`, `Name`, `Type`, `Clan`, `Disciplines`, `PoolCost`, `BloodCost`, `ConvictionCost`, `Text`, `SetRarity`, `Artist`)  select `Id`, `Name`, `Type`, `Clan`, `Discipline`, `PoolCost`, `BloodCost`, `ConvictionCost`, `CardText`, `Set`, `Artist` from updatedb.library");
+            database.execSQL("insert into CryptCard(`uid`, `Name`, `Type`, `Clan`, `Advanced`, `Group`, `Capacity`, `Disciplines`, `Text`, `SetRarity`, `Artist`)  select `Id`, `Name`, `Type`, coalesce(`Clan`,''), coalesce(`Adv`,''), `Group`, `Capacity`, `Disciplines`, `CardText`, `Set`, `Artist` from updatedb.crypt");
+            database.execSQL("insert into LibraryCard(`uid`, `Name`, `Type`, `Clan`, `Disciplines`, `PoolCost`, `BloodCost`, `ConvictionCost`, `Text`, `SetRarity`, `Artist`)  select `Id`, `Name`, `Type`, coalesce(`Clan`,''), coalesce(`Discipline`,''), coalesce(`PoolCost`,''), coalesce(`BloodCost`,''), coalesce(`ConvictionCost`,''), `CardText`, `Set`, `Artist` from updatedb.library");
 
             database.setTransactionSuccessful();
         } finally {
