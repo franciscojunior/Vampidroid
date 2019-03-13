@@ -71,7 +71,7 @@ public class CardsRepositoryInstrumentedTests {
 
         LiveData<PagedList<CryptCard>> cryptCardList = cardsRepository.getCryptCardsLiveData(FilterStateQueryConverter.getCryptFilter(filterState));
 
-        Assert.assertEquals("CryptCard List size", 1511, getValue(cryptCardList).size());
+        Assert.assertEquals("CryptCard List size", 1519, getValue(cryptCardList).size());
 
     }
 
